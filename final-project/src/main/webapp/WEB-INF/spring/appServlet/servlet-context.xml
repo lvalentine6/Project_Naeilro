@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+	DispatcherServlet 설정 파일
+	- DispatcherServlet이 요청을 처리할 때 알아야 할 내용을 작성
+	- 사용자가 접속할 수 있는 주소 / 처리할 대상 등을 명시
+
+	- Spring-Mvc : 스프링에서 MVC 관련해서 알아야 할 내용을 지원하는 네임 스페이스(기본)
+	- Spring-Beans : 스프링 객체의 등록에 관련된 내용을 지원하는 네임 스페이스
+	- Spring-Context : 스프링 프로젝트의 파일간 경로 설정을 지원하는 네임 스페이스
+-->
+<beans:beans xmlns="http://www.springframework.org/schema/mvc"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd
+		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
+
+	<!--
+		목표 : 컨트롤러를 자동으로 등록하려면 어떻게 해야 하는가?
+		- 컴포넌트 스캐닝을 설정하여 자동으로 탐색한 뒤 등록하도록 처리
+		- 스캐닝의 기준점이 될 위치를 설정
+		- spring-context에서 지원하는 기능을 사용
+		- 자동 설정을 사용하면 모든 도구가 다 이곳에 등록되므로 자동 설정을 제거 후 컨트롤러만 등록
+	-->
+	<context:component-scan base-package="com.kh.finale" use-default-filters="false">
+		<!-- 컨트롤러 등록(@Controller) -->
+		<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+	</context:component-scan>
+
+	<!--
+		컨트롤러에서 반환하는 주소를 간소화시키고 싶다.
+		- 어차피 반복되는 앞/뒷부분을 자동으로 완성시켜 코드 효율성을 향상
+		- View Resolver를 등록하여 자동완성 구문을 설정
+		- prefix(접두사), suffix(접미사) 등록 가능
+	-->
+	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<beans:property name="prefix" value="/WEB-INF/views/"></beans:property>
+		<beans:property name="suffix" value=".jsp"></beans:property>
+	</beans:bean>
+	
+	<!-- 
+		정적 자원을 처리에서 배제하는 설정
+		- 이미지, 동영상, css, js, text, json, xml, ...
+		- mvc 모듈에서 설정 가능
+		- location에는 배제시킬 위치를 작성
+		- mapping에는 연결시킬 주소를 작성
+		- 활성화 태그 필요
+	-->
+	<annotation-driven/>
+	<resources location="/resources/css/" mapping="/css/**"></resources>
+	<resources location="/resources/image/" mapping="/image/**"></resources>
+	<resources location="/resources/js/" mapping="/js/**"></resources>
+</beans:beans>
