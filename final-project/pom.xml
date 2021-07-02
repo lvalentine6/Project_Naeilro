@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+	Maven에서 제공하는 프로젝트 설정 파일
+	- project라는 태그를 통해 현재 프로젝트에 필요한 내용들을 설정
+	- xmlns : XML NameSpace. 문서에 필요한 정보 참조 주소
+	- xmlns:xsi : XML Schema Instance. 인증서
+	- xmlns:schemaLocation : 실제 사용 가능한 태그에 대한 정보 참조 주소
+-->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/maven-v4_0_0.xsd">
+
+	<!--
+		현재 프로젝트에 대한 정보 설정
+		- modelVersion : Maven에서 사용할 프로젝트 관리 모델 버전(4.0.0 고정)
+		- groupId : 소유자를 식별할 수 있는 식별값
+		- artifactId : 애플리케이션을 식별할 수 있는 식별값
+		- name : 애플리케이션 명칭(프로젝트명, context-path)
+		- packaging : 배포 형태(jar, war, ear)
+		- version : 현재 애플리케이션의 버전(x.y.z)
+			- x.y.z일 때 x가 major, y가 minor, z가 release 버전을 의미
+			- 1.0.0부터 배포 버전으로 간주(정식 출시가 되었다고 판단)
+	-->
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.kh</groupId>
+	<artifactId>finale</artifactId>
+	<name>final-project</name>
+	<packaging>war</packaging>
+	<version>1.0.0-BUILD-SNAPSHOT</version>
+
+	<!--
+		Properties : 현재 문서에서 사용할 변수를 태그 형태로 선언
+		- 사용은 EL 형태로 한다. ${변수명}
+	-->
+	<properties>
+		<!-- 자바 버전 -->
+		<java-version>1.8</java-version>
+		<!-- 스프링 프레임워크 버전 -->
+		<org.springframework-version>5.3.8</org.springframework-version>
+		<!-- 기타 의존성 버전 -->
+		<org.aspectj-version>1.9.6</org.aspectj-version>
+		<org.slf4j-version>1.7.30</org.slf4j-version>
+	</properties>
+
+	<!--
+		Dependencies : 프로젝트에서 사용할 의존성 정보
+		- 사용할 의존성 정보를 지정된 태그 형식에 맞게 작성
+
+		- dependency : 의존성 1개를 감싸는 태그
+			- groupId : 소유자 식별값
+			- artifactId : 애플리케이션 식별값
+			- version : 버전
+			- scope(생략가능) : 로드 시점(사용 시기)
+			- exclusions(생략가능) : 배제시킬 대상(상황)
+	-->
+	<dependencies>
+		<!-- Spring -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+			<version>${org.springframework-version}</version>
+			<exclusions>
+				<!-- Exclude Commons Logging in favor of SLF4j -->
+				<exclusion>
+					<groupId>commons-logging</groupId>
+					<artifactId>commons-logging</artifactId>
+				 </exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-webmvc</artifactId>
+			<version>${org.springframework-version}</version>
+		</dependency>
+
+		<!-- AspectJ -->
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjrt</artifactId>
+			<version>${org.aspectj-version}</version>
+		</dependency>
+
+		<!-- Logging -->
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>${org.slf4j-version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>jcl-over-slf4j</artifactId>
+			<version>${org.slf4j-version}</version>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-log4j12</artifactId>
+			<version>${org.slf4j-version}</version>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>1.2.17</version>
+			<exclusions>
+				<exclusion>
+					<groupId>javax.mail</groupId>
+					<artifactId>mail</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>javax.jms</groupId>
+					<artifactId>jms</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>com.sun.jdmk</groupId>
+					<artifactId>jmxtools</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>com.sun.jmx</groupId>
+					<artifactId>jmxri</artifactId>
+				</exclusion>
+			</exclusions>
+			<scope>runtime</scope>
+		</dependency>
+
+		<!-- @Inject -->
+		<dependency>
+			<groupId>javax.inject</groupId>
+			<artifactId>javax.inject</artifactId>
+			<version>1</version>
+		</dependency>
+
+		<!-- Servlet -->
+		<dependency>
+		    <groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>4.0.1</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet.jsp</groupId>
+		    <artifactId>javax.servlet.jsp-api</artifactId>
+		    <version>2.3.3</version>
+		    <scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>jstl</artifactId>
+			<version>1.2</version>
+		</dependency>
+
+		<!-- Test -->
+		<!--
+			Spring Test를 위해선 두 가지 의존성이 필요
+			(1) JUnit : 자바 진영의 단위 테스팅 도구
+			(2) Spring-Test : 스프링과 JUnit을 연동하여 테스팅할 수 있는 도구
+		-->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.13.2</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+		    <groupId>org.springframework</groupId>
+		    <artifactId>spring-test</artifactId>
+		    <version>${org.springframework-version}</version>
+		    <scope>test</scope>
+		</dependency>
+
+		<!-- Oracle 의존성 -->
+		<dependency>
+		    <groupId>com.oracle.database.jdbc</groupId>
+		    <artifactId>ojdbc8</artifactId>
+		    <version>21.1.0.0</version>
+		</dependency>
+
+		<!-- Spring JDBC -->
+		<dependency>
+		    <groupId>org.springframework</groupId>
+		    <artifactId>spring-jdbc</artifactId>
+		    <version>${org.springframework-version}</version>
+		</dependency>
+
+		<!-- DBCP 의존성 -->
+		<dependency>
+		    <groupId>org.apache.commons</groupId>
+		    <artifactId>commons-dbcp2</artifactId>
+		    <version>2.8.0</version>
+		</dependency>
+		
+		<!-- Mybatis 의존성 -->
+		<dependency>
+		    <groupId>org.mybatis</groupId>
+		    <artifactId>mybatis</artifactId>
+		    <version>3.5.7</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.mybatis</groupId>
+		    <artifactId>mybatis-spring</artifactId>
+		    <version>2.0.6</version>
+		</dependency>
+		
+		<!-- Lombok 의존성 -->
+		<dependency>
+		    <groupId>org.projectlombok</groupId>
+		    <artifactId>lombok</artifactId>
+		    <version>1.18.20</version>
+		    <scope>provided</scope>
+		</dependency>
+		
+		<!--
+			파일 업로드 의존성
+			- commons-io: 파일 제어
+			- commons-fileupload : 업로드/다운로드 제어
+		-->
+		<dependency>
+		    <groupId>commons-io</groupId>
+		    <artifactId>commons-io</artifactId>
+		    <version>2.10.0</version>
+		</dependency>
+		<dependency>
+		    <groupId>commons-fileupload</groupId>
+		    <artifactId>commons-fileupload</artifactId>
+		    <version>1.4</version>
+		</dependency>
+		
+		<!--
+			spring transaction 의존성
+			- spring-jdbc의 하위 의존성이므로 spring-jdbc만 있어도 사용이 가능
+		-->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-tx</artifactId>
+			<version>${org.springframework-version}</version>
+		</dependency>
+		
+		<!-- 이메일 의존성 -->
+		<dependency>
+		    <groupId>javax.mail</groupId>
+		    <artifactId>mail</artifactId>
+		    <version>1.4.7</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.springframework</groupId>
+		    <artifactId>spring-context-support</artifactId>
+		    <version>${org.springframework-version}</version>
+		</dependency>
+		
+		<!-- JSON 변환 라이브러리 -->
+		<dependency>
+		    <groupId>com.fasterxml.jackson.core</groupId>
+		    <artifactId>jackson-databind</artifactId>
+		    <version>2.12.3</version>
+		</dependency>
+	</dependencies>
+
+	<!--
+		Build : 프로젝트 빌드 설정
+		- Plugin을 추가하여 다양한 형태로 빌드 가능
+		- jar, war, ear 등
+	-->
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-eclipse-plugin</artifactId>
+                <version>2.9</version>
+                <configuration>
+                    <additionalProjectnatures>
+                        <projectnature>org.springframework.ide.eclipse.core.springnature</projectnature>
+                    </additionalProjectnatures>
+                    <additionalBuildcommands>
+                        <buildcommand>org.springframework.ide.eclipse.core.springbuilder</buildcommand>
+                    </additionalBuildcommands>
+                    <downloadSources>true</downloadSources>
+                    <downloadJavadocs>true</downloadJavadocs>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>2.5.1</version>
+                <configuration>
+                    <source>${java-version}</source>
+                    <target>${java-version}</target>
+                    <compilerArgument>-Xlint:all</compilerArgument>
+                    <showWarnings>true</showWarnings>
+                    <showDeprecation>true</showDeprecation>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>1.2.1</version>
+                <configuration>
+                    <mainClass>org.test.int1.Main</mainClass>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>
