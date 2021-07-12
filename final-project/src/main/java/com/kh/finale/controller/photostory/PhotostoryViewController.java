@@ -44,7 +44,7 @@ public class PhotostoryViewController {
 	// 포토스토리 작성 처리
 	@PostMapping("/write")
 	public String write(@ModelAttribute PhotostoryDto photostoryDto, HttpSession session) {
-//		int memberNo = session.getAttribute("memberNo");
+//		int memberNo = (int) session.getAttribute("memberNo");
 		int memberNo = 1; // 임시
 		photostoryDto.setMemberNo(memberNo);
 		photostoryDto.setPlannerNo(1); // 임시
