@@ -14,12 +14,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		<setting name="mapUnderscoreToCamelCase" value="true"/>
 	</settings>
 
-	<!--
-		mybatis 클래스 별칭 설정
-		<typeAlias name="클래스경로" alias="별칭"/>
-		<package name="패키지경로"/>
-	-->
 	<typeAliases>
-		
+		<package name="com.kh.finale.entity"/>
 	</typeAliases>
 </configuration>
