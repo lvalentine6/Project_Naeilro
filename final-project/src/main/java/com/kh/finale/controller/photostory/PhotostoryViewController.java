@@ -41,7 +41,7 @@ public class PhotostoryViewController {
 		return "photostory/write";
 	}
 	
-	// 포토스토리 작성 기능
+	// 포토스토리 작성 처리
 	@PostMapping("/write")
 	public String write(@ModelAttribute PhotostoryDto photostoryDto, HttpSession session) {
 //		int memberNo = session.getAttribute("memberNo");
