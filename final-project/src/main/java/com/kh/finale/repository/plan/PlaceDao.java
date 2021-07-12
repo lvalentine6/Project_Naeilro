@@ -1,4 +1,4 @@
-package com.kh.repository.plan;
+package com.kh.finale.repository.plan;
 
 import com.kh.finale.entity.plan.PlaceDto;
 

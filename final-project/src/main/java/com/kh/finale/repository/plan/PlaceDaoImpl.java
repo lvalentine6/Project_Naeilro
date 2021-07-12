@@ -1,4 +1,4 @@
-package com.kh.repository.plan;
+package com.kh.finale.repository.plan;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
