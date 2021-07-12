@@ -15,7 +15,7 @@ public class PhotostoryDaoImpl implements PhotostoryDao {
 	@Autowired
 	private SqlSession sqlSession;
 	
-	// 포토스토리 페이지 관련 변수 계산 기능
+	// 포토스토리 페이지 관련 파라미터 계산 기능
 	@Override
 	public PhotostoryVO getPageVariable(PhotostoryVO photostoryVO) {
 		// 페이지 번호
