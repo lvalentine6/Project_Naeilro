@@ -28,14 +28,14 @@
 	-->
 	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName" value="oracle.jdbc.OracleDriver"></property>
-		<property name="url" value="jdbc:oracle:thin@www.sysout.co.kr:1521:xe"></property>
+		<property name="url" value="jdbc:oracle:thin:@www.sysout.co.kr:1521:xe"></property>
 		<property name="username" value="kh7e"></property>
 		<property name="password" value="kh7e"></property>
 	</bean>
 
 	<bean id="dbcpSource" class="org.apache.commons.dbcp2.BasicDataSource">
 		<property name="driverClassName" value="oracle.jdbc.OracleDriver"></property>
-		<property name="url" value="jdbc:oracle:thin@www.sysout.co.kr:1521:xe"></property>
+		<property name="url" value="jdbc:oracle:thin:@www.sysout.co.kr:1521:xe"></property>
 		<property name="username" value="kh7e"></property>
 		<property name="password" value="kh7e"></property>
 
