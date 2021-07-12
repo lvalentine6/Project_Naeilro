@@ -26,7 +26,6 @@ public class PhotostoryViewController {
 	// 포토스토리 리스트 페이지
 	@GetMapping("")
 	public String home(@ModelAttribute PhotostoryVO photostoryVO, Model model) {
-		System.out.println("test1 = " + photostoryVO.toString());
 		photostoryVO = photostoryDao.getPageVariable(photostoryVO);
 		List<PhotostoryDto> list = photostoryDao.list(photostoryVO);
 
