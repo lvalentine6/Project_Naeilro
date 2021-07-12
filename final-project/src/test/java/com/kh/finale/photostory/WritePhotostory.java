@@ -7,8 +7,8 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
-import com.kh.finale.entity.PhotostoryDto;
-import com.kh.finale.repository.PhotostoryDao;
+import com.kh.finale.entity.photostory.PhotostoryDto;
+import com.kh.finale.repository.photostory.PhotostoryDao;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {
