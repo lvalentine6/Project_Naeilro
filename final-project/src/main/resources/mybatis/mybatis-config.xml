@@ -20,6 +20,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		<package name="패키지경로"/>
 	-->
 	<typeAliases>
-		
+		<package name="com.kh.finale.entity"/>
+		<package name="com.kh.finale.vo"/>
 	</typeAliases>
 </configuration>
