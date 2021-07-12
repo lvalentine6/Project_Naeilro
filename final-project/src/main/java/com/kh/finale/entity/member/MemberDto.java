@@ -1,4 +1,4 @@
-package com.kh.finale.entity;
+package com.kh.finale.entity.member;
 
 import javax.xml.ws.BindingType;
 
@@ -14,7 +14,7 @@ public class MemberDto {
 	private String memberPw;
 	private String memberNick;
 	private String memberEmail;
-	private String membername;
+	private String memberName;
 	private String memberBirth;
 	private String memberGender;
 	private String memberProfilePath;

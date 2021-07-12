@@ -44,7 +44,11 @@
 		</div>
 		<div class="row text-left">
 			<label>프로필 이미지</label>
-			<input type="text" name="member_profile_path" required class="form-input form-input-underline">
+			<input type="text" name="memberProfilePath" required class="form-input form-input-underline">
+		</div>
+		<div class="row text-left">
+			<label>등급</label>
+			<input type="hidden" name="memberGrade" class="form-input form-input-underline" value="2">
 		</div>
 		<div class="row">
 			<input type="submit" value="가입" class="form-btn form-btn-positive">
