@@ -7,10 +7,10 @@
 
 	<div class="container-lg">
 		<div class="row">
-			<div class="jumbotron col-6 offset-3">
+			<div class="jumbotron col-lg-6 offset-lg-3">
 				<h3 class="display-5">로그인</h3>
 			</div>
-			<div class="col-6 offset-3 text-center">
+			<div class="col-lg-6 offset-lg-3 text-center">
 				<form action="login" method="post" class="sign_up_form encrypt-form">
 					<div class="form-row mb-3">
 						<label for="memberId">아이디</label> <input type="text"

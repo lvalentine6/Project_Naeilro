@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
-<!-- 포토스토리 리스트 페이지 -->
+<%-- <!-- 포토스토리 리스트 페이지 -->
 <!DOCTYPE html>
 <html>
 	<head>
@@ -106,4 +106,13 @@
 		</div>
 		<!-- 페이지네이션 영역 종료 -->
 	</body>
-</html>
+</html> --%>
+
+
+<jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
+<main>
+	
+</main>
+<jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>
+
+
