@@ -111,7 +111,44 @@
 
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
 <main>
-	
+		<c:forEach var="photostoryDto" items="${list}">
+	<div class="container-lg ">
+		<div class="row justify-content-center ">
+			<div class=" col-lg-8 offset-lg-2 mx-2">
+				<div class='border row align-items-center'>
+					<div class="col-1"><img class="my-2 user_profile_sm user_profile" src="${pageContext.request.contextPath}/image/default_user_profile.jpg"></div>
+					<div class="col-3">user_test_id</div>
+					<div class="col-1 offset-7 text-right"><i class="fas fa-ellipsis-h"></i></div>
+				</div>
+				<div class=' row align-items-center'>
+					<img class="w-100 border" src="${pageContext.request.contextPath}/image/bgimg.webp"/>
+				</div>
+				<div class='row align-items-center border-left border-right'>
+					<div class="col-1  py-2"><i class="far fa-heart fa-lg"></i></div>
+					<div class="col-1"><i class="far fa-comment fa-lg"></i></div>
+					<div class="col-10"></div>
+				</div>
+				<div class='row align-items-center border-left border-right'>
+					<div class="col-12 ">좋아요 11111111</div>
+				</div>
+				<div class='row align-items-center border-left border-right mb-1'>
+					<div class="col-12 "><strong>user_test_id</strong>&nbsp;&nbsp;${photostoryDto.photostoryContent} 아무글 아무글아무글아무글 아무글아무글 아무글아무글아무글아무글 아무글아무글아무글아무글</div>
+				</div>
+				<div class='row align-items-center border-left border-right mb-1'>
+					<div class="col-12 text-black-50 font-weight-bold">댓글 122개 모두 보기</div>
+				</div>
+				<div class='row align-items-center border-left border-right mb-1'>
+					<div class="col-12 "><strong>user_test_id2</strong>&nbsp;&nbsp;아무댓글아무댓글아무댓글아무댓글아무댓글아무댓글아무댓글아무댓글아무댓글아무댓글아무댓글아무댓글</div>
+					<div class="col-12 "><strong>user_test_id3</strong>&nbsp;&nbsp;아무댓글아무댓글아무댓글아무댓글아무댓글아무댓글아무댓글아무댓글아무댓글아무댓글아무댓글아무댓글</div>
+					<div class="col-12 "><strong>user_test_id4</strong>&nbsp;&nbsp;아무댓글아무댓글아무댓글아무댓글아무댓글아무댓글아무댓글아무댓글아무댓글아무댓글아무댓글아무댓글</div>
+				</div>
+				<div class='row align-items-center border-left border-right border-bottom mb-3 pb-3'>
+					<div class="col-12 text-black-50 font-weight-bold text-right">2일 전</div>
+				</div>
+			</div>
+		</div>
+	</div>
+		</c:forEach>
 </main>
 <jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>
 

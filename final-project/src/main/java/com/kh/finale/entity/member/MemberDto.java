@@ -1,6 +1,6 @@
 package com.kh.finale.entity.member;
 
-import javax.xml.ws.BindingType;
+// import javax.xml.ws.BindingType;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

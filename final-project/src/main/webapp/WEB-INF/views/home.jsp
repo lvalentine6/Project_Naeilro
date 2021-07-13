@@ -61,7 +61,8 @@
 		font-weight: 600;
 	}
 </style>
-
+<!-- icon -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css"/>
 <!-- bootstrap 이용을 위한 JS 의존성 등록 (jQuery/popper/BS) -->
 <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
