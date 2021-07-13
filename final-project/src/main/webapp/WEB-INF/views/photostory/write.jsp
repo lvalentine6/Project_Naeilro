@@ -6,10 +6,11 @@
 	<head>
 		<meta charset="UTF-8" />
 		<title>Insert title here</title>
+		<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
 		<script>
-			addEventListener('load', function () {
-				document.querySelector('.btn-write').addEventListener('click', function () {
-					document.querySelector('.form-write').submit();
+			$(function () {
+				$('.btn-write').click(function () {
+					$('.form-write').submit();
 				});
 			});
 		</script>
@@ -20,9 +21,18 @@
 			method="POST"
 			class="form-write"
 		>
-			<input type="text" name="photostoryTitle" placeholder="제목">
-			<textarea name="photostoryContent" placeholder="내용"></textarea>
-			<input type="button" class="btn-write" value="작성" />
+			<div>
+				<input type="text" name="photostoryTitle" placeholder="제목" />
+			</div>
+			<div>
+				<input type="text" name="photostoryContent" placeholder="내용" />
+			</div>
+			<div>
+				<input type="file" name="f" accept=".jpg, .png, .gif" multiple />
+			</div>
+			<div>
+				<input type="button" class="btn-write" value="작성" />
+			</div>
 		</form>
 	</body>
 </html>

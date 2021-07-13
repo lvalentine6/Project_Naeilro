@@ -23,7 +23,7 @@ import lombok.extern.slf4j.Slf4j;
  * 총 포토스토리 개수 구하기 테스트
  * @author swjk78
  */
-public class GetPhotostoryCount {
+public class GetPhotostoryCountTest {
 
 	@Autowired
 	private PhotostoryDao photostoryDao;

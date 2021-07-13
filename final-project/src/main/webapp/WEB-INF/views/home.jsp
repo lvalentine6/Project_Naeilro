@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+	<c:set var="root" value="${pageContext.request.contextPath}"></c:set>
+	<c:set var="isLogin" value="${not empty memberNo}"></c:set>
 <!DOCTYPE html>
 <html>
 <head>
@@ -101,14 +104,22 @@
 						<ul class="d-flex align-items-center h-100 font-weight-bold text-white">
 							<li><a class="text-white text-nowrap" href="#">여행지</a></li>
 							<li><a class="text-white text-nowrap" href="#">일정</a></li>
-							<li><a class="text-white text-nowrap" href="${pageContext.request.contextPath}/photostory">스토리</a></li>
+							<li><a class="text-white text-nowrap" href="${root}/photostory">스토리</a></li>
 							<li><a class="text-white text-nowrap" href="#">이용방법</a></li>
 						</ul>
 					</div>
 					<div class="col-3">
 						<ul class="d-flex justify-content-end align-items-center h-100 font-weight-bold text-white">
-							<li><a class="text-white text-nowrap" href="${pageContext.request.contextPath}/member/login">로그인</a></li>
-							<li><a class="text-white text-nowrap" href="${pageContext.request.contextPath}/member/join">회원가입</a></li>
+							<c:choose>
+							<c:when test="${isLogin}">
+								<li><a class="text-white" href="${root}/member/logout">로그아웃</a></li>
+								<li><a class="text-white" href="${root}/member/join">회원가입</a></li>
+							</c:when>
+							<c:otherwise>
+								<li><a class="text-white" href="${root}/member/login">로그인</a></li>
+								<li><a class="text-white" href="${root}/member/join">회원가입</a></li>
+							</c:otherwise>
+						</c:choose>
 						</ul>
 					</div>
 				</div>

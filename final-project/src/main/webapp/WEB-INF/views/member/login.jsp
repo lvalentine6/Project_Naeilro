@@ -11,7 +11,7 @@
 				<h3 class="display-5">로그인</h3>
 			</div>
 			<div class="col-6 offset-3 text-center">
-				<form action="" method="post" class="sign_up_form encrypt-form">
+				<form action="login" method="post" class="sign_up_form encrypt-form">
 					<div class="form-row mb-3">
 						<label for="memberId">아이디</label> <input type="text"
 							class="form-control " id="memberId" name="memberId" required>
