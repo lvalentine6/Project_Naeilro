@@ -239,12 +239,12 @@
 					<ul class="d-flex justify-content-end align-items-center h-100 font-weight-bold">
 						<c:choose>
 							<c:when test="${isLogin}">
-									<li><a href="${root}/member/logout">로그아웃</a></li>
-									<li><a href="${root}/member/join">회원가입</a></li>
+									<li><a class="text-nowrap" href="${root}/member/logout">로그아웃</a></li>
+									<li><a class="text-nowrap" href="${root}/member/join">회원가입</a></li>
 							</c:when>
 							<c:otherwise>
-							<li><a  href="${root}/member/login">로그인</a></li>
-							<li><a  href="${root}/member/join">회원가입</a></li>
+							<li><a class="text-nowrap"  href="${root}/member/login">로그인</a></li>
+							<li><a class="text-nowrap"  href="${root}/member/join">회원가입</a></li>
 							</c:otherwise>
 						</c:choose>
 					</ul>
