@@ -32,4 +32,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		)
 	</insert>
 	
+	<select id="login" parameterType="MemberDto" resultType="MemberDto">
+		select * from member where 
+			member_id = #{memberId} 
+			and member_pw = #{memberPw}
+	</select>
+	
 </mapper>

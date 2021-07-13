@@ -18,4 +18,9 @@ public class MemberDaoImpl implements MemberDao{
 		sqlSession.insert("member.join", memberDto);
 	}
 
+	@Override
+	public MemberDto login(MemberDto memberDto) {
+		return sqlSession.selectOne("member.login", memberDto);
+	}
+
 }

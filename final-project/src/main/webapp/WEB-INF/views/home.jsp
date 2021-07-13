@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+	<c:set var="root" value="${pageContext.request.contextPath}"></c:set>
+	<c:set var="isLogin" value="${not empty memberNo}"></c:set>
 <!DOCTYPE html>
 <html>
 <head>
@@ -107,8 +110,16 @@
 					</div>
 					<div class="col">
 						<ul class="d-flex justify-content-end align-items-center h-100 font-weight-bold text-white">
-							<li><a class="text-white" href="login">로그인</a></li>
-							<li><a class="text-white" href="member/join">회원가입</a></li>
+							<c:choose>
+							<c:when test="${isLogin}">
+								<li><a class="text-white" href="${root}/member/logout">로그아웃</a></li>
+								<li><a class="text-white" href="${root}/member/join">회원가입</a></li>
+							</c:when>
+							<c:otherwise>
+								<li><a class="text-white" href="${root}/member/login">로그인</a></li>
+								<li><a class="text-white" href="${root}/member/join">회원가입</a></li>
+							</c:otherwise>
+						</c:choose>
 						</ul>
 					</div>
 				</div>
