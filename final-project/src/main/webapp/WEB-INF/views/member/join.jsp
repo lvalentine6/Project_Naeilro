@@ -107,7 +107,7 @@
 		    if(input.files && input.files[0]) {
 		        const reader = new FileReader()
 		        reader.onload = e => {
-		            const previewImage = document.querySelector(".admin-upload_img")
+		            const previewImage = document.querySelector(".upload_img")
 		            previewImage.src = e.target.result
 		        }
 		        reader.readAsDataURL(input.files[0])
@@ -137,7 +137,7 @@
 					</div>
 					<div class="form-row mb-3 justify-content-center">
 						<label for="memberProfilePath"> <img
-							class='admin-upload_img user_profile'
+							class='shadow upload_img user_profile'
 							src="${pageContext.request.contextPath}/image/default_user_profile.jpg"
 							style="width: 100px; height: 100px;"> <input
 							class="input_img" type="file" accept=".png, .jpg, .gif"
