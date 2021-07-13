@@ -228,14 +228,14 @@
 					<ul class="d-flex align-items-center h-100 font-weight-bold">
 						<li><a class="text-nowrap" href="#">여행지</a></li>
 						<li><a class="text-nowrap" href="#">일정</a></li>
-						<li><a class="text-nowrap" href="#">스토리</a></li>
+						<li><a class="text-nowrap" href="${pageContext.request.contextPath}/photostory">스토리</a></li>
 						<li><a class="text-nowrap" href="#">이용방법</a></li>
 					</ul>
 				</div>
 				<div class="col-3">
 					<ul class="d-flex justify-content-end align-items-center h-100 font-weight-bold">
-						<li><a class="text-nowrap" href="login">로그인</a></li>
-						<li><a class="text-nowrap" href="signup">회원가입</a></li>
+						<li><a class="text-nowrap" href="${pageContext.request.contextPath}/member/login">로그인</a></li>
+						<li><a class="text-nowrap" href="${pageContext.request.contextPath}/member/join">회원가입</a></li>
 					</ul>
 				</div>
 			</div>
