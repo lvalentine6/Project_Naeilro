@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
 <main>
 
@@ -20,6 +20,11 @@
 						<label for="memberPw">비밀번호</label> <input type="password"
 							class="form-control " id="memberPw" name="memberPw" required>
 					</div>
+					<c:if test="${param.error!=null}">
+					<div class="mb-3 text-danger">
+						아이디 또는 비밀번호가 일치하지 않습니다
+					</div>
+					</c:if>
 					<div class="form-row mb-5 justify-content-around">
 						<button class="btn btn-primary submit_btn btn-block" type="submit">로그인</button>
 						<button class="btn btn-secondary cancel-btn btn-block" type="button">취소</button>
