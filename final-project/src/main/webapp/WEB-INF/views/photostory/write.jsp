@@ -6,10 +6,11 @@
 	<head>
 		<meta charset="UTF-8" />
 		<title>Insert title here</title>
+		<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
 		<script>
-			addEventListener('load', function () {
-				document.querySelector('.btn-write').addEventListener('click', function () {
-					document.querySelector('.form-write').submit();
+			$(function () {
+				$('.btn-write').click(function () {
+					$('.form-write').submit();
 				});
 			});
 		</script>
