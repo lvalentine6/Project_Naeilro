@@ -1,14 +1,14 @@
-package com.kh.finale.entity.member;
+package com.kh.finale.vo.member;
 
-import javax.xml.ws.BindingType;
+import org.springframework.web.multipart.MultipartFile;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Data @NoArgsConstructor @AllArgsConstructor @Builder
-public class MemberDto {
+@Data @AllArgsConstructor @NoArgsConstructor @Builder
+public class MemberVo {
 	private int memberNo;
 	private String memberId;
 	private String memberPw;
@@ -17,6 +17,7 @@ public class MemberDto {
 	private String memberName;
 	private String memberBirth;
 	private String memberGender;
+	private String memberProfilePath;
 	private int memberGrade;
-	
+	private MultipartFile memberProfile;
 }
