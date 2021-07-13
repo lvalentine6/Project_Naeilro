@@ -30,7 +30,7 @@ public class MemberController {
 	@PostMapping("/join")
 	public String join(@ModelAttribute MemberDto memberDto) {
 		memberDao.join(memberDto);
-		return "redirect:join_success";
+		return "redirect:join_success"; 
 	}
 	
 	@GetMapping("/join_success")
