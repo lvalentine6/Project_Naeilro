@@ -13,6 +13,7 @@
 	/* 아이디(영문/숫자 4~12자), 비밀번호 (영문/숫자/한글 4~12자), 이름 (한글 2~7자), 닉네임 (영문/숫자/한글 4~12자) 검사 */
 	let regex = /^[0-9a-zA-Z]{4,12}$/;
 	let name_regex = /^[가-힣]{2,7}$/;
+	let nick_name_regex = /^[0-9a-zA-Z가-힣]{4,12}$/;
 	let id = false;
 	let nick = false;
 	let pw = false;
@@ -41,7 +42,7 @@
 			}
 		})
 		$('#memberPw2').blur(function() {
-			if ($(this).val()==$("#memberPw").val()) {
+			if ($(this).val() == $("#memberPw").val()) {
 				$(this).addClass("is-valid");
 				$(this).removeClass("is-invalid");
 			} else {
@@ -50,7 +51,7 @@
 			}
 		})
 		$('#memberNick').blur(function() {
-			if (regex.test($(this).val())) {
+			if (nick_name_regex.test($(this).val())) {
 				nick = true;
 				$(this).addClass("is-valid");
 				$(this).removeClass("is-invalid");
@@ -99,7 +100,21 @@
 				$('#memberNick').focus();
 				return;
 			}
-			
+
+		})
+		
+		function readImage(input) {
+		    if(input.files && input.files[0]) {
+		        const reader = new FileReader()
+		        reader.onload = e => {
+		            const previewImage = document.querySelector(".admin-upload_img")
+		            previewImage.src = e.target.result
+		        }
+		        reader.readAsDataURL(input.files[0])
+		    }
+		}
+		$(".input_img").change(function(e){
+			readImage(e.target)
 		})
 	})
 </script>
@@ -107,14 +122,29 @@
 <main>
 
 
-	<div class="container">
+	<div class="container-lg">
 		<div class="row">
-			<div class="jumbotron col-6 offset-3">
+			<div class="jumbotron col-lg-6 offset-lg-3">
 				<h3 class="display-5">회원가입</h3>
 				<span>LOGO에 오신 것을 환영합니다.</span>
 			</div>
-			<div class="col-6 offset-3 text-center">
+			<div class="col-lg-6 offset-lg-3 text-center">
 				<form action="join" method="post" class="sign_up_form encrypt-form">
+					<!-- 	프로필 사진 업로드를 위한 테스트 입력창 -->
+					<div class="form-row mb-3">
+						<label for='memberProfilePath'>프로필 사진</label>
+
+					</div>
+					<div class="form-row mb-3 justify-content-center">
+						<label for="memberProfilePath"> <img
+							class='admin-upload_img user_profile'
+							src="${pageContext.request.contextPath}/image/default_user_profile.jpg"
+							style="width: 100px; height: 100px;"> <input
+							class="input_img" type="file" accept=".png, .jpg, .gif"
+							id="memberProfilePath" name="memberProfilePath"
+							style="display: none" />
+						</label>
+					</div>
 					<div class="form-row mb-3">
 						<label for="memberId">아이디</label> <input type="text"
 							class="form-control " id="memberId" name="memberId" required>
@@ -141,7 +171,7 @@
 						<label for="memberNick">닉네임</label> <input type="text"
 							class="form-control" id="memberNick" name="memberNick" required>
 						<small id="emailHelp" class="form-text text-muted">4~12자의
-							영문 소문자, 대문자, 숫자만 사용 가능합니다.</small>
+							영문 소문자, 대문자, 한글, 숫자만 사용 가능합니다.</small>
 					</div>
 					<div class="form-row mb-3">
 						<label for="memberEmail">이메일</label> <input type="email"
@@ -162,16 +192,12 @@
 								id="memberGender2" value="여"> <label
 								class="form-check-label" for="memberGender2"> 여자 </label>
 						</div>
-<!-- 						프로필 사진 업로드를 위한 테스트 입력창 -->
-						<div class="form-row mb-3">
-						 <input type="text" class="form-control" id="memberProfilePath" 
-						 name="memberProfilePath">
-						</div>
-<!-- 						맴버 등급 데이터 전송창 -->
-						<div class="form-row mb-3">
-						 <input type="hidden" class="form-control" id="memberGrade" 
-						 name="memberGrade" value="2">
-						</div>
+
+						<!-- 맴버 등급 데이터 전송창 -->
+					</div>
+					<div class="form-row mb-3">
+						<input type="hidden" class="form-control" id="memberGrade"
+							name="memberGrade" value="2">
 					</div>
 					<div class="form-row mb-5 justify-content-around">
 						<button class="btn btn-primary submit_btn btn-block" type="submit">회원가입</button>
