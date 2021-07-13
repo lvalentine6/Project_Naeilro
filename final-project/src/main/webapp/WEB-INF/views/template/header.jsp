@@ -33,6 +33,10 @@
 		margin-left: 2rem;
 		
 	}
+	
+	.user_profile{
+		border-radius: 100%;
+	}
 </style>
 
 <!-- bootstrap 이용을 위한 JS 의존성 등록 (jQuery/popper/BS) -->
@@ -218,20 +222,20 @@
 </head>
 <body>
 	<nav class="bg-white shadow-sm">
-		<div class="container">
+		<div class="container-lg">
 			<div class="row">
-				<div class="col-2">
-					<h1 class="h-100 ">LOGO</h1>
+				<div class="col-1">
+					<h1 class="h-100 text-nowrap"><a href="${root}">LOGO</a></h1>
 				</div>
-				<div class="col">
+				<div class="col-8">
 					<ul class="d-flex align-items-center h-100 font-weight-bold">
-						<li><a  href="#">여행지</a></li>
-						<li><a href="#">일정</a></li>
-						<li><a href="#">스토리</a></li>
-						<li><a href="#">이용방법</a></li>
+						<li><a class="text-nowrap" href="#">여행지</a></li>
+						<li><a class="text-nowrap" href="#">일정</a></li>
+						<li><a class="text-nowrap" href="${root}/photostory">스토리</a></li>
+						<li><a class="text-nowrap" href="#">이용방법</a></li>
 					</ul>
 				</div>
-				<div class="col">
+				<div class="col-3">
 					<ul class="d-flex justify-content-end align-items-center h-100 font-weight-bold">
 						<c:choose>
 							<c:when test="${isLogin}">

@@ -5,7 +5,7 @@
 <main>
 
 
-	<div class="container">
+	<div class="container-lg">
 		<div class="row">
 			<div class="jumbotron col-6 offset-3">
 				<h3 class="display-5">로그인</h3>
