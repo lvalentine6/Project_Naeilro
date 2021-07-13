@@ -7,7 +7,7 @@
 <title>Insert title here</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
     integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
-<link rel="stylesheet" href="css/layout.css"/>
+<link rel="stylesheet" href="../css/layout.css"/>
 <style>
 	*{
 		box-sizing: border-box;
@@ -108,7 +108,7 @@
 					<div class="col">
 						<ul class="d-flex justify-content-end align-items-center h-100 font-weight-bold text-white">
 							<li><a class="text-white" href="login">로그인</a></li>
-							<li><a class="text-white" href="signup">회원가입</a></li>
+							<li><a class="text-white" href="member/join">회원가입</a></li>
 						</ul>
 					</div>
 				</div>

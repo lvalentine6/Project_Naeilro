@@ -114,7 +114,7 @@
 				<span>LOGO에 오신 것을 환영합니다.</span>
 			</div>
 			<div class="col-6 offset-3 text-center">
-				<form action="" method="post" class="sign_up_form encrypt-form">
+				<form action="join" method="post" class="sign_up_form encrypt-form">
 					<div class="form-row mb-3">
 						<label for="memberId">아이디</label> <input type="text"
 							class="form-control " id="memberId" name="memberId" required>
@@ -161,6 +161,16 @@
 							<input class="form-check-input" type="radio" name="memberGender"
 								id="memberGender2" value="여"> <label
 								class="form-check-label" for="memberGender2"> 여자 </label>
+						</div>
+<!-- 						프로필 사진 업로드를 위한 테스트 입력창 -->
+						<div class="form-row mb-3">
+						 <input type="text" class="form-control" id="memberProfilePath" 
+						 name="memberProfilePath">
+						</div>
+<!-- 						맴버 등급 데이터 전송창 -->
+						<div class="form-row mb-3">
+						 <input type="hidden" class="form-control" id="memberGrade" 
+						 name="memberGrade" value="2">
 						</div>
 					</div>
 					<div class="form-row mb-5 justify-content-around">

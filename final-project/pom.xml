@@ -22,7 +22,7 @@
 			- x.y.z일 때 x가 major, y가 minor, z가 release 버전을 의미
 			- 1.0.0부터 배포 버전으로 간주(정식 출시가 되었다고 판단)
 	-->
-	<modelVersion>4.0.0</modelVersion>
+	<modelVersion>5.3.8</modelVersion>
 	<groupId>com.kh</groupId>
 	<artifactId>finale</artifactId>
 	<name>final-project</name>
