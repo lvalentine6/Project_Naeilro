@@ -244,12 +244,6 @@
 			// AJAX : 계획표 등록 - 비동기 요청 코드 작성
 			
 		}
-=======
-		// 1. 체크박스 클릭 시 ...
-		$("#find").click(function(){
-			
-		});
->>>>>>> branch 'seoul_dreamer' of https://github.com/Final-Project-kh7/final-project-kh7.git
 		
 	}); // 제이쿼리
 </script>
