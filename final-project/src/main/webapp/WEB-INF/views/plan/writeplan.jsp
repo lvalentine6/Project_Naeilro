@@ -101,6 +101,7 @@
 			3. PLACE 정보 출력 확인 후, JSON 형태로 AJAX 비동기 등록 처리 수행하기
 		*/
 		
+<<<<<<< HEAD
 				
 		
 		// #. 체크박스 하나만 하도록 조정
@@ -243,6 +244,12 @@
 			// AJAX : 계획표 등록 - 비동기 요청 코드 작성
 			
 		}
+=======
+		// 1. 체크박스 클릭 시 ...
+		$("#find").click(function(){
+			
+		});
+>>>>>>> branch 'seoul_dreamer' of https://github.com/Final-Project-kh7/final-project-kh7.git
 		
 	}); // 제이쿼리
 </script>
