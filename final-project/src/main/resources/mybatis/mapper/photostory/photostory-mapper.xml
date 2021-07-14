@@ -6,25 +6,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <mapper namespace="photostory">
 	
-	<!-- 포토스토리 리스트 -->
-	<select id="list" parameterType="PhotostoryVO" resultType="PhotoStoryDto">
-		select * from (
-			select rownum rn, tmp.* from (
-				select * from photostory
-				<where>
-					<if test="searchType != null and searchKeyword != null">
-						<![CDATA[
-							instr(${searchType}, #{searchKeyword}) > 0
-						]]>
-					</if>
-				</where>
-				order by photostory_no desc
-			) tmp
-		) where rn between #{startRow} and #{endRow}
-	</select>
-	
 	<!-- 총 포토스토리 개수 -->
-	<select id="photostoryCount" parameterType="PhotostoryVO" resultType="int">
+	<select id="getPhotostoryCount" parameterType="ListParameter" resultType="int">
 		select count(photostory_no) from photostory
 		<where>
 			<if test="searchType != null and searchKeyword != null">
@@ -36,9 +19,34 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<!-- 포토스토리 작성 -->
-	<insert id="write" parameterType="PhotostoryDto">
+	<insert id="insert" parameterType="PhotostoryDto">
 		insert into
-		photostory(photostory_no, planner_no, member_no, photostory_title, photostory_content, photostory_date)
-		values(photostory_seq.nextval, #{plannerNo}, #{memberNo}, #{photostoryTitle}, #{photostoryContent}, sysdate)
+		photostory(photostory_no, planner_no, member_no, photostory_title, photostory_content)
+		values(photostory_seq.nextval, #{plannerNo}, #{memberNo}, #{photostoryTitle}, #{photostoryContent})
 	</insert>
+	
+	<!-- 포토스토리 좋아요 수 갱신 -->
+	<update id="refreshPhotostoryLikeCount" parameterType="int">
+		update photostory set photostory_like_count = 
+			(select count(*) from photostory_like where photostory_no = #{photostoryNo})
+		where photostory_no = #{photostoryNo}
+	</update>
+	
+	<!-- 포토스토리 좋아요 수 조회 -->
+	<select id="getPhotostoryLikeCount" parameterType="int">
+		select photostory_like_count from photostory where photostory_no = #{photostoryNo} 
+	</select>
+	
+	<!-- 포토스토리 댓글 수 갱신 -->
+	<update id="refreshPhotostoryCommentCount" parameterType="int">
+		update photostory set photostory_comment_count =
+			(select count(*) from photostory_comment where photostory_no = #{photostoryNo})
+		where photostory_no = #{photostoryNo}
+	</update>
+	
+	<!-- 포토스토리 댓글 수 조회 -->
+	<select id="getPhotostoryCommentCount" parameterType="int">
+		select photostory_comment_count from photostory where photostory_no = #{photostoryNo}
+	</select>
+	
 </mapper>

@@ -11,10 +11,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.kh.finale.entity.photostory.PhotostoryDto;
+import com.kh.finale.entity.photostory.PhotostoryListDto;
 import com.kh.finale.repository.photostory.PhotostoryDao;
-import com.kh.finale.vo.photostory.PhotostoryVO;
+import com.kh.finale.repository.photostory.PhotostoryListDao;
+import com.kh.finale.util.ListParameter;
 
 @Controller
 @RequestMapping("/photostory")
@@ -23,16 +26,28 @@ public class PhotostoryViewController {
 	@Autowired
 	PhotostoryDao photostoryDao;
 	
+	@Autowired
+	PhotostoryListDao photostoryListDao;
+	
 	// 포토스토리 리스트 페이지
 	@GetMapping("")
-	public String home(@ModelAttribute PhotostoryVO photostoryVO, Model model) {
-		photostoryVO = photostoryDao.getPageVariable(photostoryVO);
-		List<PhotostoryDto> list = photostoryDao.list(photostoryVO);
+	public String home(@ModelAttribute ListParameter listParameter, Model model) {
+		listParameter = photostoryDao.getPageVariable(listParameter);
+		List<PhotostoryListDto> list = photostoryListDao.list(listParameter);
 
-		model.addAttribute("photostoryVO", photostoryVO);
+		model.addAttribute("listParameter", listParameter);
 		model.addAttribute("list", list);
 		
 		return "photostory/photostory";
+	}
+	
+	// 포토스토리 상세 페이지
+	@GetMapping("/detail")
+	public String detail(@RequestParam int photostoryNo, Model model) {
+		PhotostoryListDto photostoryListDto = photostoryListDao.find(photostoryNo);
+		model.addAttribute("photostoryListDto", photostoryListDto);
+		
+		return "photostory/detail";
 	}
 	
 	// 포토스토리 작성 페이지
@@ -44,12 +59,11 @@ public class PhotostoryViewController {
 	// 포토스토리 작성 처리
 	@PostMapping("/write")
 	public String write(@ModelAttribute PhotostoryDto photostoryDto, HttpSession session) {
-//		int memberNo = (int) session.getAttribute("memberNo");
-		int memberNo = 1; // 임시
+		int memberNo = (int) session.getAttribute("memberNo");
 		photostoryDto.setMemberNo(memberNo);
 		photostoryDto.setPlannerNo(1); // 임시
 		
-		photostoryDao.write(photostoryDto);
+		photostoryDao.writePhotostory(photostoryDto);
 		
 		return "redirect:/photostory";
 	}

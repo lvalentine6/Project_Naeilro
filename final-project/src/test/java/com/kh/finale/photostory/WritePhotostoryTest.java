@@ -34,6 +34,6 @@ public class WritePhotostoryTest {
 				.photostoryTitle("16")
 				.photostoryContent("16")
 				.build();
-		photostoryDao.write(photostoryDto);
+		photostoryDao.writePhotostory(photostoryDto);
 	}
 }

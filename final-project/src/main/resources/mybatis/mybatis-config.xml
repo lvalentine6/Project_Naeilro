@@ -17,5 +17,6 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 	<typeAliases>
 		<package name="com.kh.finale.entity"/>
 		<package name="com.kh.finale.vo"/>
+		<package name="com.kh.finale.util"/>
 	</typeAliases>
 </configuration>

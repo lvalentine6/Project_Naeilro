@@ -1,5 +1,9 @@
 package com.kh.finale.photostory;
 
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+
+import org.apache.ibatis.session.SqlSession;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,8 +11,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
-import com.kh.finale.repository.photostory.PhotostoryDao;
-import com.kh.finale.util.ListParameter;
+import com.kh.finale.entity.photostory.PhotostoryLikeDto;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -20,28 +23,24 @@ import lombok.extern.slf4j.Slf4j;
 @WebAppConfiguration
 @Slf4j
 /**
- * 총 포토스토리 개수 구하기 테스트
+ * 포토스토리 좋아요 관련 테스트
  * @author swjk78
  */
-public class GetPhotostoryCountTest {
+public class PhotostoryLikeTest {
 
 	@Autowired
-	private PhotostoryDao photostoryDao;
-
+	private SqlSession sqlSession;
+	
 	@Test
 	public void test() {
-		ListParameter listParameter = ListParameter.builder()
-				.startRow(1)
-				.endRow(10)
-				.pageNo(1)
-				.pageSize(10)
-				.searchType(null)
-				.searchKeyword(null)
-				.startBlock(1)
-				.endBlock(1)
-				.lastBlock(1)
+		PhotostoryLikeDto photostoryLikeDto = PhotostoryLikeDto.builder()
+				.photostoryNo(1)
+				.memberNo(1)
 				.build();
-		int count = photostoryDao.getPhotostoryCount(listParameter);
-		log.debug("count = {}", count);
+//		sqlSession.insert("photostoryLike.insert", photostoryLikeDto);
+		
+//		sqlSession.delete("photostoryLike.delete", photostoryLikeDto);
+		boolean check = sqlSession.selectOne("photostoryLike.check", photostoryLikeDto);
+		assertTrue(check);
 	}
 }
