@@ -4,12 +4,7 @@
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
 
 <script>
-	/* 취소버튼 */
-	$(function() {
-		$('.cancel-btn').click(function() {
-			window.history.back();
-		})
-	})
+
 	/* 아이디(영문/숫자 4~12자), 비밀번호 (영문/숫자/한글 4~12자), 이름 (한글 2~7자), 닉네임 (영문/숫자/한글 4~12자) 검사 */
 	let regex = /^[0-9a-zA-Z]{4,12}$/;
 	let name_regex = /^[가-힣]{2,7}$/;
@@ -127,19 +122,19 @@
 				<span>LOGO에 오신 것을 환영합니다.</span>
 			</div>
 			<div class="col-lg-6 offset-lg-3 text-center">
-				<form action="join" method="post" class="sign_up_form encrypt-form" enctype="multipart/form-data">
+				<form action="join" method="post" class="sign_up_form encrypt-form"
+					enctype="multipart/form-data">
 					<!-- 	프로필 사진 업로드 -->
 					<div class="form-row mb-3">
 						<label for='memberProfile'>프로필 사진</label>
 					</div>
 					<div class="form-row mb-3 justify-content-center">
 						<label for="memberProfile"> <img
-							class='admin-upload_img user_profile'
+							class='upload_img user_profile'
 							src="${pageContext.request.contextPath}/image/default_user_profile.jpg"
 							style="width: 100px; height: 100px;"> <input
 							class="input_img" type="file" accept=".png, .jpg, .gif"
-							id="memberProfile" name="memberProfile"
-							style="display: none" />
+							id="memberProfile" name="memberProfile" style="display: none" />
 						</label>
 					</div>
 					<div class="form-row mb-3">
