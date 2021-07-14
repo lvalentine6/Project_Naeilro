@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("/plan")
-public class PlanController {
+public class PlanViewController {
 	
 	@GetMapping("/writeplan")
 	public String writePlan() {

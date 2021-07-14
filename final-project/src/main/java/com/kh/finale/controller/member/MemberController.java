@@ -1,6 +1,7 @@
 package com.kh.finale.controller.member;
 
-import javax.mail.Session;
+import java.io.IOException;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.kh.finale.entity.member.MemberDto;
 import com.kh.finale.repository.member.MemberDao;
+import com.kh.finale.service.member.MemberJoinService;
+import com.kh.finale.vo.member.MemberVo;
 
 @Controller
 @RequestMapping("/member")
@@ -27,11 +30,21 @@ public class MemberController {
 	}
 	
 	// 회원 가입 성공 페이지
+//	@PostMapping("/join")
+//	public String join(@ModelAttribute MemberDto memberDto) {
+//		memberDao.join(memberDto);
+//		return "redirect:join_success";
+//	}
+	
+	@Autowired
+	private MemberJoinService memberJoinService;
+	
 	@PostMapping("/join")
-	public String join(@ModelAttribute MemberDto memberDto) {
-		memberDao.join(memberDto);
+	public String join(@ModelAttribute MemberVo memberVo) {
+		memberJoinService.memberjoin(memberVo);		
 		return "redirect:join_success";
 	}
+	
 	
 	@GetMapping("/join_success")
 	public String registSuccess() {
