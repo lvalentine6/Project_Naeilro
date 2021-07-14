@@ -31,7 +31,6 @@ public class WritePhotostoryTest {
 				.photostoryNo(1)
 				.plannerNo(1)
 				.memberNo(1)
-				.photostoryTitle("16")
 				.photostoryContent("16")
 				.build();
 		photostoryDao.writePhotostory(photostoryDto);

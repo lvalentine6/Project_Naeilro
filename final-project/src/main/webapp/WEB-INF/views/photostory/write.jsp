@@ -23,9 +23,6 @@
 			class="form-write"
 		>
 			<div>
-				<input type="text" name="photostoryTitle" placeholder="제목" />
-			</div>
-			<div>
 				<input type="text" name="photostoryContent" placeholder="내용" />
 			</div>
 			<div>

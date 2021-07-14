@@ -10,8 +10,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-제목: ${photostoryListDto.photostoryTitle}
-<br>
 내용: ${photostoryListDto.photostoryContent}
 <br>
 작성날짜: ${photostoryListDto.getPhotostoryDateString()}

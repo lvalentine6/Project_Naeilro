@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class PhotostoryDto {
 	private int photostoryNo, plannerNo, memberNo;
-	private String photostoryTitle, photostoryContent;
+	private String photostoryContent;
 	private Date photostoryDate;
 	private int photostoryCommentCount, photostoryLikeCount;
 }

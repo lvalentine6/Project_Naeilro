@@ -21,8 +21,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<!-- 포토스토리 작성 -->
 	<insert id="insert" parameterType="PhotostoryDto">
 		insert into
-		photostory(photostory_no, planner_no, member_no, photostory_title, photostory_content)
-		values(photostory_seq.nextval, #{plannerNo}, #{memberNo}, #{photostoryTitle}, #{photostoryContent})
+		photostory(photostory_no, planner_no, member_no, photostory_content)
+		values(photostory_seq.nextval, #{plannerNo}, #{memberNo}, #{photostoryContent})
 	</insert>
 	
 	<!-- 포토스토리 좋아요 수 갱신 -->
