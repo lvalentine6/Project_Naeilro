@@ -6,10 +6,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <mapper namespace="plan">
 	
+	<insert id="plannerInsert" parameterType="PlannerDto">
+		insert into planner values(
+			planner_seq.nextval, #{plannerStartDate}, #{plannerEndDate}, 'N', #{plannerName}
+		)
+	</insert>	
+	
 	<insert id="placeInsert" parameterType="PlaceDto">
 		insert into place values(
 			place_seq.nextval, #{placeLatitude}, #{placeLongitude}, #{placeName}, #{placeType}
-		);	
+		)	
 	</insert>
 	
 </mapper>
