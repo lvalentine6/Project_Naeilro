@@ -9,4 +9,16 @@ public class HomeController {
 	public String index() {
 		return "home";
 	}
+	@RequestMapping("/member/findId")
+	public String findId() {
+		return "member/findId";
+	}
+	@RequestMapping("/member/findPw")
+	public String findPw() {
+		return "member/findPw";
+	}
+	@RequestMapping("/member/changePw")
+	public String changePw() {
+		return "member/changePw";
+	}
 }

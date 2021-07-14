@@ -19,7 +19,7 @@ public class DateUtils {
 		String msg = null;
 
 		if (differenceTime < 60) {
-			msg = differenceTime + "초전";
+			msg = "방금전";
 		} else if ((differenceTime /= 60) < 60) {
 			msg = differenceTime + "분전";
 		} else if ((differenceTime /= 60) < 24) {
