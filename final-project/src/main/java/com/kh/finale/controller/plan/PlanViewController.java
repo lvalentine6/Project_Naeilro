@@ -13,5 +13,4 @@ public class PlanViewController {
 		return "plan/writeplan";
 	}
 	
-	
 }
