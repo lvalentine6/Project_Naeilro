@@ -18,7 +18,6 @@ import lombok.extern.slf4j.Slf4j;
 	"file:src/main/webapp/WEB-INF/spring/appServlet/servlet-context.xml"
 })
 @WebAppConfiguration
-@Slf4j
 /**
  * 포토스토리 댓글 관련 테스트
  * @author swjk78

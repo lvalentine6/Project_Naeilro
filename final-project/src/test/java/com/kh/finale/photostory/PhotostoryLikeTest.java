@@ -1,6 +1,5 @@
 package com.kh.finale.photostory;
 
-import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import org.apache.ibatis.session.SqlSession;

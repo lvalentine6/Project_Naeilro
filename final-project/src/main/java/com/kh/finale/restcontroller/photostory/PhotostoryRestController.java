@@ -31,53 +31,61 @@ public class PhotostoryRestController {
 	
 	// 포토스토리 좋아요 등록 처리
 	@GetMapping("/insert_like")
-	public int likePhotostory(HttpSession session, @RequestParam int photostoryNo) {
+	public void likePhotostory(HttpSession session, @RequestParam int photostoryNo) {
 		PhotostoryLikeDto photostoryLikeDto = PhotostoryLikeDto.builder()
 				.photostoryNo(photostoryNo)
 				.memberNo((int) session.getAttribute("memberNo"))
 				.build();
 		photostoryLikeDao.insertPhotostoryLike(photostoryLikeDto);
 		photostoryDao.refreshPhotostoryLikeCount(photostoryNo);
-		
-		return photostoryDao.getPhotostoryLikeCount(photostoryNo);
 	}
 
 	// 포토스토리 좋아요 삭제 처리
 	@GetMapping("/delete_like")
-	public int unlikePhotostory(HttpSession session, @RequestParam int photostoryNo) {
+	public void unlikePhotostory(HttpSession session, @RequestParam int photostoryNo) {
 		PhotostoryLikeDto photostoryLikeDto = PhotostoryLikeDto.builder()
 				.photostoryNo(photostoryNo)
 				.memberNo((int) session.getAttribute("memberNo"))
 				.build();
 		photostoryLikeDao.deletePhotostoryLike(photostoryLikeDto);
 		photostoryDao.refreshPhotostoryLikeCount(photostoryNo);
-		
-		return photostoryDao.getPhotostoryLikeCount(photostoryNo);
 	}
 	
 	// 포토스토리 댓글 등록 처리
 	@PostMapping("/insert_comment")
-	public int insertPhotostoryComment(
+	public void insertPhotostoryComment(
 			HttpSession session, @ModelAttribute PhotostoryCommentDto photostoryCommentDto) {
-		photostoryCommentDao.insertPhotostoryComment(photostoryCommentDto);
-		photostoryDao.refreshPhotostoryCommentCount(photostoryCommentDto.getPhotostoryNo());
-		
-		return 0;
+		PhotostoryCommentDto commentDto = PhotostoryCommentDto.builder()
+				.photostoryNo(photostoryCommentDto.getPhotostoryNo())
+				.memberNo((int) session.getAttribute("memberNo"))
+				.photostoryCommentContent(photostoryCommentDto.getPhotostoryCommentContent())
+				.build();
+		photostoryCommentDao.insertPhotostoryComment(commentDto);
+		photostoryDao.refreshPhotostoryCommentCount(commentDto.getPhotostoryNo());
 	}
 	
 	// 포토스토리 댓글 수정 처리
 	@PostMapping("/update_comment")
-	public int updatePhotostoryComment(
+	public void updatePhotostoryComment(
 			HttpSession session, @ModelAttribute PhotostoryCommentDto photostoryCommentDto) {
-		
-		return 0;
+		PhotostoryCommentDto commentDto = PhotostoryCommentDto.builder()
+				.photostoryNo(photostoryCommentDto.getPhotostoryNo())
+				.memberNo((int) session.getAttribute("memberNo"))
+				.photostoryCommentContent(photostoryCommentDto.getPhotostoryCommentContent())
+				.build();
+		photostoryCommentDao.updatePhotostoryComment(commentDto);
 	}
 	
 	// 포토스토리 댓글 삭제 처리
 	@PostMapping("/delete_comment")
-	public int deletePhotostoryComment(
+	public void deletePhotostoryComment(
 			HttpSession session, @ModelAttribute PhotostoryCommentDto photostoryCommentDto) {
-		
-		return 0;
+		PhotostoryCommentDto commentDto = PhotostoryCommentDto.builder()
+				.photostoryNo(photostoryCommentDto.getPhotostoryNo())
+				.memberNo((int) session.getAttribute("memberNo"))
+				.photostoryCommentContent(photostoryCommentDto.getPhotostoryCommentContent())
+				.build();
+		photostoryCommentDao.deletePhotostoryComment(commentDto);
+		photostoryDao.refreshPhotostoryCommentCount(commentDto.getPhotostoryNo());
 	}
 }
