@@ -1,7 +1,5 @@
 package com.kh.finale.service.member;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,7 +13,7 @@ public class MemberFindServiceImpl implements MemberFindService{
 	MemberDao memberDao;
 
 	@Override
-	public List<MemberDto> findId(MemberDto memberDto) {
+	public MemberDto findId(MemberDto memberDto) {
 		return memberDao.findId(memberDto);
 	}
 

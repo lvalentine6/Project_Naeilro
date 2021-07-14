@@ -90,24 +90,16 @@ public class MemberController {
 	MemberFindService memberFindService;
 	
 	// 아이디 찾기 처리
-//		@PostMapping("/findId")
-//		public String findId(@ModelAttribute MemberVo memberVo, Model model) {
-//			model.addAttribute("memberDto", memberFindService.findId(memberVo));
-//			System.out.println(model);
-//			return "member/findId";
-//		}
+		@PostMapping("/findId")
+		public ModelAndView findId(@ModelAttribute MemberDto memberDto) {
+			ModelAndView mav = new ModelAndView();
+			Object modelList = memberFindService.findId(memberDto);
+			System.out.println(modelList);
+			mav.setViewName("member/findId");
+			mav.addObject("memberDto", modelList);
+			return mav;
+		}
 	
-	
-	// 아이디 찾기 처리2
-	@PostMapping("/findId")
-	public ModelAndView findId(@ModelAttribute MemberDto memberDto) {
-		ModelAndView mav = new ModelAndView();
-		List<MemberDto> memberList = (List<MemberDto>) memberFindService.findId(memberDto);
-		System.out.println(memberList);
-		mav.setViewName("member/findId");
-		mav.addObject("memberList", memberList);
-		return mav;
-	}
 
 	// 비밀번호 찾기 페이지
 	@GetMapping("/findPw")
