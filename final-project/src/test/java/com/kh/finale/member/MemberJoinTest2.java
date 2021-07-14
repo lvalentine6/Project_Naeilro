@@ -8,8 +8,11 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
 import com.kh.finale.entity.member.MemberDto;
+import com.kh.finale.entity.member.MemberProfileDto;
 import com.kh.finale.entity.photostory.PhotostoryDto;
 import com.kh.finale.repository.member.MemberDao;
+import com.kh.finale.repository.member.MemberProfileDao;
+import com.kh.finale.vo.member.MemberVo;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {
@@ -17,22 +20,25 @@ import com.kh.finale.repository.member.MemberDao;
 		"file:src/main/webapp/WEB-INF/spring/appServlet/servlet-context.xml"
 })
 @WebAppConfiguration
-public class MemberJoinTest {
+public class MemberJoinTest2 {
 	
 	@Autowired
 	MemberDao memberDao;
 	
+	@Autowired
+	MemberVo memberVo;
+	
+	@Autowired
+	MemberProfileDao memberProfileDao;
+	
 	@Test
-	public void join() {
-		memberDao.join(MemberDto.builder()
-								.memberId("test4")
-								.memberPw("qwer100")
-								.memberNick("테스트계정4")
-								.memberEmail("test4@naver.com")
-								.memberName("테스트이름4")
-								.memberBirth("1990-01-01")
-								.memberGender("여")
-								.memberGrade(2)
-								.build());
+	public void join2() {
+		MemberProfileDto memberProfileDto = MemberProfileDto.builder()
+				.memberId("테스트")
+				.profileOriginName("테스트오리지널")
+				.profileSize(1234)
+				.profileSaveName("1")
+				.build();
+		memberProfileDao.insert(memberProfileDto);
 	}
 }
