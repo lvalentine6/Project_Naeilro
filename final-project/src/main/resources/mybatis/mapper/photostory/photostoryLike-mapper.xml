@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="photostoryLike">
+	
+	<!-- 포토스토리 좋아요 등록 -->
+	<insert id="insert" parameterType="PhotostoryLikeDto">
+		insert into photostory_like(photostory_no, member_no)
+		values(#{photostoryNo}, #{memberNo})
+	</insert>
+	
+	<!-- 포토스토리 좋아요 삭제 -->
+	<delete id="delete" parameterType="PhotostoryLikeDto">
+		delete photostory_like where photostory_no = #{photostoryNo} and member_no = #{memberNo}
+	</delete>
+	
+	<!-- 포토스토리 좋아요 확인 -->
+	<select id="check" parameterType="PhotostoryLikeDto" resultType="boolean">
+		select * from photostory_like where photostory_no = #{photostoryNo} and member_no = #{memberNo}
+	</select>
+	
+</mapper>

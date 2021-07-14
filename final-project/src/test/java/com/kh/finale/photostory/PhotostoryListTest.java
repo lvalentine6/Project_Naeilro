@@ -10,8 +10,9 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
 import com.kh.finale.entity.photostory.PhotostoryDto;
-import com.kh.finale.repository.photostory.PhotostoryDao;
-import com.kh.finale.vo.photostory.PhotostoryVO;
+import com.kh.finale.entity.photostory.PhotostoryTotalListDto;
+import com.kh.finale.repository.photostory.PhotostoryTotalListDao;
+import com.kh.finale.util.ListParameter;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -29,11 +30,11 @@ import lombok.extern.slf4j.Slf4j;
 public class PhotostoryListTest {
 
 	@Autowired
-	PhotostoryDao photostoryDao;
+	PhotostoryTotalListDao photostoryTotalListDao;
 	
 	@Test
 	public void test() {
-		PhotostoryVO photostoryVO = PhotostoryVO.builder()
+		ListParameter listParameter = ListParameter.builder()
 				.startRow(1)
 				.endRow(10)
 				.pageNo(1)
@@ -44,9 +45,9 @@ public class PhotostoryListTest {
 				.endBlock(1)
 				.lastBlock(1)
 				.build();
-		List<PhotostoryDto> list = photostoryDao.list(photostoryVO);
-		for (PhotostoryDto photostoryDto : list) {
-			log.debug("photostoryDto = {}", photostoryDto);
+		List<PhotostoryTotalListDto> list = photostoryTotalListDao.list(listParameter);
+		for (PhotostoryTotalListDto photostoryTotalListDto : list) {
+			log.debug("photostoryTotalListDto = {}", photostoryTotalListDto.getPhotostoryCommentContent());
 		}
 	}
 }
