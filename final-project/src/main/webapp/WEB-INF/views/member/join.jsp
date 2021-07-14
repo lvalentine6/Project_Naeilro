@@ -129,19 +129,19 @@
 				<span>LOGO에 오신 것을 환영합니다.</span>
 			</div>
 			<div class="col-lg-6 offset-lg-3 text-center">
-				<form action="join" method="post" class="sign_up_form encrypt-form">
-					<!-- 	프로필 사진 업로드를 위한 테스트 입력창 -->
+				<form action="join" method="post" class="sign_up_form encrypt-form" enctype="multipart/form-data">
+					<!-- 	프로필 사진 업로드 -->
 					<div class="form-row mb-3">
 						<label for='memberProfilePath'>프로필 사진</label>
 
 					</div>
 					<div class="form-row mb-3 justify-content-center">
-						<label for="memberProfilePath"> <img
-							class='shadow upload_img user_profile'
+						<label for="memberProfile"> <img
+							class='admin-upload_img user_profile'
 							src="${pageContext.request.contextPath}/image/default_user_profile.jpg"
 							style="width: 100px; height: 100px;"> <input
 							class="input_img" type="file" accept=".png, .jpg, .gif"
-							id="memberProfilePath" name="memberProfilePath"
+							id="memberProfile" name="memberProfile"
 							style="display: none" />
 						</label>
 					</div>
