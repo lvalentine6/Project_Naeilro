@@ -36,11 +36,19 @@
 	
 	.user_profile{
 		border-radius: 100%;
+		object-fit:cover;
 	}
 	.user_profile_sm{
 		border-radius: 100%;
 		width: 40px;
 		height: 40px;
+	}
+	.story-photo{
+		width: 100%;
+		object-fit:cover;
+	}
+	.text-sm{
+		font-size: 14px;
 	}
 </style>
 <!-- icon -->
@@ -224,6 +232,13 @@
 			})
 		})
 	})
+	
+	/* 취소버튼 */
+	$(function() {
+		$('.cancel-back-btn').click(function() {
+			window.history.back();
+		})
+	})
 </script>
 </head>
 <body>
@@ -246,7 +261,7 @@
 						<c:choose>
 							<c:when test="${isLogin}">
 									<li><a class="text-nowrap" href="${root}/member/logout">로그아웃</a></li>
-									<li><a class="text-nowrap" href="${root}/member/join">회원가입</a></li>
+									<li><a class="text-nowrap" href="${root}/member/join">마이페이지</a></li>
 							</c:when>
 							<c:otherwise>
 							<li><a class="text-nowrap"  href="${root}/member/login">로그인</a></li>
