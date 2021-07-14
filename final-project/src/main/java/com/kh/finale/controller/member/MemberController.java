@@ -1,22 +1,22 @@
 package com.kh.finale.controller.member;
 
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.finale.entity.member.MemberDto;
 import com.kh.finale.repository.member.MemberDao;
 import com.kh.finale.service.member.MemberFindService;
 import com.kh.finale.service.member.MemberJoinService;
 import com.kh.finale.vo.member.MemberVo;
-
-import sun.print.resources.serviceui;
 
 @Controller
 @RequestMapping("/member")
@@ -90,11 +90,23 @@ public class MemberController {
 	MemberFindService memberFindService;
 	
 	// 아이디 찾기 처리
+//		@PostMapping("/findId")
+//		public String findId(@ModelAttribute MemberVo memberVo, Model model) {
+//			model.addAttribute("memberDto", memberFindService.findId(memberVo));
+//			System.out.println(model);
+//			return "member/findId";
+//		}
+	
+	
+	// 아이디 찾기 처리2
 	@PostMapping("/findId")
-	public String findId(@ModelAttribute MemberDto memberDto, Model model) {
-		model.addAttribute("memberDto1", memberFindService.findId(memberDto));
-		System.out.println(model);
-		return "member/findId";
+	public ModelAndView findId(@ModelAttribute MemberDto memberDto) {
+		ModelAndView mav = new ModelAndView();
+		List<MemberDto> memberList = (List<MemberDto>) memberFindService.findId(memberDto);
+		System.out.println(memberList);
+		mav.setViewName("member/findId");
+		mav.addObject("memberList", memberList);
+		return mav;
 	}
 
 	// 비밀번호 찾기 페이지

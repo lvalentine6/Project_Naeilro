@@ -1,5 +1,7 @@
 package com.kh.finale.repository.member;
 
+import java.util.List;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -24,8 +26,8 @@ public class MemberDaoImpl implements MemberDao{
 	}
 
 	@Override
-	public MemberDto findId(MemberDto memberDto) {
-		return sqlSession.selectOne("member.findId", memberDto);
+	public List<MemberDto> findId(MemberDto memberDto) {
+		return sqlSession.selectList("member.findId", memberDto);
 	}
 
 }
