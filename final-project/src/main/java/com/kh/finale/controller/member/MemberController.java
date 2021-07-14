@@ -78,4 +78,29 @@ public class MemberController {
 		return "redirect:/";
 	}
 	
+	// 아이디 찾기 페이지
+	@GetMapping("/findId")
+	public String findId() {
+		return "member/findId";
+	}
+	
+	// 아이디 찾기 처리
+	@PostMapping("/findId")
+	public String findId(@ModelAttribute("findId") MemberDto memberDto) {
+		return "redirect:findId";
+	}
+	
+	// 비밀번호 찾기 페이지
+	@GetMapping("/findPw")
+	public String findPw() {
+		return "member/findPw";
+	}
+	
+	// 비밀번호 찾기 처리
+//	@PostMapping("member/findPw")
+//	public String findPw(ao aoao) {
+//		return = null;
+//	}
+	
+	
 }
