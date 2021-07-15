@@ -67,6 +67,7 @@ public class MemberController {
 		if(check != null) {
 			httpSession.setAttribute("memberNo", check.getMemberNo());
 			httpSession.setAttribute("memberId", check.getMemberId());
+			httpSession.setAttribute("memberNick", check.getMemberNick());
 			return "redirect:/";
 		}
 		else {
@@ -79,6 +80,7 @@ public class MemberController {
 	public String logout(HttpSession httpSession) {
 		httpSession.removeAttribute("memberNo");
 		httpSession.removeAttribute("memberId");
+		httpSession.removeAttribute("memberNick");
 		return "redirect:/";
 	}
 	

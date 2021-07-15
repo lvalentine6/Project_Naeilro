@@ -114,7 +114,7 @@
 							<c:choose>
 							<c:when test="${isLogin}">
 								<li><a class="text-white text-nowrap" href="${root}/member/logout">로그아웃</a></li>
-								<li><a class="text-white text-nowrap" href="${root}/member/${memberId}">마이페이지</a></li>
+								<li><a class="text-white text-nowrap" href="${root}/member/${memberNick}">마이페이지</a></li>
 							</c:when>
 							<c:otherwise>
 								<li><a class="text-white text-nowrap" href="${root}/member/login">로그인</a></li>

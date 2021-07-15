@@ -39,9 +39,12 @@
 		object-fit:cover;
 	}
 	.user_profile_sm{
-		border-radius: 100%;
 		width: 40px;
 		height: 40px;
+	}
+	.user_profile_lg{
+		width: 140px;
+		height: 140px;
 	}
 	.story-photo{
 		width: 100%;
