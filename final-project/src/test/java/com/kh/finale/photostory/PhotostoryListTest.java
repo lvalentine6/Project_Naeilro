@@ -55,16 +55,11 @@ public class PhotostoryListTest {
 //			log.debug("photostoryListDto = {}", photostoryListDto);
 //		}
 		
-		List<List<PhotostoryCommentListDto>> recentCommentList = new ArrayList<>();
-		for (int i = 0; i < photostoryList.size(); i++) {
-			List<PhotostoryCommentListDto> photostoryCommentList = 
-					photostoryCommentListDao.recentList(photostoryList.get(i).getPhotostoryNo());
-			recentCommentList.add(photostoryCommentList);
-		}
-		for (List<PhotostoryCommentListDto> list : recentCommentList) {
-			for (PhotostoryCommentListDto dto : list) {
-				log.debug("dto = {}", dto);
-			}
-		}
+//		List<List<PhotostoryCommentListDto>> recentCommentList = new ArrayList<>();
+//		for (int i = 0; i < photostoryList.size(); i++) {
+//			List<PhotostoryCommentListDto> photostoryCommentList = 
+//					photostoryCommentListDao.recentList(photostoryList.get(i).getPhotostoryNo());
+//			recentCommentList.add(photostoryCommentList);
+//		}
 	}
 }

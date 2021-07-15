@@ -1,6 +1,5 @@
 package com.kh.finale.controller.photostory;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -41,15 +40,15 @@ public class PhotostoryViewController {
 		listParameter = photostoryDao.getPageVariable(listParameter);
 		List<PhotostoryListDto> photostoryList = photostoryListDao.list(listParameter);
 		
-		List<List<PhotostoryCommentListDto>> recentCommentList = new ArrayList<>();
 		for (int i = 0; i < photostoryList.size(); i++) {
-			List<PhotostoryCommentListDto> photostoryCommentList = 
+			List<PhotostoryCommentListDto> recentCommentList = 
 					photostoryCommentListDao.recentList(photostoryList.get(i).getPhotostoryNo());
-			recentCommentList.add(photostoryCommentList);
+			for (int j = 0; j < recentCommentList.size(); j++) {
+				photostoryList.get(i).setPhotostoryCommentList(recentCommentList);
+			}
 		}
 
 		model.addAttribute("photostoryList", photostoryList);
-		model.addAttribute("recentCommentList", recentCommentList);
 		
 		return "photostory/photostory";
 	}
@@ -75,8 +74,7 @@ public class PhotostoryViewController {
 	// 포토스토리 작성 처리
 	@PostMapping("/write")
 	public String write(@ModelAttribute PhotostoryDto photostoryDto, HttpSession session) {
-//		int memberNo = (int) session.getAttribute("memberNo");
-		int memberNo = 1; // 임시
+		int memberNo = (int) session.getAttribute("memberNo");
 		photostoryDto.setMemberNo(memberNo);
 		photostoryDto.setPlannerNo(1); // 임시
 		
@@ -90,8 +88,7 @@ public class PhotostoryViewController {
 	// 포토스토리 수정 처리
 	@PostMapping("/edit")
 	public String edit(@ModelAttribute PhotostoryDto photostoryDto, HttpSession session) {
-//		int memberNo = (int) session.getAttribute("memberNo");
-		int memberNo = 1; // 임시
+		int memberNo = (int) session.getAttribute("memberNo");
 		photostoryDto.setMemberNo(memberNo);
 		photostoryDto.setPlannerNo(1); // 임시
 		
