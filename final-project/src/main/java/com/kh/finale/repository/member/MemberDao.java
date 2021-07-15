@@ -10,4 +10,5 @@ public interface MemberDao {
 	MemberDto findId(MemberDto memberDto);
 	MemberVo findPw(MemberVo memberVo);
 	void authInsert(MemberAuthDto memberAuthDto);
+	MemberAuthDto resultAuth(MemberAuthDto memberAuthDto);
 }

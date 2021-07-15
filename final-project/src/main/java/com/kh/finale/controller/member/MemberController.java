@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.finale.entity.member.MemberAuthDto;
@@ -122,27 +123,30 @@ public class MemberController {
 	MemberAuthDto memberAuthDto;
 	
 	// 비밀번호 찾기 (인증번호 발송)
-	@PostMapping("/sendAuthEamil")
+	@PostMapping("sendAuthEamil")
+	@ResponseBody
 	public ModelAndView findPw(@ModelAttribute MemberVo memberVo) {
 		ModelAndView mav = new ModelAndView();
 		System.out.println("폼 수신값 확인 : " + memberVo);
-		Object searchResult = memberFindService.findPw(memberVo); // 문제없음
+		MemberVo searchResult = memberFindService.findPw(memberVo);
 		System.out.println("FindId 수신값 확인 : " + searchResult);
 		
-//		if(searchResult == null) {
-//			mav.setViewName("member/findId");
-//			mav.addObject("memberVo", memberVo);
-//			return mav;
-//		}
-//		else {
-		Object authResult = memberAuthService.pwSendEmail(memberVo); // memberNo 값이 안넘어옴
+		if(searchResult == null) {
+			mav.setViewName("member/findPw");
+			mav.addObject("memberVo", memberVo);
+			return mav;
+		}
+		else {
+		MemberAuthDto authResult = memberAuthService.pwSendEmail(searchResult); 
 		System.out.println("authResult 수신값 확인 : " + authResult);
-		memberAuthService.authInsert(memberAuthDto); // 직접문제
-		System.out.println("마지막 값 수신확인 : " + memberAuthDto);	
-		mav.setViewName("member/findId");
-		mav.addObject("memberVo", authResult);
+		memberAuthService.authInsert(authResult);
+		MemberAuthDto memberAuthDto = memberAuthService.resultAuth(authResult);
+		System.out.println("마지막 값 확인 : " + memberAuthDto);
+		mav.setViewName("member/findPw");
+		mav.addObject("memberAuthDto", memberAuthDto);
+		System.out.println(mav);
 		return mav;
-//		}
+		}
 		
 	}
 	

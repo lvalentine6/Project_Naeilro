@@ -25,7 +25,7 @@ public class MemberAuthServiceImpl implements MemberAuthService{
 	// 이메일 전송
 	@Override
 	public MemberAuthDto pwSendEmail(MemberVo memberVo) {
-		System.out.println("빌드 전 Vo 값 확인 : " + memberVo.getMemberNo());
+		System.out.println("빌드 전 Vo 값 확인 : " + memberVo.getMemberNo() + memberVo.getMemberEmail());
 		
 		// 인증 난수 생성
 		Random r = new Random();
@@ -74,6 +74,11 @@ public class MemberAuthServiceImpl implements MemberAuthService{
 	public void authInsert(MemberAuthDto memberAuthDto) {
 		memberDao.authInsert(memberAuthDto);
 		
+	}
+
+	@Override
+	public MemberAuthDto resultAuth(MemberAuthDto memberAuthDto) {
+		return memberDao.resultAuth(memberAuthDto);
 	}
 	
 }

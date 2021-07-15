@@ -6,4 +6,5 @@ import com.kh.finale.vo.member.MemberVo;
 public interface MemberAuthService {
 	MemberAuthDto pwSendEmail(MemberVo memberVo);
 	void authInsert(MemberAuthDto memberAuthDto);
+	MemberAuthDto resultAuth(MemberAuthDto memberAuthDto);
 }

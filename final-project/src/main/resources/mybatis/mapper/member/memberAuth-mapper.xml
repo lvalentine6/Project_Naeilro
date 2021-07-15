@@ -6,12 +6,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <mapper namespace="member">
 
-	<!-- 회원가입 -->
+	<!-- 인증 테이블 등록 -->
 	<insert id="authInsert" parameterType="MemberAuthDto">
 		insert into auth values(
-			auth_seq.nextval, #{memberNo}, #{authEmail}, 
-			sysdate, #{authType}
+			auth_seq.nextval, #{memberNo}, #{authNo}, #{authEmail}, 
+			sysdate, '일반'
 		)
 	</insert>
 	
+	<!-- 인증 테이블 결과값 조회 -->
+	<select id="resultAuth" parameterType="MemberAuthDto" resultType="MemberAuthDto">
+		select * from auth where auth_no = #{authNo}
+	</select>
 </mapper>

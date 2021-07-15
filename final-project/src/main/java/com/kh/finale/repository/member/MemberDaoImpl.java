@@ -41,4 +41,9 @@ public class MemberDaoImpl implements MemberDao{
 		
 	}
 
+	@Override
+	public MemberAuthDto resultAuth(MemberAuthDto memberAuthDto) {
+		return sqlSession.selectOne("member.resultAuth", memberAuthDto);
+	}
+
 }
