@@ -1,5 +1,6 @@
 package com.kh.finale.controller.photostory;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -16,11 +17,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.kh.finale.entity.photostory.PhotostoryCommentListDto;
 import com.kh.finale.entity.photostory.PhotostoryDto;
 import com.kh.finale.entity.photostory.PhotostoryListDto;
-import com.kh.finale.entity.photostory.PhotostoryTotalListDto;
 import com.kh.finale.repository.photostory.PhotostoryCommentListDao;
 import com.kh.finale.repository.photostory.PhotostoryDao;
 import com.kh.finale.repository.photostory.PhotostoryListDao;
-import com.kh.finale.repository.photostory.PhotostoryTotalListDao;
 import com.kh.finale.util.ListParameter;
 
 @Controller
@@ -36,17 +35,21 @@ public class PhotostoryViewController {
 	@Autowired
 	PhotostoryCommentListDao photostoryCommentListDao;
 
-	@Autowired
-	PhotostoryTotalListDao photostoryTotalListDao;
-	
 	// 포토스토리 리스트 페이지
 	@GetMapping("")
 	public String home(@ModelAttribute ListParameter listParameter, Model model) {
 		listParameter = photostoryDao.getPageVariable(listParameter);
-		List<PhotostoryTotalListDto> photostoryTotalList = photostoryTotalListDao.list(listParameter);
-		System.out.println(photostoryTotalList);
-		model.addAttribute("listParameter", listParameter);
-		model.addAttribute("photostoryTotalList", photostoryTotalList);
+		List<PhotostoryListDto> photostoryList = photostoryListDao.list(listParameter);
+		
+		List<List<PhotostoryCommentListDto>> recentCommentList = new ArrayList<>();
+		for (int i = 0; i < photostoryList.size(); i++) {
+			List<PhotostoryCommentListDto> photostoryCommentList = 
+					photostoryCommentListDao.recentList(photostoryList.get(i).getPhotostoryNo());
+			recentCommentList.add(photostoryCommentList);
+		}
+
+		model.addAttribute("photostoryList", photostoryList);
+		model.addAttribute("recentCommentList", recentCommentList);
 		
 		return "photostory/photostory";
 	}
