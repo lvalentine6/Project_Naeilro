@@ -8,7 +8,7 @@
 		/* 인증번호 발송 버튼 클릭 이벤트 */
 		$(".cert-btn").click(function(){
 			let memberId = $('#memberId').val();
-			let memberEmail=$('#memberId').val();
+			let memberEmail=$('#memberEmail').val();
 			if(!memberId){
 				$('#memberId').focus();
 				return;

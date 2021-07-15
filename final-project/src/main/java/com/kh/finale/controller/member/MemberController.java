@@ -66,6 +66,8 @@ public class MemberController {
 		MemberDto check = memberDao.login(memberDto);
 		if(check != null) {
 			httpSession.setAttribute("memberNo", check.getMemberNo());
+			httpSession.setAttribute("memberId", check.getMemberId());
+			httpSession.setAttribute("memberNick", check.getMemberNick());
 			return "redirect:/";
 		}
 		else {
@@ -77,6 +79,8 @@ public class MemberController {
 	@GetMapping("/logout")
 	public String logout(HttpSession httpSession) {
 		httpSession.removeAttribute("memberNo");
+		httpSession.removeAttribute("memberId");
+		httpSession.removeAttribute("memberNick");
 		return "redirect:/";
 	}
 	

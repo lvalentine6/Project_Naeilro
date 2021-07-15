@@ -62,6 +62,7 @@
 		$(".coment-btn").each(function(){
 			$(this).click(function(){
 				let comment = $(this).parent().prev().children().val();
+				let comment_div = $(this).parent().prev().children();
 				let curEl = $(this);
 				if(!comment){
 					return;
@@ -78,9 +79,10 @@
 				})
 				.done(function(){
 					let template = $("#comment-tpl").html();
-					template = template.replace("{{userId}}",${memberNo })
+					template = template.replace("{{userId}}","${memberNick }")
 					template = template.replace("{{comment}}",comment)
 					$(curEl).parent().parent().prev().prev().append(template)
+					comment_div.val("")
 					console.log(curEl);
 				})
 				.fail(function(){
@@ -92,7 +94,9 @@
 </script>
 <script type="text/template" id="comment-tpl">
 	<div class="col-12 text-sm">
-		<strong>{{userId}}</strong>&nbsp;&nbsp;{{comment}}
+		<strong>{{userId}}</strong>
+&nbsp;&nbsp;
+{{comment}}
 	</div>
 </script>
 <main>
@@ -105,8 +109,11 @@
 							<img class="my-2 user_profile_sm user_profile"
 								src="${pageContext.request.contextPath}/image/default_user_profile.jpg">
 						</div>
-						<div class="col-3 font-weight-bold text-nowrap">${photostoryListDto.memberNick}글작성자
-							닉네임</div>
+						<div class="col-3 ">
+							<a class="font-weight-bold text-nowrap"
+								href="${pageContext.request.contextPath}/member/${photostoryListDto.memberNick}">${photostoryListDto.memberNick}글작성자
+								닉네임</a>
+						</div>
 						<div class="col-1 offset-7 text-right">
 							<i class="fas fa-ellipsis-h"></i>
 						</div>
@@ -129,8 +136,9 @@
 								data-photostoryNo="${photostoryListDto.photostoryNo}"></i>
 						</div>
 						<div class="col-1">
-							<a href="${pageContext.request.contextPath}/photostory/detail?photostoryNo=${photostoryListDto.photostoryNo}">
-							<i class="far fa-comment fa-lg"></i>
+							<a
+								href="${pageContext.request.contextPath}/photostory/detail?photostoryNo=${photostoryListDto.photostoryNo}">
+								<i class="far fa-comment fa-lg"></i>
 							</a>
 						</div>
 						<div class="col-10"></div>
@@ -142,36 +150,29 @@
 					</div>
 					<div class='row align-items-center border-left border-right mb-1'>
 						<div class="col-12 text-sm">
-							<strong>${photostoryListDto.memberNick}글작성자 닉네임</strong>&nbsp;&nbsp;${photostoryListDto.photostoryContent}
-							아무글 아무글아무글아무글 아무글아무글 아무글아무글아무글아무글 아무글아무글아무글아무글
+							<strong>${photostoryListDto.memberNick}글작성자 닉네임</strong>
+							&nbsp;&nbsp; ${photostoryListDto.photostoryContent}
 						</div>
 					</div>
 					<div class='row align-items-center border-left border-right mb-1'>
 						<div class="col-12 ">
-						<a class="text-black-50 font-weight-bold text-sm" href="${pageContext.request.contextPath}/photostory/detail?photostoryNo=${photostoryListDto.photostoryNo}">
-						댓글 ${photostoryListDto.photostoryCommentCount}개 모두 보기
-						</a>
+							<a class="text-black-50 font-weight-bold text-sm"
+								href="${pageContext.request.contextPath}/photostory/detail?photostoryNo=${photostoryListDto.photostoryNo}">
+								댓글 ${photostoryListDto.photostoryCommentCount}개 모두 보기 </a>
 						</div>
 					</div>
 					<div class='row align-items-center border-left border-right mb-1'>
 						<c:forEach var="commentList" items="${recentCommentList}">
 							<c:forEach var="photostoryCommentListDto" items="${commentList}">
 								<div class="col-12 text-sm">
+									<a href="${pageContext.request.contextPath}/member/${photostoryCommentListDto.photostoryCommentMemberNick}">
 									<strong>${photostoryCommentListDto.photostoryCommentMemberNick}</strong>
+									</a>
 									&nbsp;&nbsp;
 									${photostoryCommentListDto.photostoryCommentContent}
 								</div>
 							</c:forEach>
 						</c:forEach>
-						<div class="col-12 text-sm">
-							<strong>user_test_id2</strong>&nbsp;&nbsp;아무댓글아무댓글아무댓글아무댓글아무댓글아무댓글아무댓글아무댓글아무댓글아무댓글아무댓글아무댓글
-						</div>
-						<div class="col-12 text-sm">
-							<strong>user_test_id3</strong>&nbsp;&nbsp;아무댓글아무댓글아무댓글아무댓글아무댓글아무댓글아무댓글아무댓글아무댓글아무댓글아무댓글아무댓글
-						</div>
-						<div class="col-12 text-sm">
-							<strong>user_test_id4</strong>&nbsp;&nbsp;아무댓글아무댓글아무댓글아무댓글아무댓글아무댓글아무댓글아무댓글아무댓글아무댓글아무댓글아무댓글
-						</div>
 					</div>
 					<div
 						class='row align-items-center border-left border-right border-bottom pb-3'>
@@ -180,11 +181,11 @@
 					</div>
 					<div
 						class='row align-items-center border-left border-right border-bottom mb-3 py-2'>
-						<div class="col-10">
+						<div class="col-9">
 							<input type="text" class="form-control border-0"
 								placeholder="댓글 달기 . . .">
 						</div>
-						<div class="col-2 text-right">
+						<div class="col-3 text-right">
 							<button type="button"
 								class="btn btn-outline-primary text-nowrap coment-btn"
 								data-photostoryNo="${photostoryListDto.photostoryNo}">게시</button>

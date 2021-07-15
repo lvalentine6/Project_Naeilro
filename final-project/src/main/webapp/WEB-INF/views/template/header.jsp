@@ -39,9 +39,12 @@
 		object-fit:cover;
 	}
 	.user_profile_sm{
-		border-radius: 100%;
 		width: 40px;
 		height: 40px;
+	}
+	.user_profile_lg{
+		width: 140px;
+		height: 140px;
 	}
 	.story-photo{
 		width: 100%;
@@ -264,7 +267,7 @@
 						<c:choose>
 							<c:when test="${isLogin}">
 									<li><a class="text-nowrap" href="${root}/member/logout">로그아웃</a></li>
-									<li><a class="text-nowrap" href="${root}/member/myPage">마이페이지</a></li>
+									<li><a class="text-nowrap" href="${root}/member/${memberNick}">마이페이지</a></li>
 							</c:when>
 							<c:otherwise>
 							<li><a class="text-nowrap"  href="${root}/member/login">로그인</a></li>
