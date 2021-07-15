@@ -44,7 +44,7 @@ public class PhotostoryViewController {
 	public String home(@ModelAttribute ListParameter listParameter, Model model) {
 		listParameter = photostoryDao.getPageVariable(listParameter);
 		List<PhotostoryTotalListDto> photostoryTotalList = photostoryTotalListDao.list(listParameter);
-
+		System.out.println(photostoryTotalList);
 		model.addAttribute("listParameter", listParameter);
 		model.addAttribute("photostoryTotalList", photostoryTotalList);
 		

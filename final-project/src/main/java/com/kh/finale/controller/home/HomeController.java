@@ -21,4 +21,8 @@ public class HomeController {
 	public String changePw() {
 		return "member/changePw";
 	}
+	@RequestMapping("/member/myPage")
+	public String myPage() {
+		return "member/myPage";
+	}
 }
