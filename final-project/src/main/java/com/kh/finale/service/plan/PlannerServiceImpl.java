@@ -3,10 +3,11 @@ package com.kh.finale.service.plan;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.kh.finale.entity.plan.PlannerDto;
 import com.kh.finale.repository.plan.GroupsDao;
 import com.kh.finale.repository.plan.PlannerDao;
 import com.kh.finale.vo.plan.PlannerInsertVO;
+
+import lombok.extern.slf4j.Slf4j;
 
 @Service
 public class PlannerServiceImpl implements PlannerService {
@@ -25,13 +26,13 @@ public class PlannerServiceImpl implements PlannerService {
 		int plannerNo = plannerDao.getSequnece();
 		
 		// 뽑은 번호 세팅
-		PlannerInsertVO.builder().plannerNo(plannerNo).build();
+		plannerInsertVO.setPlannerNo(plannerNo);
 		
 		// 통합계획표 생성 SQL 실행
-		plannerDao.plannerInsert(plannerInsertVO);
+		plannerDao.plannerInsert(plannerInsertVO); 
 		
 		// 그룹공유 생성 SQL 실행
-		
+		groupsDao.groupInsert(plannerInsertVO);
 	}
 	
 }

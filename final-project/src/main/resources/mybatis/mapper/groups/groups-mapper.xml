@@ -12,4 +12,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		)	
 	</insert>
 	
+	<select id="groupsSelectPlanner" parameterType="int" resultType="GroupsDto">
+		select * from groups where = #{memberNo}
+	</select>
+	
 </mapper>

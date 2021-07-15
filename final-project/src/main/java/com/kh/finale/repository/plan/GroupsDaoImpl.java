@@ -4,7 +4,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.kh.finale.entity.plan.GroupsDto;
+import com.kh.finale.vo.plan.PlannerInsertVO;
 
 @Repository
 public class GroupsDaoImpl implements GroupsDao {
@@ -13,8 +13,8 @@ public class GroupsDaoImpl implements GroupsDao {
 	private SqlSession sqlSession;
 	
 	@Override
-	public void groupInsert(GroupsDto groupsDto) {
-		sqlSession.insert("groups.groupsInsert", groupsDto);
+	public void groupInsert(PlannerInsertVO plannerInsertVO) {
+		sqlSession.insert("groups.groupsInsert", plannerInsertVO);
 	}
 
 }

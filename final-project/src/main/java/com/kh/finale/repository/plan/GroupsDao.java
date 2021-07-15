@@ -1,9 +1,9 @@
 package com.kh.finale.repository.plan;
 
-import com.kh.finale.entity.plan.GroupsDto;
+import com.kh.finale.vo.plan.PlannerInsertVO;
 
 public interface GroupsDao {
 	
-	void groupInsert(GroupsDto groupsDto);
+	void groupInsert(PlannerInsertVO plannerInsertVO);
 	
 }
