@@ -22,5 +22,4 @@ public class PlannerDaoImpl implements PlannerDao {
 		sqlSession.insert("planner.plannerInsert", plannerInsertVO);
 	}
 
-
 }

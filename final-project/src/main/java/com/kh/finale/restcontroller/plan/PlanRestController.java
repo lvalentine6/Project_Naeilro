@@ -21,14 +21,14 @@ public class PlanRestController {
 	 * PlannerDto plannerDto) { plannerDao.plannerInsert(plannerDto); return "Y"; }
 	 */
 	@PostMapping("/plannerInsert") 
-	public String plannerInsert(@ModelAttribute PlannerInsertVO plannerInsertVO) {
+	public int plannerInsert(@ModelAttribute PlannerInsertVO plannerInsertVO) {
 		
 		// 컨트롤러 테스트 : 회원번호 임시 세팅
 		plannerInsertVO.setMemberNo(45);
 		
-		plannerService.plannerInsertService(plannerInsertVO);
+		int plannerNo = plannerService.plannerInsertService(plannerInsertVO);
 		
-		return "Y";
+		return plannerNo;
 	}
 	
 }

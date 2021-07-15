@@ -15,12 +15,39 @@
 <script type="text/javascript"
 	src="//dapi.kakao.com/v2/maps/sdk.js?appkey=60b30d68f4da16b4a316665d189e702f&libraries=services"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 <script>
 	$(function(){
 		
-		// #. 통합계획표 출발일 : 현재날짜부터 선택
-		var today = new Date();
-		$("input[name=plannerStartDate]").attr("min", today);
+		// #. 날짜 선택 : 현재날짜부터 선택
+		$('#demo').daterangepicker({ 
+			"locale": { 
+				"format": "YYYY-MM-DD", 
+				"separator": " ~ ", 
+				"applyLabel": "확인", 
+				"cancelLabel": "취소", 
+				"fromLabel": "From", 
+				"toLabel": "To", 
+				"customRangeLabel": "Custom", 
+				"weekLabel": "W", 
+				"daysOfWeek": ["월", "화", "수", "목", "금", "토", "일"], 
+				"monthNames": ["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"], 
+				"firstDay": 1 
+				}, 
+				"minDate": new Date(),
+				"startDate": new Date(), 
+				"endDate": new Date(), 
+				"drops": "auto" }, function (start, end, label) { 
+					console.log('New date range selected: ' + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD') + ' (predefined range: ' + label + ')'); 
+					
+				$("input[name=plannerStartDate]").attr('value', start.format('YYYY-MM-DD'));
+				$("input[name=plannerEndDate]").attr('value', end.format('YYYY-MM-DD'));
+				
+				// console.log($("input[name=plannerStartDate]").val());
+		});
+
 		
 		// #. 지역은 유동적으로 변경되므로 전역변수로 설정하여 활용
 		var placeName; // 지명
@@ -116,15 +143,6 @@
 			
 		} // 콜백함수 : addMarker
 		
-		/* 07/13 해야 할 일 
-		
-			1. 체크박스 클릭 시, 체크박스 값을 기준으로 마커 재설정 구현하기 (완료)
-			
-			2. 지역 선택하기 전에는 검색창 & 체크박스가 표시되지 않다가 지역을 선택하면 세부 검색창이 나오게끔 구현하기
-			
-			3. PLACE 정보 출력 확인 후, JSON 형태로 AJAX 비동기 등록 처리 수행하기
-		*/
-		
 		// #. 체크박스 하나만 하도록 조정
 		function check(){
 			
@@ -148,14 +166,11 @@
 		
 		check(); // #. 전역 CB함수 : 항상 체크 중복 여부 확인
 		
+		// 장소 검색 기능
 		$("#find").click(function(){
-			// #. 장소 선택창 비활성화
+			// #. 초기화
 			$("#daily-selected-place").hide();
-			
-			// #. 장소 세부사항 선택창 비활성화
 			$("#dailyplan-select-confirm").hide();
-			
-			// #. 하루계획표 등록창 비활성화
 			$("#daily-confirm").hide();
 			
 			// #. 체크박스 설정으로 유형 값 변경
@@ -259,11 +274,8 @@
 				    $("input[name=place-select-longitude]").attr('value', marker.getPosition().getLng()); // 경도 좌표
 				    $("input[name=place-select-type]").attr('value', placeType);
 				    $("#place-select-name").attr('value', place.place_name);
+				    $("input[name=daily-confirm-placeName]").attr("value", place.place_name);
 				    
-					 // 하루 계획표 등록 창 값 대입
-					$("input[name=daily-confirm-placeName]").attr('value', placeName); // 값이 비어있는 걸 확인
-				 	console.log($("input[name=daily-confirm-placeName]").val())
-				 	
 				    // 장소 순서 & 교통 수단 활성화
 					$("#dailyplan-select-confirm").show();
 				    
@@ -273,34 +285,33 @@
 			
 		} // 콜백함수 : 마커 재설정(setMapBounds)
 		
-		/* 07/14  */
-	
-		// DB : 통합 계획표 등록 + 공유그룹 등록	
-		$("#planner-insert-button").click(function(){
 			
+		/* 비동기 처리 영역 */
+		// 전역변수 : 통합계획표 번호
+		var plannerNo; 
+		
+		// DB : 통합 계획표 등록 + 공유그룹 등록 (완료)
+		$("#planner-insert-button").click(function(){
 			// 비동기 처리 : 통합계획표 작성
 			$.ajax({
 				url:"${pageContext.request.contextPath}/plan/data/plannerInsert"	,
 				type: "post",
 				data: $("#planner-insert").serialize(), // + 공유그룹도 한 번에 다 넣기
 				success: function(resp){
-					if(resp === "Y"){
+						plannerNo = resp;
+						console.log(plannerNo);
 						
-						/* 07/15 */
 						// 작성이 확인되면 등록내용 고정 (변경 예정)
 						$("input[name=plannerName]").attr("disabled", true);
-						$("input[name=plannerStartDate]").attr("disabled", true);
-						$("input[name=plannerEndDate]").attr("disabled", true);
+						$("#demo").attr("disabled", true);
 						$("#planner-insert-button-div").hide();
 						
 						// 맵 활성화
 						$("#map").css('pointer-events', 'auto');
 						$("#map").css('opacity', '1.0');
 						
-						
-						// 통합계획표 번호 비동기 출력 후 대입 (구현예정)
-						
-					}
+						/* 통합계획표 번호 비동기 출력 후 대입 (구현예정) */
+					
 				}	
 			});
 		});
@@ -308,7 +319,8 @@
 		// 하루 계획 선택 버튼 클릭 시 
 		$("#dailyplan-select-button").click(function(){
 			
-			// 하루계획표 등록창 활성화
+			$("input[name=daily-confirm-plannerNo]").attr("value", plannerNo);
+			// 하루 계획 등록창 활성화
 			$("#daily-confirm").show();
 			
 		});
@@ -321,30 +333,28 @@
 	<div id="container" style="width: 100%; height: 800px; overflow: hidden"> 
 		<div style="width: 20%; height: 800px; border: 1px solid;float: left" id="confirm"> <!-- 사용자 컨테이너 -->
 			<!-- 통합계획표 FORM -->
-			<form id="planner-insert" autocomplete="off">
-				<div id="planner-insert-confirm"> <!-- 통합계획표 테이블 입력값 -->
+			<div id="planner-insert-confirm">
+				<form id="planner-insert" autocomplete="off">
 					<div style="font-weight:bold;">통합계획표</div>
 					<div class="row">
 						<label>계획표 이름</label>
 						<input type="text" name="plannerName" required="required"> 
 					</div>
 					<div class="row">
-						<label>출발일</label>
-						<input type="date" name="plannerStartDate" required="required" > 
+						<label>날짜선택</label>
+						<input type="text" id="demo">
 					</div>
-					<div class="row">
-						<label>도착예정일</label>
-						<input type="date" name="plannerEndDate" required="required"> 
+					<input type="hidden" name="plannerStartDate"  required="required">
+					<input type="hidden" name="plannerEndDate" required="required"> 
+				</form>
+				<!-- 통합계획표 FORM -->
+					<div class="row" id="planner-insert-button-div">
+						<button id="planner-insert-button">계획표 생성</button>
 					</div>
-				</div>
-			</form>
-			<!-- 통합계획표 FORM -->
-			<div class="row" id="planner-insert-button-div">
-				<button id="planner-insert-button">계획표 생성</button>
+			<hr>
 			</div>
 			<!-- 검색창 -->
 			<div id="search"> 
-				<hr>
 				<div style="font-weight:bold;">장소 검색창</div>
 				<div class="row">
 					<label>검색 유형 : </label>
@@ -360,12 +370,12 @@
 				<div class="row">
 					<button id="find">검색</button>
 				</div>
+			<hr>
 			</div>
 			<!-- 검색창 -->
-			<hr>
 			<!-- 장소 선택창 -->
 			<div id="daily-selected-place">
-				<div style="font-weight:bold;">선택한 장소</div>
+				<div style="font-weight:bold;">테스트 : 마커확인</div>
 				<!-- 장소 FORM -->
 				<form action="">
 					<div class="row">
@@ -409,31 +419,27 @@
 				<div class="row">
 					<button id="dailyplan-select-button">하루 계획 선택</button>
 				</div>
+			<hr>
 			</div>
 			<!-- 장소 세부사항 선택창 -->
 			<!-- 하루계획표 등록 창 (DB) -->
 			<div id="daily-confirm">
-				<hr>
-				<div style="font-weight:bold;">선택한 계획장소</div>
-				<div class="row">
-					<label>통합계획 번호</label>
-					<input type="number"  name="daily-confirm-plannerNo" disabled="disabled">
-				</div>
-				<div class="row">
-					<label>선택 지역</label>
-					<input type="number" name="daily-confirm-placeName" readonly="readonly">
-				</div>
-				<div class="row">
-					<label>하루계획 순서</label>
-					<input type="number" name="daily-confirm-order">
-				</div>
-				<div class="row">
-						<label>숙박일수</label>
-						<input type="number" name="daily-confirm-stayDate">
-				</div>
-				<div class="row">
-					<button>하루계획 등록</button>
-				</div>
+				<div style="font-weight:bold;">선택장소</div>
+					<div class="row">
+						<label>통합계획 번호</label>
+						<input type="number"  name="daily-confirm-plannerNo" disabled="disabled">
+					</div>
+					<div class="row">
+						<label>선택 장소</label>
+						<input type="text" name="daily-confirm-placeName" disabled="disabled">
+					</div>
+					<div class="row">
+							<label>숙박일수</label>
+							<input type="number" name="daily-confirm-stayDate">
+					</div>
+					<div class="row">
+						<button>하루계획 등록</button>
+					</div>
 				<hr>
 			</div>
 			<!-- 하루계획표 등록 창 (DB) -->
