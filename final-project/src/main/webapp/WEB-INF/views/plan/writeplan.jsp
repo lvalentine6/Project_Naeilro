@@ -232,12 +232,10 @@
 		$.ajax({
 			url:"${pageContext.request.contextPath}/plan/data/plannerInsert"	,
 			type: "post",
-			data: $("#planner-insert").serialize(),
+			data: $("#planner-insert").serialize(), // + 공유그룹도 한 번에 다 넣기
 			success: function(resp){
 				
 				if(resp === "Y"){
-					
-					// 2. 계획표 생성이 성공하면	회원 테이블과 연동 삽입 CB 호출
 					
 					// 작성이 확인되면 등록내용 CB 호출 (+ 통합계획표 작성칸 활용)
 					
@@ -249,7 +247,6 @@
 	
 	});
 	
-	function select
 	}); // 제이쿼리
 	
 	
@@ -316,7 +313,6 @@
 					<div id="daily-plan-confirm"> <!-- 하루계획순서 테이블 입력값 -->
 						<div id="daily-selected-place">
 							<div style="font-weight:bold;">선택한 장소</div>
-							
 						</div>
 						<div class="row">
 							<label>장소 순서</label>

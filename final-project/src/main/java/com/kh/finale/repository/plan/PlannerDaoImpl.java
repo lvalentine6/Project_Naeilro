@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.kh.finale.entity.plan.PlannerDto;
+import com.kh.finale.vo.plan.PlannerInsertVO;
 
 @Repository
 public class PlannerDaoImpl implements PlannerDao {
@@ -13,8 +14,14 @@ public class PlannerDaoImpl implements PlannerDao {
 	private SqlSession sqlSession;
 	
 	@Override
-	public void plannerInsert(PlannerDto plannerDto) {
-		sqlSession.insert("plan.plannerInsert", plannerDto);
+	public int getSequnece() {
+		return sqlSession.selectOne("planner.sequence");
 	}
+	
+	@Override
+	public void plannerInsert(PlannerInsertVO plannerVO) {
+		sqlSession.insert("planner.plannerInsert", plannerVO);
+	}
+
 
 }
