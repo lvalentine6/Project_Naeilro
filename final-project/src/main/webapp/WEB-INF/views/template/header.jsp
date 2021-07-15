@@ -50,6 +50,9 @@
 	.text-sm{
 		font-size: 14px;
 	}
+	.like{
+		color : #ed4956;
+	}
 </style>
 <!-- icon -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css"/>
