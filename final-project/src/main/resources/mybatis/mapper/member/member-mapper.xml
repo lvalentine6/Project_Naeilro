@@ -30,6 +30,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<!-- 비밀번호 찾기 -->
-	
+	<select id="findPw" parameterType="MemberVo" resultType="MemberVo"> 
+		select member_id, member_email from member where 
+		member_email = #{memberEmail} and member_id = #{memberId}
+	</select>
 	
 </mapper>

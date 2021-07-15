@@ -8,7 +8,7 @@
 		/* 인증번호 발송 버튼 클릭 이벤트 */
 		$(".cert-btn").click(function(){
 			let memberId = $('#memberId').val();
-			let memberEmail=$('#memberId').val();
+			let memberEmail=$('#memberEmail').val();
 			if(!memberId){
 				$('#memberId').focus();
 				return;
@@ -84,12 +84,12 @@
 
 <main>
 	<div class="container-lg">
-		<div class="row">
+		<div class="sendAuthEamil">
 			<div class="jumbotron col-lg-6 offset-lg-3">
 				<h3 class="display-5">비밀번호 찾기</h3>
 			</div>
 			<div class="col-lg-6 offset-lg-3 text-center">
-				<form action="login" method="post" class="sign_up_form encrypt-form">
+				<form action="sendAuthEamil" method="post" class="sign_up_form encrypt-form">
 					<div class="form-row mb-3">
 						<label for="memberId">아이디</label> <input type="text"
 							class="form-control find-pw" id="memberId" name="memberName"
@@ -99,7 +99,7 @@
 						<label for="memberEmail text-left">이메일</label>
 					</div>
 					<div class="form-row mb-3 input-group">
-						<input type="email" class="form-control" name="memberEmail"
+						<input type="text" class="form-control" name="memberEmail"
 							id="memberEmail" aria-describedby="auth-btn">
 						<div class="input-group-append">
 							<button class="btn btn-outline-secondary cert-btn" type="button"

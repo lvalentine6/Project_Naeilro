@@ -5,27 +5,24 @@ import org.springframework.stereotype.Service;
 
 import com.kh.finale.entity.member.MemberDto;
 import com.kh.finale.repository.member.MemberDao;
+import com.kh.finale.vo.member.MemberVo;
 
 @Service
 public class MemberFindServiceImpl implements MemberFindService{
 	
 	@Autowired
 	MemberDao memberDao;
-
+	
+	// 아이디 찾기
 	@Override
 	public MemberDto findId(MemberDto memberDto) {
 		return memberDao.findId(memberDto);
 	}
-
-//	@Override
-//	public MemberDto findId(MemberVo memberVo) {
-//		MemberDto memberDto = MemberDto.builder()
-//										.memberName(memberVo.getMemberName())
-//										.memberEmail(memberVo.getMemberEmail())
-//										.build();
-//		memberDao.findId(memberDto);
-//		System.out.println(memberDto);
-//		return memberDto;
-//	}
+	
+	// 비밀번호 찾기
+	@Override
+	public MemberVo findPw(MemberVo memberVo) {
+		return memberDao.findPw(memberVo);
+	}
 	
 }

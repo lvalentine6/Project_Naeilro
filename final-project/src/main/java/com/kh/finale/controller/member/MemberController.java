@@ -1,7 +1,5 @@
 package com.kh.finale.controller.member;
 
-import java.util.List;
-
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,11 +7,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.kh.finale.entity.member.MemberAuthDto;
 import com.kh.finale.entity.member.MemberDto;
 import com.kh.finale.repository.member.MemberDao;
+import com.kh.finale.service.member.MemberAuthService;
 import com.kh.finale.service.member.MemberFindService;
 import com.kh.finale.service.member.MemberJoinService;
 import com.kh.finale.vo.member.MemberVo;
@@ -95,9 +96,16 @@ public class MemberController {
 			ModelAndView mav = new ModelAndView();
 			Object modelList = memberFindService.findId(memberDto);
 			System.out.println(modelList);
-			mav.setViewName("member/findId");
-			mav.addObject("memberDto", modelList);
-			return mav;
+			if(modelList == null) {
+				mav.setViewName("member/findId");
+				mav.addObject("memberDto", memberDto);
+				return mav;
+			}
+			else {
+				mav.setViewName("member/findId");
+				mav.addObject("memberDto", modelList);
+				return mav;
+			}
 		}
 	
 
@@ -107,11 +115,36 @@ public class MemberController {
 		return "member/findPw";
 	}
 	
-	// 비밀번호 찾기 처리
-//	@PostMapping("member/findPw")
-//	public String findPw(ao aoao) {
-//		return = null;
-//	}
+	@Autowired
+	MemberAuthService memberAuthService;
+	
+	@Autowired
+	MemberAuthDto memberAuthDto;
+	
+	// 비밀번호 찾기 (인증번호 발송)
+	@PostMapping("/sendAuthEamil")
+	public ModelAndView findPw(@ModelAttribute MemberVo memberVo) {
+		ModelAndView mav = new ModelAndView();
+		System.out.println("폼 수신값 확인 : " + memberVo);
+		Object searchResult = memberFindService.findPw(memberVo);
+		System.out.println("FindId 수신값 확인 : " + searchResult);
+		
+		if(searchResult == null) {
+			mav.setViewName("member/findId");
+			mav.addObject("memberVo", memberVo);
+			return mav;
+		}
+		else {
+		Object authResult = memberAuthService.pwSendEmail(memberVo);
+		System.out.println("authResult 수신값 확인 : " + authResult);
+		memberAuthService.authInsert(memberAuthDto);
+			
+		mav.setViewName("member/findId");
+		mav.addObject("memberVo", authResult);
+		return mav;
+		}
+		
+	}
 	
 	
 }
