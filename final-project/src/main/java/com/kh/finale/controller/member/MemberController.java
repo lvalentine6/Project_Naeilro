@@ -1,6 +1,6 @@
 package com.kh.finale.controller.member;
 
-import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
@@ -10,9 +10,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.finale.entity.member.MemberDto;
 import com.kh.finale.repository.member.MemberDao;
+import com.kh.finale.service.member.MemberFindService;
 import com.kh.finale.service.member.MemberJoinService;
 import com.kh.finale.vo.member.MemberVo;
 
@@ -77,5 +79,39 @@ public class MemberController {
 		httpSession.removeAttribute("memberNo");
 		return "redirect:/";
 	}
+	
+	// 아이디 찾기 페이지
+	@GetMapping("/findId")
+	public String findId() {
+		return "member/findId";
+	}
+	
+	@Autowired
+	MemberFindService memberFindService;
+	
+	// 아이디 찾기 처리
+		@PostMapping("/findId")
+		public ModelAndView findId(@ModelAttribute MemberDto memberDto) {
+			ModelAndView mav = new ModelAndView();
+			Object modelList = memberFindService.findId(memberDto);
+			System.out.println(modelList);
+			mav.setViewName("member/findId");
+			mav.addObject("memberDto", modelList);
+			return mav;
+		}
+	
+
+	// 비밀번호 찾기 페이지
+	@GetMapping("/findPw")
+	public String findPw() {
+		return "member/findPw";
+	}
+	
+	// 비밀번호 찾기 처리
+//	@PostMapping("member/findPw")
+//	public String findPw(ao aoao) {
+//		return = null;
+//	}
+	
 	
 }

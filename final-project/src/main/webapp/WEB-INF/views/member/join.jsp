@@ -67,7 +67,6 @@
 				$(this).addClass("is-invalid");
 			}
 		})
-
 		/* form submit 전송 검사 */
 		$('.submit_btn').click(function(e) {
 			if (!id) {
@@ -95,14 +94,13 @@
 				$('#memberNick').focus();
 				return;
 			}
-
 		})
 		
 		function readImage(input) {
 		    if(input.files && input.files[0]) {
 		        const reader = new FileReader()
 		        reader.onload = e => {
-		            const previewImage = document.querySelector(".upload_img")
+		            const previewImage = document.querySelector(".admin-upload_img")
 		            previewImage.src = e.target.result
 		        }
 		        reader.readAsDataURL(input.files[0])
@@ -128,8 +126,7 @@
 					enctype="multipart/form-data">
 					<!-- 	프로필 사진 업로드 -->
 					<div class="form-row mb-3">
-						<label for='memberProfilePath'>프로필 사진</label>
-
+						<label for='memberProfile'>프로필 사진</label>
 					</div>
 					<div class="form-row mb-3 justify-content-center">
 						<label for="memberProfile"> <img
