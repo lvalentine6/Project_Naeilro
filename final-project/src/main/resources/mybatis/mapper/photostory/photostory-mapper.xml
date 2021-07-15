@@ -25,6 +25,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		values(photostory_seq.nextval, #{plannerNo}, #{memberNo}, #{photostoryContent})
 	</insert>
 	
+	<!-- 포토스토리 수정 -->
+	<update id="update" parameterType="PhotostoryDto">
+		update photostory
+		set planner_no = #{plannerNo}, photostory_content = #{photostoryContent}
+		where photostory_no = #{photostoryNo}
+	</update>
+	
+	<!-- 포토스토리 삭제 -->
+	<delete id="delete" parameterType="int">
+		delete photostory where photostory_no = #{photostoryNo}
+	</delete>
+	
 	<!-- 포토스토리 좋아요 수 갱신 -->
 	<update id="refreshPhotostoryLikeCount" parameterType="int">
 		update photostory set photostory_like_count = 

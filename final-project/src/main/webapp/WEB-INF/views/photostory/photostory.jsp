@@ -96,7 +96,7 @@
 	</div>
 </script>
 <main>
-	<c:forEach var="photostoryTotalListDto" items="${photostoryTotalList}">
+	<c:forEach var="photostoryListDto" items="${photostoryList}">
 		<div class="container-lg ">
 			<div class="row justify-content-center ">
 				<div class=" col-lg-8 offset-lg-2 mx-2">
@@ -105,7 +105,7 @@
 							<img class="my-2 user_profile_sm user_profile"
 								src="${pageContext.request.contextPath}/image/default_user_profile.jpg">
 						</div>
-						<div class="col-3 font-weight-bold text-nowrap">${photostoryTotalListDto.memberNick}글작성자
+						<div class="col-3 font-weight-bold text-nowrap">${photostoryListDto.memberNick}글작성자
 							닉네임</div>
 						<div class="col-1 offset-7 text-right">
 							<i class="fas fa-ellipsis-h"></i>
@@ -118,18 +118,18 @@
 					<div class='row align-items-center border-left border-right'>
 						<div class="col-1 py-2">
 							<%-- <c:choose>
-								<c:when test="${photostoryTotalListDto.isLike}">
-									<i class="fa-heart fa-lg like-btn fas like" data-photostoryNo="${photostoryTotalListDto.photostoryNo}"></i>
+								<c:when test="${photostoryListDto.isLike}">
+									<i class="fa-heart fa-lg like-btn fas like" data-photostoryNo="${photostoryListDto.photostoryNo}"></i>
 								</c:when>
 								<c:otherwise>
-									<i class="fa-heart fa-lg like-btn far" data-photostoryNo="${photostoryTotalListDto.photostoryNo}"></i> 
+									<i class="fa-heart fa-lg like-btn far" data-photostoryNo="${photostoryListDto.photostoryNo}"></i> 
 								</c:otherwise>
 							</c:choose> --%>
 							<i class="fa-heart fa-lg like-btn far"
-								data-photostoryNo="${photostoryTotalListDto.photostoryNo}"></i>
+								data-photostoryNo="${photostoryListDto.photostoryNo}"></i>
 						</div>
 						<div class="col-1">
-							<a href="${pageContext.request.contextPath}/photostory/detail?photostoryNo=${photostoryTotalListDto.photostoryNo}">
+							<a href="${pageContext.request.contextPath}/photostory/detail?photostoryNo=${photostoryListDto.photostoryNo}">
 							<i class="far fa-comment fa-lg"></i>
 							</a>
 						</div>
@@ -137,23 +137,32 @@
 					</div>
 					<div class='row align-items-center border-left border-right'>
 						<div class="col-12 text-sm">
-							좋아요 <span> ${photostoryTotalListDto.photostoryLikeCount}</span>
+							좋아요 <span> ${photostoryListDto.photostoryLikeCount}</span>
 						</div>
 					</div>
 					<div class='row align-items-center border-left border-right mb-1'>
 						<div class="col-12 text-sm">
-							<strong>${photostoryTotalListDto.memberNick}글작성자 닉네임</strong>&nbsp;&nbsp;${photostoryTotalListDto.photostoryContent}
+							<strong>${photostoryListDto.memberNick}글작성자 닉네임</strong>&nbsp;&nbsp;${photostoryListDto.photostoryContent}
 							아무글 아무글아무글아무글 아무글아무글 아무글아무글아무글아무글 아무글아무글아무글아무글
 						</div>
 					</div>
 					<div class='row align-items-center border-left border-right mb-1'>
 						<div class="col-12 ">
-						<a class="text-black-50 font-weight-bold text-sm" href="${pageContext.request.contextPath}/photostory/detail?photostoryNo=${photostoryTotalListDto.photostoryNo}">
-						댓글 ${photostoryTotalListDto.photostoryCommentCount}개 모두 보기
+						<a class="text-black-50 font-weight-bold text-sm" href="${pageContext.request.contextPath}/photostory/detail?photostoryNo=${photostoryListDto.photostoryNo}">
+						댓글 ${photostoryListDto.photostoryCommentCount}개 모두 보기
 						</a>
 						</div>
 					</div>
 					<div class='row align-items-center border-left border-right mb-1'>
+						<c:forEach var="commentList" items="${recentCommentList}">
+							<c:forEach var="photostoryCommentListDto" items="${commentList}">
+								<div class="col-12 text-sm">
+									<strong>${photostoryCommentListDto.photostoryCommentMemberNick}</strong>
+									&nbsp;&nbsp;
+									${photostoryCommentListDto.photostoryCommentContent}
+								</div>
+							</c:forEach>
+						</c:forEach>
 						<div class="col-12 text-sm">
 							<strong>user_test_id2</strong>&nbsp;&nbsp;아무댓글아무댓글아무댓글아무댓글아무댓글아무댓글아무댓글아무댓글아무댓글아무댓글아무댓글아무댓글
 						</div>
@@ -167,7 +176,7 @@
 					<div
 						class='row align-items-center border-left border-right border-bottom pb-3'>
 						<div
-							class="col-12 text-black-50 font-weight-bold text-right text-sm ">${photostoryTotalListDto.getPastDateString()}</div>
+							class="col-12 text-black-50 font-weight-bold text-right text-sm ">${photostoryListDto.getPastDateString()}</div>
 					</div>
 					<div
 						class='row align-items-center border-left border-right border-bottom mb-3 py-2'>
@@ -178,7 +187,7 @@
 						<div class="col-2 text-right">
 							<button type="button"
 								class="btn btn-outline-primary text-nowrap coment-btn"
-								data-photostoryNo="${photostoryTotalListDto.photostoryNo}">게시</button>
+								data-photostoryNo="${photostoryListDto.photostoryNo}">게시</button>
 						</div>
 					</div>
 				</div>

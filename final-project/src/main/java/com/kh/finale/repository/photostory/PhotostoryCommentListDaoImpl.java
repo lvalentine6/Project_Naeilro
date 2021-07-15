@@ -18,4 +18,10 @@ public class PhotostoryCommentListDaoImpl implements PhotostoryCommentListDao {
 	public List<PhotostoryCommentListDto> list(int photostoryNo) {
 		return sqlSession.selectList("photostoryCommentList.list", photostoryNo);
 	}
+	
+	// 최신 댓글 리스트 조회 기능
+	@Override
+	public List<PhotostoryCommentListDto> recentList(int photostoryNo) {
+		return sqlSession.selectList("photostoryCommentList.recentList", photostoryNo);
+	}
 }

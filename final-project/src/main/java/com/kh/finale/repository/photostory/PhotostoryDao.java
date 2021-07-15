@@ -12,6 +12,12 @@ public interface PhotostoryDao {
 	
 	// 포토스토리 작성 기능
 	void writePhotostory(PhotostoryDto photostoryDto);
+
+	// 포토스토리 수정 기능
+	void editPhotostory(PhotostoryDto photostoryDto);
+	
+	// 포토스토리 삭제 기능
+	void deletePhotostory(int photostoryNo);
 	
 	// 포토스토리 좋아요 수 갱신 기능
 	void refreshPhotostoryLikeCount(int photostoryNo);

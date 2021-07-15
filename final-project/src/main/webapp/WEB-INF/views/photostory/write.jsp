@@ -60,7 +60,7 @@
 				<h3 class="display-5">스토리 작성</h3>
 			</div>
 			<div class="col-lg-6 offset-lg-3 text-center">
-				<form action="join" method="post" class="sign_up_form encrypt-form"
+				<form action="write" method="post" class="sign_up_form encrypt-form"
 					enctype="multipart/form-data">
 					<!-- 	프로필 사진 업로드 -->
 					<div class="form-row mb-3">

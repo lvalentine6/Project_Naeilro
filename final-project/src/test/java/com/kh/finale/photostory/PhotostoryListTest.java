@@ -1,5 +1,6 @@
 package com.kh.finale.photostory;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Test;
@@ -9,9 +10,10 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
-import com.kh.finale.entity.photostory.PhotostoryDto;
-import com.kh.finale.entity.photostory.PhotostoryTotalListDto;
-import com.kh.finale.repository.photostory.PhotostoryTotalListDao;
+import com.kh.finale.entity.photostory.PhotostoryCommentListDto;
+import com.kh.finale.entity.photostory.PhotostoryListDto;
+import com.kh.finale.repository.photostory.PhotostoryCommentListDao;
+import com.kh.finale.repository.photostory.PhotostoryListDao;
 import com.kh.finale.util.ListParameter;
 
 import lombok.extern.slf4j.Slf4j;
@@ -30,7 +32,10 @@ import lombok.extern.slf4j.Slf4j;
 public class PhotostoryListTest {
 
 	@Autowired
-	PhotostoryTotalListDao photostoryTotalListDao;
+	PhotostoryListDao photostoryListDao;
+	
+	@Autowired
+	PhotostoryCommentListDao photostoryCommentListDao;
 	
 	@Test
 	public void test() {
@@ -45,9 +50,21 @@ public class PhotostoryListTest {
 				.endBlock(1)
 				.lastBlock(1)
 				.build();
-		List<PhotostoryTotalListDto> list = photostoryTotalListDao.list(listParameter);
-		for (PhotostoryTotalListDto photostoryTotalListDto : list) {
-			log.debug("photostoryTotalListDto = {}", photostoryTotalListDto.getPhotostoryCommentContent());
+		List<PhotostoryListDto> photostoryList = photostoryListDao.list(listParameter);
+//		for (PhotostoryListDto photostoryListDto : photostoryList) {
+//			log.debug("photostoryListDto = {}", photostoryListDto);
+//		}
+		
+		List<List<PhotostoryCommentListDto>> recentCommentList = new ArrayList<>();
+		for (int i = 0; i < photostoryList.size(); i++) {
+			List<PhotostoryCommentListDto> photostoryCommentList = 
+					photostoryCommentListDao.recentList(photostoryList.get(i).getPhotostoryNo());
+			recentCommentList.add(photostoryCommentList);
+		}
+		for (List<PhotostoryCommentListDto> list : recentCommentList) {
+			for (PhotostoryCommentListDto dto : list) {
+				log.debug("dto = {}", dto);
+			}
 		}
 	}
 }
