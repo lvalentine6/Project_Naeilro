@@ -5,5 +5,5 @@ import com.kh.finale.vo.plan.PlannerInsertVO;
 public interface PlannerDao {
 	int getSequnece();
 	
-	void plannerInsert(PlannerInsertVO plannerVO);
+	void plannerInsert(PlannerInsertVO plannerInsertVO);
 }
