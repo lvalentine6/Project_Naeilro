@@ -111,8 +111,8 @@
 						</div>
 						<div class="col-3 ">
 							<a class="font-weight-bold text-nowrap"
-								href="${pageContext.request.contextPath}/member/${photostoryListDto.memberNick}">${photostoryListDto.memberNick}글작성자
-								닉네임</a>
+								href="${pageContext.request.contextPath}/member/${photostoryListDto.memberNick}">${photostoryListDto.memberNick}
+							</a>
 						</div>
 						<div class="col-1 offset-7 text-right">
 							<i class="fas fa-ellipsis-h"></i>
@@ -150,7 +150,7 @@
 					</div>
 					<div class='row align-items-center border-left border-right mb-1'>
 						<div class="col-12 text-sm">
-							<strong>${photostoryListDto.memberNick}글작성자 닉네임</strong>
+							<strong>${photostoryListDto.memberNick}</strong>
 							&nbsp;&nbsp; ${photostoryListDto.photostoryContent}
 						</div>
 					</div>
@@ -162,16 +162,12 @@
 						</div>
 					</div>
 					<div class='row align-items-center border-left border-right mb-1'>
-						<c:forEach var="commentList" items="${recentCommentList}">
-							<c:forEach var="photostoryCommentListDto" items="${commentList}">
-								<div class="col-12 text-sm">
-									<a href="${pageContext.request.contextPath}/member/${photostoryCommentListDto.photostoryCommentMemberNick}">
-									<strong>${photostoryCommentListDto.photostoryCommentMemberNick}</strong>
-									</a>
-									&nbsp;&nbsp;
-									${photostoryCommentListDto.photostoryCommentContent}
-								</div>
-							</c:forEach>
+						<c:forEach var="photostoryCommentListDto" items="${photostoryListDto.photostoryCommentList}">
+							<div class="col-12 text-sm">
+								<strong>${photostoryCommentListDto.photostoryCommentMemberNick}</strong>
+								&nbsp;&nbsp;
+								${photostoryCommentListDto.photostoryCommentContent}
+							</div>
 						</c:forEach>
 					</div>
 					<div

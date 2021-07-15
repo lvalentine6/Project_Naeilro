@@ -112,8 +112,10 @@
 						<img class="my-2 user_profile_sm user_profile"
 							src="${pageContext.request.contextPath}/image/default_user_profile.jpg">
 					</div>
-					<div class="col-3 "><a class="font-weight-bold text-nowrap" href="${pageContext.request.contextPath}/member/${photostoryListDto.memberNick}">${photostoryListDto.memberNick}글작성자
-						닉네임</a></div>
+					<div class="col-3 ">
+						<a class="font-weight-bold text-nowrap" href="${pageContext.request.contextPath}/member/${photostoryListDto.memberNick}">${photostoryListDto.memberNick}
+						</a>
+					</div>
 					<div class="col-1 offset-7 text-right">
 						<i class="fas fa-ellipsis-h"></i>
 					</div>
@@ -125,11 +127,11 @@
 				<div class='row align-items-center border-left border-right'>
 					<div class="col-1 py-2">
 						<%-- <c:choose>
-								<c:when test="${photostoryTotalListDto.isLike}">
-									<i class="fa-heart fa-lg like-btn fas like" data-photostoryNo="${photostoryTotalListDto.photostoryNo}"></i>
+								<c:when test="${photostoryListDto.isLike}">
+									<i class="fa-heart fa-lg like-btn fas like" data-photostoryNo="${photostoryListDto.photostoryNo}"></i>
 								</c:when>
 								<c:otherwise>
-									<i class="fa-heart fa-lg like-btn far" data-photostoryNo="${photostoryTotalListDto.photostoryNo}"></i> 
+									<i class="fa-heart fa-lg like-btn far" data-photostoryNo="${photostoryListDto.photostoryNo}"></i> 
 								</c:otherwise>
 							</c:choose> --%>
 						<i class="fa-heart fa-lg like-btn far"
@@ -147,7 +149,7 @@
 				</div>
 				<div class='row align-items-center border-left border-right mb-1'>
 					<div class="col-12 text-sm">
-						<strong>${photostoryTotalListDto.memberNick}글작성자 닉네임</strong>
+						<strong>${photostoryListDto.memberNick}</strong>
 						&nbsp;&nbsp;
 						${photostoryListDto.photostoryContent}
 					</div>
@@ -155,8 +157,8 @@
 				<div class='row align-items-center border-left border-right mb-1'>
 					<div class="col-12 ">
 						<a class="text-black-50 font-weight-bold text-sm"
-							href="${pageContext.request.contextPath}/photostory/detail?photostoryNo=${photostoryTotalListDto.photostoryNo}">
-							댓글 ${photostoryTotalListDto.photostoryCommentCount}개 모두 보기 </a>
+							href="${pageContext.request.contextPath}/photostory/detail?photostoryNo=${photostoryListDto.photostoryNo}">
+							댓글 ${photostoryListDto.photostoryCommentCount}개 모두 보기 </a>
 					</div>
 				</div>
 				<div class='row align-items-center border-left border-right mb-1'>
@@ -174,7 +176,7 @@
 				<div
 					class='row align-items-center border-left border-right border-bottom pb-3'>
 					<div
-						class="col-12 text-black-50 font-weight-bold text-right text-sm ">${photostoryListDto.getPhotostoryDateString()}</div>
+						class="col-12 text-black-50 font-weight-bold text-right text-sm ">${photostoryListDto.getPastDateString()}</div>
 				</div>
 				<div
 					class='row align-items-center border-left border-right border-bottom mb-3 py-2'>

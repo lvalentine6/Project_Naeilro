@@ -3,6 +3,7 @@ package com.kh.finale.entity.photostory;
 import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.List;
 
 import com.kh.finale.util.DateUtils;
 
@@ -27,6 +28,8 @@ public class PhotostoryListDto {
 	private String memberNick;
 	
 	private String pastDate;
+	
+	private List<PhotostoryCommentListDto> photostoryCommentList;
 	
 	// 글 작성시간의 시/분/초까지 표시하기 위한 get 메소드
 	public String getPhotostoryDateString() {
