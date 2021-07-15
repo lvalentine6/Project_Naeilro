@@ -18,7 +18,7 @@
 				return;
 			}
 			$.ajax({
-				url:"sendAuthEamil",
+				url:"sendAuthEmail",
 				data : {
 					memberId : memberId,
 					memberEmail : memberEmail,
@@ -40,7 +40,7 @@
 					if(sec<=0){
 						clearInterval(timer)
 					}
-				},1000)
+				},10000)
 			})
 			.fail(function(){
 				alert("입력한 정보와 일치하는 회원정보가 없습니다.")
@@ -53,7 +53,7 @@
 			let memberEmail=$('#memberEmail').val();
 			let authNo=$('#authNo').val();
 			$.ajax({
-				url:"checkAuthEamil",
+				url:"checkAuthEmail",
 				data : {
 					authNo : authNo,
 					memberEmail : memberEmail,
@@ -84,12 +84,12 @@
 
 <main>
 	<div class="container-lg">
-		<div class="sendAuthEamil">
+		<div class="sendAuthEmail">
 			<div class="jumbotron col-lg-6 offset-lg-3">
 				<h3 class="display-5">비밀번호 찾기</h3>
 			</div>
 			<div class="col-lg-6 offset-lg-3 text-center">
-				<form action="sendAuthEamil" method="post" class="sign_up_form encrypt-form">
+				<form action="sendAuthEmail" method="post" class="sign_up_form encrypt-form">
 					<div class="form-row mb-3">
 						<label for="memberId">아이디</label> <input type="text"
 							class="form-control find-pw" id="memberId" name="memberName"

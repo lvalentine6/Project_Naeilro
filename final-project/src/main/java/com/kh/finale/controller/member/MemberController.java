@@ -1,5 +1,8 @@
 package com.kh.finale.controller.member;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,7 +10,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
@@ -123,32 +125,43 @@ public class MemberController {
 	MemberAuthDto memberAuthDto;
 	
 	// 비밀번호 찾기 (인증번호 발송)
-	@PostMapping("sendAuthEamil")
+	@PostMapping("sendAuthEmail")
 	@ResponseBody
-	public ModelAndView findPw(@ModelAttribute MemberVo memberVo) {
-		ModelAndView mav = new ModelAndView();
+	public Map<String, Object> findPw(@ModelAttribute MemberVo memberVo) {
+		Map<String,Object> sendAuthEmail = new HashMap<>();
 		System.out.println("폼 수신값 확인 : " + memberVo);
 		MemberVo searchResult = memberFindService.findPw(memberVo);
 		System.out.println("FindId 수신값 확인 : " + searchResult);
 		
-		if(searchResult == null) {
-			mav.setViewName("member/findPw");
-			mav.addObject("memberVo", memberVo);
-			return mav;
-		}
-		else {
 		MemberAuthDto authResult = memberAuthService.pwSendEmail(searchResult); 
 		System.out.println("authResult 수신값 확인 : " + authResult);
 		memberAuthService.authInsert(authResult);
-		MemberAuthDto memberAuthDto = memberAuthService.resultAuth(authResult);
+		Map<String, Object> memberAuthDto = memberAuthService.resultAuth(authResult);
 		System.out.println("마지막 값 확인 : " + memberAuthDto);
-		mav.setViewName("member/findPw");
-		mav.addObject("memberAuthDto", memberAuthDto);
-		System.out.println(mav);
-		return mav;
-		}
+		return memberAuthDto;
 		
 	}
 	
+	// 비밀번호 찾기 (인증번호 검사)
+	@PostMapping("checkAuthEmail")
+	@ResponseBody
+	public Map<String, Object> checkAuthEmail(@ModelAttribute MemberAuthDto memberAuthDto) {
+		Map<String,Object> checkData = new HashMap<>();
+		System.out.println("폼 수신값 : " + memberAuthDto);
+		checkData = memberFindService.checkAuthEmail(memberAuthDto);
+		System.out.println("인증 결과 리턴 : " + checkData);
+		return checkData;
+	}
 	
+	@PostMapping("changePw")
+	public String changePw(@ModelAttribute MemberDto memberDto){
+		System.out.println("변경 페이지 : " + memberDto);
+		return "redirect:member/changePw";
+	}
+	
+	// 비밀번호 찾기 페이지 (새 비밀번호 입력)
+//	@GetMapping("/changePw")
+//	public String changePw() {
+//		return "member/changePw";
+//	}
 }

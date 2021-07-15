@@ -1,8 +1,11 @@
 package com.kh.finale.service.member;
 
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.kh.finale.entity.member.MemberAuthDto;
 import com.kh.finale.entity.member.MemberDto;
 import com.kh.finale.repository.member.MemberDao;
 import com.kh.finale.vo.member.MemberVo;
@@ -23,6 +26,11 @@ public class MemberFindServiceImpl implements MemberFindService{
 	@Override
 	public MemberVo findPw(MemberVo memberVo) {
 		return memberDao.findPw(memberVo);
+	}
+
+	@Override
+	public Map<String,Object> checkAuthEmail(MemberAuthDto memberAuthDto) {
+		return memberDao.checkAuthEmail(memberAuthDto);
 	}
 	
 }

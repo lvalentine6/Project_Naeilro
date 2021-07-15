@@ -1,5 +1,7 @@
 package com.kh.finale.repository.member;
 
+import java.util.Map;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -42,8 +44,13 @@ public class MemberDaoImpl implements MemberDao{
 	}
 
 	@Override
-	public MemberAuthDto resultAuth(MemberAuthDto memberAuthDto) {
+	public Map<String,Object> resultAuth(MemberAuthDto memberAuthDto) {
 		return sqlSession.selectOne("member.resultAuth", memberAuthDto);
+	}
+
+	@Override
+	public Map<String,Object> checkAuthEmail(MemberAuthDto memberAuthDto) {
+		return sqlSession.selectOne("member.checkAuthEmail", memberAuthDto);
 	}
 
 }

@@ -1,5 +1,6 @@
 package com.kh.finale.service.member;
 
+import java.util.Map;
 import java.util.Properties;
 import java.util.Random;
 
@@ -77,7 +78,7 @@ public class MemberAuthServiceImpl implements MemberAuthService{
 	}
 
 	@Override
-	public MemberAuthDto resultAuth(MemberAuthDto memberAuthDto) {
+	public Map<String,Object> resultAuth(MemberAuthDto memberAuthDto) {
 		return memberDao.resultAuth(memberAuthDto);
 	}
 	

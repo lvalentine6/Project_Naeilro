@@ -15,7 +15,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</insert>
 	
 	<!-- 인증 테이블 결과값 조회 -->
-	<select id="resultAuth" parameterType="MemberAuthDto" resultType="MemberAuthDto">
+	<select id="resultAuth" parameterType="MemberAuthDto" resultType="Map">
 		select * from auth where auth_no = #{authNo}
+	</select>
+	
+	<select id="checkAuthEmail" parameterType="MemberAuthDto" resultType="Map">
+		select * from auth a INNER JOIN member m on 
+		a.member_no = m.member_no where auth_no = #{authNo} and 
+		member_email = #{memberEmail}
 	</select>
 </mapper>
