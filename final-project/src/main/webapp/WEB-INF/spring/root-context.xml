@@ -4,7 +4,6 @@
 <!--
 	스프링 전역(Global) 설정 파일
 	- 사용자 요청과 관계없이 프로젝트 전반에 적용돼야 하는 설정 또는 도구를 등록하는 파일
-
 	- Spring-Beans : 스프링 객체의 등록에 관련된 내용을 지원하는 네임 스페이스(기본)
 -->
 <beans xmlns="http://www.springframework.org/schema/beans"

@@ -9,5 +9,5 @@ import com.kh.finale.vo.member.MemberVo;
 public interface MemberFindService {
 	MemberDto findId(MemberDto memberDto);
 	MemberVo findPw(MemberVo memberVo);
-	Map<String,Object> checkAuthEmail(MemberAuthDto memberAuthDto);
+	MemberAuthDto checkAuthEmail(MemberAuthDto memberAuthDto);
 }

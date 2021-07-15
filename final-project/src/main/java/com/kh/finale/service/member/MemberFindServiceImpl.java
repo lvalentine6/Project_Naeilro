@@ -1,7 +1,5 @@
 package com.kh.finale.service.member;
 
-import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,7 +27,7 @@ public class MemberFindServiceImpl implements MemberFindService{
 	}
 
 	@Override
-	public Map<String,Object> checkAuthEmail(MemberAuthDto memberAuthDto) {
+	public MemberAuthDto checkAuthEmail(MemberAuthDto memberAuthDto) {
 		return memberDao.checkAuthEmail(memberAuthDto);
 	}
 	

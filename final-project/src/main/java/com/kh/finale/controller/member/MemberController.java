@@ -143,14 +143,28 @@ public class MemberController {
 	}
 	
 	// 비밀번호 찾기 (인증번호 검사)
+//	@PostMapping("checkAuthEmail")
+//	@ResponseBody
+//	public Map<String, Object> checkAuthEmail(@ModelAttribute MemberAuthDto memberAuthDto) {
+//		Map<String,Object> checkData = new HashMap<>();
+//		System.out.println("폼 수신값 : " + memberAuthDto);
+//		checkData = memberFindService.checkAuthEmail(memberAuthDto);
+//		System.out.println("인증 결과 리턴 : " + checkData);
+//		return checkData;
+//	}
+	
 	@PostMapping("checkAuthEmail")
 	@ResponseBody
-	public Map<String, Object> checkAuthEmail(@ModelAttribute MemberAuthDto memberAuthDto) {
-		Map<String,Object> checkData = new HashMap<>();
+	public ModelAndView checkAuthEmail(@ModelAttribute MemberAuthDto memberAuthDto) {
+		ModelAndView mav = new ModelAndView("jsonView");
 		System.out.println("폼 수신값 : " + memberAuthDto);
-		checkData = memberFindService.checkAuthEmail(memberAuthDto);
+		MemberAuthDto checkData = memberFindService.checkAuthEmail(memberAuthDto);
 		System.out.println("인증 결과 리턴 : " + checkData);
-		return checkData;
+		mav.setViewName("jsonView");
+		mav.setViewName("member/changePw");
+		mav.addObject("checkData",checkData);
+		System.out.println("Mav값 확인 : " + mav);
+		return mav;
 	}
 	
 	@PostMapping("changePw")

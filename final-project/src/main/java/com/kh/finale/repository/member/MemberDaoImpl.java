@@ -49,7 +49,7 @@ public class MemberDaoImpl implements MemberDao{
 	}
 
 	@Override
-	public Map<String,Object> checkAuthEmail(MemberAuthDto memberAuthDto) {
+	public MemberAuthDto checkAuthEmail(MemberAuthDto memberAuthDto) {
 		return sqlSession.selectOne("member.checkAuthEmail", memberAuthDto);
 	}
 
