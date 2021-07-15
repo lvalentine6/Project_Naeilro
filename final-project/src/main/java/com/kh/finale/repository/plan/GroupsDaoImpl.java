@@ -4,17 +4,17 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.kh.finale.entity.plan.PlaceDto;
+import com.kh.finale.entity.plan.GroupsDto;
 
 @Repository
-public class PlaceDaoImpl implements PlaceDao {
-	
+public class GroupsDaoImpl implements GroupsDao {
+
 	@Autowired
 	private SqlSession sqlSession;
 	
 	@Override
-	public void placeInsert(PlaceDto placeDto) {
-		sqlSession.insert("place.placeInsert", placeDto);
+	public void groupInsert(GroupsDto groupsDto) {
+		sqlSession.insert("groups.groupsInsert", groupsDto);
 	}
 
 }
