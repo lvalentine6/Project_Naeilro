@@ -8,6 +8,8 @@
 		/* 좋아요 버튼 */
 		$(".like-btn").each(function() {
 			$(this).click(function() {
+				let like_btn = $(this);
+				console.log(like_btn)
 				if(${memberNo==null }){
 					alert("로그인후 이용해주세요");
 				}
@@ -16,20 +18,20 @@
 					$.ajax({
 						url:"${pageContext.request.contextPath}/process/delete_like",
 						data : {
-							photostoryNo : $(this).attr("data-photostoryNo"),
+							photostoryNo : $(like_btn).attr("data-photostoryNo"),
 						},
 						method:"GET",
-						dataType : "json"
 					})
 					.done(function(){
-						$(this).removeClass("like")
-						$(this).removeClass("fas")
-						$(this).addClass("far")
-						let curval = $(this).parent().parent().next().children().children().text() * 1;
-						$(this).parent().parent().next().children().children().text(curval-1)
+						console.log("좋아요")
+						$(like_btn).removeClass("like")
+						$(like_btn).removeClass("fas")
+						$(like_btn).addClass("far")
+						let curval = $(like_btn).parent().parent().next().children().children().text() * 1;
+						$(like_btn).parent().parent().next().children().children().text(curval-1)
 					})
 					.fail(function(){
-						alert("입력한 정보와 일치하는 회원정보가 없습니다.")
+						
 					})
 					
 				} else {
@@ -37,18 +39,18 @@
 					$.ajax({
 						url:"${pageContext.request.contextPath}/process/insert_like",
 						data : {
-							photostoryNo : $(this).attr("data-photostoryNo"),
+							photostoryNo : $(like_btn).attr("data-photostoryNo"),
 						},
 						method:"GET",
-						dataType : "json"
 					})
 					.done(function(){
-						$(this).removeClass("far")
-						$(this).addClass("like")
-						$(this).addClass("fas")
+						console.log("좋아요")
+						$(like_btn).removeClass("far")
+						$(like_btn).addClass("like")
+						$(like_btn).addClass("fas")
 						
-						let curval = $(this).parent().parent().next().children().children().text() * 1;
-						$(this).parent().parent().next().children().children().text(curval+1)
+						let curval = $(like_btn).parent().parent().next().children().children().text() * 1;
+						$(like_btn).parent().parent().next().children().children().text(curval+1)
 					})
 					.fail(function(){
 					})
@@ -76,7 +78,7 @@
 				})
 				.done(function(){
 					let template = $("#comment-tpl").html();
-					template = template.replace("{{userId}}",${memberNo})
+					template = template.replace("{{userId}}",${memberNo })
 					template = template.replace("{{comment}}",comment)
 					$(curEl).parent().parent().prev().prev().append(template)
 					console.log(curEl);
@@ -127,7 +129,9 @@
 								data-photostoryNo="${photostoryTotalListDto.photostoryNo}"></i>
 						</div>
 						<div class="col-1">
+							<a href="${pageContext.request.contextPath}/photostory/detail?photostoryNo=${photostoryTotalListDto.photostoryNo}">
 							<i class="far fa-comment fa-lg"></i>
+							</a>
 						</div>
 						<div class="col-10"></div>
 					</div>
@@ -143,8 +147,11 @@
 						</div>
 					</div>
 					<div class='row align-items-center border-left border-right mb-1'>
-						<div class="col-12 text-black-50 font-weight-bold text-sm">댓글
-							${photostoryTotalListDto.photostoryCommentCount}개 모두 보기</div>
+						<div class="col-12 ">
+						<a class="text-black-50 font-weight-bold text-sm" href="${pageContext.request.contextPath}/photostory/detail?photostoryNo=${photostoryTotalListDto.photostoryNo}">
+						댓글 ${photostoryTotalListDto.photostoryCommentCount}개 모두 보기
+						</a>
+						</div>
 					</div>
 					<div class='row align-items-center border-left border-right mb-1'>
 						<div class="col-12 text-sm">
