@@ -75,6 +75,18 @@ public class PhotostoryDaoImpl implements PhotostoryDao {
 	public void writePhotostory(PhotostoryDto photostoryDto) {
 		sqlSession.insert("photostory.insert", photostoryDto);
 	}
+	
+	// 포토스토리 수정 기능
+	@Override
+	public void editPhotostory(PhotostoryDto photostoryDto) {
+		sqlSession.update("photostory.update", photostoryDto);
+	}
+	
+	// 포토스토리 삭제 기능
+	@Override
+	public void deletePhotostory(int photostoryNo) {
+		sqlSession.delete("photostory.delete", photostoryNo);
+	}
 
 	// 포토스토리 좋아요 수 갱신 기능
 	@Override

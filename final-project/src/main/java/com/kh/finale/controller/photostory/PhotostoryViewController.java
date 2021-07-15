@@ -81,4 +81,26 @@ public class PhotostoryViewController {
 		
 		return "redirect:/photostory";
 	}
+	
+	// 포토스토리 수정 페이지?
+	
+	// 포토스토리 수정 처리
+	@PostMapping("/edit")
+	public String edit(@ModelAttribute PhotostoryDto photostoryDto, HttpSession session) {
+//		int memberNo = (int) session.getAttribute("memberNo");
+		int memberNo = 1; // 임시
+		photostoryDto.setMemberNo(memberNo);
+		photostoryDto.setPlannerNo(1); // 임시
+		
+		photostoryDao.editPhotostory(photostoryDto);
+		
+		return "redirect:/photostory";
+	}
+	
+	// 포토스토리 삭제 처리
+	public String delete(@RequestParam int photostoryNo) {
+		photostoryDao.deletePhotostory(photostoryNo);
+		
+		return "redirect:/photostory";
+	}
 }
