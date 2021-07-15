@@ -1,8 +1,6 @@
 package com.kh.finale.service.member;
 
-import java.io.Console;
 import java.io.File;
-import java.io.IOException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,8 +10,6 @@ import com.kh.finale.entity.member.MemberProfileDto;
 import com.kh.finale.repository.member.MemberDao;
 import com.kh.finale.repository.member.MemberProfileDao;
 import com.kh.finale.vo.member.MemberVo;
-
-import lombok.Builder;
 @Service
 public class MemberJoinServiceImpl implements MemberJoinService{
 	
@@ -39,9 +35,10 @@ public class MemberJoinServiceImpl implements MemberJoinService{
 							.build();
 							memberDao.join(memberDto);
 		
-		// 프로필 이미지 등록
+			// 프로필 이미지 경로
 			File dir = new File("D:/upload/kh5/member");
 			dir.mkdir();
+			
 			// 저장 파일명 설정
 			String FileName= memberVo.getMemberId()+"profile";
 			File target = new File(dir, FileName);

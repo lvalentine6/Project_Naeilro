@@ -11,9 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class PhotostoryDto {
-	private int photostoryNo, plannerNo, memberNo;
-	private String photostoryContent;
-	private Date photostoryDate;
-	private int photostoryCommentCount, photostoryLikeCount;
+public class PhotostoryLikeDto {
+	private int photostoryNo, memberNo;
+	private Date photostoryLikeDate;
 }

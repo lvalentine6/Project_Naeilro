@@ -11,7 +11,7 @@
 				<h3 class="display-5">아이디 찾기</h3>
 			</div>
 			<div class="col-lg-6 offset-lg-3 text-center">
-				<form action="login" method="post" class="sign_up_form encrypt-form">
+				<form action="findId" method="post" class="sign_up_form encrypt-form">
 					<div class="form-row mb-3">
 						<label for="memberName">이름</label> <input type="text"
 							class="form-control find-id" id="memberName" name="memberName"

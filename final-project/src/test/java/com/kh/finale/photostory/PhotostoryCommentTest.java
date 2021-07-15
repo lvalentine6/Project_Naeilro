@@ -1,5 +1,6 @@
 package com.kh.finale.photostory;
 
+import org.apache.ibatis.session.SqlSession;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,8 +8,9 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
-import com.kh.finale.entity.photostory.PhotostoryDto;
-import com.kh.finale.repository.photostory.PhotostoryDao;
+import com.kh.finale.entity.photostory.PhotostoryCommentDto;
+
+import lombok.extern.slf4j.Slf4j;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {
@@ -17,22 +19,24 @@ import com.kh.finale.repository.photostory.PhotostoryDao;
 })
 @WebAppConfiguration
 /**
- * 포토스토리 작성 테스트
+ * 포토스토리 댓글 관련 테스트
  * @author swjk78
  */
-public class WritePhotostoryTest {
+public class PhotostoryCommentTest {
 
 	@Autowired
-	private PhotostoryDao photostoryDao;
+	private SqlSession sqlSession;
 	
 	@Test
 	public void test() {
-		PhotostoryDto photostoryDto = PhotostoryDto.builder()
-				.photostoryNo(1)
-				.plannerNo(1)
+		PhotostoryCommentDto photostoryCommentDto = PhotostoryCommentDto.builder()
+				.photostoryCommentNo(2)
+//				.photostoryNo(1)
 				.memberNo(1)
-				.photostoryContent("16")
+//				.photostoryCommentContent("test2")
 				.build();
-		photostoryDao.writePhotostory(photostoryDto);
+//		sqlSession.insert("photostoryComment.insert", photostoryCommentDto);
+//		sqlSession.update("photostoryComment.update", photostoryCommentDto);
+		sqlSession.delete("photostoryComment.delete", photostoryCommentDto);
 	}
 }
