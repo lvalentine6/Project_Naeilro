@@ -5,7 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Data @AllArgsConstructor @NoArgsConstructor @Builder
+@Data @NoArgsConstructor @AllArgsConstructor @Builder
 public class MemberProfileDto {
 	private String profileNo;
 	private String memberId;

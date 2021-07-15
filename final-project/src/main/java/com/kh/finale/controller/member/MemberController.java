@@ -126,23 +126,23 @@ public class MemberController {
 	public ModelAndView findPw(@ModelAttribute MemberVo memberVo) {
 		ModelAndView mav = new ModelAndView();
 		System.out.println("폼 수신값 확인 : " + memberVo);
-		Object searchResult = memberFindService.findPw(memberVo);
+		Object searchResult = memberFindService.findPw(memberVo); // 문제없음
 		System.out.println("FindId 수신값 확인 : " + searchResult);
 		
-		if(searchResult == null) {
-			mav.setViewName("member/findId");
-			mav.addObject("memberVo", memberVo);
-			return mav;
-		}
-		else {
-		Object authResult = memberAuthService.pwSendEmail(memberVo);
+//		if(searchResult == null) {
+//			mav.setViewName("member/findId");
+//			mav.addObject("memberVo", memberVo);
+//			return mav;
+//		}
+//		else {
+		Object authResult = memberAuthService.pwSendEmail(memberVo); // memberNo 값이 안넘어옴
 		System.out.println("authResult 수신값 확인 : " + authResult);
-		memberAuthService.authInsert(memberAuthDto);
-			
+		memberAuthService.authInsert(memberAuthDto); // 직접문제
+		System.out.println("마지막 값 수신확인 : " + memberAuthDto);	
 		mav.setViewName("member/findId");
 		mav.addObject("memberVo", authResult);
 		return mav;
-		}
+//		}
 		
 	}
 	
