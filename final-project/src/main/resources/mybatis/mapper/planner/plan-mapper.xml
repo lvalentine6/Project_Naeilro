@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="planner">
+	
+	<select id="sequnece" resultType="int">
+		select planner_seq.nextval from dual 
+	</select>
+	
+	<insert id="plannerInsert" parameterType="PlannerInsertVO">
+		insert into planner values(
+			#{plannerNo}, #{plannerStartDate}, #{plannerEndDate}, 'N', #{plannerName}
+		)
+	</insert>	
+	
+</mapper>
