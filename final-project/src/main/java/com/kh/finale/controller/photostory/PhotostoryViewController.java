@@ -20,7 +20,7 @@ import com.kh.finale.entity.photostory.PhotostoryListDto;
 import com.kh.finale.repository.photostory.PhotostoryCommentListDao;
 import com.kh.finale.repository.photostory.PhotostoryDao;
 import com.kh.finale.repository.photostory.PhotostoryListDao;
-import com.kh.finale.vo.photostory.PhotostoryVO;
+import com.kh.finale.vo.photostory.PhotostoryListVO;
 
 @Controller
 @RequestMapping("/photostory")
@@ -37,9 +37,9 @@ public class PhotostoryViewController {
 
 	// 포토스토리 리스트 페이지
 	@GetMapping("")
-	public String home(@ModelAttribute PhotostoryVO photostoryVO, Model model) {
-		photostoryVO = photostoryDao.getPageVariable(photostoryVO);
-		List<PhotostoryListDto> photostoryList = photostoryListDao.list(photostoryVO);
+	public String home(@ModelAttribute PhotostoryListVO photostoryListVO, Model model) {
+		photostoryListVO = photostoryDao.getPageVariable(photostoryListVO);
+		List<PhotostoryListDto> photostoryList = photostoryListDao.list(photostoryListVO);
 		
 		for (int i = 0; i < photostoryList.size(); i++) {
 			List<PhotostoryCommentListDto> recentCommentList = 

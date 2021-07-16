@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.kh.finale.entity.photostory.PhotostoryDto;
-import com.kh.finale.vo.photostory.PhotostoryVO;
+import com.kh.finale.vo.photostory.PhotostoryListVO;
 
 @Repository
 public class PhotostoryDaoImpl implements PhotostoryDao {
@@ -15,11 +15,11 @@ public class PhotostoryDaoImpl implements PhotostoryDao {
 	
 	// 포토스토리 페이지 관련 파라미터 계산 기능
 	@Override
-	public PhotostoryVO getPageVariable(PhotostoryVO photostoryVO) {
+	public PhotostoryListVO getPageVariable(PhotostoryListVO photostoryListVO) {
 		// 페이지 번호
 		int pageNo;
 		try {
-			pageNo = photostoryVO.getPageNo();
+			pageNo = photostoryListVO.getPageNo();
 			if (pageNo < 1) {
 				throw new Exception();
 			}
@@ -31,7 +31,7 @@ public class PhotostoryDaoImpl implements PhotostoryDao {
 		// 한 페이지에 보일 글의 개수
 		int pageSize;
 		try {
-			pageSize = photostoryVO.getPageSize();
+			pageSize = photostoryListVO.getPageSize();
 			if (pageSize < 10) {
 				throw new Exception();
 			}
@@ -45,7 +45,7 @@ public class PhotostoryDaoImpl implements PhotostoryDao {
 		int endRow = pageNo * pageSize;
 		
 		// 페이지네이션 영역 계산
-		int photostoryCount = getPhotostoryCount(photostoryVO);
+		int photostoryCount = getPhotostoryCount(photostoryListVO);
 		int lastBlock = (photostoryCount - 1) / pageSize + 1; 
 		
 		int blockSize = 10;
@@ -53,20 +53,20 @@ public class PhotostoryDaoImpl implements PhotostoryDao {
 		int endBlock = startBlock + blockSize - 1;
 		if (endBlock > lastBlock) endBlock = lastBlock;
 		
-		photostoryVO.setPageNo(pageNo);
-		photostoryVO.setPageSize(pageSize);
-		photostoryVO.setStartRow(startRow);
-		photostoryVO.setEndRow(endRow);
-		photostoryVO.setStartBlock(startBlock);
-		photostoryVO.setEndBlock(endBlock);
-		photostoryVO.setLastBlock(lastBlock);
+		photostoryListVO.setPageNo(pageNo);
+		photostoryListVO.setPageSize(pageSize);
+		photostoryListVO.setStartRow(startRow);
+		photostoryListVO.setEndRow(endRow);
+		photostoryListVO.setStartBlock(startBlock);
+		photostoryListVO.setEndBlock(endBlock);
+		photostoryListVO.setLastBlock(lastBlock);
 		
-		return photostoryVO;
+		return photostoryListVO;
 	}
 	
 	// 총 포토스토리 개수 획득 기능
 	@Override
-	public int getPhotostoryCount(PhotostoryVO photostoryVO) {
+	public int getPhotostoryCount(PhotostoryListVO photostoryListVO) {
 		return sqlSession.selectOne("photostory.getPhotostoryCount");
 	}
 

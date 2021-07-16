@@ -8,7 +8,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
 import com.kh.finale.repository.photostory.PhotostoryDao;
-import com.kh.finale.vo.photostory.PhotostoryVO;
+import com.kh.finale.vo.photostory.PhotostoryListVO;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -30,7 +30,7 @@ public class GetPhotostoryCountTest {
 
 	@Test
 	public void test() {
-		PhotostoryVO photostoryVO = PhotostoryVO.builder()
+		PhotostoryListVO photostoryListVO = PhotostoryListVO.builder()
 				.startRow(1)
 				.endRow(10)
 				.pageNo(1)
@@ -41,7 +41,7 @@ public class GetPhotostoryCountTest {
 				.endBlock(1)
 				.lastBlock(1)
 				.build();
-		int count = photostoryDao.getPhotostoryCount(photostoryVO);
+		int count = photostoryDao.getPhotostoryCount(photostoryListVO);
 		log.debug("count = {}", count);
 	}
 }

@@ -1,14 +1,14 @@
 package com.kh.finale.repository.photostory;
 
 import com.kh.finale.entity.photostory.PhotostoryDto;
-import com.kh.finale.vo.photostory.PhotostoryVO;
+import com.kh.finale.vo.photostory.PhotostoryListVO;
 
 public interface PhotostoryDao {
 	// 포토스토리 페이지 관련 파라미터 계산 기능
-	PhotostoryVO getPageVariable(PhotostoryVO photostoryVO);
+	PhotostoryListVO getPageVariable(PhotostoryListVO photostoryListVO);
 
 	// 총 포토스토리 개수 획득 기능
-	int getPhotostoryCount(PhotostoryVO photostoryVO);
+	int getPhotostoryCount(PhotostoryListVO photostoryListVO);
 	
 	// 포토스토리 작성 기능
 	void writePhotostory(PhotostoryDto photostoryDto);
