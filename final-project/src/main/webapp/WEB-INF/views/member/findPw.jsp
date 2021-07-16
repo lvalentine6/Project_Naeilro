@@ -59,16 +59,14 @@
 					memberEmail : memberEmail,
 				},
 				method:"POST",
-				dataType : "json"
 			})
-			.done(function(json){
+			.done(function(){
 				$.post({
 					url:"changePw",
 					data : {
 						memberId : memberId,
 					},
 					method:"POST",
-					dataType : "json"
 				})
 			})
 			.fail(function(){
@@ -107,7 +105,7 @@
 						</div>
 					</div>
 					<div class="form-row mb-3">
-						<label for="authNo">인증번호 <span class="mx-2 text-sm text-danger auth_time" data-time='3'></span></label> <input type="text"
+						<label for="authNo">인증번호 <span class="mx-2 text-sm text-danger auth_time" data-time='300'></span></label> <input type="text"
 							class="form-control find-pw" id="authNo" name="authNo" required
 							disabled>
 					</div>
