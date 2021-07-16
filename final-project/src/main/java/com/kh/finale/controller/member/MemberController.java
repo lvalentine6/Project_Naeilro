@@ -168,7 +168,7 @@ public class MemberController {
 		mav.setViewName("member/changePw");
 		mav.addObject("checkData",checkData);
 		System.out.println("Mav값 확인 : " + mav);
-		return mav;
+		return mav; 
 	}
 	
 	@PostMapping("changePw")
