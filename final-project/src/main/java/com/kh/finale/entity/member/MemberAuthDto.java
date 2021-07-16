@@ -19,5 +19,6 @@ public class MemberAuthDto {
 	private Date authTime;
 	private String authType;
 	private String memberEmail;
+	private String memberId;
 	
 }

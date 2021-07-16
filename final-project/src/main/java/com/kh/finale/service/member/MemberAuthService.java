@@ -9,4 +9,5 @@ public interface MemberAuthService {
 	MemberAuthDto pwSendEmail(MemberVo memberVo);
 	void authInsert(MemberAuthDto memberAuthDto);
 	Map<String,Object> resultAuth(MemberAuthDto memberAuthDto);
+	MemberAuthDto selectId(MemberAuthDto memberAuthDto);
 }

@@ -81,5 +81,10 @@ public class MemberAuthServiceImpl implements MemberAuthService{
 	public Map<String,Object> resultAuth(MemberAuthDto memberAuthDto) {
 		return memberDao.resultAuth(memberAuthDto);
 	}
+
+	@Override
+	public MemberAuthDto selectId(MemberAuthDto memberAuthDto) {
+		return memberDao.selectId(memberAuthDto);
+	}
 	
 }

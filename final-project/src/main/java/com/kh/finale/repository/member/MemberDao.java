@@ -14,4 +14,5 @@ public interface MemberDao {
 	void authInsert(MemberAuthDto memberAuthDto);
 	Map<String,Object> resultAuth(MemberAuthDto memberAuthDto);
 	MemberAuthDto checkAuthEmail(MemberAuthDto memberAuthDto);
+	MemberAuthDto selectId (MemberAuthDto memberAuthDto);
 }
