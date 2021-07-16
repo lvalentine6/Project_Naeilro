@@ -69,16 +69,22 @@ public class PhotostoryDaoImpl implements PhotostoryDao {
 	public int getPhotostoryCount(PhotostoryListVO photostoryListVO) {
 		return sqlSession.selectOne("photostory.getPhotostoryCount");
 	}
+	
+	// 포토스토리 번호 획득 기능
+	@Override
+	public int getSequence() {
+		return sqlSession.selectOne("photostory.getSequence");
+	}
 
 	// 포토스토리 작성 기능
 	@Override
-	public void writePhotostory(PhotostoryDto photostoryDto) {
+	public void insertPhotostory(PhotostoryDto photostoryDto) {
 		sqlSession.insert("photostory.insert", photostoryDto);
 	}
 	
 	// 포토스토리 수정 기능
 	@Override
-	public void editPhotostory(PhotostoryDto photostoryDto) {
+	public void updatePhotostory(PhotostoryDto photostoryDto) {
 		sqlSession.update("photostory.update", photostoryDto);
 	}
 	

@@ -1,5 +1,6 @@
 package com.kh.finale.controller.photostory;
 
+import java.io.IOException;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -12,7 +13,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.kh.finale.entity.photostory.PhotostoryCommentListDto;
 import com.kh.finale.entity.photostory.PhotostoryDto;
@@ -20,7 +20,9 @@ import com.kh.finale.entity.photostory.PhotostoryListDto;
 import com.kh.finale.repository.photostory.PhotostoryCommentListDao;
 import com.kh.finale.repository.photostory.PhotostoryDao;
 import com.kh.finale.repository.photostory.PhotostoryListDao;
+import com.kh.finale.service.photostory.PhotostoryService;
 import com.kh.finale.vo.photostory.PhotostoryListVO;
+import com.kh.finale.vo.photostory.PhotostoryVO;
 
 @Controller
 @RequestMapping("/photostory")
@@ -34,6 +36,9 @@ public class PhotostoryViewController {
 
 	@Autowired
 	PhotostoryCommentListDao photostoryCommentListDao;
+	
+	@Autowired
+	PhotostoryService photostoryService;
 
 	// 포토스토리 리스트 페이지
 	@GetMapping("")
@@ -74,12 +79,13 @@ public class PhotostoryViewController {
 	
 	// 포토스토리 작성 처리
 	@PostMapping("/write")
-	public String write(@ModelAttribute PhotostoryDto photostoryDto, HttpSession session) {
+	public String write(@ModelAttribute PhotostoryVO photostoryVO,
+			HttpSession session) throws IllegalStateException, IOException {
 		int memberNo = (int) session.getAttribute("memberNo");
-		photostoryDto.setMemberNo(memberNo);
-		photostoryDto.setPlannerNo(1); // 임시
+		photostoryVO.setMemberNo(memberNo);
+		photostoryVO.setPlannerNo(1); // 임시
 		
-		photostoryDao.writePhotostory(photostoryDto);
+		photostoryService.insertPhotostory(photostoryVO);
 		
 		return "redirect:/photostory";
 	}
@@ -93,7 +99,7 @@ public class PhotostoryViewController {
 		photostoryDto.setMemberNo(memberNo);
 		photostoryDto.setPlannerNo(1); // 임시
 		
-		photostoryDao.editPhotostory(photostoryDto);
+		photostoryDao.updatePhotostory(photostoryDto);
 		
 		return "redirect:/photostory";
 	}

@@ -10,11 +10,14 @@ public interface PhotostoryDao {
 	// 총 포토스토리 개수 획득 기능
 	int getPhotostoryCount(PhotostoryListVO photostoryListVO);
 	
+	// 포토스토리 번호 획득 기능
+	int getSequence();
+	
 	// 포토스토리 작성 기능
-	void writePhotostory(PhotostoryDto photostoryDto);
+	void insertPhotostory(PhotostoryDto photostoryDto);
 
 	// 포토스토리 수정 기능
-	void editPhotostory(PhotostoryDto photostoryDto);
+	void updatePhotostory(PhotostoryDto photostoryDto);
 	
 	// 포토스토리 삭제 기능
 	void deletePhotostory(int photostoryNo);

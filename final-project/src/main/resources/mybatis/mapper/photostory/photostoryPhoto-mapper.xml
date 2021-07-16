@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="photostoryPhoto">
+	<!-- 이미지 정보 등록 -->
+	<insert id="insert" parameterType="PhotostoryPhotoDto">
+		insert into photostory_photo(
+			photostory_photo_no,
+			photostory_no,
+			photostory_photo_origin_name,
+			photostory_photo_save_name,
+			photostory_photo_file_size
+		)
+		values(
+			photostory_photo_seq.nextval,
+			#{photostoryNo},
+			#{photostoryPhotoOriginName},
+			#{photostoryPhotoSaveName},
+			#{photostoryPhotoFileSize}
+		)
+	</insert>
+	
+	<!-- 이미지 정보 조회 -->
+	<select id="get" resultType="PhotostoryPhotoDto" parameterType="int">
+		select * from photostory_photo where photostory_no = #{photostoryNo}
+	</select>
+</mapper>
