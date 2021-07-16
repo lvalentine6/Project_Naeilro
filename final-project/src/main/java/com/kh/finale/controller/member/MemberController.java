@@ -171,6 +171,8 @@ public class MemberController {
 		return mav;
 	}
 	
+//	여기에 GET으로 authNo(인증번호) 넘겨드릴테니까
+//	model에 memberId 첨부해서 주세여
 	@PostMapping("changePw")
 	public String changePw(@ModelAttribute MemberDto memberDto){
 		System.out.println("변경 페이지 : " + memberDto);

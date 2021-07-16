@@ -40,7 +40,7 @@
 					if(sec<=0){
 						clearInterval(timer)
 					}
-				},10000)
+				},1000)
 			})
 			.fail(function(){
 				alert("입력한 정보와 일치하는 회원정보가 없습니다.")
@@ -53,7 +53,7 @@
 			let memberEmail=$('#memberEmail').val();
 			let authNo=$('#authNo').val();
 			$.ajax({
-				url:"checkAuthEmail",
+				url:"${pageContext.request.contextPath}/member/checkAuthEmail",
 				data : {
 					authNo : authNo,
 					memberEmail : memberEmail,
@@ -61,13 +61,8 @@
 				method:"POST",
 			})
 			.done(function(){
-				$.post({
-					url:"changePw",
-					data : {
-						memberId : memberId,
-					},
-					method:"POST",
-				})
+				let memberId = $('#memberId').val();
+				window.location.replace("${pageContext.request.contextPath}/member/changePw?authNo="+authNo)
 			})
 			.fail(function(){
 				if($(".auth_time").attr("data-time")<=0){
