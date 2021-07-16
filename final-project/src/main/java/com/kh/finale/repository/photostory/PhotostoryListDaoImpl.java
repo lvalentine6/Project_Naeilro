@@ -23,7 +23,7 @@ public class PhotostoryListDaoImpl implements PhotostoryListDao {
 	
 	// 포토스토리 상세 조회 기능
 	@Override
-	public PhotostoryListDto find(int photostoryNo) {
-		return sqlSession.selectOne("photostoryList.find", photostoryNo);
+	public PhotostoryListDto get(int photostoryNo) {
+		return sqlSession.selectOne("photostoryList.get", photostoryNo);
 	}
 }

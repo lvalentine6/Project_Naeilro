@@ -10,5 +10,5 @@ public interface PhotostoryListDao {
 	List<PhotostoryListDto> list(ListParameter listParameter);
 	
 	// 포토스토리 상세 조회 기능
-	PhotostoryListDto find(int photostoryNo);
+	PhotostoryListDto get(int photostoryNo);
 }

@@ -56,7 +56,7 @@ public class PhotostoryViewController {
 	// 포토스토리 상세 페이지
 	@GetMapping("/detail")
 	public String detail(@RequestParam int photostoryNo, Model model) {
-		PhotostoryListDto photostoryListDto = photostoryListDao.find(photostoryNo);
+		PhotostoryListDto photostoryListDto = photostoryListDao.get(photostoryNo);
 		List<PhotostoryCommentListDto> photostoryCommentList = photostoryCommentListDao.list(photostoryNo);
 		
 		model.addAttribute("photostoryListDto", photostoryListDto);
@@ -98,6 +98,7 @@ public class PhotostoryViewController {
 	}
 	
 	// 포토스토리 삭제 처리
+	@GetMapping("/delete")
 	public String delete(@RequestParam int photostoryNo) {
 		photostoryDao.deletePhotostory(photostoryNo);
 		

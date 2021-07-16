@@ -24,7 +24,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<!-- 포토스토리 상세 조회 -->
-	<select id="find" parameterType="int" resultType="PhotostoryListDto">
+	<select id="get" parameterType="int" resultType="PhotostoryListDto">
 		select * from photostory_list where photostory_no = #{photostoryNo}
 	</select>
 	
