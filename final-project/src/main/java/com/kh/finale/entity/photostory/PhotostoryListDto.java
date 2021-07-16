@@ -28,6 +28,7 @@ public class PhotostoryListDto {
 	private String memberNick;
 	
 	private String pastDate;
+	private Boolean isLike;
 	
 	private List<PhotostoryCommentListDto> photostoryCommentList;
 	

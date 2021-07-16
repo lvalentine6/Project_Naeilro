@@ -26,7 +26,7 @@ public class PhotostoryLikeDaoImpl implements PhotostoryLikeDao {
 
 	// 좋아요 확인 기능
 	@Override
-	public boolean checkPhotostoryLike(PhotostoryLikeDto photostoryLikeDto) {
+	public Boolean checkPhotostoryLike(PhotostoryLikeDto photostoryLikeDto) {
 		return sqlSession.selectOne("photostoryLike.check", photostoryLikeDto);
 	}
 }

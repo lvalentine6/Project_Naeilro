@@ -16,9 +16,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.kh.finale.entity.photostory.PhotostoryCommentListDto;
 import com.kh.finale.entity.photostory.PhotostoryDto;
+import com.kh.finale.entity.photostory.PhotostoryLikeDto;
 import com.kh.finale.entity.photostory.PhotostoryListDto;
 import com.kh.finale.repository.photostory.PhotostoryCommentListDao;
 import com.kh.finale.repository.photostory.PhotostoryDao;
+import com.kh.finale.repository.photostory.PhotostoryLikeDao;
 import com.kh.finale.repository.photostory.PhotostoryListDao;
 import com.kh.finale.service.photostory.PhotostoryService;
 import com.kh.finale.vo.photostory.PhotostoryListVO;
@@ -38,15 +40,34 @@ public class PhotostoryViewController {
 	PhotostoryCommentListDao photostoryCommentListDao;
 	
 	@Autowired
+	PhotostoryLikeDao photostoryLikeDao;
+	
+	@Autowired
 	PhotostoryService photostoryService;
 
 	// 포토스토리 리스트 페이지
 	@GetMapping("")
-	public String home(@ModelAttribute PhotostoryListVO photostoryListVO, Model model) {
+	public String home(@ModelAttribute PhotostoryListVO photostoryListVO, Model model, HttpSession session) {
 		photostoryListVO = photostoryDao.getPageVariable(photostoryListVO);
 		List<PhotostoryListDto> photostoryList = photostoryListDao.list(photostoryListVO);
 		
+		int memberNo = 0;
+		if (session.getAttribute("memberNo") != null) {
+			memberNo = (int) session.getAttribute("memberNo");
+		}
+		
 		for (int i = 0; i < photostoryList.size(); i++) {
+			// 좋아요 처리
+			PhotostoryLikeDto photostoryLikeDto = PhotostoryLikeDto.builder()
+					.photostoryNo(photostoryList.get(i).getPhotostoryNo())
+					.memberNo(memberNo)
+					.build();
+			Boolean isLike = photostoryLikeDao.checkPhotostoryLike(photostoryLikeDto);
+			if (isLike != null) {
+				photostoryList.get(i).setIsLike(isLike);
+			}
+			
+			// 댓글 처리
 			List<PhotostoryCommentListDto> recentCommentList = 
 					photostoryCommentListDao.recentList(photostoryList.get(i).getPhotostoryNo());
 			for (int j = 0; j < recentCommentList.size(); j++) {
