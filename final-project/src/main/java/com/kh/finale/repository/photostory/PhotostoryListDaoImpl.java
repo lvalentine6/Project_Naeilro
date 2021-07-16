@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.kh.finale.entity.photostory.PhotostoryListDto;
-import com.kh.finale.util.ListParameter;
+import com.kh.finale.vo.photostory.PhotostoryVO;
 
 @Repository
 public class PhotostoryListDaoImpl implements PhotostoryListDao {
@@ -17,8 +17,8 @@ public class PhotostoryListDaoImpl implements PhotostoryListDao {
 	
 	// 포토스토리 리스트 조회 기능
 	@Override
-	public List<PhotostoryListDto> list(ListParameter listParameter) {
-		return sqlSession.selectList("photostoryList.list", listParameter);
+	public List<PhotostoryListDto> list(PhotostoryVO photostoryVO) {
+		return sqlSession.selectList("photostoryList.list", photostoryVO);
 	}
 	
 	// 포토스토리 상세 조회 기능

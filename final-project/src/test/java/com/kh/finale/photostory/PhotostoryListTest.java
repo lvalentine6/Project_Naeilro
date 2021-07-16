@@ -14,7 +14,7 @@ import com.kh.finale.entity.photostory.PhotostoryCommentListDto;
 import com.kh.finale.entity.photostory.PhotostoryListDto;
 import com.kh.finale.repository.photostory.PhotostoryCommentListDao;
 import com.kh.finale.repository.photostory.PhotostoryListDao;
-import com.kh.finale.util.ListParameter;
+import com.kh.finale.vo.photostory.PhotostoryVO;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -39,7 +39,7 @@ public class PhotostoryListTest {
 	
 	@Test
 	public void test() {
-		ListParameter listParameter = ListParameter.builder()
+		PhotostoryVO photostoryVO = PhotostoryVO.builder()
 				.startRow(1)
 				.endRow(10)
 				.pageNo(1)
@@ -50,7 +50,7 @@ public class PhotostoryListTest {
 				.endBlock(1)
 				.lastBlock(1)
 				.build();
-		List<PhotostoryListDto> photostoryList = photostoryListDao.list(listParameter);
+		List<PhotostoryListDto> photostoryList = photostoryListDao.list(photostoryVO);
 //		for (PhotostoryListDto photostoryListDto : photostoryList) {
 //			log.debug("photostoryListDto = {}", photostoryListDto);
 //		}

@@ -7,7 +7,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <mapper namespace="photostory">
 	
 	<!-- 총 포토스토리 개수 -->
-	<select id="getPhotostoryCount" parameterType="ListParameter" resultType="int">
+	<select id="getPhotostoryCount" parameterType="PhotostoryVO" resultType="int">
 		select count(photostory_no) from photostory
 		<where>
 			<if test="searchType != null and searchKeyword != null">
