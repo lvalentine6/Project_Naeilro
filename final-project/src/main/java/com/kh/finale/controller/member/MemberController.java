@@ -1,8 +1,10 @@
 package com.kh.finale.controller.member;
 
+import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.mail.MessagingException;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,13 +37,6 @@ public class MemberController {
 	public String join() {
 		return "member/join";
 	}
-	
-	// 회원 가입 성공 페이지
-//	@PostMapping("/join")
-//	public String join(@ModelAttribute MemberDto memberDto) {
-//		memberDao.join(memberDto);
-//		return "redirect:join_success";
-//	}
 	
 	@Autowired
 	private MemberJoinService memberJoinService;
@@ -132,7 +127,7 @@ public class MemberController {
 	// 비밀번호 찾기 (인증번호 발송)
 	@PostMapping("sendAuthEmail")
 	@ResponseBody
-	public Map<String, Object> findPw(@ModelAttribute MemberVo memberVo) {
+	public Map<String, Object> findPw(@ModelAttribute MemberVo memberVo) throws MessagingException, UnsupportedEncodingException {
 		Map<String,Object> sendAuthEmail = new HashMap<>();
 		System.out.println("폼 수신값 확인 : " + memberVo);
 		MemberVo searchResult = memberFindService.findPw(memberVo);
@@ -147,17 +142,7 @@ public class MemberController {
 		
 	}
 	
-	// 비밀번호 찾기 (인증번호 검사)
-//	@PostMapping("checkAuthEmail")
-//	@ResponseBody
-//	public Map<String, Object> checkAuthEmail(@ModelAttribute MemberAuthDto memberAuthDto) {
-//		Map<String,Object> checkData = new HashMap<>();
-//		System.out.println("폼 수신값 : " + memberAuthDto);
-//		checkData = memberFindService.checkAuthEmail(memberAuthDto);
-//		System.out.println("인증 결과 리턴 : " + checkData);
-//		return checkData;
-//	}
-	
+	// 비밀번호 찾기 (반환값 전송)
 	@PostMapping("checkAuthEmail")
 	@ResponseBody
 	public ModelAndView checkAuthEmail(@ModelAttribute MemberAuthDto memberAuthDto) {
@@ -171,27 +156,27 @@ public class MemberController {
 		return mav; 
 	}
 	
-//	여기에 GET으로 authNo(인증번호) 넘겨드릴테니까
-//	model에 memberId 첨부해서 주세여
-
+	// 비밀번호 찾기 (변경 페이지 이동)
 	@GetMapping("/changePw")
+	@ResponseBody
 	public String changePw(@ModelAttribute MemberAuthDto memberAuthDto, Model model){
 		System.out.println("인증페이지 수신값 : " + memberAuthDto);
 		MemberAuthDto selectMember = memberAuthService.selectId(memberAuthDto);
 		System.out.println("db 수신 값 : " + selectMember);
+		
+		if(selectMember == null) {
+			return null;
+		}
+		
 		model.addAttribute("memberId", selectMember.getMemberId());
 		return "member/changePw";
 	}
 	
-	// 비밀번호 찾기 페이지 (새 비밀번호 입력)
-//	@GetMapping("/changePw")
-//	public String changePw() {
-//		return "member/changePw";
-//	}
-	
 	// 비밀번호 찾기 (변경 후 메인페이지 리다이렉트)
 	@PostMapping("/edit")
-	public String edit(@ModelAttribute MemberAuthDto memberAuthDto){
+	public String edit(@ModelAttribute MemberDto memberDto){
+		System.out.println("리다이렉트 전 검사 : " + memberDto);
+		memberAuthService.updatePw(memberDto);
 		return "redirect:/";
 	}
 	

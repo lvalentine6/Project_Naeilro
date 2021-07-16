@@ -1,15 +1,24 @@
 package com.kh.finale.service.member;
 
+import java.io.UnsupportedEncodingException;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Random;
 
+import javax.activation.DataSource;
+import javax.activation.FileDataSource;
+import javax.mail.MessagingException;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
 import com.kh.finale.entity.member.MemberAuthDto;
+import com.kh.finale.entity.member.MemberDto;
 import com.kh.finale.repository.member.MemberDao;
 import com.kh.finale.vo.member.MemberVo;
 
@@ -25,7 +34,7 @@ public class MemberAuthServiceImpl implements MemberAuthService{
 	
 	// 이메일 전송
 	@Override
-	public MemberAuthDto pwSendEmail(MemberVo memberVo) {
+	public MemberAuthDto pwSendEmail(MemberVo memberVo) throws MessagingException, UnsupportedEncodingException {
 		System.out.println("빌드 전 Vo 값 확인 : " + memberVo.getMemberNo() + memberVo.getMemberEmail());
 		
 		// 인증 난수 생성
@@ -46,18 +55,17 @@ public class MemberAuthServiceImpl implements MemberAuthService{
 		
 		sender.setJavaMailProperties(props);
 		
-		// 메세지 생성
-		SimpleMailMessage message = new SimpleMailMessage();
-		
-		message.setTo(memberVo.getMemberEmail());
-		
-		message.setSubject("[내일로] 비밀번호 찾기 인증번호 발급");
-		
-		message.setText("안녕하세요 내일로 관리자 입니다. <br><br>"
-				+ "비밀번호 찾기 인증 번호는 " + authNo + "입니다. <br><br>"
-				+ "인증번호를 홈페이지에 입력해 주세요.");
-		
 		// 이메일 전송
+		MimeMessage message = sender.createMimeMessage();
+		MimeMessageHelper helper = new MimeMessageHelper(message, false, "UTF-8");
+		String[] to = {memberVo.getMemberEmail()};
+		helper.setFrom(new InternetAddress("finalprojectkh5@gmail.com", "내일로 관리자"));
+		helper.setTo(to);
+		helper.setSubject("[내일로] 비밀번호 인증 번호");
+		helper.setText("안녕하세요 내일로 입니다. <br><br>"
+				+ "비밀번호 찾기 인증 번호는 <font color = \"blue\"><strong>" + authNo + "</strong></font> 입니다. <br><br>" 
+				+ "인증번호를 5분 이내에 입력해 주세요. <br><br><br>"
+				+ "<p><b>[본 메일은 내일로에서 발송한 메일이며 발신전용 메일입니다.]</b></p>", true);
 		sender.send(message);
 		
 		
@@ -85,6 +93,11 @@ public class MemberAuthServiceImpl implements MemberAuthService{
 	@Override
 	public MemberAuthDto selectId(MemberAuthDto memberAuthDto) {
 		return memberDao.selectId(memberAuthDto);
+	}
+
+	@Override
+	public void updatePw(MemberDto memberDto) {
+		memberDao.updatePw(memberDto);
 	}
 	
 }
