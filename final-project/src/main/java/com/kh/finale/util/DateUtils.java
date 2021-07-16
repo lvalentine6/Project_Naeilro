@@ -8,7 +8,6 @@ import java.util.Date;
  * @author swjk78
  */
 public class DateUtils {
-
 	// 작성날짜와 현재날짜의 차이를 얻는 메소드
 	// (주의) sql.Date 타입으로 올 경우 시간/분/초 단위도 제대로 반환되는지 확인 필요
 	public String getDifferenceInDate(Date inputDate) throws ParseException {
