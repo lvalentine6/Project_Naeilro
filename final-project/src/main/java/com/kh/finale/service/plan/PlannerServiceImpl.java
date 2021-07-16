@@ -19,7 +19,7 @@ public class PlannerServiceImpl implements PlannerService {
 	GroupsDao groupsDao;
 	
 	@Override
-	public void plannerInsertService(PlannerInsertVO plannerInsertVO) {
+	public int plannerInsertService(PlannerInsertVO plannerInsertVO) {
 		
 		//목표 : 통합계획표 데이터 생성하고 바로 공유그룹 데이터 생성시키기
 		
@@ -33,6 +33,9 @@ public class PlannerServiceImpl implements PlannerService {
 		
 		// 그룹공유 생성 SQL 실행
 		groupsDao.groupInsert(plannerInsertVO);
+		
+		// 계획표 번호
+		return plannerNo;
 	}
 	
 }
