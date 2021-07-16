@@ -6,10 +6,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data @NoArgsConstructor @AllArgsConstructor @Builder
-public class PlaceDto {
+public class DailyPlanDto {
+	private int dailyNo;
 	private int placeNo;
-	private String placeLatitude;
-	private String placeLongitude;
-	private String placeName;
-	private String placeType;
+	private int dailyplanPlaceOrder;
+	private String dailyplanTransfer;
 }
