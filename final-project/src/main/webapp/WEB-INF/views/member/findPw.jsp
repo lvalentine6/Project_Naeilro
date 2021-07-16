@@ -40,7 +40,7 @@
 					if(sec<=0){
 						clearInterval(timer)
 					}
-				},10000)
+				},1000)
 			})
 			.fail(function(){
 				alert("입력한 정보와 일치하는 회원정보가 없습니다.")

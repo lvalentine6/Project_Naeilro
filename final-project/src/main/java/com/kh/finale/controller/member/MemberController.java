@@ -158,13 +158,12 @@ public class MemberController {
 //	}
 	
 	@PostMapping("checkAuthEmail")
-	@ResponseBody
+//	@ResponseBody
 	public ModelAndView checkAuthEmail(@ModelAttribute MemberAuthDto memberAuthDto) {
 		ModelAndView mav = new ModelAndView("jsonView");
 		System.out.println("폼 수신값 : " + memberAuthDto);
 		MemberAuthDto checkData = memberFindService.checkAuthEmail(memberAuthDto);
 		System.out.println("인증 결과 리턴 : " + checkData);
-		mav.setViewName("jsonView");
 		mav.setViewName("member/changePw");
 		mav.addObject("checkData",checkData);
 		System.out.println("Mav값 확인 : " + mav);
@@ -172,9 +171,12 @@ public class MemberController {
 	}
 	
 	@PostMapping("changePw")
-	public String changePw(@ModelAttribute MemberDto memberDto){
+	public ModelAndView changePw(@ModelAttribute MemberDto memberDto){
 		System.out.println("변경 페이지 : " + memberDto);
-		return "redirect:member/changePw";
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("member/changePw");
+		mav.addObject("memberDto",memberDto);
+		return mav;
 	}
 	
 	// 비밀번호 찾기 페이지 (새 비밀번호 입력)
