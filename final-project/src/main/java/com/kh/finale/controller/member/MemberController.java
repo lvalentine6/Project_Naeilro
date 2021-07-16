@@ -7,6 +7,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -158,7 +159,7 @@ public class MemberController {
 //	}
 	
 	@PostMapping("checkAuthEmail")
-//	@ResponseBody
+	@ResponseBody
 	public ModelAndView checkAuthEmail(@ModelAttribute MemberAuthDto memberAuthDto) {
 		ModelAndView mav = new ModelAndView("jsonView");
 		System.out.println("폼 수신값 : " + memberAuthDto);
@@ -172,13 +173,14 @@ public class MemberController {
 	
 //	여기에 GET으로 authNo(인증번호) 넘겨드릴테니까
 //	model에 memberId 첨부해서 주세여
-	@PostMapping("changePw")
-	public ModelAndView changePw(@ModelAttribute MemberDto memberDto){
-		System.out.println("변경 페이지 : " + memberDto);
-		ModelAndView mav = new ModelAndView();
-		mav.setViewName("member/changePw");
-		mav.addObject("memberDto",memberDto);
-		return mav;
+
+	@GetMapping("/changePw")
+	public String changePw(@ModelAttribute MemberAuthDto memberAuthDto, Model model){
+		System.out.println("인증페이지 수신값 : " + memberAuthDto);
+		MemberAuthDto selectMember = memberAuthService.selectId(memberAuthDto);
+		System.out.println("db 수신 값 : " + selectMember);
+		model.addAttribute("memberId", selectMember.getMemberId());
+		return "member/changePw";
 	}
 	
 	// 비밀번호 찾기 페이지 (새 비밀번호 입력)
@@ -186,4 +188,11 @@ public class MemberController {
 //	public String changePw() {
 //		return "member/changePw";
 //	}
+	
+	// 비밀번호 찾기 (변경 후 메인페이지 리다이렉트)
+	@PostMapping("/edit")
+	public String edit(@ModelAttribute MemberAuthDto memberAuthDto){
+		return "redirect:/";
+	}
+	
 }

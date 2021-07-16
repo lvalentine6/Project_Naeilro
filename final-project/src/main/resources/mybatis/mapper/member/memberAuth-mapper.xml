@@ -24,4 +24,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		a.member_no = m.member_no where auth_no = #{authNo} and 
 		member_email = #{memberEmail}
 	</select>
+	
+	<select id="selectId" parameterType="MemberAuthDto" resultType="MemberAuthDto">
+		select member_id from auth a INNER JOIN member m on 
+		a.member_no = m.member_no where auth_no = #{authNo} 
+	</select>
+	
 </mapper>
