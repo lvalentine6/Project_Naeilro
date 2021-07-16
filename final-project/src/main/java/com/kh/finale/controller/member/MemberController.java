@@ -170,9 +170,6 @@ public class MemberController {
 		System.out.println("Mav값 확인 : " + mav);
 		return mav; 
 	}
-	
-//	여기에 GET으로 authNo(인증번호) 넘겨드릴테니까
-//	model에 memberId 첨부해서 주세여
 
 	@GetMapping("/changePw")
 	public String changePw(@ModelAttribute MemberAuthDto memberAuthDto, Model model){

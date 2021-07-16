@@ -56,7 +56,7 @@ $(function() {
 					<div class="form-row mb-3">
 						<label for="memberId">아이디</label> <input type="text"
 							class="form-control find-pw" id="memberId" name="memberName"
-							disabled required value="${param.memberId}">
+							disabled required value="${memberId}">
 					</div>
 					<div class="form-row mb-3">
 						<label for="memberPw">새 비밀번호</label> <input type="password"

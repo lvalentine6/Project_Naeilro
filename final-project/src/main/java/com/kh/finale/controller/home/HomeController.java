@@ -13,4 +13,8 @@ public class HomeController {
 	public String myPage() {
 		return "member/myPage";
 	}
+	@RequestMapping("/member/editProfile")
+	public String editProfile() {
+		return "member/editProfile";
+	}
 }

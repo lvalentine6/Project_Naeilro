@@ -79,7 +79,7 @@
 	<div class="container-lg">
 		<div class="sendAuthEmail">
 			<div class="jumbotron col-lg-6 offset-lg-3">
-				<h3 class="display-5">비밀번호 찾기</h3>
+				<h3 class="display-5">본인 인증</h3>
 			</div>
 			<div class="col-lg-6 offset-lg-3 text-center">
 				<form action="sendAuthEmail" method="post" class="sign_up_form encrypt-form">
