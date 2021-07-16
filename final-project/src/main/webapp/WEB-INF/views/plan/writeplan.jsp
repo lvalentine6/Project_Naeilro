@@ -44,30 +44,31 @@
 					
 				$("input[name=plannerStartDate]").attr('value', start.format('YYYY-MM-DD'));
 				$("input[name=plannerEndDate]").attr('value', end.format('YYYY-MM-DD'));
-				
-				// console.log($("input[name=plannerStartDate]").val());
 		});
 
 		
-		// #. 지역은 유동적으로 변경되므로 전역변수로 설정하여 활용
-		var placeName; // 지명
-		var placeType; // 유형
-		var placeLatitude; // 위도
-		var placeLongitude; // 경도
+		/* 전역변수 : 계획표 등록 시 필요한 정보 */
+		// 장소 테이블
+		var placeName; 
+		var placeType; 
+		var placeLatitude; 
+		var placeLongitude; 
 		
+		// 하루계획표 테이블 
+		var plannerNo; 
+		var dailyStayDate;
+		var dailyOrder;
 		
-		// #. 장소 검색창 비활성화 (완료)
+		// 장소계획 테이블
+		var dailyplanPlaceOrder;
+		var dailyplanTransfer
+		/* 전역변수 : 계획표 등록 시 필요한 정보 */
+		
+		/* 전역변수 세팅 */
+		
+		/* 비활성화 */
 		$("#search").hide();
-		
-		// #. 장소 선택창 비활성화
-		$("#daily-selected-place").hide();
-		
-		// #. 장소 세부사항 선택창 비활성화
-		$("#dailyplan-select-confirm").hide();
-		
-		// #. 하루계획표 등록창 비활성화
-		$("#daily-confirm").hide();
-		
+		/* 비활성화 */
 		
 		var mapContainer = document.getElementById('map'), // 지도를 표시할 div  
 	    mapOption = { 
@@ -133,17 +134,16 @@
 				// #.지역 CB함수 - 매개변수 : 지명 + 유형
 				setMapBounds(placeName, placeType);
 				
-				// #. 지역 선택해야 세부 설정 나오게끔 표시
+				// #. 지역 선택해야 검색창 나오게끔 표시
 				$("#search").show();
 				
-				// #. 선택한 장소 지명을 출력에 대입
-			    $("input[name=place-select-name]").attr('value', placeName);
-				
-			}); 
-			
+				// #. 선택 지역 입력 FORM에 등록
+				$("input[name=placeName]").attr("value", placeName);
+				$("input[name=placeType]").attr("value", placeType);
+			});
 		} // 콜백함수 : addMarker
 		
-		// #. 체크박스 하나만 하도록 조정
+		/* 체크박스 중복 불가 */
 		function check(){
 			
 			// 검색창
@@ -154,51 +154,29 @@
 				}
 			});
 			
-			//교통수단
-			$(".transfer").click(function(){
-				if($(this).prop('checked')){
-					$(".transfer").prop('checked', false);
-					$(this).prop('checked', true);
-				}
-			});
-			
 		}
 		
-		check(); // #. 전역 CB함수 : 항상 체크 중복 여부 확인
+		check(); 
+		/* 체크박스 중복 불가 */
 		
-		// 장소 검색 기능
+		
+		/* 장소 검색 기능 */
 		$("#find").click(function(){
-			// #. 초기화
-			$("#daily-selected-place").hide();
-			$("#dailyplan-select-confirm").hide();
-			$("#daily-confirm").hide();
-			
 			// #. 체크박스 설정으로 유형 값 변경
 			placeType = $('input[class=type]:checked').val();  
 			
 			// #. 선택한 장소 유형을 출력에 대입
-			$('input[name=place-select-type]').attr('value', placeType); 
-			
-			if($('input[name=place-select-latitude]') != null || $('input[name=place-select-longitude]') != null || $("#place-select-name") != null){
-				$('input[name=place-select-latitude]').attr('value', ""); 
-				$('input[name=place-select-longitude]').attr('value', ""); 
-				$("#place-select-name").attr('value', "");
-			}
+			$('input[name=placeType]').attr('value', placeType); 
 			
 			var keyword = $("#keyword").val(); 
 			
 			// #. 마커 재설정 CB호출 - 매개변수 : 지명, 유형, 검색어
 			setMapBounds(placeName, placeType, keyword); 
-			
 		});
+		/* 장소 검색 기능 */
 		
 		// 콜백함수에 매개변수 대입 : placeName + placeType + keyword
 		function setMapBounds(placeName, placeType, keyword){
-			
-			// #. 이벤트 실행 전 매개변수 확인
-			console.log(placeName);
-			console.log(placeType);
-			console.log(keyword);
 			
 			// 마커를 클릭하면 장소명을 표출할 인포윈도우 입니다
 			var infowindow = new kakao.maps.InfoWindow({zIndex:1});
@@ -256,28 +234,45 @@
 			        position: new kakao.maps.LatLng(place.y, place.x)
 			    });
 			    
-			    
 			    // 마커에 클릭이벤트를 등록합니다
 			    kakao.maps.event.addListener(marker, 'click', function(){
-			    	$("#placeInsert").show();
 			        // 마커를 클릭하면 장소명이 인포윈도우에 표출됩니다
 			        infowindow.setContent(
 			        		'<div style="padding:5px;font-size:12px;">' + 
 			        			place.place_name + 
+			        			'<button id="placeInsert"> + </button>' + // 장소 등록 이벤트 버튼
 			        		'</div>');
 			        infowindow.open(map, marker);
 			        
-			        // 장소 선택창 활성화
-			        $("#daily-selected-place").show();
+			        /* 등록 데이터 세팅*/
+			        $("input[name=placeLatitude]").attr("value", marker.getPosition().getLat());
+			        $("input[name=placeLongitude]").attr("value", marker.getPosition().getLng());
 			        
-				    $("input[name=place-select-latitude]").attr('value', marker.getPosition().getLat()); // 위도 좌표
-				    $("input[name=place-select-longitude]").attr('value', marker.getPosition().getLng()); // 경도 좌표
-				    $("input[name=place-select-type]").attr('value', placeType);
-				    $("#place-select-name").attr('value', place.place_name);
-				    $("input[name=daily-confirm-placeName]").attr("value", place.place_name);
-				    
-				    // 장소 순서 & 교통 수단 활성화
-					$("#dailyplan-select-confirm").show();
+			        /* 순서 로직
+			        
+			        	등록이 실행시키면서 장소 번호를 서버 쪽에 저장시킨다
+			        	
+			        	출력을 할 때 기존 등록 순서를 변수에 담아놓는다
+			        	
+			        	다시 등록을 실행하면 기존 등록 순서를 활용하여 번호를 변경한 뒤 등록한다
+			        	
+			        */
+			        /* 등록 데이터 세팅*/
+			        
+			        /* 등록 비동기 처리*/
+			        $("#placeInsert").click(function(){
+			        	$("input[name=dailyOrder]").attr("value", 1);
+				        $("input[name=dailyplanPlaceOrder]").attr("value", 1);
+				        $("input[name=dailyplanTransfer]").attr("value", "기차");
+				        
+			        	console.log("등록 전 순서 확인")
+			        	/* ↑ 비동기로 순서 확인 후 순서의 다음 번호로 변경하여 등록 (구현예정) */
+			        	
+	        			console.log("등록 실행");
+			        	
+			        	planInsertService();
+	     			});
+			        /* 등록 비동기 처리*/
 				    
 			    });
 				
@@ -287,9 +282,6 @@
 		
 			
 		/* 비동기 처리 영역 */
-		// 전역변수 : 통합계획표 번호
-		var plannerNo; 
-		
 		// DB : 통합 계획표 등록 + 공유그룹 등록 (완료)
 		$("#planner-insert-button").click(function(){
 			// 비동기 처리 : 통합계획표 작성
@@ -298,8 +290,13 @@
 				type: "post",
 				data: $("#planner-insert").serialize(), // + 공유그룹도 한 번에 다 넣기
 				success: function(resp){
+						/* 함수 매개변수용 */
 						plannerNo = resp;
-						console.log(plannerNo);
+						dailyStayDate  = ((new Date($("input[name=plannerEndDate]").val()).getTime() - new Date($("input[name=plannerStartDate]").val()).getTime()) / 1000 / 60 / 60 / 24);
+						
+						$("input[name=plannerNo]").attr("value", plannerNo);
+						$("input[name=dailyStayDate]").attr("value", dailyStayDate);
+						/* 함수 매개변수용 */
 						
 						// 작성이 확인되면 등록내용 고정 (변경 예정)
 						$("input[name=plannerName]").attr("disabled", true);
@@ -309,31 +306,69 @@
 						// 맵 활성화
 						$("#map").css('pointer-events', 'auto');
 						$("#map").css('opacity', '1.0');
-						
-						/* 통합계획표 번호 비동기 출력 후 대입 (구현예정) */
-					
 				}	
 			});
 		});
 		
-		// 하루 계획 선택 버튼 클릭 시 
-		$("#dailyplan-select-button").click(function(){
-			
-			$("input[name=daily-confirm-plannerNo]").attr("value", plannerNo);
-			// 하루 계획 등록창 활성화
-			$("#daily-confirm").show();
-			
-		});
+		// DB : 마커 정보를 토대로 장소 & 하루계획 & 장소계획 등록
+		function planInsertService(){
+			$.ajax({
+				url:"${pageContext.request.contextPath}/plan/data/planInsertService",
+				type:"post",
+				data:$("#plan-insert-form").serialize(),
+				success:function(){
+					console.log("등록 완료");
+					
+					// 등록된 정보를 한꺼번에 조회해서 뿌려주고 + 순서 변경 로직 (기존 등록된 데이터에서 순서를 뽑아놓고 변수에 담아서 확인하고 변경하고 다시 재)
+				},
+				error:function(){
+					console.log("등록 실패");
+				}
+			});
+		};
+		/* 비동기 처리 영역 */
 		
 	}); // 제이쿼리
+</script>
+<script type="text/template" id="list-place-template">
+	<!-- 선택 장소 출력 리스트 -->
+	<div class="list-place">
+		<div class="row-list-place">
+			교통 수단 : {{transfer}}
+		</div>
+		<div class="row-list-place">
+			장소 이름 : {{placeName}}
+		</div>
+		<div class="row-list-place">
+			숙박 일수 : {{stayDate}}
+		</div>
+		<div class="row-list-place">
+			장소 순서 : {{placeOrder}}
+		</div>
+	</div>
+	<!-- 선택 장소 출력 리스트 -->
+</script>
+<script type="text/template" id="list-daily-template">
+	<!-- 테스트용 : 하루계획표 리스트 -->
+	<div class="list-daily">
+		<div class="row-list-daily">
+			하루계획 번호 : {{dailyNo}}
+		</div>
+		<div class="row-list-daily">
+			하루계획 순서 : {{dailyOrder}}
+		</div>
+	</div>
+	<!-- 테스트용 : 하루계획표 리스트 -->
 </script>
 </head>
 <body>
 	<!-- 전체 컨테이너 -->
 	<div id="container" style="width: 100%; height: 800px; overflow: hidden"> 
-		<div style="width: 20%; height: 800px; border: 1px solid;float: left" id="confirm"> <!-- 사용자 컨테이너 -->
-			<!-- 통합계획표 FORM -->
+		<!-- 사용자 컨테이너 -->
+		<div style="width: 20%; height: 800px; border: 1px solid;float: left" id="confirm"> 
+			<!-- 통합계획표 입력창 -->
 			<div id="planner-insert-confirm">
+				<!-- 통합계획표 FORM -->
 				<form id="planner-insert" autocomplete="off">
 					<div style="font-weight:bold;">통합계획표</div>
 					<div class="row">
@@ -348,11 +383,12 @@
 					<input type="hidden" name="plannerEndDate" required="required"> 
 				</form>
 				<!-- 통합계획표 FORM -->
-					<div class="row" id="planner-insert-button-div">
-						<button id="planner-insert-button">계획표 생성</button>
-					</div>
-			<hr>
+				<div class="row" id="planner-insert-button-div">
+					<button id="planner-insert-button">계획표 생성</button>
+				</div>
 			</div>
+			<!-- 통합계획표 입력창 -->
+			<hr>
 			<!-- 검색창 -->
 			<div id="search"> 
 				<div style="font-weight:bold;">장소 검색창</div>
@@ -370,80 +406,37 @@
 				<div class="row">
 					<button id="find">검색</button>
 				</div>
-			<hr>
 			</div>
 			<!-- 검색창 -->
-			<!-- 장소 선택창 -->
-			<div id="daily-selected-place">
-				<div style="font-weight:bold;">테스트 : 마커확인</div>
-				<!-- 장소 FORM -->
-				<form action="">
-					<div class="row">
-					<label>장소 위도</label>
-					<input type="text" name="place-select-latitude" readonly>
-					</div>
-					<div class="row">
-						<label>장소 경도</label>
-						<input type="text" name="place-select-longitude" readonly>
-					</div>
-					<div class="row">
-						<label>장소 지명</label>
-						<input type="text" name="place-select-name" readonly>
-					</div>
-					<div class="row">
-						<label>장소 유형</label>
-						<input type="text" name="place-select-type" readonly>
-					</div>
-					<div class="row">
-						<label>장소 이름</label>
-						<input type="text" id="place-select-name" readonly>
-					</div>
+			<!-- 등록 완료 : 지역 출력창 -->
+			<div id="place-name-confirm"></div>
+			<!-- 등록 완료 : 지역 출력창 -->
+			<!-- 개발자 컨테이너 : 등록 -->
+			<div id="plan-insert-confirm">
+				<!-- 계획 등록 FORM -->
+				<form id="plan-insert-form">
+					<div><h4>개발영역 : 입력값 확인</h4></div>				
+					<!-- 하루 계획표 -->
+					<input type="text" name="plannerNo" required readonly placeholder="통합계획표 번호">
+					<input type="text" name="dailyStayDate" required readonly placeholder="숙박일수">
+					<input type="text" name="dailyOrder" required readonly placeholder="하루계획표 순서">
+					<!-- 하루 계획표 -->
+					<!-- 장소계획 -->
+					<input type="text" name="dailyplanPlaceOrder" required readonly placeholder="장소 순서">
+					<input type="text" name="dailyplanTransfer" required readonly placeholder="교통수단">
+					<!-- 장소계획 -->
+					<!-- 장소 -->
+					<input type="text" name="placeLatitude" required readonly placeholder="장소 위도">
+					<input type="text" name="placeLongitude" required readonly placeholder="장소 경도">
+					<input type="text" name="placeName" required readonly placeholder="장소 지역">
+					<input type="text" name="placeType" required readonly placeholder="장소 유형">
+					<!-- 장소 -->
 				</form>
-				<!-- 장소 FORM -->
+				<!-- 계획 등록 FORM -->
 			</div>
-			<!-- 장소 세부사항 선택창 -->
-			<div id="dailyplan-select-confirm">
-				<div class="row">
-					<label>장소 순서</label>
-					<input type="number" name="dailyplan-select-order" >
-				</div>
-				<div class="row">
-					<label>교통 수단</label>
-				</div>
-				<div class="row">
-					<input type="checkbox" name="dailyplan-select-transfer"  class="transfer" value="기차">
-					<label>기차</label>
-					<input type="checkbox" name="dailyplan-select-transfer" class="transfer"  value="자동차">
-					<label>자동차</label>
-				</div>
-				<div class="row">
-					<button id="dailyplan-select-button">하루 계획 선택</button>
-				</div>
-			<hr>
-			</div>
-			<!-- 장소 세부사항 선택창 -->
-			<!-- 하루계획표 등록 창 (DB) -->
-			<div id="daily-confirm">
-				<div style="font-weight:bold;">선택장소</div>
-					<div class="row">
-						<label>통합계획 번호</label>
-						<input type="number"  name="daily-confirm-plannerNo" disabled="disabled">
-					</div>
-					<div class="row">
-						<label>선택 장소</label>
-						<input type="text" name="daily-confirm-placeName" disabled="disabled">
-					</div>
-					<div class="row">
-							<label>숙박일수</label>
-							<input type="number" name="daily-confirm-stayDate">
-					</div>
-					<div class="row">
-						<button>하루계획 등록</button>
-					</div>
-				<hr>
-			</div>
-			<!-- 하루계획표 등록 창 (DB) -->
+			<!-- 개발자 컨테이너 : 등록 -->
 		</div> 
+		<!-- 사용자 컨테이너 -->
 		<div id="map" style="width: 75%; height: 800px; float: right"></div>
 	</div>
 	<!-- 전체 컨테이너 -->

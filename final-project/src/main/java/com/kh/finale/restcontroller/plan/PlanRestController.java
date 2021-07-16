@@ -6,7 +6,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.kh.finale.service.plan.PlanService;
 import com.kh.finale.service.plan.PlannerService;
+import com.kh.finale.vo.plan.PlanInsertServiceVO;
 import com.kh.finale.vo.plan.PlannerInsertVO;
 
 @RestController
@@ -16,10 +18,9 @@ public class PlanRestController {
 	@Autowired
 	private PlannerService plannerService;
 	
-	/*
-	 * @PostMapping("/plannerInsert") public String plannerInsert(@ModelAttribute
-	 * PlannerDto plannerDto) { plannerDao.plannerInsert(plannerDto); return "Y"; }
-	 */
+	@Autowired
+	private PlanService planService;
+	
 	@PostMapping("/plannerInsert") 
 	public int plannerInsert(@ModelAttribute PlannerInsertVO plannerInsertVO) {
 		
@@ -31,4 +32,8 @@ public class PlanRestController {
 		return plannerNo;
 	}
 	
+	@PostMapping("/planInsertService")
+	public void planInsertService(@ModelAttribute PlanInsertServiceVO planInsertServiceVO) {
+		planService.planInsertService(planInsertServiceVO);
+	}
 }

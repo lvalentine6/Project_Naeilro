@@ -7,19 +7,19 @@ import org.springframework.stereotype.Repository;
 import com.kh.finale.vo.plan.PlanInsertServiceVO;
 
 @Repository
-public class PlaceDaoImpl implements PlaceDao {
+public class DailyDaoImpl implements DailyDao {
 	
 	@Autowired
 	private SqlSession sqlSession;
 	
 	@Override
 	public int getSequence() {
-		return sqlSession.selectOne("place.sequnece");
+		return sqlSession.selectOne("daily.sequnece");
 	}
 	
 	@Override
-	public void placeInsert(PlanInsertServiceVO planInsertServiceVO) {
-		sqlSession.insert("place.placeInsert", planInsertServiceVO);
+	public void dailyInsert(PlanInsertServiceVO planInsertServiceVO) {
+		sqlSession.insert("daily.dailyInsert", planInsertServiceVO);
 	}
 
 }
