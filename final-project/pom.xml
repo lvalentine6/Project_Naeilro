@@ -46,7 +46,6 @@
 	<!--
 		Dependencies : 프로젝트에서 사용할 의존성 정보
 		- 사용할 의존성 정보를 지정된 태그 형식에 맞게 작성
-
 		- dependency : 의존성 1개를 감싸는 태그
 			- groupId : 소유자 식별값
 			- artifactId : 애플리케이션 식별값

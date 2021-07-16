@@ -4,7 +4,6 @@
 	DispatcherServlet 설정 파일
 	- DispatcherServlet이 요청을 처리할 때 알아야 할 내용을 작성
 	- 사용자가 접속할 수 있는 주소 / 처리할 대상 등을 명시
-
 	- Spring-Mvc : 스프링에서 MVC 관련해서 알아야 할 내용을 지원하는 네임 스페이스(기본)
 	- Spring-Beans : 스프링 객체의 등록에 관련된 내용을 지원하는 네임 스페이스
 	- Spring-Context : 스프링 프로젝트의 파일간 경로 설정을 지원하는 네임 스페이스
@@ -38,6 +37,11 @@
 	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<beans:property name="prefix" value="/WEB-INF/views/"></beans:property>
 		<beans:property name="suffix" value=".jsp"></beans:property>
+	</beans:bean>
+	
+	<beans:bean id="jsonView" class="org.springframework.web.servlet.view.json.MappingJackson2JsonView"/>
+	<beans:bean id="beanNameResolver" class="org.springframework.web.servlet.view.BeanNameViewResolver">
+    <beans:property name="order" value="1"></beans:property>
 	</beans:bean>
 	
 	<!-- 

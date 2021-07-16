@@ -1,6 +1,7 @@
 package com.kh.finale.controller.member;
 
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -10,10 +11,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.kh.finale.entity.member.MemberAuthDto;
 import com.kh.finale.entity.member.MemberDto;
 import com.kh.finale.repository.member.MemberDao;
+import com.kh.finale.service.member.MemberAuthService;
 import com.kh.finale.service.member.MemberFindService;
 import com.kh.finale.service.member.MemberJoinService;
 import com.kh.finale.vo.member.MemberVo;
@@ -99,9 +103,16 @@ public class MemberController {
 			ModelAndView mav = new ModelAndView();
 			Object modelList = memberFindService.findId(memberDto);
 			System.out.println(modelList);
-			mav.setViewName("member/findId");
-			mav.addObject("memberDto", modelList);
-			return mav;
+			if(modelList == null) {
+				mav.setViewName("member/findId");
+				mav.addObject("memberDto", memberDto);
+				return mav;
+			}
+			else {
+				mav.setViewName("member/findId");
+				mav.addObject("memberDto", modelList);
+				return mav;
+			}
 		}
 	
 
@@ -111,11 +122,64 @@ public class MemberController {
 		return "member/findPw";
 	}
 	
-	// 비밀번호 찾기 처리
-//	@PostMapping("member/findPw")
-//	public String findPw(ao aoao) {
-//		return = null;
+	@Autowired
+	MemberAuthService memberAuthService;
+	
+	@Autowired
+	MemberAuthDto memberAuthDto;
+	
+	// 비밀번호 찾기 (인증번호 발송)
+	@PostMapping("sendAuthEmail")
+	@ResponseBody
+	public Map<String, Object> findPw(@ModelAttribute MemberVo memberVo) {
+		Map<String,Object> sendAuthEmail = new HashMap<>();
+		System.out.println("폼 수신값 확인 : " + memberVo);
+		MemberVo searchResult = memberFindService.findPw(memberVo);
+		System.out.println("FindId 수신값 확인 : " + searchResult);
+		
+		MemberAuthDto authResult = memberAuthService.pwSendEmail(searchResult); 
+		System.out.println("authResult 수신값 확인 : " + authResult);
+		memberAuthService.authInsert(authResult);
+		Map<String, Object> memberAuthDto = memberAuthService.resultAuth(authResult);
+		System.out.println("마지막 값 확인 : " + memberAuthDto);
+		return memberAuthDto;
+		
+	}
+	
+	// 비밀번호 찾기 (인증번호 검사)
+//	@PostMapping("checkAuthEmail")
+//	@ResponseBody
+//	public Map<String, Object> checkAuthEmail(@ModelAttribute MemberAuthDto memberAuthDto) {
+//		Map<String,Object> checkData = new HashMap<>();
+//		System.out.println("폼 수신값 : " + memberAuthDto);
+//		checkData = memberFindService.checkAuthEmail(memberAuthDto);
+//		System.out.println("인증 결과 리턴 : " + checkData);
+//		return checkData;
 //	}
 	
+	@PostMapping("checkAuthEmail")
+	@ResponseBody
+	public ModelAndView checkAuthEmail(@ModelAttribute MemberAuthDto memberAuthDto) {
+		ModelAndView mav = new ModelAndView("jsonView");
+		System.out.println("폼 수신값 : " + memberAuthDto);
+		MemberAuthDto checkData = memberFindService.checkAuthEmail(memberAuthDto);
+		System.out.println("인증 결과 리턴 : " + checkData);
+		mav.setViewName("jsonView");
+		mav.setViewName("member/changePw");
+		mav.addObject("checkData",checkData);
+		System.out.println("Mav값 확인 : " + mav);
+		return mav;
+	}
 	
+	@PostMapping("changePw")
+	public String changePw(@ModelAttribute MemberDto memberDto){
+		System.out.println("변경 페이지 : " + memberDto);
+		return "redirect:member/changePw";
+	}
+	
+	// 비밀번호 찾기 페이지 (새 비밀번호 입력)
+//	@GetMapping("/changePw")
+//	public String changePw() {
+//		return "member/changePw";
+//	}
 }

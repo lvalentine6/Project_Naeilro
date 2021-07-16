@@ -18,7 +18,7 @@
 				return;
 			}
 			$.ajax({
-				url:"sendAuthEamil",
+				url:"sendAuthEmail",
 				data : {
 					memberId : memberId,
 					memberEmail : memberEmail,
@@ -40,7 +40,7 @@
 					if(sec<=0){
 						clearInterval(timer)
 					}
-				},1000)
+				},10000)
 			})
 			.fail(function(){
 				alert("입력한 정보와 일치하는 회원정보가 없습니다.")
@@ -53,7 +53,7 @@
 			let memberEmail=$('#memberEmail').val();
 			let authNo=$('#authNo').val();
 			$.ajax({
-				url:"checkAuthEamil",
+				url:"checkAuthEmail",
 				data : {
 					authNo : authNo,
 					memberEmail : memberEmail,
@@ -84,12 +84,12 @@
 
 <main>
 	<div class="container-lg">
-		<div class="row">
+		<div class="sendAuthEmail">
 			<div class="jumbotron col-lg-6 offset-lg-3">
 				<h3 class="display-5">비밀번호 찾기</h3>
 			</div>
 			<div class="col-lg-6 offset-lg-3 text-center">
-				<form action="login" method="post" class="sign_up_form encrypt-form">
+				<form action="sendAuthEmail" method="post" class="sign_up_form encrypt-form">
 					<div class="form-row mb-3">
 						<label for="memberId">아이디</label> <input type="text"
 							class="form-control find-pw" id="memberId" name="memberName"
@@ -99,7 +99,7 @@
 						<label for="memberEmail text-left">이메일</label>
 					</div>
 					<div class="form-row mb-3 input-group">
-						<input type="email" class="form-control" name="memberEmail"
+						<input type="text" class="form-control" name="memberEmail"
 							id="memberEmail" aria-describedby="auth-btn">
 						<div class="input-group-append">
 							<button class="btn btn-outline-secondary cert-btn" type="button"
