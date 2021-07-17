@@ -1,11 +1,17 @@
 package com.kh.finale.restcontroller.plan;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.kh.finale.entity.plan.DailyDto;
+import com.kh.finale.repository.plan.DailyDao;
 import com.kh.finale.service.plan.PlanService;
 import com.kh.finale.service.plan.PlannerService;
 import com.kh.finale.vo.plan.PlanInsertServiceVO;
@@ -21,6 +27,9 @@ public class PlanRestController {
 	@Autowired
 	private PlanService planService;
 	
+	@Autowired
+	private DailyDao dailyDao;
+	
 	@PostMapping("/plannerInsert") 
 	public int plannerInsert(@ModelAttribute PlannerInsertVO plannerInsertVO) {
 		
@@ -35,5 +44,10 @@ public class PlanRestController {
 	@PostMapping("/planInsertService")
 	public void planInsertService(@ModelAttribute PlanInsertServiceVO planInsertServiceVO) {
 		planService.planInsertService(planInsertServiceVO);
+	}
+	
+	@GetMapping("/dailyListService")
+	public List<DailyDto> dailyListService(@RequestParam int plannerNo) {
+		return dailyDao.dailyListService(plannerNo);
 	}
 }

@@ -309,6 +309,9 @@
 				success:function(){
 					console.log("등록 완료");
 					console.log("");
+					
+					/*등록 성공 시 출력 내용 */
+					dailyListService();
 				},
 				error:function(){
 					console.log("등록 실패");
@@ -316,21 +319,21 @@
 			});
 		};
 		
-		// DB : 등록 정보 리스트 출력
-		function planSelectListService(){
-			/*
-				브레인 스토밍
-				
-				-- 하루계획표 출력 시 보여줘야 할 내용
-				-- 장소 좌표 & 장소 지역 & 교통 수단 & 하루계획표 순서(N일차)
-
-				-- Q. 숙박일수를 어떻게 해석할 것인가?
-				-- A. 하루 단위 입력값으로 해석할 것인가 아니면 통합계획표 전체 중 일부라고 해석할 것인가?
-				-- 숙박일수 등록 기능을 수정해야 한다. 
-				-- 1. 입력 정보를 하루 단위라고 생각하면 호텔을 선택할 때마다 통합계획표 날짜 계산값에서 -1 씩 혹은 1을 등록해줘야 되고..
-				-- 2. 전체 중 일부라고 하면(전국 단위 중 일부) 출력은 미정
-				
-			*/
+		// DB : 등록 정보 리스트 출력 :  하루계획표
+		function dailyListService(){
+			$.ajax({
+				url:"${pageContext.request.contextPath}/plan/data/dailySelectListService",
+				type:"get",
+				dataType:"json",
+				data: $("input[name=plannerName]").val(), // 내일 확인!!
+				success:function(resp){
+					for(var i=0; i < resp.length; i++){
+						var template = $("#list-daily-template").html();
+						template = template.replace("{{dailyOrder}}", resp[i].dailyOrder);
+						$("#daily-list-confirm").append(template);
+					}
+				}
+			});
 		}
 		/* 비동기 처리 영역 */
 		
@@ -356,12 +359,9 @@
 </script>
 <script type="text/template" id="list-daily-template">
 	<!-- 테스트용 : 하루계획표 리스트 -->
-	<div class="list-daily">
+	<div class="list-daily" style="border-bottom: 1px solid">
 		<div class="row-list-daily">
-			하루계획 번호 : {{dailyNo}}
-		</div>
-		<div class="row-list-daily">
-			하루계획 순서 : {{dailyOrder}}
+			{{dailyOrder}} 일차 계획 계획표
 		</div>
 	</div>
 	<!-- 테스트용 : 하루계획표 리스트 -->
