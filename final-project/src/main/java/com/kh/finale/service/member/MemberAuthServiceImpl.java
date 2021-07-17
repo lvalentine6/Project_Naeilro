@@ -28,10 +28,6 @@ public class MemberAuthServiceImpl implements MemberAuthService{
 	@Autowired
 	MemberDao memberDao;
 	
-//	@Autowired
-//	MemberAuthDto memberAuthDto;
-
-	
 	// 이메일 전송
 	@Override
 	public MemberAuthDto pwSendEmail(MemberVo memberVo) throws MessagingException, UnsupportedEncodingException {
@@ -78,23 +74,27 @@ public class MemberAuthServiceImpl implements MemberAuthService{
 		System.out.println("빌드 후 DTO값 확인 : " + memberAuthDto);
 		return memberAuthDto;
 	}
-
+	
+	
+	// 비밀번호 찾기 1
 	@Override
 	public void authInsert(MemberAuthDto memberAuthDto) {
 		memberDao.authInsert(memberAuthDto);
-		
 	}
-
+	
+	// 비밀번호 찾기 2
 	@Override
 	public Map<String,Object> resultAuth(MemberAuthDto memberAuthDto) {
 		return memberDao.resultAuth(memberAuthDto);
 	}
 
+	// 비밀번호 찾기 3
 	@Override
 	public MemberAuthDto selectId(MemberAuthDto memberAuthDto) {
 		return memberDao.selectId(memberAuthDto);
 	}
 
+	// 비밀번호 찾기 4
 	@Override
 	public void updatePw(MemberDto memberDto) {
 		memberDao.updatePw(memberDto);
