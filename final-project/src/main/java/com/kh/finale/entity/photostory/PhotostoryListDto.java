@@ -13,7 +13,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * 포토스토리 상세 페이지에서 작성자 닉네임을 보여주기 위한 Dto
+ * 포토스토리 페이지에서 포토스토리 리스트를 보여주기 위한 변수를 저장하는 Dto
  * @author swjk78
  */
 @Data
@@ -28,6 +28,7 @@ public class PhotostoryListDto {
 	private String memberNick;
 	
 	private String pastDate;
+	private Boolean isLike;
 	
 	private List<PhotostoryCommentListDto> photostoryCommentList;
 	

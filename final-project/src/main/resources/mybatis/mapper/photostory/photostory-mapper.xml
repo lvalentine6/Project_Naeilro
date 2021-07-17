@@ -7,7 +7,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <mapper namespace="photostory">
 	
 	<!-- 총 포토스토리 개수 -->
-	<select id="getPhotostoryCount" parameterType="ListParameter" resultType="int">
+	<select id="getPhotostoryCount" parameterType="PhotostoryListVO" resultType="int">
 		select count(photostory_no) from photostory
 		<where>
 			<if test="searchType != null and searchKeyword != null">
@@ -18,11 +18,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		</where>
 	</select>
 	
+	<!-- 포토스토리 번호 획득 -->
+	<select id="getSequence" resultType="int">
+		select photostory_seq.nextval from dual
+	</select>
+	
 	<!-- 포토스토리 작성 -->
 	<insert id="insert" parameterType="PhotostoryDto">
 		insert into
 		photostory(photostory_no, planner_no, member_no, photostory_content)
-		values(photostory_seq.nextval, #{plannerNo}, #{memberNo}, #{photostoryContent})
+		values(#{photostoryNo}, #{plannerNo}, #{memberNo}, #{photostoryContent})
 	</insert>
 	
 	<!-- 포토스토리 수정 -->
