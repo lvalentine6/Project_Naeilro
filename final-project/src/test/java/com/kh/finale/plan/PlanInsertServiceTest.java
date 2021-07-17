@@ -47,15 +47,18 @@ public class PlanInsertServiceTest {
 																														.placeType("호텔")
 																														.build();
 		
-		planInsertServiceVO.setPlaceNo(placeDao.getSequence());
-		planInsertServiceVO.setDailyNo(dailyDao.getSequence());
+		if(dailyDao.dailyOrderConfirm(planInsertServiceVO) == null) {
+			dailyDao.dailyInsert(planInsertServiceVO); 
+		}  else {
+			int dailyNo = dailyDao.dailyNoConfrim(planInsertServiceVO);
+			planInsertServiceVO.setDailyNo(dailyNo);
+		}
 		
-		log.info(planInsertServiceVO.toString());
+		// 3. 장소 등록
+		placeDao.placeInsert(planInsertServiceVO); 
 		
-		placeDao.placeInsert(planInsertServiceVO);
-		dailyDao.dailyInsert(planInsertServiceVO);
+		// 4. 장소계획 등록
 		dailyplanDao.dailyplanInsert(planInsertServiceVO);
-		
 	}
 	
 }

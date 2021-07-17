@@ -22,4 +22,14 @@ public class DailyDaoImpl implements DailyDao {
 		sqlSession.insert("daily.dailyInsert", planInsertServiceVO);
 	}
 
+	@Override
+	public Integer dailyOrderConfirm(PlanInsertServiceVO planInsertServiceVO) {
+		return sqlSession.selectOne("daily.dailyOrderConfirm", planInsertServiceVO);
+	}
+
+	@Override
+	public int dailyNoConfrim(PlanInsertServiceVO planInsertServiceVO) {
+		return sqlSession.selectOne("daily.dailyNoConfirm", planInsertServiceVO);
+	}
+
 }
