@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 
 import com.kh.finale.entity.member.MemberAuthDto;
 import com.kh.finale.entity.member.MemberDto;
@@ -150,27 +151,29 @@ public class MemberController {
 		System.out.println("폼 수신값 : " + memberAuthDto);
 		MemberAuthDto checkData = memberFindService.checkAuthEmail(memberAuthDto);
 		System.out.println("인증 결과 리턴 : " + checkData);
-		mav.setViewName("member/changePw");
-		mav.addObject("checkData",checkData);
-		System.out.println("Mav값 확인 : " + mav);
-		return mav; 
+		if(checkData == null) {
+			mav.setView(new MappingJackson2JsonView());
+			mav.addObject("memberId", memberAuthDto.getMemberId());
+			mav.setViewName("null");
+			return mav;
+		}
+		else {
+			mav.setViewName("member/changePw");
+			mav.addObject("checkData",checkData);
+			System.out.println("Mav값 확인 : " + mav);
+			return mav; 
+		}
 	}
 	
 	// 비밀번호 찾기 (변경 페이지 이동)
-	@GetMapping("/changePw")
-	@ResponseBody
-	public String changePw(@ModelAttribute MemberAuthDto memberAuthDto, Model model){
-		System.out.println("인증페이지 수신값 : " + memberAuthDto);
-		MemberAuthDto selectMember = memberAuthService.selectId(memberAuthDto);
-		System.out.println("db 수신 값 : " + selectMember);
-		
-		if(selectMember == null) {
-			return null;
+		@GetMapping("/changePw")
+		public String changePw(@ModelAttribute MemberAuthDto memberAuthDto, Model model){
+			System.out.println("인증페이지 수신값 : " + memberAuthDto);
+			MemberAuthDto selectMember = memberAuthService.selectId(memberAuthDto);
+			System.out.println("db 수신 값 : " + selectMember);
+				model.addAttribute("memberId", selectMember.getMemberId());
+				return "member/changePw";
 		}
-		
-		model.addAttribute("memberId", selectMember.getMemberId());
-		return "member/changePw";
-	}
 	
 	// 비밀번호 찾기 (변경 후 메인페이지 리다이렉트)
 	@PostMapping("/edit")

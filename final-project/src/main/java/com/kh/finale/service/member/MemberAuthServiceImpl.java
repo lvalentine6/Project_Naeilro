@@ -39,7 +39,7 @@ public class MemberAuthServiceImpl implements MemberAuthService{
 		
 		// 인증 난수 생성
 		Random r = new Random();
-		int authNo = r.nextInt(389258) + 230985;
+		int authNo = r.nextInt(900000) + 99999;
 		
 		// 메세지 전송 도구 생성
 		JavaMailSenderImpl sender = new JavaMailSenderImpl();

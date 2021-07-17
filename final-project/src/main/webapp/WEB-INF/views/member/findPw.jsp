@@ -62,7 +62,7 @@
 			})
 			.done(function(){
 				let memberId = $('#memberId').val();
-				window.location.replace("${pageContext.request.contextPath}/member/changePw?authNo="+authNo)
+				window.location.replace("${pageContext.request.contextPath}/member/changePw?authNo="+authNo);
 			})
 			.fail(function(){
 				if($(".auth_time").attr("data-time")<=0){
