@@ -7,7 +7,7 @@
 		<div class="row">
 			<div class="jumbotron col-lg-6 offset-lg-3">
 				<h3 class="display-5">회원가입이 완료되었습니다.</h3>
-				<span>LOGO에 오신 것을 환영합니다.</span>
+				<span>NAEILRO에 오신 것을 환영합니다.</span>
 			</div>
 		</div>
 		<div class="row">

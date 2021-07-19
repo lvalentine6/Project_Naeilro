@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-
+    pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
 
 <script>
@@ -11,7 +11,6 @@
 	let nick_name_regex = /^[0-9a-zA-Z가-힣]{4,12}$/;
 	let id = false;
 	let nick = false;
-	let pw = false;
 	let name = false;
 	$(function() {
 		$('#memberId').blur(function() {
@@ -21,26 +20,6 @@
 				$(this).removeClass("is-invalid");
 			} else {
 				id = false;
-				$(this).removeClass("is-valid");
-				$(this).addClass("is-invalid");
-			}
-		})
-		$('#memberPw').blur(function() {
-			if (regex.test($(this).val())) {
-				pw = true;
-				$(this).addClass("is-valid");
-				$(this).removeClass("is-invalid");
-			} else {
-				pw = false;
-				$(this).removeClass("is-valid");
-				$(this).addClass("is-invalid");
-			}
-		})
-		$('#memberPw2').blur(function() {
-			if ($(this).val() == $("#memberPw").val()) {
-				$(this).addClass("is-valid");
-				$(this).removeClass("is-invalid");
-			} else {
 				$(this).removeClass("is-valid");
 				$(this).addClass("is-invalid");
 			}
@@ -74,16 +53,6 @@
 				$('#memberId').focus();
 				return;
 			}
-			if (!pw) {
-				e.preventDefault();
-				$('#memberPw').focus();
-				return;
-			}
-			if ($('#memberPw').val() != $('#memberPw2').val()) {
-				e.preventDefault();
-				$('#memberPw2').focus();
-				return;
-			}
 			if (!name) {
 				e.preventDefault();
 				$('#memberName').focus();
@@ -113,16 +82,15 @@
 </script>
 
 <main>
-
-
 	<div class="container-lg">
 		<div class="row">
 			<div class="jumbotron col-lg-6 offset-lg-3">
-				<h3 class="display-5">회원가입</h3>
-				<span>NAEILRO에 오신 것을 환영합니다.</span>
+				<h3 class="display-5">프로필 편집</h3>
 			</div>
 			<div class="col-lg-6 offset-lg-3 text-center">
-				<form action="join" method="post" class="sign_up_form encrypt-form"
+			
+				<form action="editProfile" method="post" class="sign_up_form encrypt-form"
+				
 					enctype="multipart/form-data">
 					<!-- 	프로필 사진 업로드 -->
 					<div class="form-row mb-3">
@@ -138,22 +106,6 @@
 						</label>
 					</div>
 					<div class="form-row mb-3">
-						<label for="memberId">아이디</label> <input type="text"
-							class="form-control " id="memberId" name="memberId" required>
-						<small id="emailHelp" class="form-text text-muted">4~12자의
-							영문 소문자, 대문자, 숫자만 사용 가능합니다.</small>
-					</div>
-					<div class="form-row mb-3">
-						<label for="memberPw">비밀번호</label> <input type="password"
-							class="form-control " id="memberPw" name="memberPw" required>
-						<small id="emailHelp" class="form-text text-muted">4~12자의
-							영문 소문자, 대문자, 숫자만 사용 가능합니다.</small>
-					</div>
-					<div class="form-row mb-3">
-						<label for="memberPw2">비밀번호 확인</label> <input type="password"
-							class="form-control " id="memberPw2" name="memberPw2" required>
-					</div>
-					<div class="form-row mb-3">
 						<label for="memberName">이름</label> <input type="text"
 							class="form-control" id="memberName" name="memberName" required>
 						<small id="emailHelp" class="form-text text-muted">2~7자의
@@ -166,12 +118,13 @@
 							영문 소문자, 대문자, 한글, 숫자만 사용 가능합니다.</small>
 					</div>
 					<div class="form-row mb-3">
-						<label for="memberEmail">이메일</label> <input type="email"
-							class="form-control" id="memberEmail" name="memberEmail" required>
+						<label for="memberIntro">소개</label> 
+						<textarea class="form-control" aria-label="With textarea" name="memberIntro"></textarea>
+						<small id="emailHelp" class="form-text text-muted">소개를 작성해 주세요</small>
 					</div>
 					<div class="form-row mb-3">
-						<label for="memberBirth">생년월일</label> <input type="date"
-							class="form-control" id="memberBirth" name="memberBirth" required>
+						<label for="memberEmail">이메일</label> <input type="email"
+							class="form-control" id="memberEmail" name="memberEmail" required>
 					</div>
 					<div class="form-row mb-5 justify-content-around">
 						<div class="form-check">
@@ -184,15 +137,9 @@
 								id="memberGender2" value="여"> <label
 								class="form-check-label" for="memberGender2"> 여자 </label>
 						</div>
-
-						<!-- 맴버 등급 데이터 전송창 -->
-					</div>
-					<div class="form-row mb-3">
-						<input type="hidden" class="form-control" id="memberGrade"
-							name="memberGrade" value="2">
 					</div>
 					<div class="form-row mb-5 justify-content-around">
-						<button class="btn btn-primary submit_btn btn-block" type="submit">회원가입</button>
+						<button class="btn btn-primary submit_btn btn-block" type="submit">수정하기</button>
 						<button class="btn btn-secondary cancel-btn btn-block"
 							type="button">취소</button>
 					</div>

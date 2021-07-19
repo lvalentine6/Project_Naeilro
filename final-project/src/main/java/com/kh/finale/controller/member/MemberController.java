@@ -54,13 +54,13 @@ public class MemberController {
 		return "member/joinSuccess";
 	}
 	
-	// 로그인 페이지
+	// Login 페이지
 	@GetMapping("/login")
 	public String login() {
 		return "member/login";
 	}
 	
-	// 로그인 처리
+	// Login 처리
 	@PostMapping("/login")
 	public String login(@ModelAttribute MemberDto memberDto,
 			HttpSession httpSession) {
@@ -68,7 +68,7 @@ public class MemberController {
 		if(check != null) {
 			httpSession.setAttribute("memberNo", check.getMemberNo());
 			httpSession.setAttribute("memberId", check.getMemberId());
-			httpSession.setAttribute("memberNick", check.getMemberNick());
+			httpSession.setAttribute("memberContextNick", check.getMemberNick());
 			return "redirect:/";
 		}
 		else {
@@ -81,7 +81,7 @@ public class MemberController {
 	public String logout(HttpSession httpSession) {
 		httpSession.removeAttribute("memberNo");
 		httpSession.removeAttribute("memberId");
-		httpSession.removeAttribute("memberNick");
+		httpSession.removeAttribute("memberContextNick");
 		return "redirect:/";
 	}
 	
@@ -166,15 +166,14 @@ public class MemberController {
 	}
 	
 	// 비밀번호 찾기 (변경 페이지 이동)
-		@GetMapping("/changePw")
-		public String changePw(@ModelAttribute MemberAuthDto memberAuthDto, Model model){
-			System.out.println("인증페이지 수신값 : " + memberAuthDto);
-			MemberAuthDto selectMember = memberAuthService.selectId(memberAuthDto);
-			System.out.println("db 수신 값 : " + selectMember);
-				model.addAttribute("memberId", selectMember.getMemberId());
-				return "member/changePw";
-		}
-	
+	@GetMapping("/changePw")
+	public String changePw(@ModelAttribute MemberAuthDto memberAuthDto, Model model){
+		System.out.println("인증페이지 수신값 : " + memberAuthDto);
+		MemberAuthDto selectMember = memberAuthService.selectId(memberAuthDto);
+		System.out.println("db 수신 값 : " + selectMember);
+			model.addAttribute("memberId", selectMember.getMemberId());
+			return "member/changePw";
+	}
 	// 비밀번호 찾기 (변경 후 메인페이지 리다이렉트)
 	@PostMapping("/edit")
 	public String edit(@ModelAttribute MemberDto memberDto){

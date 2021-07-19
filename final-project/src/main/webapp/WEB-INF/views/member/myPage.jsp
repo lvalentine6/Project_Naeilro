@@ -2,27 +2,71 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%
-	MemberDto memberDto = MemberDto.builder().memberNick("민수민수").memberNo(41).build();
-%>
+
+
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
+
+<script>
+
+/* function readImage(input) {
+    if(input.files && input.files[0]) {
+        const reader = new FileReader()
+        reader.onload = e => {
+            const previewImage = document.querySelector(".upload_img")
+            previewImage.src = e.target.result
+        }
+        reader.readAsDataURL(input.files[0])
+    }
+}
+$(function(){
+	$(".input_img").change(function(e){
+		console.dir(e.target)
+		readImage(e.target)
+	})
+}) */
+</script>
 <main>
 	<div class="container-lg">
 		<div class="row">
 			<div class="col-lg-3 offset-lg-1">
-				<img class="my-2 user_profile_lg user_profile"
-					src="${pageContext.request.contextPath}/image/default_user_profile.jpg">
+				<label for="memberProfile"> 
+					<img class='upload_img my-3 user_profile_lg user_profile' src="${pageContext.request.contextPath}/image/default_user_profile.jpg"> 
+					<input class="input_img" type="file" accept=".png, .jpg, .gif" id="memberProfile" name="memberProfile" style="display: none" />
+				</label>
 			</div>
 			<div class="col-lg-7">
 				<div class="row my-3 align-items-center">
-					<div class="col-4" style="font-size: 2rem">${memberNick }</div>
+					<div class="col-4" style="font-size: 2rem">${memberDto.memberNick}</div>
+					
 					<div class="col-4">
-						<button type="button" class="btn btn-outline-secondary">프로필
-							편집</button>
+					<c:choose>
+						<c:when test="${memberDto.memberNo==memberNo}">
+							<a class="btn btn-outline-secondary" href="editProfile" role="button">프로필 편집</a>
+						</c:when>
+						<c:otherwise>
+							<a class="btn btn-primary" role="button">팔로우</a>
+						</c:otherwise>
+					</c:choose>
 					</div>
+					
 					<div class="col-4">
-						<i class="fas fa-cog fa-2x"></i>
+					<c:choose>
+						<c:when test="${memberDto.memberNo==memberNo}">
+							<div class="dropdown">
+								<a href="#" role="button" id="dropdownMenuLink"
+									data-toggle="dropdown"><i class="fas fa-cog fa-2x"></i></a>
+	
+								<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+									<a class="dropdown-item" href="findPw">비밀번호 변경</a>
+									<a class="dropdown-item" href="#">문제 신고</a> 
+									<a class="dropdown-item" href="logout">로그아웃</a> 
+									<a class="dropdown-item text-danger" href="exit">회원 탈퇴</a> 
+								</div>
+							</div>
+						</c:when>
+					</c:choose>
 					</div>
+					
 				</div>
 				<div class="row mb-3">
 					<div class="col-4">
@@ -36,8 +80,7 @@
 					</div>
 				</div>
 				<div class="row">
-					<div class="col-12">자기소개 넣는게 어떨까 자기소개 넣는게 어떨까 자기소개 넣는게 어떨까
-						자기소개 넣는게 어떨까 자기소개 넣는게 어떨까 자기소개 넣는게 어떨까 자기소개 넣는게 어떨까</div>
+					<div class="col-12">${memberDto.memberIntro}</div>
 				</div>
 
 			</div>
@@ -232,10 +275,10 @@
 				</div>
 			</div>
 		</div>
-		
-		
-		
-		
+
+
+
+
 	</div>
 </main>
 <jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>
