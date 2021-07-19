@@ -300,7 +300,7 @@
 			});
 		});
 		
-		// DB : 장소 & 하루계획 & 장소계획 등록
+		// DB : 장소 & 하루계획 & 장소계획 등록 (완료)
 		function planInsertService(){
 			$.ajax({
 				url:"${pageContext.request.contextPath}/plan/data/planInsertService",
@@ -311,7 +311,9 @@
 					console.log("");
 					
 					/*등록 성공 시 출력 내용 */
-					dailyListService();
+					if($(".list-daily").length == 0){
+						dailyListService(); // 하루계획표 N일차 출력
+					}
 				},
 				error:function(){
 					console.log("등록 실패");
@@ -322,16 +324,22 @@
 		// DB : 등록 정보 리스트 출력 :  하루계획표
 		function dailyListService(){
 			$.ajax({
-				url:"${pageContext.request.contextPath}/plan/data/dailySelectListService",
+				url:"${pageContext.request.contextPath}/plan/data/dailyListService",
 				type:"get",
 				dataType:"json",
-				data: $("input[name=plannerName]").val(), // 내일 확인!!
+				data:  {
+					plannerNo: $("input[name=plannerNo]").val()
+				},
 				success:function(resp){
 					for(var i=0; i < resp.length; i++){
 						var template = $("#list-daily-template").html();
 						template = template.replace("{{dailyOrder}}", resp[i].dailyOrder);
 						$("#daily-list-confirm").append(template);
 					}
+					console.log("출력 완료");
+				},
+				error:function(){
+					console.log("출력 실패");
 				}
 			});
 		}
@@ -362,6 +370,9 @@
 	<div class="list-daily" style="border-bottom: 1px solid">
 		<div class="row-list-daily">
 			{{dailyOrder}} 일차 계획 계획표
+		</div>
+		<div class="row-list-daily">
+			<button id="list-dailyplan-template">▼</button>
 		</div>
 	</div>
 	<!-- 테스트용 : 하루계획표 리스트 -->
