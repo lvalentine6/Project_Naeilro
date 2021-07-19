@@ -19,7 +19,6 @@ import lombok.extern.slf4j.Slf4j;
 		"file:src/main/webapp/WEB-INF/spring/appServlet/servlet-context.xml"
 })
 @WebAppConfiguration
-@Slf4j
 public class PlanInsertServiceTest {
 	
 	@Autowired
