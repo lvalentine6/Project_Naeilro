@@ -91,6 +91,7 @@
 					let comment_count =$(".comment-count").text()*1 + 1
 					$(".comment-count").text(comment_count)
 					template = template.replace("{{userId}}","${memberContextNick }")
+					template = template.replace("{{userId}}","${memberContextNick }")
 					template = template.replace("{{comment}}",comment)
 					$(curEl).parent().parent().prev().prev().append(template)
 					comment_div.val("")
@@ -103,11 +104,18 @@
 	})
 </script>
 <script type="text/template" id="comment-tpl">
-	<div class="col-12 text-sm">
-		<strong>{{userId}}</strong>
-&nbsp;&nbsp;
-{{comment}}
+<div class="col-12 text-sm text-break">
+	<img class="my-2 user_profile_sm user_profile" src="${pageContext.request.contextPath}/image/default_user_profile.jpg">
+	&nbsp;
+	<a href="${pageContext.request.contextPath}/member/{{userId}}">
+	<strong>{{userId}}</strong>
+	</a>
+	&nbsp;
+	방금 전
+	<div>
+	{{comment}}
 	</div>
+</div>
 </script>
 <main>
 	<div class="container-lg ">
@@ -171,6 +179,7 @@
 				</div>
 				<div class='row align-items-center border-left border-right pb-1'>
 					<div class="col-12 text-sm">
+						
 						<strong>${photostoryListDto.memberNick}</strong>
 						&nbsp;&nbsp;
 						${photostoryListDto.photostoryContent}
@@ -185,12 +194,17 @@
 				<div class='row align-items-center border-left border-right pb-1'>
 					<c:forEach var="photostoryCommentListDto"
 						items="${photostoryCommentList}">
-						<div class="col-12 text-sm">
+						<div class="col-12 text-sm text-break">
+							<img class="my-2 user_profile_sm user_profile" src="${pageContext.request.contextPath}/image/default_user_profile.jpg">
+							&nbsp;
 							<a href="${pageContext.request.contextPath}/member/${photostoryCommentListDto.photostoryCommentMemberNick}">
 							<strong>${photostoryCommentListDto.photostoryCommentMemberNick}</strong>
 							</a>
-							&nbsp;&nbsp;
+							&nbsp;
+							${photostoryCommentListDto.photostoryCommentDate}
+							<div>
 							${photostoryCommentListDto.photostoryCommentContent}
+							</div>
 						</div>
 					</c:forEach>
 				</div>

@@ -85,6 +85,7 @@
 				.done(function(){
 					let template = $("#comment-tpl").html();
 					template = template.replace("{{userId}}","${memberContextNick }")
+					template = template.replace("{{userId}}","${memberContextNick }")
 					template = template.replace("{{comment}}",comment)
 					$(curEl).parent().parent().prev().prev().append(template)
 					
@@ -102,11 +103,18 @@
 	})
 </script>
 <script type="text/template" id="comment-tpl">
-	<div class="col-12 text-sm">
-		<strong>{{userId}}</strong>
-&nbsp;&nbsp;
-{{comment}}
+<div class="col-12 text-sm text-break">
+	<img class="my-2 user_profile_sm user_profile" src="${pageContext.request.contextPath}/image/default_user_profile.jpg">
+	&nbsp;
+	<a href="${pageContext.request.contextPath}/member/{{userId}}">
+	<strong>{{userId}}</strong>
+	</a>
+	&nbsp;
+	방금 전
+	<div>
+	{{comment}}
 	</div>
+</div>
 </script>
 <main>
 	<c:forEach var="photostoryListDto" items="${photostoryList}">
@@ -177,7 +185,9 @@
 					</div>
 					<div class='row align-items-center border-left border-right pb-1'>
 						<div class="col-12 text-sm">
+							<a href="${pageContext.request.contextPath}/member/${photostoryListDto.memberNick}">
 							<strong>${photostoryListDto.memberNick}</strong>
+							</a>
 							&nbsp;&nbsp; ${photostoryListDto.photostoryContent}
 						</div>
 					</div>
@@ -188,13 +198,20 @@
 								댓글 <span class="comment-count">${photostoryListDto.photostoryCommentCount}</span>개 모두 보기 </a>
 						</div>
 					</div>
-					<div class='row align-items-center border-left border-right pb-1'>
+					<div class='row align-items-center border-left border-right pb-1 text-wrap'>
 						<c:forEach var="photostoryCommentListDto" items="${photostoryListDto.photostoryCommentList}">
-							<div class="col-12 text-sm">
-								<strong>${photostoryCommentListDto.photostoryCommentMemberNick}</strong>
-								&nbsp;&nbsp;
-								${photostoryCommentListDto.photostoryCommentContent}
+						<div class="col-12 text-sm text-break">
+							<img class="my-2 user_profile_sm user_profile" src="${pageContext.request.contextPath}/image/default_user_profile.jpg">
+							&nbsp;
+							<a href="${pageContext.request.contextPath}/member/${photostoryCommentListDto.photostoryCommentMemberNick}">
+							<strong>${photostoryCommentListDto.photostoryCommentMemberNick}</strong>
+							</a>
+							&nbsp;
+							${photostoryCommentListDto.photostoryCommentDate}
+							<div>
+							${photostoryCommentListDto.photostoryCommentContent}
 							</div>
+						</div>
 						</c:forEach>
 					</div>
 					<div
