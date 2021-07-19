@@ -4,15 +4,15 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="place">
+<mapper namespace="daily">
 	
 	<select id="sequnece" resultType="int">
-		select place_seq.nextval from dual
+		select daily_seq.nextval from dual
 	</select>
 	
-	<insert id="placeInsert" parameterType="PlanInsertServiceVO">
-		insert into place values(
-			#{placeNo}, #{placeLatitude}, #{placeLongitude}, #{placeName}, #{placeType}
+	<insert id="dailyInsert" parameterType="PlanInsertServiceVO">
+		insert into daily values(
+			#{dailyNo}, #{plannerNo}, #{dailyStayDate}, #{dailyOrder}
 		)	
 	</insert>
 	

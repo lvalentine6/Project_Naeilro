@@ -10,5 +10,5 @@ public interface PhotostoryLikeDao {
 	void deletePhotostoryLike(PhotostoryLikeDto photostoryLikeDto);
 	
 	// 좋아요 확인 기능
-	boolean checkPhotostoryLike(PhotostoryLikeDto photostoryLikeDto);
+	Boolean checkPhotostoryLike(PhotostoryLikeDto photostoryLikeDto);
 }

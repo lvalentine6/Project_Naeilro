@@ -7,7 +7,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <mapper namespace="photostoryList">
 	
 	<!-- 포토스토리 리스트 -->
-	<select id="list" parameterType="ListParameter" resultType="PhotostoryListDto">
+	<select id="list" parameterType="PhotostoryListVO" resultType="PhotostoryListDto">
 		select * from (
 			select rownum rn, tmp.* from (
 				select * from photostory_list
@@ -24,7 +24,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<!-- 포토스토리 상세 조회 -->
-	<select id="find" parameterType="int" resultType="PhotostoryListDto">
+	<select id="get" parameterType="int" resultType="PhotostoryListDto">
 		select * from photostory_list where photostory_no = #{photostoryNo}
 	</select>
 	

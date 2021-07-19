@@ -1,6 +1,7 @@
 package com.kh.finale.util;
 
 import java.text.ParseException;
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -33,5 +34,32 @@ public class DateUtils {
 		}
 		
 		return msg;
+	}
+	
+	// 폴더명을 위한 현재날짜 획득 기능
+	public String getSysdate() {
+		Calendar cal = Calendar.getInstance();
+		
+		String year = String.valueOf(cal.get(Calendar.YEAR));
+		
+		int monthInt = cal.get(Calendar.MONTH) + 1;
+		String month;
+		
+		if (monthInt < 10) {
+			month = "0" + String.valueOf(monthInt);
+		} else {
+			month = String.valueOf(monthInt);
+		}
+		
+		String day;
+		int dayInt = cal.get(Calendar.DAY_OF_MONTH);
+		
+		if (dayInt < 10) {
+			day = "0" + String.valueOf(dayInt);
+		} else {
+			day = String.valueOf(dayInt);
+		}
+		
+		return year + month + day;
 	}
 }

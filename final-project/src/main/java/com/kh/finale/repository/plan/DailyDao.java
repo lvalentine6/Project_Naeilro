@@ -2,7 +2,7 @@ package com.kh.finale.repository.plan;
 
 import com.kh.finale.vo.plan.PlanInsertServiceVO;
 
-public interface PlaceDao {
+public interface DailyDao {
 	int getSequence();
-	void placeInsert(PlanInsertServiceVO planInsertServiceVO);
+	void dailyInsert(PlanInsertServiceVO planInsertServiceVO);
 }

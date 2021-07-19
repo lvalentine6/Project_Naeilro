@@ -41,6 +41,7 @@ $(function() {
 			$('#memberPw2').focus();
 			return;
 		}
+		window.alert("비밀번호가 정상적으로 변경되었습니다.")
 	})
 })
 </script>
@@ -55,8 +56,8 @@ $(function() {
 					class="sign_up_form encrypt-form">
 					<div class="form-row mb-3">
 						<label for="memberId">아이디</label> <input type="text"
-							class="form-control find-pw" id="memberId" name="memberName"
-							disabled required value="${memberId}">
+							class="form-control find-pw" id="memberId" name="memberId"
+							readonly required value="${memberId}">
 					</div>
 					<div class="form-row mb-3">
 						<label for="memberPw">새 비밀번호</label> <input type="password"

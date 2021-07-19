@@ -1,5 +1,6 @@
 package com.kh.finale.controller.photostory;
 
+import java.io.IOException;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -15,11 +16,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.kh.finale.entity.photostory.PhotostoryCommentListDto;
 import com.kh.finale.entity.photostory.PhotostoryDto;
+import com.kh.finale.entity.photostory.PhotostoryLikeDto;
 import com.kh.finale.entity.photostory.PhotostoryListDto;
 import com.kh.finale.repository.photostory.PhotostoryCommentListDao;
 import com.kh.finale.repository.photostory.PhotostoryDao;
+import com.kh.finale.repository.photostory.PhotostoryLikeDao;
 import com.kh.finale.repository.photostory.PhotostoryListDao;
-import com.kh.finale.util.ListParameter;
+import com.kh.finale.service.photostory.PhotostoryService;
+import com.kh.finale.vo.photostory.PhotostoryListVO;
+import com.kh.finale.vo.photostory.PhotostoryVO;
 
 @Controller
 @RequestMapping("/photostory")
@@ -33,14 +38,36 @@ public class PhotostoryViewController {
 
 	@Autowired
 	PhotostoryCommentListDao photostoryCommentListDao;
+	
+	@Autowired
+	PhotostoryLikeDao photostoryLikeDao;
+	
+	@Autowired
+	PhotostoryService photostoryService;
 
 	// 포토스토리 리스트 페이지
 	@GetMapping("")
-	public String home(@ModelAttribute ListParameter listParameter, Model model) {
-		listParameter = photostoryDao.getPageVariable(listParameter);
-		List<PhotostoryListDto> photostoryList = photostoryListDao.list(listParameter);
+	public String home(@ModelAttribute PhotostoryListVO photostoryListVO, Model model, HttpSession session) {
+		photostoryListVO = photostoryDao.getPageVariable(photostoryListVO);
+		List<PhotostoryListDto> photostoryList = photostoryListDao.list(photostoryListVO);
+		
+		int memberNo = 0;
+		if (session.getAttribute("memberNo") != null) {
+			memberNo = (int) session.getAttribute("memberNo");
+		}
 		
 		for (int i = 0; i < photostoryList.size(); i++) {
+			// 좋아요 처리
+			PhotostoryLikeDto photostoryLikeDto = PhotostoryLikeDto.builder()
+					.photostoryNo(photostoryList.get(i).getPhotostoryNo())
+					.memberNo(memberNo)
+					.build();
+			Boolean isLike = photostoryLikeDao.checkPhotostoryLike(photostoryLikeDto);
+			if (isLike != null) {
+				photostoryList.get(i).setIsLike(isLike);
+			}
+			
+			// 댓글 처리
 			List<PhotostoryCommentListDto> recentCommentList = 
 					photostoryCommentListDao.recentList(photostoryList.get(i).getPhotostoryNo());
 			for (int j = 0; j < recentCommentList.size(); j++) {
@@ -56,7 +83,7 @@ public class PhotostoryViewController {
 	// 포토스토리 상세 페이지
 	@GetMapping("/detail")
 	public String detail(@RequestParam int photostoryNo, Model model) {
-		PhotostoryListDto photostoryListDto = photostoryListDao.find(photostoryNo);
+		PhotostoryListDto photostoryListDto = photostoryListDao.get(photostoryNo);
 		List<PhotostoryCommentListDto> photostoryCommentList = photostoryCommentListDao.list(photostoryNo);
 		
 		model.addAttribute("photostoryListDto", photostoryListDto);
@@ -73,12 +100,13 @@ public class PhotostoryViewController {
 	
 	// 포토스토리 작성 처리
 	@PostMapping("/write")
-	public String write(@ModelAttribute PhotostoryDto photostoryDto, HttpSession session) {
+	public String write(@ModelAttribute PhotostoryVO photostoryVO,
+			HttpSession session) throws IllegalStateException, IOException {
 		int memberNo = (int) session.getAttribute("memberNo");
-		photostoryDto.setMemberNo(memberNo);
-		photostoryDto.setPlannerNo(1); // 임시
+		photostoryVO.setMemberNo(memberNo);
+		photostoryVO.setPlannerNo(1); // 임시
 		
-		photostoryDao.writePhotostory(photostoryDto);
+		photostoryService.insertPhotostory(photostoryVO);
 		
 		return "redirect:/photostory";
 	}
@@ -92,12 +120,13 @@ public class PhotostoryViewController {
 		photostoryDto.setMemberNo(memberNo);
 		photostoryDto.setPlannerNo(1); // 임시
 		
-		photostoryDao.editPhotostory(photostoryDto);
+		photostoryDao.updatePhotostory(photostoryDto);
 		
 		return "redirect:/photostory";
 	}
 	
 	// 포토스토리 삭제 처리
+	@GetMapping("/delete")
 	public String delete(@RequestParam int photostoryNo) {
 		photostoryDao.deletePhotostory(photostoryNo);
 		
