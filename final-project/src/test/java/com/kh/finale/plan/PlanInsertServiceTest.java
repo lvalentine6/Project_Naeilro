@@ -11,8 +11,6 @@ import com.kh.finale.repository.plan.DailyDao;
 import com.kh.finale.repository.plan.DailyplanDao;
 import com.kh.finale.repository.plan.PlaceDao;
 import com.kh.finale.vo.plan.PlanInsertServiceVO;
-import com.sun.tools.sjavac.Log;
-
 import lombok.extern.slf4j.Slf4j;
 
 @RunWith(SpringJUnit4ClassRunner.class)

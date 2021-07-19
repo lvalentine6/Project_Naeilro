@@ -25,7 +25,8 @@ public class MemberFindServiceImpl implements MemberFindService{
 	public MemberVo findPw(MemberVo memberVo) {
 		return memberDao.findPw(memberVo);
 	}
-
+	
+	// 비밀번호 찾기 인증
 	@Override
 	public MemberAuthDto checkAuthEmail(MemberAuthDto memberAuthDto) {
 		return memberDao.checkAuthEmail(memberAuthDto);

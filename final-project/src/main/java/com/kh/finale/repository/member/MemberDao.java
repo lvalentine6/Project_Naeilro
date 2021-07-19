@@ -15,4 +15,5 @@ public interface MemberDao {
 	Map<String,Object> resultAuth(MemberAuthDto memberAuthDto);
 	MemberAuthDto checkAuthEmail(MemberAuthDto memberAuthDto);
 	MemberAuthDto selectId (MemberAuthDto memberAuthDto);
+	void updatePw(MemberDto memberDto);
 }

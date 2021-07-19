@@ -7,6 +7,7 @@
 		
 		/* 인증번호 발송 버튼 클릭 이벤트 */
 		$(".cert-btn").click(function(){
+			alert("인증번호를 이메일로 발송 하였습니다.")
 			let memberId = $('#memberId').val();
 			let memberEmail=$('#memberEmail').val();
 			if(!memberId){
@@ -62,7 +63,7 @@
 			})
 			.done(function(){
 				let memberId = $('#memberId').val();
-				window.location.replace("${pageContext.request.contextPath}/member/changePw?authNo="+authNo)
+				window.location.replace("${pageContext.request.contextPath}/member/changePw?authNo="+authNo);
 			})
 			.fail(function(){
 				if($(".auth_time").attr("data-time")<=0){
