@@ -7,6 +7,7 @@ import java.util.Map;
 import javax.mail.MessagingException;
 import javax.servlet.http.HttpSession;
 
+import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -54,13 +55,13 @@ public class MemberController {
 		return "member/joinSuccess";
 	}
 	
-	// Login 페이지
+	// 로그인 페이지
 	@GetMapping("/login")
 	public String login() {
 		return "member/login";
 	}
 	
-	// Login 처리
+	// 로그인 처리
 	@PostMapping("/login")
 	public String login(@ModelAttribute MemberDto memberDto,
 			HttpSession httpSession) {
@@ -174,12 +175,25 @@ public class MemberController {
 			model.addAttribute("memberId", selectMember.getMemberId());
 			return "member/changePw";
 	}
+	
 	// 비밀번호 찾기 (변경 후 메인페이지 리다이렉트)
 	@PostMapping("/edit")
 	public String edit(@ModelAttribute MemberDto memberDto){
 		System.out.println("리다이렉트 전 검사 : " + memberDto);
 		memberAuthService.updatePw(memberDto);
 		return "redirect:/";
+	}
+	
+	@Autowired
+	HttpSession httpSession;
+	
+	// 마이페이지 수정 기능
+	@PostMapping("/editProfile")
+	public String editProfile(@ModelAttribute MemberDto memberDto) {
+		System.out.println("수신값 검사 : " + memberDto);
+		memberDto.setMemberNo((int) httpSession.getAttribute("memberNo"));
+		System.out.println("세션값 적용 : " + memberDto);
+		return "redirect: /myPage";
 	}
 	
 }

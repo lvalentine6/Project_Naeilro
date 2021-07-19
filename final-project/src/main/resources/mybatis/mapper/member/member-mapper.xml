@@ -46,4 +46,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		update member set member_pw = #{memberPw} where member_id = #{memberId}
 	</update>
 	
+	<!-- 마이페이지 수정 -->
+	<update id="editProfile" parameterType="MemberDto">
+		update member set member_name = ${memberName}, member_nick = #{memberNick},
+		member_intro = #{memberIntro}, member_email = #{memberEmail}, 
+		member_gender = #{memberGender} where member_no = #{memberNo}
+	</update>
+	
 </mapper>

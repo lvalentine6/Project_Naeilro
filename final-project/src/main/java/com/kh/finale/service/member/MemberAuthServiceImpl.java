@@ -57,11 +57,11 @@ public class MemberAuthServiceImpl implements MemberAuthService{
 		String[] to = {memberVo.getMemberEmail()};
 		helper.setFrom(new InternetAddress("finalprojectkh5@gmail.com", "내일로 관리자"));
 		helper.setTo(to);
-		helper.setSubject("[내일로] 비밀번호 인증 번호");
-		helper.setText("안녕하세요 내일로 입니다. <br><br>"
+		helper.setSubject("[NAEILRO] 비밀번호 인증 번호");
+		helper.setText("안녕하세요 NAEILRO 입니다. <br><br>"
 				+ "비밀번호 찾기 인증 번호는 <font color = \"blue\"><strong>" + authNo + "</strong></font> 입니다. <br><br>" 
 				+ "인증번호를 5분 이내에 입력해 주세요. <br><br><br>"
-				+ "<p><b>[본 메일은 내일로에서 발송한 메일이며 발신전용 메일입니다.]</b></p>", true);
+				+ "<p><b>[본 메일은 NAEILRO에서 발송한 메일이며 발신전용 메일입니다.]</b></p>", true);
 		sender.send(message);
 		
 		
