@@ -82,9 +82,24 @@ public class PhotostoryViewController {
 	
 	// 포토스토리 상세 페이지
 	@GetMapping("/detail")
-	public String detail(@RequestParam int photostoryNo, Model model) {
+	public String detail(@RequestParam int photostoryNo, Model model, HttpSession session) {
 		PhotostoryListDto photostoryListDto = photostoryListDao.get(photostoryNo);
 		List<PhotostoryCommentListDto> photostoryCommentList = photostoryCommentListDao.list(photostoryNo);
+		
+		int memberNo = 0;
+		if (session.getAttribute("memberNo") != null) {
+			memberNo = (int) session.getAttribute("memberNo");
+		}
+		
+		// 좋아요 처리
+		PhotostoryLikeDto photostoryLikeDto = PhotostoryLikeDto.builder()
+				.photostoryNo(photostoryListDto.getPhotostoryNo())
+				.memberNo(memberNo)
+				.build();
+		Boolean isLike = photostoryLikeDao.checkPhotostoryLike(photostoryLikeDto);
+		if (isLike != null) {
+			photostoryListDto.setIsLike(isLike);
+		}
 		
 		model.addAttribute("photostoryListDto", photostoryListDto);
 		model.addAttribute("photostoryCommentList", photostoryCommentList);
