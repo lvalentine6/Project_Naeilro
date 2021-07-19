@@ -15,6 +15,6 @@ import lombok.NoArgsConstructor;
 @Builder
 public class PhotostoryPhotoDto {
 	private int photostoryPhotoNo, photostoryNo;
-	private String photostoryPhotoOriginName, photostoryPhotoSaveName;
+	private String photostoryPhotoFilePath;
 	private long photostoryPhotoFileSize;
 }
