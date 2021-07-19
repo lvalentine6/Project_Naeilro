@@ -6,7 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * 포토스토리에 업로드할 이미지 정보를 담는 Dto
+ * 포토스토리의 이미지 관련 기능에 필요한 Dto
  * @author swjk78
  */
 @Data

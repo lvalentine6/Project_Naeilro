@@ -121,21 +121,25 @@
 					</div>
 				</div>
 				<div class=' row align-items-center'>
-					<img class="w-100 border"
-						src="${pageContext.request.contextPath}/image/bgimg.webp" />
+<!-- 					<img class="w-100 border" -->
+<%-- 						src="${pageContext.request.contextPath}/image/bgimg.webp" /> --%>
+					<c:forEach var="photostoryPhotoDto" items="${photostoryPhotoList}">
+						<img class="w-100 border"
+							src="${pageContext.request.contextPath}/photostory/photo/${photostoryPhotoDto.photostoryPhotoNo}" />
+					</c:forEach>
 				</div>
 				<div class='row align-items-center border-left border-right'>
 					<div class="col-1 py-2">
-						<%-- <c:choose>
-								<c:when test="${photostoryListDto.isLike}">
-									<i class="fa-heart fa-lg like-btn fas like" data-photostoryNo="${photostoryListDto.photostoryNo}"></i>
-								</c:when>
-								<c:otherwise>
-									<i class="fa-heart fa-lg like-btn far" data-photostoryNo="${photostoryListDto.photostoryNo}"></i> 
-								</c:otherwise>
-							</c:choose> --%>
-						<i class="fa-heart fa-lg like-btn far"
-							data-photostoryNo="${photostoryListDto.photostoryNo}"></i>
+						<c:choose>
+							<c:when test="${photostoryListDto.isLike}">
+								<i class="fa-heart fa-lg like-btn fas like" data-photostoryNo="${photostoryListDto.photostoryNo}"></i>
+							</c:when>
+							<c:otherwise>
+								<i class="fa-heart fa-lg like-btn far" data-photostoryNo="${photostoryListDto.photostoryNo}"></i> 
+							</c:otherwise>
+						</c:choose>
+<!-- 						<i class="fa-heart fa-lg like-btn far" -->
+<%-- 							data-photostoryNo="${photostoryListDto.photostoryNo}"></i> --%>
 					</div>
 					<div class="col-1">
 						<i class="far fa-comment fa-lg comment-icon-btn"></i>
