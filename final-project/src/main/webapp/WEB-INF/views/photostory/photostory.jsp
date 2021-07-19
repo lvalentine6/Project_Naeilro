@@ -12,6 +12,7 @@
 				console.log(like_btn)
 				if(${memberNo==null }){
 					alert("로그인후 이용해주세요");
+					return
 				}
 					/* 좋아요 삭제 */
 				if ($(this).hasClass("like")) {
@@ -61,6 +62,10 @@
 		
 		$(".coment-btn").each(function(){
 			$(this).click(function(){
+				if(${memberNo==null }){
+					alert("로그인후 이용해주세요");
+					return
+				}
 				let comment = $(this).parent().prev().children().val();
 				let comment_div = $(this).parent().prev().children();
 				let curEl = $(this);
@@ -79,9 +84,13 @@
 				})
 				.done(function(){
 					let template = $("#comment-tpl").html();
-					template = template.replace("{{userId}}","${memberNick }")
+					template = template.replace("{{userId}}","${memberContextNick }")
 					template = template.replace("{{comment}}",comment)
 					$(curEl).parent().parent().prev().prev().append(template)
+					
+					console.log($(".comment-count").html())
+					let comment_count =$(".comment-count").html()*1 + 1
+					$(".comment-count").text(comment_count)
 					comment_div.val("")
 					console.log(curEl);
 				})
@@ -115,7 +124,27 @@
 							</a>
 						</div>
 						<div class="col-1 offset-7 text-right">
-							<i class="fas fa-ellipsis-h"></i>
+							
+							
+							<a href="#" role="button" id="dropdownMenuLink"
+									data-toggle="dropdown"><i class="fas fa-ellipsis-h"></i></a>
+									
+								<c:choose>
+									<c:when test="${photostoryListDto.memberNo==memberNo}">
+										<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+											<a class="dropdown-item text-danger" href="#">삭제</a> 
+											<a class="dropdown-item " href="#">수정</a> 
+											<a class="dropdown-item" >취소</a> 
+										</div>
+									</c:when>
+									<c:otherwise>
+										<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+											<a class="dropdown-item text-danger" href="#">게시글 신고</a> 
+											<a class="dropdown-item" >취소</a> 
+										</div>
+									</c:otherwise>
+								</c:choose>
+								
 						</div>
 					</div>
 					<div class=' row align-items-center'>
@@ -124,16 +153,14 @@
 					</div>
 					<div class='row align-items-center border-left border-right'>
 						<div class="col-1 py-2">
-							<%-- <c:choose>
+							 <c:choose>
 								<c:when test="${photostoryListDto.isLike}">
 									<i class="fa-heart fa-lg like-btn fas like" data-photostoryNo="${photostoryListDto.photostoryNo}"></i>
 								</c:when>
 								<c:otherwise>
 									<i class="fa-heart fa-lg like-btn far" data-photostoryNo="${photostoryListDto.photostoryNo}"></i> 
 								</c:otherwise>
-							</c:choose> --%>
-							<i class="fa-heart fa-lg like-btn far"
-								data-photostoryNo="${photostoryListDto.photostoryNo}"></i>
+							</c:choose> 
 						</div>
 						<div class="col-1">
 							<a
@@ -148,20 +175,20 @@
 							좋아요 <span> ${photostoryListDto.photostoryLikeCount}</span>
 						</div>
 					</div>
-					<div class='row align-items-center border-left border-right mb-1'>
+					<div class='row align-items-center border-left border-right pb-1'>
 						<div class="col-12 text-sm">
 							<strong>${photostoryListDto.memberNick}</strong>
 							&nbsp;&nbsp; ${photostoryListDto.photostoryContent}
 						</div>
 					</div>
-					<div class='row align-items-center border-left border-right mb-1'>
+					<div class='row align-items-center border-left border-right pb-1'>
 						<div class="col-12 ">
 							<a class="text-black-50 font-weight-bold text-sm"
 								href="${pageContext.request.contextPath}/photostory/detail?photostoryNo=${photostoryListDto.photostoryNo}">
-								댓글 ${photostoryListDto.photostoryCommentCount}개 모두 보기 </a>
+								댓글 <span class="comment-count">${photostoryListDto.photostoryCommentCount}</span>개 모두 보기 </a>
 						</div>
 					</div>
-					<div class='row align-items-center border-left border-right mb-1'>
+					<div class='row align-items-center border-left border-right pb-1'>
 						<c:forEach var="photostoryCommentListDto" items="${photostoryListDto.photostoryCommentList}">
 							<div class="col-12 text-sm">
 								<strong>${photostoryCommentListDto.photostoryCommentMemberNick}</strong>
