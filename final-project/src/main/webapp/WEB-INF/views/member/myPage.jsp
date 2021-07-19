@@ -24,6 +24,45 @@ $(function(){
 		readImage(e.target)
 	})
 }) */
+
+
+$(function(){
+	$(".follow-btn").click(function(){
+		if(${memberNo==null }){
+			alert("로그인후 이용해주세요");
+			return
+		}
+		
+		$.ajax({
+			url:"${pageContext.request.contextPath}/memberprocess/insert_follow",
+			data : {
+				followTo : ${memberDto.memberNo},
+			},
+			method:"GET",
+		})
+		.done(function(){
+			location.reload();
+		})
+		.fail(function(){
+		})
+	});
+	
+	$(".unfollow-btn").click(function(){
+		
+		$.ajax({
+			url:"${pageContext.request.contextPath}/memberprocess/delete_follow",
+			data : {
+				followTo : ${memberDto.memberNo},
+			},
+			method:"GET",
+		})
+		.done(function(){
+			location.reload();
+		})
+		.fail(function(){
+		})
+	});
+})
 </script>
 <main>
 	<div class="container-lg">
@@ -44,7 +83,25 @@ $(function(){
 							<a class="btn btn-outline-secondary" href="editProfile" role="button">프로필 편집</a>
 						</c:when>
 						<c:otherwise>
-							<a class="btn btn-primary" role="button">팔로우</a>
+							<c:choose>
+								<c:when test="${isFollow }">
+									<div class="row justify-content-between">
+										<a class="btn btn-outline-secondary" role="button">메세지</a>
+										
+										<a class="btn btn-outline-secondary " role="button" href="#" id="dropdownMenuLink2" data-toggle="dropdown">팔로우 <i class="fas fa-check"></i></a>
+										
+										<div class="dropdown-menu" aria-labelledby="dropdownMenuLink2">
+											<a class="dropdown-item unfollow-btn text-danger" >팔로우 취소</a>
+											<a class="dropdown-item " >취소</a> 
+										</div>
+									</div>
+								</c:when>
+								<c:otherwise>
+									<div class="row justify-content-between">
+										<a class="btn btn-primary follow-btn" role="button">팔로우</a>
+									</div>
+								</c:otherwise>
+							</c:choose>
 						</c:otherwise>
 					</c:choose>
 					</div>
@@ -73,10 +130,10 @@ $(function(){
 						게시글 <strong>0</strong>
 					</div>
 					<div class="col-4">
-						팔로워 <strong>0</strong>
+						팔로워 <strong>${countFollower }</strong>
 					</div>
 					<div class="col-4">
-						팔로잉 <strong>0</strong>
+						팔로잉 <strong>${countFollowing }</strong>
 					</div>
 				</div>
 				<div class="row">

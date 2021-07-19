@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="follow">
+	
+	<!-- 팔로우 추가 -->
+	<insert id="insert" parameterType="FollowDto">
+		insert into follow values(#{followFrom},#{followTo})
+	</insert>
+	
+	<!-- 팔로우 삭제 -->
+	<delete id="delete" parameterType="FollowDto">
+		delete follow where follow_from=#{followFrom} and follow_to = #{followTo}
+	</delete>
+	
+	<!-- 팔로우 조회 -->
+	<select id="selectOne" parameterType="FollowDto" resultType="FollowDto">
+		select * from follow where follow_from=#{followFrom} and follow_to = #{followTo}
+	</select>
+	
+	<!-- 팔로워 조회 -->
+	<select id="countFollower" parameterType="int" resultType="int">
+		select count(*) from follow where follow_to = #{memberNo}
+	</select>
+	
+	<!-- 팔로잉 조회 -->
+	<select id="countFollowing" parameterType="int" resultType="int">
+		select count(*) from follow where follow_from=#{memberNo}
+	</select>
+	
+	
+</mapper>
