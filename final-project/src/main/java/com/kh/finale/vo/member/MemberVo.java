@@ -19,5 +19,6 @@ public class MemberVo {
 	private String memberGender;
 	private String memberProfilePath;
 	private int memberGrade;
+	private String memberIntro;
 	private MultipartFile memberProfile;
 }

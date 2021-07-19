@@ -64,8 +64,8 @@ public class MemberDaoImpl implements MemberDao{
 	}
 
 	@Override
-	public void editProfile(MemberDto memberDto) {
-		sqlSession.update("member.editProfile", memberDto);
+	public void editProfile(MemberVo memberVo) {
+		sqlSession.update("member.editProfile", memberVo);
 	}
 
 }

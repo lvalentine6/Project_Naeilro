@@ -51,19 +51,19 @@
 			}
 		})
 		
-// 		function readImage(input) {
-// 		    if(input.files && input.files[0]) {
-// 		        const reader = new FileReader()
-// 		        reader.onload = e => {
-// 		            const previewImage = document.querySelector(".upload_img")
-// 		            previewImage.src = e.target.result
-// 		        }
-// 		        reader.readAsDataURL(input.files[0])
-// 		    }
-// 		}
-// 		$(".input_img").change(function(e){
-// 			readImage(e.target)
-// 		})
+		function readImage(input) {
+		    if(input.files && input.files[0]) {
+		        const reader = new FileReader()
+		        reader.onload = e => {
+		            const previewImage = document.querySelector(".upload_img")
+		            previewImage.src = e.target.result
+		        }
+		        reader.readAsDataURL(input.files[0])
+		    }
+		}
+		$(".input_img").change(function(e){
+			readImage(e.target)
+		})
 	})
 </script>
 
@@ -84,7 +84,7 @@
 					<div class="form-row mb-3 justify-content-center">
 						<label for="memberProfile"> <img
 							class='upload_img user_profile'
-							src="${pageContext.request.contextPath}/image/default_user_profile.jpg"
+							src="profileImage?memberId=${memberId}"
 							style="width: 100px; height: 100px;"> <input
 							class="input_img" type="file" accept=".png, .jpg, .gif"
 							id="memberProfile" name="memberProfile" style="display: none" />

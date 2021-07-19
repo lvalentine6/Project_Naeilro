@@ -1,17 +1,55 @@
 package com.kh.finale.service.member;
 
+import java.io.File;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-import com.kh.finale.entity.member.MemberDto;
+import com.kh.finale.entity.member.MemberProfileDto;
 import com.kh.finale.repository.member.MemberDao;
+import com.kh.finale.repository.member.MemberProfileDao;
+import com.kh.finale.vo.member.MemberVo;
 
+@Service
 public class MemberEditServiceImpl implements MemberEditService{
 
 	@Autowired
 	MemberDao memberDao;
 	
+	@Autowired
+	MemberProfileDao memberProfileDao;
+	
 	@Override
-	public void editProfile(MemberDto memberDto) {
-		memberDao.editProfile(memberDto);
+	public void editProfile(MemberVo memberVo) {
+		// 회원 이미지 수정
+		try {
+			
+		// 프로필 이미지 경로
+		File dir = new File("D:/upload/kh5/member");
+		dir.mkdir();
+					
+		// 저장 파일명 설정
+		String FileName= memberVo.getMemberId()+"profile";
+		File target = new File(dir, FileName);
+		memberVo.getMemberProfile().transferTo(target);
+					
+		// 파일 정보 등록
+		MemberProfileDto memberProfileDto = MemberProfileDto.builder()
+													.memberId(memberVo.getMemberId())
+													.profileOriginName(memberVo.getMemberProfile().getOriginalFilename())
+													.profileSize(memberVo.getMemberProfile().getSize())
+													.profileSaveName(FileName)
+													.build();
+		memberProfileDao.update(memberProfileDto);
+		System.out.println("수정 DB 값 확인" + memberProfileDto);
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		
+		// 이미지를 제외한 회원정보 수정
+		memberDao.editProfile(memberVo);
+		System.out.println("이미지 제외 회원정보 변경완료");
+	
 	}
 }

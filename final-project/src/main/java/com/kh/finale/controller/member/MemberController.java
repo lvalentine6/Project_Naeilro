@@ -1,28 +1,40 @@
 package com.kh.finale.controller.member;
 
+import java.io.File;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.mail.MessagingException;
 import javax.servlet.http.HttpSession;
 
-import org.apache.ibatis.session.SqlSession;
+import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 
 import com.kh.finale.entity.member.MemberAuthDto;
 import com.kh.finale.entity.member.MemberDto;
+import com.kh.finale.entity.member.MemberProfileDto;
 import com.kh.finale.repository.member.MemberDao;
+import com.kh.finale.repository.member.MemberProfileDao;
 import com.kh.finale.service.member.MemberAuthService;
+import com.kh.finale.service.member.MemberEditService;
 import com.kh.finale.service.member.MemberFindService;
 import com.kh.finale.service.member.MemberJoinService;
 import com.kh.finale.vo.member.MemberVo;
@@ -45,6 +57,7 @@ public class MemberController {
 	
 	@PostMapping("/join")
 	public String join(@ModelAttribute MemberVo memberVo) {
+		System.out.println("수신값 확인 : " + memberVo);
 		memberJoinService.memberjoin(memberVo);		
 		return "redirect:join_success";
 	}
@@ -184,16 +197,48 @@ public class MemberController {
 		return "redirect:/";
 	}
 	
+	// 마이페이지 이미지 출력
+	
+	@Autowired
+	MemberProfileDao memberProfileDao;
+	
 	@Autowired
 	HttpSession httpSession;
 	
+	@GetMapping("/profileImage")
+	public ResponseEntity<ByteArrayResource> image() throws IOException{
+		String memberId = (String) httpSession.getAttribute("memberId");
+		System.out.println("아이디 값 :" + memberId);
+		MemberProfileDto memberProfileDto = memberProfileDao.find(memberId);
+		if(memberProfileDto == null) {
+			return ResponseEntity.notFound().build();
+		}
+		
+		File target = new File("D:/upload/kh5/member", memberProfileDto.getProfileSaveName());
+		byte[] data = FileUtils.readFileToByteArray(target);
+		ByteArrayResource resource = new ByteArrayResource(data);
+		
+		return ResponseEntity.ok()
+					.contentLength(memberProfileDto.getProfileSize())
+					.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_OCTET_STREAM_VALUE)
+					.header(HttpHeaders.CONTENT_ENCODING, "UTF-8")
+					.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\""+URLEncoder.encode(memberProfileDto.getProfileOriginName(), "UTF-8")+"\"")
+				.body(resource);
+	}
+	
+	
+	@Autowired
+	MemberEditService memberEditService;
+	
 	// 마이페이지 수정 기능
 	@PostMapping("/editProfile")
-	public String editProfile(@ModelAttribute MemberDto memberDto) {
-		System.out.println("수신값 검사 : " + memberDto);
-		memberDto.setMemberNo((int) httpSession.getAttribute("memberNo"));
-		System.out.println("세션값 적용 : " + memberDto);
-		return "redirect: /myPage";
+	public String editProfile(@ModelAttribute MemberVo memberVo) {
+		System.out.println("수신값 검사 : " + memberVo);
+		memberVo.setMemberNo((int) httpSession.getAttribute("memberNo"));
+		memberVo.setMemberId((String) httpSession.getAttribute("memberId"));
+		System.out.println("세션값 적용 : " + memberVo);
+		memberEditService.editProfile(memberVo);
+		return "redirect:/";
 	}
 	
 }
