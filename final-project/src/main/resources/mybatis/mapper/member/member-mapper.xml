@@ -35,4 +35,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		member_email = #{memberEmail} and member_id = #{memberId}
 	</select>
 	
+	<!-- 닉네임으로 회원 조회 -->
+	<select id="findWithNick" parameterType="String" resultType="MemberDto"> 
+		select * from member where 
+		member_nick = #{memberNick}
+	</select>
+	
 </mapper>

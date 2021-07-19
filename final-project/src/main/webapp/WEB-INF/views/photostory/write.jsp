@@ -36,21 +36,55 @@
 </html> --%>
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
 <script>
-	function readImage(input) {
+	/* function readImage(input) {
+		const previewImage = document.querySelectorAll(".upload_img");
 	    if(input.files && input.files[0]) {
+	    	console.dir(input.files)
 	        const reader = new FileReader()
 	        reader.onload = e => {
-	            const previewImage = document.querySelector(".upload_img")
-	            previewImage.src = e.target.result
+	        	console.dir(e);
+	        	for(var i =0 ; i< input.files.length ; i++){
+	            	previewImage[i].src = e.target.result
+	        	}
 	        }
-	        reader.readAsDataURL(input.files[0])
-	    }
-	}
+	        for(var i =0 ; i< input.files.length ; i++){
+	        	reader.readAsDataURL(input.files[i])
+	    	}
+    	}
+   	}
+    
 	$(function(){
 		$(".input_img").change(function(e){
 			readImage(e.target)
 		})
+	}) */
+	
+	var sel_files = [];
+	
+	$(function(){
+		$(".input_img").on("change",handleImgFileSelect)
 	})
+	
+	function handleImgFileSelect(e){
+		sel_files=[];
+		
+		var files = e.target.files;
+		var filesArr = Array.prototype.slice.call(files);
+		
+		var index = 0;
+		
+		filesArr.forEach(function(f){
+			sel_files.push(f);
+			$(".add_img").remove();
+			var reader = new FileReader();
+			reader.onload = function(e){
+				var html = "<img class='upload_img story-photo add_img' style='width: 24%' src='"+e.target.result+"'>";
+				$(".imgs_wrap").append(html);
+				index++
+			}
+			reader.readAsDataURL(f);
+		})
+	}
 </script>
 
 <main>
@@ -66,14 +100,15 @@
 					<div class="form-row mb-3">
 						<label for='photostoryPhoto'>스토리 사진</label>
 					</div>
-					<div class="form-row mb-3 justify-content-center row">
-						<div class="col-12">
-						<label for="photostoryPhoto"  style="width: 100%"> <img
+					<div class="form-row mb-3 row ">
+						<div class="col text-left imgs_wrap">
+						<label for="photostoryPhoto" style="width: 24%"> <img
 							class='upload_img story-photo'
 							src="${pageContext.request.contextPath}/image/photo_story_default.png"
-							> <input
+							>
+							 <input
 							class="input_img" type="file" accept=".png, .jpg, .gif"
-							id="photostoryPhoto" name="photostoryPhoto" style="display: none" />
+							id="photostoryPhoto" name="photostoryPhoto" style="display: none" multiple/>
 						</label>
 						</div>
 					</div>

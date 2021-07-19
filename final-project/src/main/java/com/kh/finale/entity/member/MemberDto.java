@@ -18,5 +18,5 @@ public class MemberDto {
 	private String memberBirth;
 	private String memberGender;
 	private int memberGrade;
-	
+	private String memberIntro;
 }

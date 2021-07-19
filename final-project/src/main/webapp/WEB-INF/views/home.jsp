@@ -98,10 +98,10 @@
 		<nav>
 			<div class="container-lg">
 				<div class="row">
-					<div class="col-1">
-						<h1 class="h-100 text-white text-nowrap">LOGO</h1>
+					<div class="col-2">
+						<h1 class="h-100 text-white text-nowrap">NAEILRO</h1>
 					</div>
-					<div class="col-8">
+					<div class="col-7">
 						<ul class="d-flex align-items-center h-100 font-weight-bold text-white">
 							<li><a class="text-white text-nowrap" href="#">여행지</a></li>
 							<li><a class="text-white text-nowrap" href="#">일정</a></li>
@@ -114,7 +114,7 @@
 							<c:choose>
 							<c:when test="${isLogin}">
 								<li><a class="text-white text-nowrap" href="${root}/member/logout">로그아웃</a></li>
-								<li><a class="text-white text-nowrap" href="${root}/member/${memberNick}">마이페이지</a></li>
+								<li><a class="text-white text-nowrap" href="${root}/member/${memberContextNick}">마이페이지</a></li>
 							</c:when>
 							<c:otherwise>
 								<li><a class="text-white text-nowrap" href="${root}/member/login">로그인</a></li>
@@ -128,7 +128,7 @@
 		</nav>
 		<div class="container-lg">
 			<div class="intro">
-				<h4 class="text-center">나만의 여행 플래너 LOGO!<br> 쉽고 빠르게 여행을 계획하세요.</h4>	
+				<h4 class="text-center">나만의 여행 플래너 NAEILRO!<br> 쉽고 빠르게 여행을 계획하세요.</h4>	
 			</div>
 			<div class="d-flex justify-content-center">
 				<button type="button" class="btn btn-primary btn-lg mt-2">시작하기</button>

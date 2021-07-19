@@ -58,13 +58,13 @@ public class MemberController {
 		return "member/joinSuccess";
 	}
 	
-	// 로그인 페이지
+	// Login 페이지
 	@GetMapping("/login")
 	public String login() {
 		return "member/login";
 	}
 	
-	// 로그인 처리
+	// Login 처리
 	@PostMapping("/login")
 	public String login(@ModelAttribute MemberDto memberDto,
 			HttpSession httpSession) {
@@ -72,7 +72,7 @@ public class MemberController {
 		if(check != null) {
 			httpSession.setAttribute("memberNo", check.getMemberNo());
 			httpSession.setAttribute("memberId", check.getMemberId());
-			httpSession.setAttribute("memberNick", check.getMemberNick());
+			httpSession.setAttribute("memberContextNick", check.getMemberNick());
 			return "redirect:/";
 		}
 		else {
@@ -85,7 +85,7 @@ public class MemberController {
 	public String logout(HttpSession httpSession) {
 		httpSession.removeAttribute("memberNo");
 		httpSession.removeAttribute("memberId");
-		httpSession.removeAttribute("memberNick");
+		httpSession.removeAttribute("memberContextNick");
 		return "redirect:/";
 	}
 	

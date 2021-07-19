@@ -88,7 +88,9 @@
 				<h3 class="display-5">프로필 편집</h3>
 			</div>
 			<div class="col-lg-6 offset-lg-3 text-center">
-				<form action="join" method="post" class="sign_up_form encrypt-form"
+			
+				<form action="editProfile" method="post" class="sign_up_form encrypt-form"
+				
 					enctype="multipart/form-data">
 					<!-- 	프로필 사진 업로드 -->
 					<div class="form-row mb-3">
@@ -137,7 +139,7 @@
 						</div>
 					</div>
 					<div class="form-row mb-5 justify-content-around">
-						<button class="btn btn-primary submit_btn btn-block" type="submit">회원가입</button>
+						<button class="btn btn-primary submit_btn btn-block" type="submit">수정하기</button>
 						<button class="btn btn-secondary cancel-btn btn-block"
 							type="button">취소</button>
 					</div>

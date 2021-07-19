@@ -119,7 +119,7 @@
 		<div class="row">
 			<div class="jumbotron col-lg-6 offset-lg-3">
 				<h3 class="display-5">회원가입</h3>
-				<span>LOGO에 오신 것을 환영합니다.</span>
+				<span>NAEILRO에 오신 것을 환영합니다.</span>
 			</div>
 			<div class="col-lg-6 offset-lg-3 text-center">
 				<form action="join" method="post" class="sign_up_form encrypt-form"
