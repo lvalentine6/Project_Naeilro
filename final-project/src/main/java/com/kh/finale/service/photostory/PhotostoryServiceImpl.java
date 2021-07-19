@@ -46,6 +46,7 @@ public class PhotostoryServiceImpl implements PhotostoryService {
 				String filePath = String.valueOf(photostoryNo) + "/"
 						+ String.valueOf(photostoryNo) + "_" + String.valueOf(i + 1);
 				File target = new File(dir, filePath);
+				target.mkdirs();
 				photostoryVO.getPhotostoryPhoto()[i].transferTo(target);
 
 				PhotostoryPhotoDto photostoryPhotoDto = PhotostoryPhotoDto.builder()

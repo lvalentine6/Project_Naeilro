@@ -153,8 +153,11 @@
 					</div>
 				</div>
 				<div class=' row align-items-center'>
-					<img class="w-100 border"
-						src="${pageContext.request.contextPath}/image/bgimg.webp" />
+					<c:forEach var="photostoryPhotoDto" items="${photostoryPhotoList}">
+					   <img class="w-100 border"
+					      src="${pageContext.request.contextPath}/photostory/photo/${photostoryPhotoDto.photostoryPhotoNo}" />
+					</c:forEach>
+
 				</div>
 				<div class='row align-items-center border-left border-right'>
 					<div class="col-1 py-2">
