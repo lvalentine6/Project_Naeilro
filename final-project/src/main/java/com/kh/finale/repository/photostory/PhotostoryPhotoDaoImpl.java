@@ -1,6 +1,5 @@
 package com.kh.finale.repository.photostory;
 
-import java.io.File;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
@@ -21,9 +20,15 @@ public class PhotostoryPhotoDaoImpl implements PhotostoryPhotoDao {
 		sqlSession.insert("photostoryPhoto.insert", photostoryPhotoDto);
 	}
 
-	// 이미지 정보 조회 기능
+	// 이미지 리스트 조회 기능
 	@Override
 	public List<PhotostoryPhotoDto> get(int photostoryNo) {
 		return sqlSession.selectList("photostoryPhoto.get", photostoryNo);
+	}
+
+	// 이미지 단일 조회 기능
+	@Override
+	public PhotostoryPhotoDto getSingle(int photostoryPhotoNo) {
+		return sqlSession.selectOne("photostoryPhoto.getSingle", photostoryPhotoNo);
 	}
 }

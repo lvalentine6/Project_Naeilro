@@ -100,21 +100,9 @@ public class PhotostoryDaoImpl implements PhotostoryDao {
 		sqlSession.update("photostory.refreshPhotostoryLikeCount", photostoryNo);
 	}
 
-	// 포토스토리 좋아요 수 조회 기능
-	@Override
-	public int getPhotostoryLikeCount(int photostoryNo) {
-		return sqlSession.selectOne("photostory.getPhotostoryLikeCount", photostoryNo);
-	}
-
 	// 포토스토리 댓글 수 갱신 기능
 	@Override
 	public void refreshPhotostoryCommentCount(int photostoryNo) {
 		sqlSession.update("photostory.refreshPhotostoryCommentCount", photostoryNo);
-	}
-
-	// 포토스토리 댓글 수 조회 기능
-	@Override
-	public int getPhotostoryCommentCount(int photostoryNo) {
-		return sqlSession.selectOne("photostory.getPhotostoryCommentCount", photostoryNo);
 	}
 }
