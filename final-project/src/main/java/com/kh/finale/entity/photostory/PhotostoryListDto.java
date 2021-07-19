@@ -32,7 +32,7 @@ public class PhotostoryListDto {
 	
 	private List<PhotostoryCommentListDto> photostoryCommentList;
 	
-	private int photostoryPhotoNo;
+	private Integer photostoryPhotoNo;
 	
 	// 글 작성시간의 시/분/초까지 표시하기 위한 get 메소드
 	public String getPhotostoryDateString() {
