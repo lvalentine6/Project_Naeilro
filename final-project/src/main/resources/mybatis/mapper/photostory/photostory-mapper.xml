@@ -48,22 +48,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			(select count(*) from photostory_like where photostory_no = #{photostoryNo})
 		where photostory_no = #{photostoryNo}
 	</update>
-	
-	<!-- 포토스토리 좋아요 수 조회 -->
-	<select id="getPhotostoryLikeCount" parameterType="int">
-		select photostory_like_count from photostory where photostory_no = #{photostoryNo} 
-	</select>
-	
+
 	<!-- 포토스토리 댓글 수 갱신 -->
 	<update id="refreshPhotostoryCommentCount" parameterType="int">
 		update photostory set photostory_comment_count =
 			(select count(*) from photostory_comment where photostory_no = #{photostoryNo})
 		where photostory_no = #{photostoryNo}
 	</update>
-	
-	<!-- 포토스토리 댓글 수 조회 -->
-	<select id="getPhotostoryCommentCount" parameterType="int">
-		select photostory_comment_count from photostory where photostory_no = #{photostoryNo}
-	</select>
 	
 </mapper>

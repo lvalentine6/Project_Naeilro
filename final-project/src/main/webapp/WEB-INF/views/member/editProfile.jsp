@@ -13,7 +13,17 @@
 	let nick = false;
 	let name = false;
 	$(function() {
-		
+		$('#memberId').blur(function() {
+			if (regex.test($(this).val())) {
+				id = true;
+				$(this).addClass("is-valid");
+				$(this).removeClass("is-invalid");
+			} else {
+				id = false;
+				$(this).removeClass("is-valid");
+				$(this).addClass("is-invalid");
+			}
+		})
 		$('#memberNick').blur(function() {
 			if (nick_name_regex.test($(this).val())) {
 				nick = true;
@@ -38,8 +48,11 @@
 		})
 		/* form submit 전송 검사 */
 		$('.submit_btn').click(function(e) {
-			console.log("click")
-			
+			if (!id) {
+				e.preventDefault();
+				$('#memberId').focus();
+				return;
+			}
 			if (!name) {
 				e.preventDefault();
 				$('#memberName').focus();
@@ -76,7 +89,8 @@
 			</div>
 			<div class="col-lg-6 offset-lg-3 text-center">
 			
-				<form action="editProfile" method="post" class="sign_up_form"
+				<form action="editProfile" method="post" class="sign_up_form encrypt-form"
+				
 					enctype="multipart/form-data">
 					<!-- 	프로필 사진 업로드 -->
 					<div class="form-row mb-3">
