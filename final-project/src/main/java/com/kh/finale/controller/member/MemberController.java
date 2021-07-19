@@ -232,12 +232,15 @@ public class MemberController {
 	
 	// 마이페이지 수정 기능
 	@PostMapping("/editProfile")
-	public String editProfile(@ModelAttribute MemberVo memberVo) {
+	public String editProfile(@ModelAttribute MemberVo memberVo, HttpSession httpSession) {
 		System.out.println("수신값 검사 : " + memberVo);
 		memberVo.setMemberNo((int) httpSession.getAttribute("memberNo"));
 		memberVo.setMemberId((String) httpSession.getAttribute("memberId"));
 		System.out.println("세션값 적용 : " + memberVo);
 		memberEditService.editProfile(memberVo);
+		httpSession.removeAttribute("memberNo");
+		httpSession.removeAttribute("memberId");
+		httpSession.removeAttribute("memberContextNick");
 		return "redirect:/";
 	}
 	

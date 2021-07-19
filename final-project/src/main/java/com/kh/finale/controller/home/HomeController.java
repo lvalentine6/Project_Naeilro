@@ -24,6 +24,7 @@ public class HomeController {
 	public String myPage(@PathVariable String memberNick
 			,Model model) {
 		model.addAttribute("memberDto",sqlSession.selectOne("findWithNick",memberNick));
+		System.out.println("마이페이지 모델 값 : " + model);
 		return "member/myPage";
 	}
 	@Autowired
