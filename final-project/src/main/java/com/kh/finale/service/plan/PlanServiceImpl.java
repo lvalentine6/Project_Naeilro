@@ -35,7 +35,7 @@ public class PlanServiceImpl implements PlanService {
 		 if(dailyDao.dailyOrderConfirm(planInsertServiceVO) == null) {
 			dailyDao.dailyInsert(planInsertServiceVO); 
 		}  else {
-			int dailyNo = dailyDao.dailyNoConfrim(planInsertServiceVO);
+			int dailyNo = dailyDao.dailyNoConfirm(planInsertServiceVO);
 			planInsertServiceVO.setDailyNo(dailyNo);
 		}
 		

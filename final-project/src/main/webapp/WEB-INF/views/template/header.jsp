@@ -39,8 +39,8 @@
 		object-fit:cover;
 	}
 	.user_profile_sm{
-		width: 40px;
-		height: 40px;
+		width: 35px;
+		height: 35px;
 	}
 	.user_profile_lg{
 		width: 140px;

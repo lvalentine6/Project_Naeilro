@@ -9,7 +9,7 @@ public interface DailyDao {
 	int getSequence();
 	void dailyInsert(PlanInsertServiceVO planInsertServiceVO);
 	Integer dailyOrderConfirm(PlanInsertServiceVO planInsertServiceVO);
-	int dailyNoConfrim(PlanInsertServiceVO planInsertServiceVO);
+	int dailyNoConfirm(PlanInsertServiceVO planInsertServiceVO);
 	
 	List<DailyDto> dailyListService(int plannerNo);
 }
