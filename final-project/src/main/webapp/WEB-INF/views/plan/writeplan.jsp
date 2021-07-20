@@ -45,6 +45,8 @@
 		$("#search").hide();
 		$("#daily-title").hide();
 		
+		$("#plan-insert-container").hide();
+		
 		/* 체크박스 중복 불가 */
 		function check(){
 			// 검색창
@@ -65,7 +67,11 @@
 			$("input[name=plannerName]").attr("value", plannerName);
 		});
 		
-		$("#planner-insert-button").click(function(){
+		$("#planner-map-find").click(function(){
+			// 맵 비활성화 및 초기화
+			$("#map").css('pointer-events', 'none');
+			$("#map").css('opacity', '0.6');
+			createMap();
 			
 			// 제어
 			$(".list-daily").remove();
@@ -82,7 +88,8 @@
 			$("input[name=dailyStayDate]").attr("value", dailyStayDate);
 			dailyTemplate(dailyStayDate);
 			
-			$("#daily-title").show();
+			$("#planner-map-find").hide();
+			$("#planner-insert-button").attr("type", "submit");
 		});
 		
 		//날짜 선택
@@ -135,14 +142,14 @@
 				$("#map").css('opacity', '1.0');
 				
 				// + 제어: 버튼 클릭 시 지도 초기화
-				createMap();
+				createMap(index);
 			});
 			
 		}
 		/* 하루계획표 */
 		
 		//지도 초기화
-		function createMap(){
+		function createMap(index){
 			$("#search").hide();
 			
 			var mapContainer = document.getElementById('map'), // 지도를 표시할 div  
@@ -184,7 +191,7 @@
 			        image : markerImage // 마커 이미지 
 			    });
 			    
-			    addMarker(marker);
+			    addMarker(marker, index);
 			}		
 		}
 		
@@ -232,7 +239,7 @@
 		}		
 		
 		/* 마커 제어 함수 : 하루계획 순서 */
-		function addMarker(marker){
+		function addMarker(marker, index){
 			
 			// 지정할 마커를 생성해준다
 			 var marker = new kakao.maps.Marker({
@@ -248,6 +255,16 @@
 				// #. 최초 마커 재설정 함수 실행 후에는 지역을 고정시켜야 한다 
 				placeName = marker.getTitle();
 				placeType = "호텔"; // 유형 : 기본값
+				
+				// DB 전송 데이터 준비 : 장소 - 지명 설정
+				$("input[name=placeName]").attr("value", placeName);
+				// DB 전송 데이터 준비 : 장소 - 유형 설정
+				$("input[name=placeType]").attr("value", placeType);
+				
+				// 지역 설정
+				var dailyIndex = index-1;
+				console.log("dailyIndex= " + dailyIndex);
+				$(".list-daily").eq(dailyIndex).children(".list-daily-placeName").children("#daily-placeName").attr("value", placeName);
 				
 				// #.지역 CB함수 - 매개변수 : 지명 + 유형
 				setMapBounds(placeName, placeType);
@@ -340,8 +357,33 @@
 			        			place.place_name + 
 			        		'</div>');
 			        infowindow.open(map, marker);
+			        
+			     	// DB 전송 데이터 준비 : 장소 - 위도 설정
+			        $("input[name=placeLatitude]").attr("value", place.y);
+			     	// DB 전송 데이터 준비 : 장소 - 경도 설정
+			        $("input[name=placeLongitude]").attr("value", place.x);
+			       
+			        // 장소계획
+			        // 1. 템플릿을  생성한다
+			        // 2. 사용자에게 장소에 대한 순서, 교통수단을 설정하게 한다
+			        // 3. 설정한 값을 전송값에 설정시킨다
+			        
+			        var dailyIndex = $("input[name=dailyOrder]").val()-1; 
+			        // N번째 하루계획표 중 마지막 자식 번호의 인덱스
+			        var dailyplanIndex = $(".list-daily").eq(dailyIndex).children(":last").data("index");
+			        var template = $("#user-place-dailyplan-template").html();
+			        // 인덱스 등록
+			        if(dailyplanIndex == null){
+			        	template= template.replace("{index}", 1);
+			        } else {
+			        	template= template.replace("{index}", dailyplanIndex+1);
+			        }
+					template = template.replace("{placeName}", place.place_name);
+			        // 하루계획표 인덱스 기준으로 생성
+			        $(".list-daily").eq(dailyIndex).append(template);
 			    });
-			} 
+			}
+			
 		} 
 		
 		/* 비동기 처리 영역 */
@@ -356,11 +398,32 @@
 		<div class="list-daily-order">
 			<label>{dailyOrder} 일차 하루계획표</label>
 		</div>
+		<div class="list-daily-placeName">
+			<label>지역</label>
+			<input type="text" readonly id="daily-placeName">
+		</div>
 		<div class="list-open-place-select-button">
 			<button>지역 선택</button>
 		</div>
 	</div>
 	<!-- 사용자용 : 하루계획표 리스트 -->
+</script>
+<script type="text/template" id="user-place-dailyplan-template">
+	<!-- 사용자용 : 장소계획 리스트 -->
+	<div class="list-dailyplan" style="border-top: 1px solid" data-index="{index}"> <!-- 장소 순서 -->
+		<div class="list-dailyplan-placeName">
+			<label>{placeName}</label>
+		</div>
+		<div class="list-dailyplan-transfer">
+			<label>교통수단</label>
+			<select id="transfer">
+				<option value="항공">항공</option>
+				<option value="기차">기차</option>
+				<option value="자동차" selected>자동차</option>
+			</select>
+		</div>
+	</div>
+	<!-- 사용자용 : 장소계획 리스트 -->
 </script>
 </head>
 <body>
@@ -383,22 +446,17 @@
 					</div>
 					<br>
 					<div class="row" id="planner-insert-button-div">
-						<button id="planner-insert-button">계획표 생성</button>
+						<button id="planner-map-find">계획표 생성</button>
+						<input type="hidden" id="planner-insert-button" value="계획표 생성완료">
 					</div>
 					<br>
 				</div>
 				<!-- 통합계획표 입력창 -->
-				<!-- 하루계획표 -->
-				<div id="daily-title" style="border-bottom: 1px solid">
-					<h3>하루계획표</h3>
-				</div>
-				<div id="daily-list-container"></div>
-				<!-- 하루계획표 -->
 				<!-- 검색창 -->
 				<div id="search" style="border-bottom: 1px solid"> 
 					<div style="font-weight:bold;">장소 검색창</div>
 					<div class="row">
-						<label>검색 유형 : </label><br><br>
+						<label>검색 유형 : </label>
 						<input type="checkbox" class="type" id="hotel" value="호텔">
 						<label>호텔</label>
 						<input type="checkbox" class="type" id="tour" value="관광지">
@@ -413,14 +471,20 @@
 					</div>
 				</div>
 				<!-- 검색창 -->
+				<!-- 하루계획표 -->
+				<div id="daily-list-container"></div>
+				<!-- 하루계획표 -->
 				<!-- 하루계획표 입력창 -->
 				<div id="daily-insert-confirm"></div>
 				<!-- 하루계획표 입력창 -->
+				<!-- 장소계획 입력창 -->
+				<div id="dailyplan-insert-confirm"></div>
+				<!-- 장소계획 입력창 -->
 			</div>
 			<!-- 사용자 컨테이너 -->
 			<!-- 개발자 컨테이너 -->
 			<div id="plan-insert-container" style="border-bottom: 1px solid; bottom-top: 1px solid">
-				<label>개발자 건테이너</label>
+				<label style="font-weight:bold;"> FORM 데이터 전송값 </label>
 				<form id="plan-insert-form">
 					<!-- 통합계획표 데이터 -->
 					<div class="planner-insert-confirm">
@@ -467,6 +531,14 @@
 					</div>
 					<!-- 장소 데이터 -->
 					<!-- 장소계획 데이터 -->
+					<div class="dailyplan-insert-row">
+						<label>장소 순서</label>
+						<input type="text" name="dailyplanPlaceOrder" required readonly>
+					</div>
+					<div class="dailyplan-insert-row">
+						<label>장소 교통수단</label>
+						<input type="text" name="dailyplanTransfer" required readonly>
+					</div>
 					<!-- 장소계획 데이터 -->
 				</form>
 				<br>
