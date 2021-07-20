@@ -8,6 +8,9 @@ public interface PhotostoryPhotoDao {
 	// 이미지 등록 기능
 	void insertPhotostoryPhoto(PhotostoryPhotoDto photostoryPhotoDto);
 
+	// 이미지 수정 기능
+	void updatePhotostoryPhoto(PhotostoryPhotoDto photostoryPhotoDto);
+
 	// 이미지 리스트 조회 기능
 	List<PhotostoryPhotoDto> get(int photostoryNo);
 	

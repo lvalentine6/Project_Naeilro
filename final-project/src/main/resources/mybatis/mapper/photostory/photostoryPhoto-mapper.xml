@@ -6,7 +6,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <mapper namespace="photostoryPhoto">
 	
-	<!-- 이미지 정보 등록 -->
+	<!-- 이미지 등록 -->
 	<insert id="insert" parameterType="PhotostoryPhotoDto">
 		insert into photostory_photo(
 			photostory_photo_no,
@@ -21,6 +21,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			#{photostoryPhotoFileSize}
 		)
 	</insert>
+	
+	<!-- 이미지 수정 -->
+	<update id="update" parameterType="PhotostoryPhotoDto">
+		update photostory_photo
+		set photostory_photo_file_path = #{photostoryPhotoFilePath},
+			photostory_photo_file_size = #{photostoryPhotoFileSize}
+		where photostory_no = #{photostoryNo}
+	</update>
 	
 	<!-- 이미지 리스트 조회 -->
 	<select id="get" resultType="PhotostoryPhotoDto" parameterType="int">

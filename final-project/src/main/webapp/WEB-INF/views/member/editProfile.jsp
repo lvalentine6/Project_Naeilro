@@ -25,13 +25,37 @@
 		})
 		$('#memberNick').blur(function() {
 			if (nick_name_regex.test($(this).val())) {
-				nick = true;
-				$(this).addClass("is-valid");
-				$(this).removeClass("is-invalid");
+				$("#nickck").removeClass("text-muted")
+				$("#nickck").removeClass("text-danger")
+				$("#nickck").addClass("text-success")
+				
+				
+				$.ajax({
+					url:"nickCheck",
+					data : {
+						memberId : memberId,
+					},
+					method:"POST",
+					})
+					.done(function(){
+						nick = true;
+						$('#nickck').addClass("is-valid");
+						$('#nickck').removeClass("is-invalid");
+						$(".nickck").hide()
+					})
+					.fail(function(){
+						nick = false;
+						$('#nickck').removeClass("is-valid");
+						$('#nickck').addClass("is-invalid");
+						$(".nickck").show()
+					})
 			} else {
 				nick = false;
 				$(this).removeClass("is-valid");
 				$(this).addClass("is-invalid");
+				$("#nickck").removeClass("text-muted")
+				$("#nickck").removeClass("text-success")
+				$("#nickck").addClass("text-danger")
 			}
 		})
 		$('#memberName').blur(function() {
@@ -111,9 +135,13 @@
 							한글만 사용 가능합니다.</small>
 					</div>
 					<div class="form-row mb-3">
-						<label for="memberNick">닉네임</label> <input type="text"
-							class="form-control" id="memberNick" name="memberNick" value="${memberDto.memberNick}" required>
-						<small id="emailHelp" class="form-text text-muted">4~12자의
+						<label for="memberNick">닉네임</label>
+						<small class="idck form-text text-danger text-left ">
+						&nbsp;&nbsp; 중복된 닉네임입니다.
+						</small> 
+						 <input type="text"
+							class="form-control" id="memberNick" name="memberNick" required>
+						<small id="nickck" class="form-text text-muted">4~12자의
 							영문 소문자, 대문자, 한글, 숫자만 사용 가능합니다.</small>
 					</div>
 					<div class="form-row mb-3">

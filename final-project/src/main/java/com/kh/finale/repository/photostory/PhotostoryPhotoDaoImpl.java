@@ -20,6 +20,12 @@ public class PhotostoryPhotoDaoImpl implements PhotostoryPhotoDao {
 		sqlSession.insert("photostoryPhoto.insert", photostoryPhotoDto);
 	}
 
+	// 이미지 수정 기능
+	@Override
+	public void updatePhotostoryPhoto(PhotostoryPhotoDto photostoryPhotoDto) {
+		sqlSession.insert("photostoryPhoto.update", photostoryPhotoDto);
+	}
+
 	// 이미지 리스트 조회 기능
 	@Override
 	public List<PhotostoryPhotoDto> get(int photostoryNo) {
