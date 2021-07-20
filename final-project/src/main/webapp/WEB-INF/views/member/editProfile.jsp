@@ -4,7 +4,6 @@
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
 
 <script>
-
 	/* 아이디(영문/숫자 4~12자), 비밀번호 (영문/숫자/한글 4~12자), 이름 (한글 2~7자), 닉네임 (영문/숫자/한글 4~12자) 검사 */
 	let regex = /^[0-9a-zA-Z]{4,12}$/;
 	let name_regex = /^[가-힣]{2,7}$/;
@@ -99,7 +98,7 @@
 					<div class="form-row mb-3 justify-content-center">
 						<label for="memberProfile"> <img
 							class='upload_img user_profile'
-							src="${pageContext.request.contextPath}/image/default_user_profile.jpg"
+							src="profileImage?memberId=${memberId}"
 							style="width: 100px; height: 100px;"> <input
 							class="input_img" type="file" accept=".png, .jpg, .gif"
 							id="memberProfile" name="memberProfile" style="display: none" />

@@ -17,4 +17,14 @@ public class MemberProfileImpl implements MemberProfileDao{
 		sqlSession.insert("memberProfile.insert", memberProfileDto);	
 	}
 
+	@Override
+	public void update(MemberProfileDto memberProfileDto) {
+		sqlSession.update("memberProfile.update", memberProfileDto);
+	}
+
+	@Override
+	public MemberProfileDto find(String memberProfileDto) {
+		return sqlSession.selectOne("memberProfile.find", memberProfileDto);
+	}
+
 }

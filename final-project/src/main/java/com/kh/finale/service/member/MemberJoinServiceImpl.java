@@ -2,6 +2,8 @@ package com.kh.finale.service.member;
 
 import java.io.File;
 
+import javax.mail.SendFailedException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -32,7 +34,7 @@ public class MemberJoinServiceImpl implements MemberJoinService{
 							.memberBirth(memberVo.getMemberBirth())
 							.memberGender(memberVo.getMemberGender())
 							.memberGrade(memberVo.getMemberGrade())
-							.memberIntro("")
+							.memberIntro(memberVo.getMemberIntro())
 							.build();
 							memberDao.join(memberDto);
 		
