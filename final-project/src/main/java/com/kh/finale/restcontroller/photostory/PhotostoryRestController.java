@@ -30,22 +30,22 @@ import com.kh.finale.vo.photostory.PhotostoryListVO;
 public class PhotostoryRestController {
 
 	@Autowired
-	PhotostoryDao photostoryDao;
+	private PhotostoryDao photostoryDao;
 
 	@Autowired
-	PhotostoryListDao photostoryListDao;
+	private PhotostoryListDao photostoryListDao;
 
 	@Autowired
-	PhotostoryLikeDao photostoryLikeDao;
+	private PhotostoryLikeDao photostoryLikeDao;
 	
 	@Autowired
-	PhotostoryCommentDao photostoryCommentDao;
+	private PhotostoryCommentDao photostoryCommentDao;
 
 	@Autowired
-	PhotostoryCommentListDao photostoryCommentListDao;
+	private PhotostoryCommentListDao photostoryCommentListDao;
 	
 	@Autowired
-	PhotostoryPhotoDao photostoryPhotoDao;
+	private PhotostoryPhotoDao photostoryPhotoDao;
 	
 	// 포토스토리 리스트 조회
 	@GetMapping("load")
