@@ -118,22 +118,23 @@
 			for(var i=0; i < dailyStayDate; i++){
 				var template = $("#user-daily-template").html();
 				template = template.replace("{dailyOrder}", i+1);
+				template = template.replace("{index}", i+1);
 				$("#daily-list-container").append(template);
 			}
 			
 			$(".list-open-place-select-button").click(function(){
-				
-				// 선택자 위치 확인!
-				$(".list-daily-order").each(function(index, obj){
-					console.log($(this).index());
-				});
+				//this == 버튼
+				var index = $(this).parents(".list-daily").data("index");
+				console.log("index = " + index);
 				
 				// DB 전송 데이터 준비 : 하루계획표 - 순서 설정
+				$("input[name=dailyOrder]").attr("value", index);
 				
 				//+ 맵 활성화
 				$("#map").css('pointer-events', 'auto');
 				$("#map").css('opacity', '1.0');
 				
+				// + 제어: 버튼 클릭 시 지도 초기화
 				createMap();
 			});
 			
@@ -351,12 +352,12 @@
 </script>
 <script type="text/template" id="user-daily-template">
 	<!-- 사용자용 : 하루계획표 리스트 -->
-	<div class="list-daily" style="border-bottom: 1px solid">
+	<div class="list-daily" style="border-bottom: 1px solid" data-index="{index}">
 		<div class="list-daily-order">
 			<label>{dailyOrder} 일차 하루계획표</label>
 		</div>
 		<div class="list-open-place-select-button">
-			<button>장소 선택</button>
+			<button>지역 선택</button>
 		</div>
 	</div>
 	<!-- 사용자용 : 하루계획표 리스트 -->
@@ -447,7 +448,28 @@
 						<input type="text" name="dailyOrder" required readonly>
 					</div>
 					<!-- 하루계획표 데이터 -->
+					<!-- 장소 데이터 -->
+					<div class="place-insert-row">
+						<label>장소 위도</label>
+						<input type="text" name="placeLatitude" required readonly>
+					</div>
+					<div class="place-insert-row">
+						<label>장소 경도</label>
+						<input type="text" name="placeLongitude" required readonly>
+					</div>
+					<div class="place-insert-row">
+						<label>장소 지명</label>
+						<input type="text" name="placeName" required readonly>
+					</div>
+					<div class="place-insert-row">
+						<label>장소 유형</label>
+						<input type="text" name="placeType" required readonly>
+					</div>
+					<!-- 장소 데이터 -->
+					<!-- 장소계획 데이터 -->
+					<!-- 장소계획 데이터 -->
 				</form>
+				<br>
 			</div>
 			<!-- 개발자 컨테이너 -->
 		</div>

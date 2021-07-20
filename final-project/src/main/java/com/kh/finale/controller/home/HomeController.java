@@ -46,9 +46,12 @@ public class HomeController {
 		
 		return "member/myPage";
 	}
+	@Autowired
+	HttpSession httpSession;
 	
 	@RequestMapping("/member/editProfile")
-	public String editProfile() {
+	public String editProfile(Model model) {
+		model.addAttribute("memberId", httpSession.getAttribute("memberId"));
 		return "member/editProfile";
 	}
 }

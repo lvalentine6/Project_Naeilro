@@ -13,5 +13,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		)
 	</insert>
 	
+	<select id="find" parameterType="String" resultType="MemberProfileDto">
+		select * from member_profile where member_id = #{memberId}
+	</select>
+	
+	<update id="update" parameterType="MemberProfileDto">
+		update member_profile set
+		profile_origin_name = #{profileOriginName},
+		profile_size = #{profileSize}, 
+		profile_save_name = #{profileSaveName} 
+		where member_id = #{memberId}
+	</update>
 	
 </mapper>
