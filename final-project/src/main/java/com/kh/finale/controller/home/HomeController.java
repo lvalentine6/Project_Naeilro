@@ -30,20 +30,21 @@ public class HomeController {
 		MemberDto memberDto = sqlSession.selectOne("findWithNick",memberNick);
 		model.addAttribute("memberDto",memberDto);
 		
-		FollowDto followDto = FollowDto.builder()
-				.followFrom((int)session.getAttribute("memberNo"))
-				.followTo(memberDto.getMemberNo())
-				.build();
-		
 		boolean isFollow = false;
-		if(followDao.isFollow(followDto)!=null) {
-			isFollow=true;
-		}
-		model.addAttribute("isFollow",isFollow);
 		
+		if((Integer)session.getAttribute("memberNo")!=null) {
+			FollowDto followDto = FollowDto.builder()
+					.followFrom((Integer)session.getAttribute("memberNo"))
+					.followTo(memberDto.getMemberNo())
+					.build();
+			if(followDao.isFollow(followDto)!=null) {
+				isFollow=true;
+			}
+		}
+		
+		model.addAttribute("isFollow",isFollow);
 		model.addAttribute("countFollower",followDao.getCountFollower(memberDto.getMemberNo()));
 		model.addAttribute("countFollowing",followDao.getCountFollowing(memberDto.getMemberNo()));
-		
 		return "member/myPage";
 	}
 	@Autowired
