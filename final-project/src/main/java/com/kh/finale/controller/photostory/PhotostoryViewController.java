@@ -149,18 +149,26 @@ public class PhotostoryViewController {
 		return "redirect:/photostory";
 	}
 	
-	// 포토스토리 수정 페이지?
+	// 포토스토리 수정 페이지
+	@GetMapping("/edit")
+	public String edit(@RequestParam int photostoryNo, Model model) {
+		PhotostoryListDto photostoryListDto = photostoryListDao.get(photostoryNo);
+		model.addAttribute("photostoryListDto", photostoryListDto);
+		
+		return "photostory/edit";
+	}
 	
 	// 포토스토리 수정 처리
 	@PostMapping("/edit")
-	public String edit(@ModelAttribute PhotostoryDto photostoryDto, HttpSession session) {
+	public String edit(@ModelAttribute PhotostoryVO photostoryVO,
+			HttpSession session) throws IllegalStateException, IOException {
 		int memberNo = (int) session.getAttribute("memberNo");
-		photostoryDto.setMemberNo(memberNo);
-		photostoryDto.setPlannerNo(1); // 임시
+		photostoryVO.setMemberNo(memberNo);
+		photostoryVO.setPlannerNo(1); // 임시
 		
-		photostoryDao.updatePhotostory(photostoryDto);
+		photostoryService.updatePhotostory(photostoryVO);
 		
-		return "redirect:/photostory/detail?photostoryNo=" + photostoryDto.getPhotostoryNo();
+		return "redirect:/photostory/detail?photostoryNo=" + photostoryVO.getPhotostoryNo();
 	}
 	
 	// 포토스토리 삭제 처리

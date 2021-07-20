@@ -62,10 +62,9 @@
 					</div>
 					
 					<div class="form-row mb-3">
+						<input type="hidden" name="photostoryNo" value="${photostoryListDto.photostoryNo}">
 						<label for="photostoryContent">스토리 내용</label> 
-						<textarea class="form-control" name="photostoryContent" aria-label="With textarea">
-							${photostoryListDto.photostoryContent}
-						</textarea>
+						<textarea class="form-control" name="photostoryContent" aria-label="With textarea">${photostoryListDto.photostoryContent}</textarea>
 						<small id="emailHelp" class="form-text text-muted">스토리 내용을 작성해주세요.</small>
 					</div>
 					
