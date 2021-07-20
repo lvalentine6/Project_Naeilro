@@ -12,7 +12,7 @@ import com.kh.finale.entity.photostory.PhotostoryPhotoDto;
 public class PhotostoryPhotoDaoImpl implements PhotostoryPhotoDao {
 
 	@Autowired
-	SqlSession sqlSession;
+	private SqlSession sqlSession;
 
 	// 이미지 등록 기능
 	@Override
@@ -20,10 +20,16 @@ public class PhotostoryPhotoDaoImpl implements PhotostoryPhotoDao {
 		sqlSession.insert("photostoryPhoto.insert", photostoryPhotoDto);
 	}
 
-	// 이미지 수정 기능
+	// 이미지 삭제 기능
 	@Override
-	public void updatePhotostoryPhoto(PhotostoryPhotoDto photostoryPhotoDto) {
-		sqlSession.insert("photostoryPhoto.update", photostoryPhotoDto);
+	public void deletePhotostoryPhoto(int photostoryPhotoNo) {
+		sqlSession.delete("photostoryPhoto.delete", photostoryPhotoNo);
+	}
+	
+	// 이미지 삭제 기능(포토스토리 번호로)
+	@Override
+	public void deletePhotostoryPhotoByPhotostoryNo(int photostoryNo) {
+		sqlSession.delete("photostoryPhoto.deleteByPhotostoryNo", photostoryNo);
 	}
 
 	// 이미지 리스트 조회 기능
