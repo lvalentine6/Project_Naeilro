@@ -138,8 +138,8 @@
 							<c:choose>
 								<c:when test="${photostoryListDto.memberNo==memberNo}">
 									<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-										<a class="dropdown-item text-danger" href="#">삭제</a> 
-										<a class="dropdown-item " href="#">수정</a> 
+										<a class="dropdown-item text-danger" href="delete">삭제</a> 
+										<a class="dropdown-item " href="edit">수정</a> 
 										<a class="dropdown-item" >취소</a> 
 									</div>
 								</c:when>
