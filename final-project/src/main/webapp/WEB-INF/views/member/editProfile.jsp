@@ -99,6 +99,7 @@
 						<label for="memberProfile"> <img
 							class='upload_img user_profile'
 							src="profileImage?memberId=${memberId}"
+							onerror="this.src='${pageContext.request.contextPath}/image/default_user_profile.jpg'"
 							style="width: 100px; height: 100px;"> <input
 							class="input_img" type="file" accept=".png, .jpg, .gif"
 							id="memberProfile" name="memberProfile" style="display: none" />

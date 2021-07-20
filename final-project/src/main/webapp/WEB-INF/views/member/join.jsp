@@ -5,111 +5,172 @@
 
 <script>
 
-	/* 아이디(영문/숫자 4~12자), 비밀번호 (영문/숫자/한글 4~12자), 이름 (한글 2~7자), 닉네임 (영문/숫자/한글 4~12자) 검사 */
-	let regex = /^[0-9a-zA-Z]{4,12}$/;
-	let name_regex = /^[가-힣]{2,7}$/;
-	let nick_name_regex = /^[0-9a-zA-Z가-힣]{4,12}$/;
-	let id = false;
-	let nick = false;
-	let pw = false;
-	let name = false;
-	$(function() {
-		$('#memberId').blur(function() {
-			if (regex.test($(this).val())) {
-				id = true;
-				$(this).addClass("is-valid");
-				$(this).removeClass("is-invalid");
-			} else {
-				id = false;
-				$(this).removeClass("is-valid");
-				$(this).addClass("is-invalid");
-			}
-		})
-		$('#memberPw').blur(function() {
-			if (regex.test($(this).val())) {
-				pw = true;
-				$(this).addClass("is-valid");
-				$(this).removeClass("is-invalid");
-			} else {
-				pw = false;
-				$(this).removeClass("is-valid");
-				$(this).addClass("is-invalid");
-			}
-		})
-		$('#memberPw2').blur(function() {
-			if ($(this).val() == $("#memberPw").val()) {
-				$(this).addClass("is-valid");
-				$(this).removeClass("is-invalid");
-			} else {
-				$(this).removeClass("is-valid");
-				$(this).addClass("is-invalid");
-			}
-		})
-		$('#memberNick').blur(function() {
-			if (nick_name_regex.test($(this).val())) {
-				nick = true;
-				$(this).addClass("is-valid");
-				$(this).removeClass("is-invalid");
-			} else {
-				nick = false;
-				$(this).removeClass("is-valid");
-				$(this).addClass("is-invalid");
-			}
-		})
-		$('#memberName').blur(function() {
-			if (name_regex.test($(this).val())) {
-				name = true;
-				$(this).addClass("is-valid");
-				$(this).removeClass("is-invalid");
-			} else {
-				name = false;
-				$(this).removeClass("is-valid");
-				$(this).addClass("is-invalid");
-			}
-		})
-		/* form submit 전송 검사 */
-		$('.submit_btn').click(function(e) {
-			if (!id) {
-				e.preventDefault();
-				$('#memberId').focus();
-				return;
-			}
-			if (!pw) {
-				e.preventDefault();
-				$('#memberPw').focus();
-				return;
-			}
-			if ($('#memberPw').val() != $('#memberPw2').val()) {
-				e.preventDefault();
-				$('#memberPw2').focus();
-				return;
-			}
-			if (!name) {
-				e.preventDefault();
-				$('#memberName').focus();
-				return;
-			}
-			if (!nick) {
-				e.preventDefault();
-				$('#memberNick').focus();
-				return;
-			}
-		})
-		
-		function readImage(input) {
-		    if(input.files && input.files[0]) {
-		        const reader = new FileReader()
-		        reader.onload = e => {
-		            const previewImage = document.querySelector(".upload_img")
-		            previewImage.src = e.target.result
-		        }
-		        reader.readAsDataURL(input.files[0])
-		    }
+/* 아이디(영문/숫자 4~12자), 비밀번호 (영문/숫자/한글 4~12자), 이름 (한글 2~7자), 닉네임 (영문/숫자/한글 4~12자) 검사 */
+let regex = /^[0-9a-zA-Z]{4,12}$/;
+let name_regex = /^[가-힣]{2,7}$/;
+let nick_name_regex = /^[0-9a-zA-Z가-힣]{4,12}$/;
+let id = false;
+let nick = false;
+let pw = false;
+let name = false;
+$(function() {
+	
+	$(".idck").hide()
+	
+	$('#memberId').blur(function() {
+		if (regex.test($(this).val())) {
+			$("#idck").removeClass("text-muted")
+			$("#idck").removeClass("text-danger")
+			$("#idck").addClass("text-success")
+			let memberId = $(this).val();
+			$.ajax({
+				url:"idCheck",
+				data : {
+					memberId : memberId,
+				},
+				method:"POST",
+				})
+				.done(function(){
+					id = true;
+					$('#memberId').addClass("is-valid");
+					$('#memberId').removeClass("is-invalid");
+				})
+				.fail(function(){
+					id=false;
+					$(this).removeClass("is-valid");
+					$(this).addClass("is-invalid");
+					$(".idck").show()
+				})
+		} else {
+			id = false;
+			$(this).removeClass("is-valid");
+			$(this).addClass("is-invalid");
+			$("#idck").removeClass("text-muted")
+			$("#idck").removeClass("text-success")
+			$("#idck").addClass("text-danger")
 		}
-		$(".input_img").change(function(e){
-			readImage(e.target)
-		})
 	})
+	$('#memberPw').blur(function() {
+		if (regex.test($(this).val())) {
+			pw = true;
+			$(this).addClass("is-valid");
+			$(this).removeClass("is-invalid");
+			$("#pwck").removeClass("text-muted")
+			$("#pwck").removeClass("text-danger")
+			$("#pwck").addClass("text-success")
+		} else {
+			pw = false;
+			$(this).removeClass("is-valid");
+			$(this).addClass("is-invalid");
+			$("#pwck").removeClass("text-muted")
+			$("#pwck").removeClass("text-success")
+			$("#pwck").addClass("text-danger")
+		}
+	})
+	$('#memberPw2').blur(function() {
+		if ($(this).val() == $("#memberPw").val()) {
+			$(this).addClass("is-valid");
+			$(this).removeClass("is-invalid");
+		} else {
+			$(this).removeClass("is-valid");
+			$(this).addClass("is-invalid");
+		}
+	})
+	$('#memberNick').blur(function() {
+		if (nick_name_regex.test($(this).val())) {
+			$("#nickck").removeClass("text-muted")
+			$("#nickck").removeClass("text-danger")
+			$("#nickck").addClass("text-success")
+			
+			
+			$.ajax({
+				url:"nickCheck",
+				data : {
+					memberId : memberId,
+				},
+				method:"POST",
+				})
+				.done(function(){
+					nick = true;
+					$('#nickck').addClass("is-valid");
+					$('#nickck').removeClass("is-invalid");
+					$(".nickck").hide()
+				})
+				.fail(function(){
+					nick = false;
+					$('#nickck').removeClass("is-valid");
+					$('#nickck').addClass("is-invalid");
+					$(".nickck").show()
+				})
+		} else {
+			nick = false;
+			$(this).removeClass("is-valid");
+			$(this).addClass("is-invalid");
+			$("#nickck").removeClass("text-muted")
+			$("#nickck").removeClass("text-success")
+			$("#nickck").addClass("text-danger")
+		}
+	})
+	$('#memberName').blur(function() {
+		if (name_regex.test($(this).val())) {
+			name = true;
+			$(this).addClass("is-valid");
+			$(this).removeClass("is-invalid");
+			$("#nameck").removeClass("text-muted")
+			$("#nameck").removeClass("text-danger")
+			$("#nameck").addClass("text-success")
+		} else {
+			name = false;
+			$(this).removeClass("is-valid");
+			$(this).addClass("is-invalid");
+			$("#nameck").removeClass("text-muted")
+			$("#nameck").removeClass("text-success")
+			$("#nameck").addClass("text-danger")
+		}
+	})
+	/* form submit 전송 검사 */
+	$('.submit_btn').click(function(e) {
+		if (!id) {
+			e.preventDefault();
+			$('#memberId').focus();
+			return;
+		}
+		if (!pw) {
+			e.preventDefault();
+			$('#memberPw').focus();
+			return;
+		}
+		if ($('#memberPw').val() != $('#memberPw2').val()) {
+			e.preventDefault();
+			$('#memberPw2').focus();
+			return;
+		}
+		if (!name) {
+			e.preventDefault();
+			$('#memberName').focus();
+			return;
+		}
+		if (!nick) {
+			e.preventDefault();
+			$('#memberNick').focus();
+			return;
+		}
+	})
+	
+	function readImage(input) {
+	    if(input.files && input.files[0]) {
+	        const reader = new FileReader()
+	        reader.onload = e => {
+	            const previewImage = document.querySelector(".upload_img")
+	            previewImage.src = e.target.result
+	        }
+	        reader.readAsDataURL(input.files[0])
+	    }
+	}
+	$(".input_img").change(function(e){
+		readImage(e.target)
+	})
+})
 </script>
 
 <main>
@@ -134,7 +195,7 @@
 							src="${pageContext.request.contextPath}/image/default_user_profile.jpg"
 							style="width: 100px; height: 100px;"> <input
 							class="input_img" type="file" accept=".png, .jpg, .gif"
-							id="memberProfile" name="memberProfile" style="display: none" />
+							id="memberProfile" name="memberProfile" style="display: none"/>
 						</label>
 					</div>
 					<div class="form-row mb-3">

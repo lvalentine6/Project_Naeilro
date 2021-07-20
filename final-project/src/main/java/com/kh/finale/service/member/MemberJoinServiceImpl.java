@@ -37,7 +37,7 @@ public class MemberJoinServiceImpl implements MemberJoinService{
 							.memberIntro(memberVo.getMemberIntro())
 							.build();
 							memberDao.join(memberDto);
-		
+			
 			// 프로필 이미지 경로
 			File dir = new File("D:/upload/kh5/member");
 			dir.mkdir();
