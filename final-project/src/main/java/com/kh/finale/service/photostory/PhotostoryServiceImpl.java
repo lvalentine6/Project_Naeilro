@@ -39,19 +39,20 @@ public class PhotostoryServiceImpl implements PhotostoryService {
 		if (!photostoryVO.getPhotostoryPhoto()[0].isEmpty()) {
 			// 포토스토리 이미지 등록
 			// 경로 설정 및 생성
-			DateUtils dateUtils = new DateUtils();
-			File dir = new File("D:/upload/photostory" + dateUtils.getSysdate());
+			File dir = new File("D:/upload/kh5/photostory/");
 			dir.mkdirs();
 			
 			for (int i = 0; i < photostoryVO.getPhotostoryPhoto().length; i++) {
-				String fileName = String.valueOf(photostoryNo) + "_" + String.valueOf(i);
-				File target = new File(dir, fileName);
+				String filePath = String.valueOf(photostoryNo) + "/"
+						+ String.valueOf(photostoryNo) + "_" + String.valueOf(i + 1);
+				File target = new File(dir, filePath);
+				target.mkdirs();
 				photostoryVO.getPhotostoryPhoto()[i].transferTo(target);
 
 				PhotostoryPhotoDto photostoryPhotoDto = PhotostoryPhotoDto.builder()
 						.photostoryNo(photostoryNo)
-						.photostoryPhotoOriginName(photostoryVO.getPhotostoryPhoto()[i].getOriginalFilename())
-						.photostoryPhotoSaveName(fileName)
+						.photostoryPhotoFilePath(filePath)
+						.photostoryPhotoFileSize(photostoryVO.getPhotostoryPhoto()[i].getSize())
 						.build();
 				photostoryPhotoDao.insertPhotostoryPhoto(photostoryPhotoDto);
 			}

@@ -12,7 +12,17 @@
 	let nick = false;
 	let name = false;
 	$(function() {
-		
+		$('#memberId').blur(function() {
+			if (regex.test($(this).val())) {
+				id = true;
+				$(this).addClass("is-valid");
+				$(this).removeClass("is-invalid");
+			} else {
+				id = false;
+				$(this).removeClass("is-valid");
+				$(this).addClass("is-invalid");
+			}
+		})
 		$('#memberNick').blur(function() {
 			if (nick_name_regex.test($(this).val())) {
 				nick = true;
@@ -37,8 +47,11 @@
 		})
 		/* form submit 전송 검사 */
 		$('.submit_btn').click(function(e) {
-			console.log("click")
-			
+			if (!id) {
+				e.preventDefault();
+				$('#memberId').focus();
+				return;
+			}
 			if (!name) {
 				e.preventDefault();
 				$('#memberName').focus();
@@ -75,7 +88,8 @@
 			</div>
 			<div class="col-lg-6 offset-lg-3 text-center">
 			
-				<form action="editProfile" method="post" class="sign_up_form"
+				<form action="editProfile" method="post" class="sign_up_form encrypt-form"
+				
 					enctype="multipart/form-data">
 					<!-- 	프로필 사진 업로드 -->
 					<div class="form-row mb-3">
@@ -92,36 +106,53 @@
 					</div>
 					<div class="form-row mb-3">
 						<label for="memberName">이름</label> <input type="text"
-							class="form-control" id="memberName" name="memberName" required>
+							class="form-control" id="memberName" name="memberName" value="${memberDto.memberName}" required>
 						<small id="emailHelp" class="form-text text-muted">2~7자의
 							한글만 사용 가능합니다.</small>
 					</div>
 					<div class="form-row mb-3">
 						<label for="memberNick">닉네임</label> <input type="text"
-							class="form-control" id="memberNick" name="memberNick" required>
+							class="form-control" id="memberNick" name="memberNick" value="${memberDto.memberNick}" required>
 						<small id="emailHelp" class="form-text text-muted">4~12자의
 							영문 소문자, 대문자, 한글, 숫자만 사용 가능합니다.</small>
 					</div>
 					<div class="form-row mb-3">
 						<label for="memberIntro">소개</label> 
-						<textarea class="form-control" aria-label="With textarea" name="memberIntro"></textarea>
+						<textarea class="form-control" aria-label="With textarea" name="memberIntro" >${memberDto.memberIntro}</textarea>
 						<small id="emailHelp" class="form-text text-muted">소개를 작성해 주세요</small>
 					</div>
 					<div class="form-row mb-3">
 						<label for="memberEmail">이메일</label> <input type="email"
-							class="form-control" id="memberEmail" name="memberEmail" required>
+							class="form-control" id="memberEmail" name="memberEmail" required value="${memberDto.memberEmail}">
 					</div>
 					<div class="form-row mb-5 justify-content-around">
-						<div class="form-check">
+						<c:choose>
+							<c:when test='${memberDto.memberGender=="남"}'>
+								<div class="form-check">
 							<input class="form-check-input" type="radio" name="memberGender"
 								id="memberGender1" value="남" checked> <label
 								class="form-check-label" for="memberGender1"> 남자 </label>
-						</div>
-						<div class="form-check">
+								</div>
+								<div class="form-check">
+									<input class="form-check-input" type="radio" name="memberGender"
+										id="memberGender2" value="여"> <label
+										class="form-check-label" for="memberGender2"> 여자 </label>
+								</div>
+							</c:when>
+							<c:otherwise>
+								<div class="form-check">
 							<input class="form-check-input" type="radio" name="memberGender"
-								id="memberGender2" value="여"> <label
-								class="form-check-label" for="memberGender2"> 여자 </label>
-						</div>
+								id="memberGender1" value="남" > <label
+								class="form-check-label" for="memberGender1"> 남자 </label>
+								</div>
+								<div class="form-check">
+									<input class="form-check-input" type="radio" name="memberGender"
+										id="memberGender2" value="여" checked> <label
+										class="form-check-label" for="memberGender2" > 여자 </label>
+								</div>
+							</c:otherwise>
+						</c:choose>
+						
 					</div>
 					<div class="form-row mb-5 justify-content-around">
 						<button class="btn btn-primary submit_btn btn-block" type="submit">수정하기</button>

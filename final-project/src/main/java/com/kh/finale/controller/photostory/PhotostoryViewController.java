@@ -1,15 +1,21 @@
 package com.kh.finale.controller.photostory;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -18,10 +24,12 @@ import com.kh.finale.entity.photostory.PhotostoryCommentListDto;
 import com.kh.finale.entity.photostory.PhotostoryDto;
 import com.kh.finale.entity.photostory.PhotostoryLikeDto;
 import com.kh.finale.entity.photostory.PhotostoryListDto;
+import com.kh.finale.entity.photostory.PhotostoryPhotoDto;
 import com.kh.finale.repository.photostory.PhotostoryCommentListDao;
 import com.kh.finale.repository.photostory.PhotostoryDao;
 import com.kh.finale.repository.photostory.PhotostoryLikeDao;
 import com.kh.finale.repository.photostory.PhotostoryListDao;
+import com.kh.finale.repository.photostory.PhotostoryPhotoDao;
 import com.kh.finale.service.photostory.PhotostoryService;
 import com.kh.finale.vo.photostory.PhotostoryListVO;
 import com.kh.finale.vo.photostory.PhotostoryVO;
@@ -45,6 +53,9 @@ public class PhotostoryViewController {
 	@Autowired
 	PhotostoryService photostoryService;
 
+	@Autowired
+	PhotostoryPhotoDao photostoryPhotoDao;
+
 	// 포토스토리 리스트 페이지
 	@GetMapping("")
 	public String home(@ModelAttribute PhotostoryListVO photostoryListVO, Model model, HttpSession session) {
@@ -57,21 +68,29 @@ public class PhotostoryViewController {
 		}
 		
 		for (int i = 0; i < photostoryList.size(); i++) {
+			PhotostoryListDto photostoryListDto = photostoryList.get(i);
+			
 			// 좋아요 처리
 			PhotostoryLikeDto photostoryLikeDto = PhotostoryLikeDto.builder()
-					.photostoryNo(photostoryList.get(i).getPhotostoryNo())
+					.photostoryNo(photostoryListDto.getPhotostoryNo())
 					.memberNo(memberNo)
 					.build();
 			Boolean isLike = photostoryLikeDao.checkPhotostoryLike(photostoryLikeDto);
 			if (isLike != null) {
-				photostoryList.get(i).setIsLike(isLike);
+				photostoryListDto.setIsLike(isLike);
 			}
 			
 			// 댓글 처리
 			List<PhotostoryCommentListDto> recentCommentList = 
-					photostoryCommentListDao.recentList(photostoryList.get(i).getPhotostoryNo());
+					photostoryCommentListDao.recentList(photostoryListDto.getPhotostoryNo());
 			for (int j = 0; j < recentCommentList.size(); j++) {
-				photostoryList.get(i).setPhotostoryCommentList(recentCommentList);
+				photostoryListDto.setPhotostoryCommentList(recentCommentList);
+			}
+			
+			// 이미지 처리
+			List<PhotostoryPhotoDto> photostoryPhotoList = photostoryPhotoDao.get(photostoryListDto.getPhotostoryNo());
+			if (!photostoryPhotoList.isEmpty()) {
+				photostoryListDto.setPhotostoryPhotoNo(photostoryPhotoList.get(0).getPhotostoryPhotoNo());
 			}
 		}
 
@@ -82,12 +101,31 @@ public class PhotostoryViewController {
 	
 	// 포토스토리 상세 페이지
 	@GetMapping("/detail")
-	public String detail(@RequestParam int photostoryNo, Model model) {
+	public String detail(@RequestParam int photostoryNo, Model model, HttpSession session) {
 		PhotostoryListDto photostoryListDto = photostoryListDao.get(photostoryNo);
 		List<PhotostoryCommentListDto> photostoryCommentList = photostoryCommentListDao.list(photostoryNo);
 		
+		int memberNo = 0;
+		if (session.getAttribute("memberNo") != null) {
+			memberNo = (int) session.getAttribute("memberNo");
+		}
+		
+		// 이미지 리스트
+		List<PhotostoryPhotoDto> photostoryPhotoList = photostoryPhotoDao.get(photostoryNo);
+		
+		// 좋아요 처리
+		PhotostoryLikeDto photostoryLikeDto = PhotostoryLikeDto.builder()
+				.photostoryNo(photostoryListDto.getPhotostoryNo())
+				.memberNo(memberNo)
+				.build();
+		Boolean isLike = photostoryLikeDao.checkPhotostoryLike(photostoryLikeDto);
+		if (isLike != null) {
+			photostoryListDto.setIsLike(isLike);
+		}
+		
 		model.addAttribute("photostoryListDto", photostoryListDto);
 		model.addAttribute("photostoryCommentList", photostoryCommentList);
+		model.addAttribute("photostoryPhotoList", photostoryPhotoList);
 		
 		return "photostory/detail";
 	}
@@ -122,7 +160,7 @@ public class PhotostoryViewController {
 		
 		photostoryDao.updatePhotostory(photostoryDto);
 		
-		return "redirect:/photostory";
+		return "redirect:/photostory/detail?photostoryNo=" + photostoryDto.getPhotostoryNo();
 	}
 	
 	// 포토스토리 삭제 처리
@@ -131,5 +169,24 @@ public class PhotostoryViewController {
 		photostoryDao.deletePhotostory(photostoryNo);
 		
 		return "redirect:/photostory";
+	}
+	
+	// 이미지 다운로드 처리
+	@GetMapping("/photo/{photostoryPhotoNo}")
+	public ResponseEntity<ByteArrayResource> download(@PathVariable int photostoryPhotoNo) throws IOException {
+		PhotostoryPhotoDto photostoryPhotoDto = photostoryPhotoDao.getSingle(photostoryPhotoNo);
+		
+		if (photostoryPhotoDto == null) {
+			return ResponseEntity.notFound().build();
+		}
+		
+		File target = new File("D:/upload/kh5/photostory/", photostoryPhotoDto.getPhotostoryPhotoFilePath());
+		byte[] data = FileUtils.readFileToByteArray(target);
+		ByteArrayResource resource = new ByteArrayResource(data);
+		
+		return ResponseEntity.ok()
+						 	 .contentLength(photostoryPhotoDto.getPhotostoryPhotoFileSize())
+							 .header(HttpHeaders.CONTENT_ENCODING, "UTF-8")
+							.body(resource);
 	}
 }

@@ -1,5 +1,7 @@
 package com.kh.finale.restcontroller.photostory;
 
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,10 +13,17 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.kh.finale.entity.photostory.PhotostoryCommentDto;
+import com.kh.finale.entity.photostory.PhotostoryCommentListDto;
 import com.kh.finale.entity.photostory.PhotostoryLikeDto;
+import com.kh.finale.entity.photostory.PhotostoryListDto;
+import com.kh.finale.entity.photostory.PhotostoryPhotoDto;
 import com.kh.finale.repository.photostory.PhotostoryCommentDao;
+import com.kh.finale.repository.photostory.PhotostoryCommentListDao;
 import com.kh.finale.repository.photostory.PhotostoryDao;
 import com.kh.finale.repository.photostory.PhotostoryLikeDao;
+import com.kh.finale.repository.photostory.PhotostoryListDao;
+import com.kh.finale.repository.photostory.PhotostoryPhotoDao;
+import com.kh.finale.vo.photostory.PhotostoryListVO;
 
 @RestController
 @RequestMapping("/process")
@@ -24,10 +33,60 @@ public class PhotostoryRestController {
 	PhotostoryDao photostoryDao;
 
 	@Autowired
+	PhotostoryListDao photostoryListDao;
+
+	@Autowired
 	PhotostoryLikeDao photostoryLikeDao;
 	
 	@Autowired
 	PhotostoryCommentDao photostoryCommentDao;
+
+	@Autowired
+	PhotostoryCommentListDao photostoryCommentListDao;
+	
+	@Autowired
+	PhotostoryPhotoDao photostoryPhotoDao;
+	
+	// 포토스토리 리스트 조회
+	@GetMapping("load")
+	public List<PhotostoryListDto> load(@ModelAttribute PhotostoryListVO photostoryListVO, HttpSession session) {
+		photostoryListVO = photostoryDao.getPageVariable(photostoryListVO);
+		List<PhotostoryListDto> photostoryList = photostoryListDao.list(photostoryListVO);
+		
+		int memberNo = 0;
+		if (session.getAttribute("memberNo") != null) {
+			memberNo = (int) session.getAttribute("memberNo");
+		}
+		
+		for (int i = 0; i < photostoryList.size(); i++) {
+			PhotostoryListDto photostoryListDto = photostoryList.get(i);
+			
+			// 좋아요 처리
+			PhotostoryLikeDto photostoryLikeDto = PhotostoryLikeDto.builder()
+					.photostoryNo(photostoryListDto.getPhotostoryNo())
+					.memberNo(memberNo)
+					.build();
+			Boolean isLike = photostoryLikeDao.checkPhotostoryLike(photostoryLikeDto);
+			if (isLike != null) {
+				photostoryListDto.setIsLike(isLike);
+			}
+			
+			// 댓글 처리
+			List<PhotostoryCommentListDto> recentCommentList = 
+					photostoryCommentListDao.recentList(photostoryListDto.getPhotostoryNo());
+			for (int j = 0; j < recentCommentList.size(); j++) {
+				photostoryListDto.setPhotostoryCommentList(recentCommentList);
+			}
+			
+			// 이미지 처리
+			List<PhotostoryPhotoDto> photostoryPhotoList = photostoryPhotoDao.get(photostoryListDto.getPhotostoryNo());
+			if (!photostoryPhotoList.isEmpty()) {
+				photostoryListDto.setPhotostoryPhotoNo(photostoryPhotoList.get(0).getPhotostoryPhotoNo());
+			}
+		}
+
+		return photostoryList;
+	}
 	
 	// 포토스토리 좋아요 등록 처리
 	@GetMapping("/insert_like")
