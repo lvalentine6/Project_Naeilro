@@ -14,15 +14,40 @@
 	let pw = false;
 	let name = false;
 	$(function() {
+		
+		$(".idck").hide()
+		
 		$('#memberId').blur(function() {
 			if (regex.test($(this).val())) {
-				id = true;
-				$(this).addClass("is-valid");
-				$(this).removeClass("is-invalid");
+				$("#idck").removeClass("text-muted")
+				$("#idck").removeClass("text-danger")
+				$("#idck").addClass("text-success")
+				let memberId = $(this).val();
+				$.ajax({
+					url:"idCheck",
+					data : {
+						memberId : memberId,
+					},
+					method:"POST",
+					})
+					.done(function(){
+						id = true;
+						$('#memberId').addClass("is-valid");
+						$('#memberId').removeClass("is-invalid");
+					})
+					.fail(function(){
+						id=false;
+						$(this).removeClass("is-valid");
+						$(this).addClass("is-invalid");
+						$(".idck").show()
+					})
 			} else {
 				id = false;
 				$(this).removeClass("is-valid");
 				$(this).addClass("is-invalid");
+				$("#idck").removeClass("text-muted")
+				$("#idck").removeClass("text-success")
+				$("#idck").addClass("text-danger")
 			}
 		})
 		$('#memberPw').blur(function() {
@@ -30,10 +55,16 @@
 				pw = true;
 				$(this).addClass("is-valid");
 				$(this).removeClass("is-invalid");
+				$("#pwck").removeClass("text-muted")
+				$("#pwck").removeClass("text-danger")
+				$("#pwck").addClass("text-success")
 			} else {
 				pw = false;
 				$(this).removeClass("is-valid");
 				$(this).addClass("is-invalid");
+				$("#pwck").removeClass("text-muted")
+				$("#pwck").removeClass("text-success")
+				$("#pwck").addClass("text-danger")
 			}
 		})
 		$('#memberPw2').blur(function() {
@@ -47,13 +78,37 @@
 		})
 		$('#memberNick').blur(function() {
 			if (nick_name_regex.test($(this).val())) {
-				nick = true;
-				$(this).addClass("is-valid");
-				$(this).removeClass("is-invalid");
+				$("#nickck").removeClass("text-muted")
+				$("#nickck").removeClass("text-danger")
+				$("#nickck").addClass("text-success")
+				
+				
+				$.ajax({
+					url:"nickCheck",
+					data : {
+						memberId : memberId,
+					},
+					method:"POST",
+					})
+					.done(function(){
+						nick = true;
+						$('#nickck').addClass("is-valid");
+						$('#nickck').removeClass("is-invalid");
+						$(".nickck").hide()
+					})
+					.fail(function(){
+						nick = false;
+						$('#nickck').removeClass("is-valid");
+						$('#nickck').addClass("is-invalid");
+						$(".nickck").show()
+					})
 			} else {
 				nick = false;
 				$(this).removeClass("is-valid");
 				$(this).addClass("is-invalid");
+				$("#nickck").removeClass("text-muted")
+				$("#nickck").removeClass("text-success")
+				$("#nickck").addClass("text-danger")
 			}
 		})
 		$('#memberName').blur(function() {
@@ -61,10 +116,16 @@
 				name = true;
 				$(this).addClass("is-valid");
 				$(this).removeClass("is-invalid");
+				$("#nameck").removeClass("text-muted")
+				$("#nameck").removeClass("text-danger")
+				$("#nameck").addClass("text-success")
 			} else {
 				name = false;
 				$(this).removeClass("is-valid");
 				$(this).addClass("is-invalid");
+				$("#nameck").removeClass("text-muted")
+				$("#nameck").removeClass("text-success")
+				$("#nameck").addClass("text-danger")
 			}
 		})
 		/* form submit 전송 검사 */
@@ -138,15 +199,20 @@
 						</label>
 					</div>
 					<div class="form-row mb-3">
-						<label for="memberId">아이디</label> <input type="text"
-							class="form-control " id="memberId" name="memberId" required>
-						<small id="emailHelp" class="form-text text-muted">4~12자의
-							영문 소문자, 대문자, 숫자만 사용 가능합니다.</small>
+						<label for="memberId">아이디 </label>
+						<small class="idck form-text text-danger text-left ">
+						&nbsp;&nbsp; 중복된 아이디입니다.
+						</small> 
+						<input type="text" class="form-control " id="memberId" name="memberId" required>
+						<small id="idck" class="form-text text-muted">
+						4~12자의 영문 소문자, 대문자, 숫자만 사용 가능합니다.
+						</small>
 					</div>
+					
 					<div class="form-row mb-3">
 						<label for="memberPw">비밀번호</label> <input type="password"
 							class="form-control " id="memberPw" name="memberPw" required>
-						<small id="emailHelp" class="form-text text-muted">4~12자의
+						<small id="pwck" class="form-text text-muted">4~12자의
 							영문 소문자, 대문자, 숫자만 사용 가능합니다.</small>
 					</div>
 					<div class="form-row mb-3">
@@ -156,13 +222,17 @@
 					<div class="form-row mb-3">
 						<label for="memberName">이름</label> <input type="text"
 							class="form-control" id="memberName" name="memberName" required>
-						<small id="emailHelp" class="form-text text-muted">2~7자의
+						<small id="nameck" class="form-text text-muted">2~7자의
 							한글만 사용 가능합니다.</small>
 					</div>
 					<div class="form-row mb-3">
-						<label for="memberNick">닉네임</label> <input type="text"
+						<label for="memberNick">닉네임</label>
+						<small class="idck form-text text-danger text-left ">
+						&nbsp;&nbsp; 중복된 닉네임입니다.
+						</small> 
+						 <input type="text"
 							class="form-control" id="memberNick" name="memberNick" required>
-						<small id="emailHelp" class="form-text text-muted">4~12자의
+						<small id="nickck" class="form-text text-muted">4~12자의
 							영문 소문자, 대문자, 한글, 숫자만 사용 가능합니다.</small>
 					</div>
 					<div class="form-row mb-3">
