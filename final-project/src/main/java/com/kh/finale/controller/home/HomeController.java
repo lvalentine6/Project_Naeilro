@@ -25,6 +25,7 @@ public class HomeController {
 	@Autowired
 	private FollowDao followDao;
 	@RequestMapping("/member/{memberNick}")
+	public String myPage(@PathVariable String memberNick
 			,Model model,HttpSession session) {
 		MemberDto memberDto = sqlSession.selectOne("findWithNick",memberNick);
 		model.addAttribute("memberDto",memberDto);
