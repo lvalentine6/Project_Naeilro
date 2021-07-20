@@ -230,7 +230,7 @@ public class MemberController {
 	@Autowired
 	MemberEditService memberEditService;
 	
-	// 마이페이지 수정 기능
+	// 마이페이지 수정 기능 - 수정 후 로그아웃
 	@PostMapping("/editProfile")
 	public String editProfile(@ModelAttribute MemberVo memberVo, HttpSession httpSession) {
 		System.out.println("수신값 검사 : " + memberVo);
