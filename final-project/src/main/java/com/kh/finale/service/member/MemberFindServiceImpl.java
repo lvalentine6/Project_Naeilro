@@ -31,5 +31,10 @@ public class MemberFindServiceImpl implements MemberFindService{
 	public MemberAuthDto checkAuthEmail(MemberAuthDto memberAuthDto) {
 		return memberDao.checkAuthEmail(memberAuthDto);
 	}
+
+	@Override
+	public int idCheck(MemberVo memberVo) {
+		return memberDao.idCheck(memberVo);
+	}
 	
 }

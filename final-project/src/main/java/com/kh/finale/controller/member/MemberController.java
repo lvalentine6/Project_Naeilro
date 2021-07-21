@@ -20,15 +20,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 
 import com.kh.finale.entity.member.MemberAuthDto;
+import com.kh.finale.entity.member.MemberCDto;
 import com.kh.finale.entity.member.MemberDto;
 import com.kh.finale.entity.member.MemberProfileDto;
 import com.kh.finale.repository.member.MemberDao;
@@ -67,6 +66,26 @@ public class MemberController {
 	public String registSuccess() {
 		return "member/joinSuccess";
 	}
+	
+	// 회원 가입 아이디 중복체크
+	@PostMapping("/idCheck")
+	@ResponseBody
+	public boolean idCheck(@ModelAttribute MemberVo memberVo) {
+		System.out.println("아이디 중복값 체크 : " + memberVo);
+		boolean result = memberFindService.idCheck(memberVo) > 0;
+		System.out.println("아이디 체크값 반환 : " + result);
+		return result;
+	}
+	
+	// 회원 가입 닉네임 중복체크
+	@PostMapping("/idCheck")
+	@ResponseBody
+	public boolean nickCheck(@ModelAttribute MemberVo memberVo) {
+		System.out.println("닉네임 중복값 체크 : " + memberVo);
+		boolean result = memberFindService.idCheck(memberVo) > 0;
+		System.out.println("닉네임 체크값 반환 : " + result);
+		return result;
+		}
 	
 	// 로그인 페이지
 	@GetMapping("/login")

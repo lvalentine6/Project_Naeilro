@@ -53,4 +53,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		member_gender = #{memberGender} where member_no = #{memberNo}
 	</update>
 	
+	<!-- id 중복 체크 -->
+	<select id="idCheck" parameterType="MemberVo" resultType="int">
+		select count(*) from member where member_id = #{memberId}
+	</select>
+	
 </mapper>

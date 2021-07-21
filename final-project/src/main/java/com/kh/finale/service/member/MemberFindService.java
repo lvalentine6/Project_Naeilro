@@ -10,4 +10,5 @@ public interface MemberFindService {
 	MemberDto findId(MemberDto memberDto);
 	MemberVo findPw(MemberVo memberVo);
 	MemberAuthDto checkAuthEmail(MemberAuthDto memberAuthDto);
+	int idCheck(MemberVo memberVo);
 }

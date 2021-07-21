@@ -17,4 +17,5 @@ public interface MemberDao {
 	MemberAuthDto selectId (MemberAuthDto memberAuthDto);
 	void updatePw(MemberDto memberDto);
 	void editProfile(MemberVo memberVo);
+	int idCheck(MemberVo memberVo);
 }

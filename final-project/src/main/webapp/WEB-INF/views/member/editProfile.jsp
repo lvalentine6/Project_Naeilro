@@ -25,13 +25,37 @@
 		})
 		$('#memberNick').blur(function() {
 			if (nick_name_regex.test($(this).val())) {
-				nick = true;
-				$(this).addClass("is-valid");
-				$(this).removeClass("is-invalid");
+				$("#nickck").removeClass("text-muted")
+				$("#nickck").removeClass("text-danger")
+				$("#nickck").addClass("text-success")
+				
+				
+				$.ajax({
+					url:"nickCheck",
+					data : {
+						memberId : memberId,
+					},
+					method:"POST",
+					})
+					.done(function(){
+						nick = true;
+						$('#nickck').addClass("is-valid");
+						$('#nickck').removeClass("is-invalid");
+						$(".nickck").hide()
+					})
+					.fail(function(){
+						nick = false;
+						$('#nickck').removeClass("is-valid");
+						$('#nickck').addClass("is-invalid");
+						$(".nickck").show()
+					})
 			} else {
 				nick = false;
 				$(this).removeClass("is-valid");
 				$(this).addClass("is-invalid");
+				$("#nickck").removeClass("text-muted")
+				$("#nickck").removeClass("text-success")
+				$("#nickck").addClass("text-danger")
 			}
 		})
 		$('#memberName').blur(function() {
@@ -158,7 +182,7 @@
 					<div class="form-row mb-5 justify-content-around">
 						<button class="btn btn-primary submit_btn btn-block" type="submit">수정하기</button>
 						<button class="btn btn-secondary cancel-btn btn-block"
-							type="button">취소</button>
+							type="reset">취소</button>
 					</div>
 				</form>
 			</div>

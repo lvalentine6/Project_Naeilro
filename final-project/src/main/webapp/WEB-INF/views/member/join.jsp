@@ -30,10 +30,16 @@ $(function() {
 				},
 				method:"POST",
 				})
-				.done(function(){
-					id = true;
+				.done(function(resp){
+					id = resp;
+					console.log(resp);
+					if (id == true) {
+						$('#memberId').removeClass("is-valid");
+						$('#memberId').addClass("is-invalid");
+					} else {
 					$('#memberId').addClass("is-valid");
 					$('#memberId').removeClass("is-invalid");
+					}
 				})
 				.fail(function(){
 					id=false;
