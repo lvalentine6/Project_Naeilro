@@ -4,7 +4,7 @@ import java.text.ParseException;
 import java.util.Date;
 
 /**
- * Date 자료형을 다루는 클래스
+ * Date 관련 유틸 모음
  * @author swjk78
  */
 public class DateUtils {
