@@ -5,6 +5,7 @@
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
 <script>
 	$(function() {
+		let pageNo = 1;
 		/* 좋아요 버튼 */
 		$(".like-btn").each(function() {
 			$(this).click(function() {
@@ -100,6 +101,33 @@
 				})
 			})
 		})
+		
+		
+		
+		$(window).scroll(function(){
+			console.log($(document).scrollTop()+" /// "+ $(document).height()*0.6 )
+			if($(document).scrollTop()>= $(document).height()*0.6){
+				pageNo+=1;
+				$.ajax({
+					url:"${pageContext.request.contextPath}/photostory",
+					data : {
+						pageNo : pageNo,
+					},
+					method:"GET",
+					dataType : "html"
+				})
+				.done(function(html){
+					 var e = $(html).find('main');
+					 
+					 $('main').append(e);
+				})
+				.fail(function(){
+
+				})
+			}
+		})
+		
+		
 	})
 </script>
 <script type="text/template" id="comment-tpl">
