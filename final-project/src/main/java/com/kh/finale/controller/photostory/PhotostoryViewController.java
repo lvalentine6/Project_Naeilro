@@ -39,22 +39,22 @@ import com.kh.finale.vo.photostory.PhotostoryVO;
 public class PhotostoryViewController {
 
 	@Autowired
-	PhotostoryDao photostoryDao;
+	private PhotostoryDao photostoryDao;
 	
 	@Autowired
-	PhotostoryListDao photostoryListDao;
+	private PhotostoryListDao photostoryListDao;
 
 	@Autowired
-	PhotostoryCommentListDao photostoryCommentListDao;
+	private PhotostoryCommentListDao photostoryCommentListDao;
 	
 	@Autowired
-	PhotostoryLikeDao photostoryLikeDao;
+	private PhotostoryLikeDao photostoryLikeDao;
 	
 	@Autowired
-	PhotostoryService photostoryService;
+	private PhotostoryService photostoryService;
 
 	@Autowired
-	PhotostoryPhotoDao photostoryPhotoDao;
+	private PhotostoryPhotoDao photostoryPhotoDao;
 
 	// 포토스토리 리스트 페이지
 	@GetMapping("")
@@ -152,8 +152,12 @@ public class PhotostoryViewController {
 	// 포토스토리 수정 페이지
 	@GetMapping("/edit")
 	public String edit(@RequestParam int photostoryNo, Model model) {
+		// 포토스토리 정보
 		PhotostoryListDto photostoryListDto = photostoryListDao.get(photostoryNo);
+		
+		// 이미지 리스트
 		List<PhotostoryPhotoDto> photostoryPhotoList = photostoryPhotoDao.get(photostoryNo);
+		
 		model.addAttribute("photostoryListDto", photostoryListDto);
 		model.addAttribute("photostoryPhotoList", photostoryPhotoList);
 		return "photostory/edit";
@@ -175,7 +179,7 @@ public class PhotostoryViewController {
 	// 포토스토리 삭제 처리
 	@GetMapping("/delete")
 	public String delete(@RequestParam int photostoryNo) {
-		photostoryDao.deletePhotostory(photostoryNo);
+		photostoryService.deletePhotostory(photostoryNo);
 		
 		return "redirect:/photostory";
 	}

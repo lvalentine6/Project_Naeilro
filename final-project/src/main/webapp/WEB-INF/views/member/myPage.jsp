@@ -25,7 +25,6 @@ $(function(){
 	})
 }) */
 
-
 $(function(){
 	$(".follow-btn").click(function(){
 		if(${memberNo==null }){
