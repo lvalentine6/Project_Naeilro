@@ -68,4 +68,19 @@ public class MemberDaoImpl implements MemberDao{
 		sqlSession.update("member.editProfile", memberVo);
 	}
 
+	@Override
+	public int idCheck(MemberVo memberVo) {
+		return sqlSession.selectOne("member.idCheck", memberVo);
+	}
+
+	@Override
+	public int nickCheck(MemberVo memberVo) {
+		return sqlSession.selectOne("member.nickCheck", memberVo);
+	}
+
+	@Override
+	public void exit(MemberVo memberVo) {
+		sqlSession.delete("member.exit", memberVo);
+	}
+
 }

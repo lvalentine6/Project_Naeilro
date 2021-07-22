@@ -25,4 +25,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		where member_id = #{memberId}
 	</update>
 	
+	<delete id="exitProfile" parameterType="MemberVo">
+		delete from member_profile where member_id = #{memberId}
+	</delete>
+	
 </mapper>
