@@ -160,7 +160,6 @@ public class PhotostoryViewController {
 		
 		model.addAttribute("photostoryListDto", photostoryListDto);
 		model.addAttribute("photostoryPhotoList", photostoryPhotoList);
-		
 		return "photostory/edit";
 	}
 	
