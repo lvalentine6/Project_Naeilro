@@ -81,7 +81,7 @@
 				$("#nickck").removeClass("text-muted")
 				$("#nickck").removeClass("text-danger")
 				$("#nickck").addClass("text-success")
-				
+				let memberNick = $(this).val();
 				
 				$.ajax({
 					url:"nickCheck",
@@ -227,7 +227,7 @@
 					</div>
 					<div class="form-row mb-3">
 						<label for="memberNick">닉네임</label>
-						<small class="idck form-text text-danger text-left ">
+						<small class="nickck form-text text-danger text-left ">
 						&nbsp;&nbsp; 중복된 닉네임입니다.
 						</small> 
 						 <input type="text"
