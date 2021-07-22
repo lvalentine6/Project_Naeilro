@@ -153,8 +153,9 @@ public class PhotostoryViewController {
 	@GetMapping("/edit")
 	public String edit(@RequestParam int photostoryNo, Model model) {
 		PhotostoryListDto photostoryListDto = photostoryListDao.get(photostoryNo);
+		List<PhotostoryPhotoDto> photostoryPhotoList = photostoryPhotoDao.get(photostoryNo);
 		model.addAttribute("photostoryListDto", photostoryListDto);
-		
+		model.addAttribute("photostoryPhotoList", photostoryPhotoList);
 		return "photostory/edit";
 	}
 	
