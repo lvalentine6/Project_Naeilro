@@ -15,6 +15,7 @@
 	$(function() {
 		
 		$(".idck").hide()
+		$(".nickck").hide()
 		
 		$('#memberId').blur(function() {
 			if (regex.test($(this).val())) {
@@ -29,16 +30,20 @@
 					},
 					method:"POST",
 					})
-					.done(function(){
+					.done(function(json){
+						if(json) {
+							id=false;
+							$(this).removeClass("is-valid");
+							$(this).addClass("is-invalid");
+							$(".idck").show()
+						}
+						else {
 						id = true;
 						$('#memberId').addClass("is-valid");
 						$('#memberId').removeClass("is-invalid");
+						}
 					})
 					.fail(function(){
-						id=false;
-						$(this).removeClass("is-valid");
-						$(this).addClass("is-invalid");
-						$(".idck").show()
 					})
 			} else {
 				id = false;
@@ -80,26 +85,29 @@
 				$("#nickck").removeClass("text-muted")
 				$("#nickck").removeClass("text-danger")
 				$("#nickck").addClass("text-success")
-				
-				
+				let memberNick = $(this).val();
 				$.ajax({
 					url:"nickCheck",
 					data : {
-						memberId : memberId,
+						memberNick : memberNick,
 					},
 					method:"POST",
 					})
-					.done(function(){
+					.done(function(json){
+						if(json) {
+							nick = false;
+							$('#nickck').removeClass("is-valid");
+							$('#nickck').addClass("is-invalid");
+							$(".nickck").show()
+						}
+						else {
 						nick = true;
 						$('#nickck').addClass("is-valid");
 						$('#nickck').removeClass("is-invalid");
 						$(".nickck").hide()
+						}
 					})
 					.fail(function(){
-						nick = false;
-						$('#nickck').removeClass("is-valid");
-						$('#nickck').addClass("is-invalid");
-						$(".nickck").show()
 					})
 			} else {
 				nick = false;
@@ -165,135 +173,11 @@
 		        }
 		        reader.readAsDataURL(input.files[0])
 		    }
->>>>>>> refs/remotes/origin/main
 		}
+		$(".input_img").change(function(e){
+			readImage(e.target)
+		})
 	})
-	$('#memberPw').blur(function() {
-		if (regex.test($(this).val())) {
-			pw = true;
-			$(this).addClass("is-valid");
-			$(this).removeClass("is-invalid");
-			$("#pwck").removeClass("text-muted")
-			$("#pwck").removeClass("text-danger")
-			$("#pwck").addClass("text-success")
-		} else {
-			pw = false;
-			$(this).removeClass("is-valid");
-			$(this).addClass("is-invalid");
-			$("#pwck").removeClass("text-muted")
-			$("#pwck").removeClass("text-success")
-			$("#pwck").addClass("text-danger")
-		}
-	})
-	$('#memberPw2').blur(function() {
-		if ($(this).val() == $("#memberPw").val()) {
-			$(this).addClass("is-valid");
-			$(this).removeClass("is-invalid");
-		} else {
-			$(this).removeClass("is-valid");
-			$(this).addClass("is-invalid");
-		}
-	})
-	$('#memberNick').blur(function() {
-		if (nick_name_regex.test($(this).val())) {
-			$("#nickck").removeClass("text-muted")
-			$("#nickck").removeClass("text-danger")
-			$("#nickck").addClass("text-success")
-			let memberNick = $(this).val();
-			$.ajax({
-				url:"nickCheck",
-				data : {
-					memberNick : memberNick,
-				},
-				method:"POST",
-				})
-				.done(function(resp){
-					nick = resp;
-					if (nick == true) {
-						$('#nickck').addClass("is-invalid");
-						$('#nickck').removeClass("is-valid");
-						$(".nickCheck").text("다른 닉네임을 입력해 주세요.");
-					} else {
-					$('#nickck').addClass("is-valid");
-					$('#nickck').removeClass("is-invalid");
-					$(".nickCheck").text("사용 가능한 닉네임 입니다.");
-					}
-				})
-				.fail(function(){
-					nick = false;
-					$('#nickck').removeClass("is-valid");
-					$('#nickck').addClass("is-invalid");
-					$(".nickck").show()
-				})
-		} else {
-			nick = false;
-			$(this).removeClass("is-valid");
-			$(this).addClass("is-invalid");
-			$("#nickck").removeClass("text-muted")
-			$("#nickck").removeClass("text-success")
-			$("#nickck").addClass("text-danger")
-		}
-	})
-	$('#memberName').blur(function() {
-		if (name_regex.test($(this).val())) {
-			name = true;
-			$(this).addClass("is-valid");
-			$(this).removeClass("is-invalid");
-			$("#nameck").removeClass("text-muted")
-			$("#nameck").removeClass("text-danger")
-			$("#nameck").addClass("text-success")
-		} else {
-			name = false;
-			$(this).removeClass("is-valid");
-			$(this).addClass("is-invalid");
-			$("#nameck").removeClass("text-muted")
-			$("#nameck").removeClass("text-success")
-			$("#nameck").addClass("text-danger")
-		}
-	})
-	/* form submit 전송 검사 */
-	$('.submit_btn').click(function(e) {
-		if (!id) {
-			e.preventDefault();
-			$('#memberId').focus();
-			return;
-		}
-		if (!pw) {
-			e.preventDefault();
-			$('#memberPw').focus();
-			return;
-		}
-		if ($('#memberPw').val() != $('#memberPw2').val()) {
-			e.preventDefault();
-			$('#memberPw2').focus();
-			return;
-		}
-		if (!name) {
-			e.preventDefault();
-			$('#memberName').focus();
-			return;
-		}
-		if (!nick) {
-			e.preventDefault();
-			$('#memberNick').focus();
-			return;
-		}
-	})
-	
-	function readImage(input) {
-	    if(input.files && input.files[0]) {
-	        const reader = new FileReader()
-	        reader.onload = e => {
-	            const previewImage = document.querySelector(".upload_img")
-	            previewImage.src = e.target.result
-	        }
-	        reader.readAsDataURL(input.files[0])
-	    }
-	}
-	$(".input_img").change(function(e){
-		readImage(e.target)
-	})
-})
 </script>
 
 <main>
@@ -318,7 +202,7 @@
 							src="${pageContext.request.contextPath}/image/default_user_profile.jpg"
 							style="width: 100px; height: 100px;"> <input
 							class="input_img" type="file" accept=".png, .jpg, .gif"
-							id="memberProfile" name="memberProfile" style="display: none"/>
+							id="memberProfile" name="memberProfile" style="display: none" />
 						</label>
 					</div>
 					<div class="form-row mb-3">
@@ -350,7 +234,7 @@
 					</div>
 					<div class="form-row mb-3">
 						<label for="memberNick">닉네임</label>
-						<small class="idck form-text text-danger text-left ">
+						<small class="nickck form-text text-danger text-left ">
 						&nbsp;&nbsp; 중복된 닉네임입니다.
 						</small> 
 						 <input type="text"

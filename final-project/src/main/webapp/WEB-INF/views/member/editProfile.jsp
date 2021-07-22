@@ -11,7 +11,12 @@
 	let id = false;
 	let nick = false;
 	let name = false;
+	
+	
 	$(function() {
+		
+	$(".nickck").hide()
+	
 		$('#memberId').blur(function() {
 			if (regex.test($(this).val())) {
 				id = true;
@@ -28,26 +33,29 @@
 				$("#nickck").removeClass("text-muted")
 				$("#nickck").removeClass("text-danger")
 				$("#nickck").addClass("text-success")
-				
-				
+				let memberNick = $(this).val();
 				$.ajax({
 					url:"nickCheck",
 					data : {
-						memberId : memberId,
+						memberNick : memberNick,
 					},
 					method:"POST",
 					})
-					.done(function(){
+					.done(function(json){
+						if(json) {
+							nick = false;
+							$('#nickck').removeClass("is-valid");
+							$('#nickck').addClass("is-invalid");
+							$(".nickck").show()
+						}
+						else {
 						nick = true;
 						$('#nickck').addClass("is-valid");
 						$('#nickck').removeClass("is-invalid");
 						$(".nickck").hide()
+						}
 					})
 					.fail(function(){
-						nick = false;
-						$('#nickck').removeClass("is-valid");
-						$('#nickck').addClass("is-invalid");
-						$(".nickck").show()
 					})
 			} else {
 				nick = false;
@@ -137,7 +145,7 @@
 					</div>
 					<div class="form-row mb-3">
 						<label for="memberNick">닉네임</label>
-						<small class="idck form-text text-danger text-left ">
+						<small class="nickck form-text text-danger text-left ">
 						&nbsp;&nbsp; 중복된 닉네임입니다.
 						</small> 
 						 <input type="text"
