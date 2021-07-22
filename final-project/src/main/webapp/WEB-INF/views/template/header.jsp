@@ -69,6 +69,19 @@
 </script>
 
 <script>
+
+	window.addEventListener("load",function(){
+		const exit = document.querySelector(".confirm-link")
+		exit.addEventListener("click",function(e){
+			var message = this.dataset.message
+			if(!message){
+				message = "이동하겠습니까?"
+			}
+			if (!window.confirm(message) ){ 
+				e.preventDefault()
+			}
+		})
+	})
 	function SHA256(s) {
 
 		var chrsz = 8;
