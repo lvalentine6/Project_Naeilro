@@ -21,7 +21,7 @@
 			$(".add_img").remove();
 			var reader = new FileReader();
 			reader.onload = function(e){
-				var html = "<img class='upload_img story-photo add_img' style='width: 24%' src='"+e.target.result+"'>";
+				var html = '<div class="d-inline-block position-relative" style="width: 24%;height:'+$('.upload_img').width()+'px"> <img class="upload_img story-photo h-100 add_img" src="'+e.target.result+'"> <i class="fas fa-times text-danger position-absolute" style="right:4%; top:4%; font-size: 1rem"></i> </div>';
 				$(".imgs_wrap").append(html);
 				index++
 			}
@@ -53,6 +53,7 @@
 							class="input_img" type="file" accept=".png, .jpg, .gif"
 							id="photostoryPhoto" name="photostoryPhoto" style="display: none" multiple/>
 						</label>
+						
 						</div>
 					</div>
 					
