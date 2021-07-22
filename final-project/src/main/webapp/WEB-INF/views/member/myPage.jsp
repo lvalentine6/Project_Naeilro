@@ -182,7 +182,7 @@ $(function(){
 									<a class="dropdown-item" href="findPw">비밀번호 변경</a>
 									<a class="dropdown-item" href="#">문제 신고</a> 
 									<a class="dropdown-item" href="logout">로그아웃</a> 
-									<a class="dropdown-item text-danger" href="exit">회원 탈퇴</a> 
+									<a class="dropdown-item text-danger confirm-link" data-message="정말 탈퇴하시겠습니까?" href="exit">회원 탈퇴</a> 
 								</div>
 							</div>
 						</c:when>

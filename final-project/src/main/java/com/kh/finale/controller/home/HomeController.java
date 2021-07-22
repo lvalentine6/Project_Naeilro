@@ -22,6 +22,8 @@ public class HomeController {
 	
 	@Autowired
 	private SqlSession sqlSession;
+	
+	
 	@Autowired
 	private FollowDao followDao;
 	@RequestMapping("/member/{memberNick}")
@@ -47,6 +49,7 @@ public class HomeController {
 		model.addAttribute("countFollowing",followDao.getCountFollowing(memberDto.getMemberNo()));
 		return "member/myPage";
 	}
+	
 	@Autowired
 	HttpSession httpSession;
 	
@@ -55,4 +58,5 @@ public class HomeController {
 		model.addAttribute("memberId", httpSession.getAttribute("memberId"));
 		return "member/editProfile"; 
 	}
+
 }
