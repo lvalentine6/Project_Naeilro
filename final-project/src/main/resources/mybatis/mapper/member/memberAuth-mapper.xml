@@ -10,7 +10,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<insert id="authInsert" parameterType="MemberAuthDto">
 		insert into auth values(
 			auth_seq.nextval, #{memberNo}, #{authNo}, #{authEmail}, 
-			sysdate, '일반'
+			sysdate, '비밀번호 찾기'
 		)
 	</insert>
 	

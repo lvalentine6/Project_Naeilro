@@ -1,8 +1,7 @@
 package com.kh.finale.service.member;
 
 import java.io.File;
-
-import javax.mail.SendFailedException;
+import java.io.IOException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,8 +21,7 @@ public class MemberJoinServiceImpl implements MemberJoinService{
 	MemberProfileDao memberProfileDao;
 	
 	@Override
-	public void memberjoin(MemberVo memberVo) {
-	try {	
+	public void memberjoin(MemberVo memberVo) throws IllegalStateException, IOException {
 		// 프로필 이미지를 제외한 맴버 정보 등록
 		MemberDto memberDto = MemberDto.builder()
 							.memberId(memberVo.getMemberId())
@@ -38,27 +36,25 @@ public class MemberJoinServiceImpl implements MemberJoinService{
 							.build();
 							memberDao.join(memberDto);
 			
-			// 프로필 이미지 경로
-			File dir = new File("D:/upload/kh5/member");
-			dir.mkdir();
-			
-			// 저장 파일명 설정
-			String FileName= memberVo.getMemberId()+"profile";
-			File target = new File(dir, FileName);
+			if(!memberVo.getMemberProfile().isEmpty()) {
+				// 프로필 이미지 경로
+				File dir = new File("D:/upload/kh5/member");
+				dir.mkdir();
+				
+				// 저장 파일명 설정
+				String FileName= memberVo.getMemberId()+"profile";
+				File target = new File(dir, FileName);
 				memberVo.getMemberProfile().transferTo(target);
-			
-		// 파일 정보 등록
-		MemberProfileDto memberProfileDto = MemberProfileDto.builder()
-											.memberId(memberVo.getMemberId())
-											.profileOriginName(memberVo.getMemberProfile().getOriginalFilename())
-											.profileSize(memberVo.getMemberProfile().getSize())
-											.profileSaveName(FileName)
-											.build();
-		memberProfileDao.insert(memberProfileDto);
+				
+				// 파일 정보 등록
+				MemberProfileDto memberProfileDto = MemberProfileDto.builder()
+						.memberId(memberVo.getMemberId())
+						.profileOriginName(memberVo.getMemberProfile().getOriginalFilename())
+						.profileSize(memberVo.getMemberProfile().getSize())
+						.profileSaveName(FileName)
+						.build();
+				memberProfileDao.insert(memberProfileDto);
+			}
 		
 		}
-	catch (Exception e) {
-		e.printStackTrace();
-		}
-	}
 }

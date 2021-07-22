@@ -63,4 +63,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select count(*) from member where member_nick = #{memberNick}
 	</select>
 	
+	<!-- 회원 탈퇴 -->
+	<delete id="exit" parameterType="MemberVo">
+		delete from member where member_id = #{memberId}
+	</delete>
 </mapper>

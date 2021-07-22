@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.kh.finale.entity.member.MemberProfileDto;
+import com.kh.finale.vo.member.MemberVo;
 
 @Repository
 public class MemberProfileImpl implements MemberProfileDao{
@@ -25,6 +26,11 @@ public class MemberProfileImpl implements MemberProfileDao{
 	@Override
 	public MemberProfileDto find(String memberProfileDto) {
 		return sqlSession.selectOne("memberProfile.find", memberProfileDto);
+	}
+
+	@Override
+	public void exitProfile(MemberVo memberVo) {
+		sqlSession.delete("memberProfile.exitProfile", memberVo);
 	}
 
 }

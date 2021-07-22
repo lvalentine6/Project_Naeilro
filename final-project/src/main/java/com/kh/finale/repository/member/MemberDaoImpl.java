@@ -78,4 +78,9 @@ public class MemberDaoImpl implements MemberDao{
 		return sqlSession.selectOne("member.nickCheck", memberVo);
 	}
 
+	@Override
+	public void exit(MemberVo memberVo) {
+		sqlSession.delete("member.exit", memberVo);
+	}
+
 }

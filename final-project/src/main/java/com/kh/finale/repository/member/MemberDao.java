@@ -19,4 +19,5 @@ public interface MemberDao {
 	void editProfile(MemberVo memberVo);
 	int idCheck(MemberVo memberVo);
 	int nickCheck(MemberVo memberVo);
+	void exit(MemberVo memberVo);
 }

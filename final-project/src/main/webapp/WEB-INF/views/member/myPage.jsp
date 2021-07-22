@@ -122,7 +122,6 @@ $(function(){
 		if(${memberNo==null }){
 			alert("로그인후 이용해주세요");
 			return
->>>>>>> refs/remotes/origin/main
 		}
 		$(".input_img").change(function(e){
 			readImage(e.target)

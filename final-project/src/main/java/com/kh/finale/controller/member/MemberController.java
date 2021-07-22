@@ -27,7 +27,6 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 
 import com.kh.finale.entity.member.MemberAuthDto;
-import com.kh.finale.entity.member.MemberCDto;
 import com.kh.finale.entity.member.MemberDto;
 import com.kh.finale.entity.member.MemberProfileDto;
 import com.kh.finale.repository.member.MemberDao;
@@ -55,7 +54,7 @@ public class MemberController {
 	private MemberJoinService memberJoinService;
 	
 	@PostMapping("/join")
-	public String join(@ModelAttribute MemberVo memberVo) {
+	public String join(@ModelAttribute MemberVo memberVo) throws IllegalStateException, IOException {
 		System.out.println("수신값 확인 : " + memberVo);
 		memberJoinService.memberjoin(memberVo);		
 		return "redirect:join_success";
@@ -260,6 +259,18 @@ public class MemberController {
 		httpSession.removeAttribute("memberId");
 		httpSession.removeAttribute("memberContextNick");
 		return "redirect:/";
+	}
+	
+	// 회원 탈퇴
+	@GetMapping("/exit")
+	public String exit(HttpSession httpSession, MemberVo memberVo) {
+		memberVo.setMemberId((String) httpSession.getAttribute("memberId"));
+		memberEditService.exit(memberVo);
+		memberEditService.exitProfile(memberVo);
+		httpSession.removeAttribute("memberNo");
+		httpSession.removeAttribute("memberId");
+		httpSession.removeAttribute("memberContextNick");
+		return "member/exit";
 	}
 	
 }

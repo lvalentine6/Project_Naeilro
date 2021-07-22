@@ -79,11 +79,6 @@
 		})
 		/* form submit 전송 검사 */
 		$('.submit_btn').click(function(e) {
-			if (!id) {
-				e.preventDefault();
-				$('#memberId').focus();
-				return;
-			}
 			if (!name) {
 				e.preventDefault();
 				$('#memberName').focus();

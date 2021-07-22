@@ -41,6 +41,7 @@
 						id = true;
 						$('#memberId').addClass("is-valid");
 						$('#memberId').removeClass("is-invalid");
+						$(".idck").hide()
 						}
 					})
 					.fail(function(){
