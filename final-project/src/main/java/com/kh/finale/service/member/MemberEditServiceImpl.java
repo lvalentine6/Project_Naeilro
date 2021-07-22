@@ -52,4 +52,17 @@ public class MemberEditServiceImpl implements MemberEditService{
 		System.out.println("이미지 제외 회원정보 변경완료");
 	
 	}
+	
+	
+	// 회원 탈퇴
+	@Override
+	public void exit(MemberVo memberVo) {
+		memberDao.exit(memberVo);
+	}
+
+	// 회원 탈퇴 프로필 삭제
+	@Override
+	public void exitProfile(MemberVo memberVo) {
+		memberProfileDao.exitProfile(memberVo);
+	}
 }
