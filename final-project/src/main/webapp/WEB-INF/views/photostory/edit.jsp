@@ -6,6 +6,7 @@
 	var sel_files = [];
 	var delete_no =[];
 	$(function(){
+		$(".story-photo").height($('.upload_img').width()+'px')
 		$(".input_img").on("change",handleImgFileSelect)
 		$( window ).resize(function() {
 			$(".story-photo").height($('.upload_img').width()+'px')
@@ -46,6 +47,9 @@
 	}
 	function deleteExistenceImage(no){
 		delete_no.push(no)
+		
+		let img_id = "#del_id_"+index
+		$(img_id).remove();
 	}
 	function deleteImageAction(index){
 		console.log('index =' + index)
@@ -64,7 +68,7 @@
 				<h3 class="display-5">스토리 수정</h3>
 			</div>
 			<div class="col-lg-6 offset-lg-3 text-center">
-				<form action="edit" method="post" class="sign_up_form encrypt-form"
+				<form action="edit" method="get" class="sign_up_form encrypt-form"
 					enctype="multipart/form-data">
 					<!-- 	프로필 사진 업로드 -->
 					<div class="form-row mb-3">
@@ -81,8 +85,8 @@
 							id="photostoryPhoto" name="photostoryPhoto" style="display: none" multiple/>
 						</label>
 						<c:forEach var="photostoryPhotoDto" items="${photostoryPhotoList}">
-							<div class="d-inline-block position-relative story-photo prev_img" id="img_id_'+index+'" style="width: 24%;height:'+$('.upload_img').width()+'px">
-								<img class="upload_img story-photo h-100 add_img" src="${pageContext.request.contextPath}/photostory/photo/">
+							<div class="d-inline-block position-relative story-photo prev_img" id="#del_id_${photostoryPhotoDto.photostoryPhotoNo}" style="width: 24%;height:'+$('.upload_img').width()+'px">
+								<img class="upload_img story-photo h-100 add_img" src="${pageContext.request.contextPath}/photostory/photo/${photostoryPhotoDto.photostoryPhotoNo}">
 								<i class="fas fa-times text-danger position-absolute" onclick="deleteExistenceImage(${photostoryPhotoDto.photostoryPhotoNo})" style="right:4%; top:4%; font-size: 1rem"></i> 
 							</div>
 						</c:forEach>
