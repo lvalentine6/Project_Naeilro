@@ -55,8 +55,8 @@
 							id="photostoryPhoto" name="photostoryPhoto" style="display: none" multiple/>
 						</label>
 						<c:forEach var="photostoryPhotoDto" items="${photostoryPhotoList}">
-						   <img class="w-100 border"
-						      src="${pageContext.request.contextPath}/photostory/photo/${photostoryPhotoDto.photostoryPhotoNo}" />
+						   <img class="border upload_img story-photo" style='width: 24%'  src="${pageContext.request.contextPath}/photostory/photo/${photostoryPhotoDto.photostoryPhotoNo}" />
+						   
 						</c:forEach>
 						</div>
 					</div>
