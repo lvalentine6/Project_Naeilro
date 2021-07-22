@@ -159,7 +159,7 @@ public class PhotostoryViewController {
 		model.addAttribute("photostoryListDto", photostoryListDto);
 		model.addAttribute("photostoryPhotoList", photostoryPhotoList);
 		
-    return "photostory/edit";
+    		return "photostory/edit";
 	}
 	
 	// 포토스토리 수정 처리
