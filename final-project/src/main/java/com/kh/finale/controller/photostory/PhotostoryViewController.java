@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.kh.finale.entity.photostory.PhotostoryCommentListDto;
-import com.kh.finale.entity.photostory.PhotostoryDto;
 import com.kh.finale.entity.photostory.PhotostoryLikeDto;
 import com.kh.finale.entity.photostory.PhotostoryListDto;
 import com.kh.finale.entity.photostory.PhotostoryPhotoDto;
@@ -142,7 +141,6 @@ public class PhotostoryViewController {
 			HttpSession session) throws IllegalStateException, IOException {
 		int memberNo = (int) session.getAttribute("memberNo");
 		photostoryVO.setMemberNo(memberNo);
-		photostoryVO.setPlannerNo(1); // 임시
 		
 		photostoryService.insertPhotostory(photostoryVO);
 		
@@ -170,7 +168,6 @@ public class PhotostoryViewController {
 			HttpSession session) throws IllegalStateException, IOException {
 		int memberNo = (int) session.getAttribute("memberNo");
 		photostoryVO.setMemberNo(memberNo);
-		photostoryVO.setPlannerNo(1); // 임시
 		
 		photostoryService.updatePhotostory(photostoryVO);
 		

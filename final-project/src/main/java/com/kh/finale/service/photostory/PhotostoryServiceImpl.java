@@ -10,7 +10,6 @@ import com.kh.finale.entity.photostory.PhotostoryDto;
 import com.kh.finale.entity.photostory.PhotostoryPhotoDto;
 import com.kh.finale.repository.photostory.PhotostoryDao;
 import com.kh.finale.repository.photostory.PhotostoryPhotoDao;
-import com.kh.finale.util.DateUtils;
 import com.kh.finale.vo.photostory.PhotostoryVO;
 
 @Service
@@ -55,7 +54,8 @@ public class PhotostoryServiceImpl implements PhotostoryService {
 		photostoryDao.updatePhotostory(photostoryDto);
 		
 		if (!photostoryVO.getPhotostoryPhoto()[0].isEmpty()) {
-			// 포토스토리 이미지 등록
+			// 기존 포토스토리 이미지 삭제 후 재등록
+			deletePhotostoryPhoto(photostoryVO.getPhotostoryNo());
 			insertPhotostoryPhoto(photostoryVO);
 		}
 	}
@@ -63,20 +63,7 @@ public class PhotostoryServiceImpl implements PhotostoryService {
 	// 포토스토리 삭제
 	@Override
 	public void deletePhotostory(int photostoryNo) {
-		// 서버에서 이미지 파일 삭제
-		File dir = new File("D:/upload/kh5/photostory/" + String.valueOf(photostoryNo));
-		File[] fileList = dir.listFiles();
-		if (fileList != null) {
-			for (int i = 0; i < fileList.length; i++) {
-				fileList[i].delete();
-			}
-			dir.delete();
-			
-			// DB에서 이미지 정보 삭제
-			photostoryPhotoDao.deletePhotostoryPhotoByPhotostoryNo(photostoryNo);
-		}
-		
-		// DB에서 포토스토리 정보 삭제
+		deletePhotostoryPhoto(photostoryNo);
 		photostoryDao.deletePhotostory(photostoryNo);
 	}
 
@@ -101,5 +88,22 @@ public class PhotostoryServiceImpl implements PhotostoryService {
 					.build();
 			photostoryPhotoDao.insertPhotostoryPhoto(photostoryPhotoDto);
 		}
+	}
+	
+	// 포토스토리 이미지 삭제
+	@Override
+	public void deletePhotostoryPhoto(int photostoryNo) {
+		// 서버에서 이미지 파일 삭제
+		File dir = new File("D:/upload/kh5/photostory/" + String.valueOf(photostoryNo));
+		File[] fileList = dir.listFiles();
+		if (fileList != null) {
+			for (int i = 0; i < fileList.length; i++) {
+				fileList[i].delete();
+			}
+			dir.delete();
+			
+			// DB에서 이미지 정보 삭제
+			photostoryPhotoDao.deletePhotostoryPhoto(photostoryNo);
+		}		
 	}
 }
