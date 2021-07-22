@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class PhotostoryVO {
-	private int plannerNo, memberNo;
+	private int photostoryNo, plannerNo, memberNo;
 	private String photostoryContent;
 	private MultipartFile[] photostoryPhoto;
 }

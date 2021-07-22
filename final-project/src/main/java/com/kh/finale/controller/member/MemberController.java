@@ -61,7 +61,6 @@ public class MemberController {
 		return "redirect:join_success";
 	}
 	
-	
 	@GetMapping("/join_success")
 	public String registSuccess() {
 		return "member/joinSuccess";

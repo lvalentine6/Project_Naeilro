@@ -31,7 +31,7 @@ public class DailyDaoImpl implements DailyDao {
 	}
 
 	@Override
-	public int dailyNoConfrim(PlanInsertServiceVO planInsertServiceVO) {
+	public int dailyNoConfirm(PlanInsertServiceVO planInsertServiceVO) {
 		return sqlSession.selectOne("daily.dailyNoConfirm", planInsertServiceVO);
 	}
 

@@ -7,6 +7,7 @@
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
 
 <script>
+<<<<<<< HEAD
 	/* 아이디(영문/숫자 4~12자), 비밀번호 (영문/숫자/한글 4~12자), 이름 (한글 2~7자), 닉네임 (영문/숫자/한글 4~12자) 검사 */
 	let regex = /^[0-9a-zA-Z]{4,12}$/;
 	let name_regex = /^[가-힣]{2,7}$/;
@@ -100,6 +101,31 @@
 		        }
 		        reader.readAsDataURL(input.files[0])
 		    }
+=======
+
+/* function readImage(input) {
+    if(input.files && input.files[0]) {
+        const reader = new FileReader()
+        reader.onload = e => {
+            const previewImage = document.querySelector(".upload_img")
+            previewImage.src = e.target.result
+        }
+        reader.readAsDataURL(input.files[0])
+    }
+}
+$(function(){
+	$(".input_img").change(function(e){
+		console.dir(e.target)
+		readImage(e.target)
+	})
+}) */
+
+$(function(){
+	$(".follow-btn").click(function(){
+		if(${memberNo==null }){
+			alert("로그인후 이용해주세요");
+			return
+>>>>>>> refs/remotes/origin/main
 		}
 		$(".input_img").change(function(e){
 			readImage(e.target)

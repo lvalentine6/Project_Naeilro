@@ -4,57 +4,168 @@
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
 
 <script>
-
-/* 아이디(영문/숫자 4~12자), 비밀번호 (영문/숫자/한글 4~12자), 이름 (한글 2~7자), 닉네임 (영문/숫자/한글 4~12자) 검사 */
-let regex = /^[0-9a-zA-Z]{4,12}$/;
-let name_regex = /^[가-힣]{2,7}$/;
-let nick_name_regex = /^[0-9a-zA-Z가-힣]{4,12}$/;
-let id = false;
-let nick = false;
-let pw = false;
-let name = false;
-$(function() {
-	
-	$(".idck").hide()
-	
-	$('#memberId').blur(function() {
-		if (regex.test($(this).val())) {
-			$("#idck").removeClass("text-muted")
-			$("#idck").removeClass("text-danger")
-			$("#idck").addClass("text-success")
-			let memberId = $(this).val();
-			$.ajax({
-				url:"idCheck",
-				data : {
-					memberId : memberId,
-				},
-				method:"POST",
-				})
-				.done(function(resp){
-					id = resp;
-					if (id == true) {
-						$('#memberId').removeClass("is-valid");
-						$('#memberId').addClass("is-invalid");
-						$(".idCheck").text("다른 아이디를 입력해 주세요.");
-					} else {
-					$('#memberId').addClass("is-valid");
-					$('#memberId').removeClass("is-invalid");
-					$(".idCheck").text("사용 가능한 아이디 입니다.");
-					}
-				})
-				.fail(function(){
-					id=false;
-					$(this).removeClass("is-valid");
-					$(this).addClass("is-invalid");
-					$(".idck").show()
-				})
-		} else {
-			id = false;
-			$(this).removeClass("is-valid");
-			$(this).addClass("is-invalid");
-			$("#idck").removeClass("text-muted")
-			$("#idck").removeClass("text-success")
-			$("#idck").addClass("text-danger")
+	/* 아이디(영문/숫자 4~12자), 비밀번호 (영문/숫자/한글 4~12자), 이름 (한글 2~7자), 닉네임 (영문/숫자/한글 4~12자) 검사 */
+	let regex = /^[0-9a-zA-Z]{4,12}$/;
+	let name_regex = /^[가-힣]{2,7}$/;
+	let nick_name_regex = /^[0-9a-zA-Z가-힣]{4,12}$/;
+	let id = false;
+	let nick = false;
+	let pw = false;
+	let name = false;
+	$(function() {
+		
+		$(".idck").hide()
+		
+		$('#memberId').blur(function() {
+			if (regex.test($(this).val())) {
+				$("#idck").removeClass("text-muted")
+				$("#idck").removeClass("text-danger")
+				$("#idck").addClass("text-success")
+				let memberId = $(this).val();
+				$.ajax({
+					url:"idCheck",
+					data : {
+						memberId : memberId,
+					},
+					method:"POST",
+					})
+					.done(function(){
+						id = true;
+						$('#memberId').addClass("is-valid");
+						$('#memberId').removeClass("is-invalid");
+					})
+					.fail(function(){
+						id=false;
+						$(this).removeClass("is-valid");
+						$(this).addClass("is-invalid");
+						$(".idck").show()
+					})
+			} else {
+				id = false;
+				$(this).removeClass("is-valid");
+				$(this).addClass("is-invalid");
+				$("#idck").removeClass("text-muted")
+				$("#idck").removeClass("text-success")
+				$("#idck").addClass("text-danger")
+			}
+		})
+		$('#memberPw').blur(function() {
+			if (regex.test($(this).val())) {
+				pw = true;
+				$(this).addClass("is-valid");
+				$(this).removeClass("is-invalid");
+				$("#pwck").removeClass("text-muted")
+				$("#pwck").removeClass("text-danger")
+				$("#pwck").addClass("text-success")
+			} else {
+				pw = false;
+				$(this).removeClass("is-valid");
+				$(this).addClass("is-invalid");
+				$("#pwck").removeClass("text-muted")
+				$("#pwck").removeClass("text-success")
+				$("#pwck").addClass("text-danger")
+			}
+		})
+		$('#memberPw2').blur(function() {
+			if ($(this).val() == $("#memberPw").val()) {
+				$(this).addClass("is-valid");
+				$(this).removeClass("is-invalid");
+			} else {
+				$(this).removeClass("is-valid");
+				$(this).addClass("is-invalid");
+			}
+		})
+		$('#memberNick').blur(function() {
+			if (nick_name_regex.test($(this).val())) {
+				$("#nickck").removeClass("text-muted")
+				$("#nickck").removeClass("text-danger")
+				$("#nickck").addClass("text-success")
+				
+				
+				$.ajax({
+					url:"nickCheck",
+					data : {
+						memberId : memberId,
+					},
+					method:"POST",
+					})
+					.done(function(){
+						nick = true;
+						$('#nickck').addClass("is-valid");
+						$('#nickck').removeClass("is-invalid");
+						$(".nickck").hide()
+					})
+					.fail(function(){
+						nick = false;
+						$('#nickck').removeClass("is-valid");
+						$('#nickck').addClass("is-invalid");
+						$(".nickck").show()
+					})
+			} else {
+				nick = false;
+				$(this).removeClass("is-valid");
+				$(this).addClass("is-invalid");
+				$("#nickck").removeClass("text-muted")
+				$("#nickck").removeClass("text-success")
+				$("#nickck").addClass("text-danger")
+			}
+		})
+		$('#memberName').blur(function() {
+			if (name_regex.test($(this).val())) {
+				name = true;
+				$(this).addClass("is-valid");
+				$(this).removeClass("is-invalid");
+				$("#nameck").removeClass("text-muted")
+				$("#nameck").removeClass("text-danger")
+				$("#nameck").addClass("text-success")
+			} else {
+				name = false;
+				$(this).removeClass("is-valid");
+				$(this).addClass("is-invalid");
+				$("#nameck").removeClass("text-muted")
+				$("#nameck").removeClass("text-success")
+				$("#nameck").addClass("text-danger")
+			}
+		})
+		/* form submit 전송 검사 */
+		$('.submit_btn').click(function(e) {
+			if (!id) {
+				e.preventDefault();
+				$('#memberId').focus();
+				return;
+			}
+			if (!pw) {
+				e.preventDefault();
+				$('#memberPw').focus();
+				return;
+			}
+			if ($('#memberPw').val() != $('#memberPw2').val()) {
+				e.preventDefault();
+				$('#memberPw2').focus();
+				return;
+			}
+			if (!name) {
+				e.preventDefault();
+				$('#memberName').focus();
+				return;
+			}
+			if (!nick) {
+				e.preventDefault();
+				$('#memberNick').focus();
+				return;
+			}
+		})
+		
+		function readImage(input) {
+		    if(input.files && input.files[0]) {
+		        const reader = new FileReader()
+		        reader.onload = e => {
+		            const previewImage = document.querySelector(".upload_img")
+		            previewImage.src = e.target.result
+		        }
+		        reader.readAsDataURL(input.files[0])
+		    }
+>>>>>>> refs/remotes/origin/main
 		}
 	})
 	$('#memberPw').blur(function() {
@@ -211,15 +322,20 @@ $(function() {
 						</label>
 					</div>
 					<div class="form-row mb-3">
-						<label for="memberId">아이디</label><span class="mx-2 text-sm text-danger idCheck"></span> <input type="text"
-							class="form-control " id="memberId" name="memberId" required>
-						<small id="emailHelp" class="form-text text-muted">4~12자의
-							영문 소문자, 대문자, 숫자만 사용 가능합니다.</small>
+						<label for="memberId">아이디 </label>
+						<small class="idck form-text text-danger text-left ">
+						&nbsp;&nbsp; 중복된 아이디입니다.
+						</small> 
+						<input type="text" class="form-control " id="memberId" name="memberId" required>
+						<small id="idck" class="form-text text-muted">
+						4~12자의 영문 소문자, 대문자, 숫자만 사용 가능합니다.
+						</small>
 					</div>
+					
 					<div class="form-row mb-3">
 						<label for="memberPw">비밀번호</label> <input type="password"
 							class="form-control " id="memberPw" name="memberPw" required>
-						<small id="emailHelp" class="form-text text-muted">4~12자의
+						<small id="pwck" class="form-text text-muted">4~12자의
 							영문 소문자, 대문자, 숫자만 사용 가능합니다.</small>
 					</div>
 					<div class="form-row mb-3">
@@ -229,13 +345,17 @@ $(function() {
 					<div class="form-row mb-3">
 						<label for="memberName">이름</label> <input type="text"
 							class="form-control" id="memberName" name="memberName" required>
-						<small id="emailHelp" class="form-text text-muted">2~7자의
+						<small id="nameck" class="form-text text-muted">2~7자의
 							한글만 사용 가능합니다.</small>
 					</div>
 					<div class="form-row mb-3">
-						<label for="memberNick">닉네임</label><span class="mx-2 text-sm text-danger nickCheck"></span> <input type="text"
+						<label for="memberNick">닉네임</label>
+						<small class="idck form-text text-danger text-left ">
+						&nbsp;&nbsp; 중복된 닉네임입니다.
+						</small> 
+						 <input type="text"
 							class="form-control" id="memberNick" name="memberNick" required>
-						<small id="emailHelp" class="form-text text-muted">4~12자의
+						<small id="nickck" class="form-text text-muted">4~12자의
 							영문 소문자, 대문자, 한글, 숫자만 사용 가능합니다.</small>
 					</div>
 					<div class="form-row mb-3">

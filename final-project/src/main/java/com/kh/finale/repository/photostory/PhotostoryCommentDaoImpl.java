@@ -12,7 +12,7 @@ import com.kh.finale.entity.photostory.PhotostoryCommentDto;
 public class PhotostoryCommentDaoImpl implements PhotostoryCommentDao {
 
 	@Autowired
-	SqlSession sqlSession;
+	private SqlSession sqlSession;
 	
 	// 댓글 등록 기능
 	@Override
