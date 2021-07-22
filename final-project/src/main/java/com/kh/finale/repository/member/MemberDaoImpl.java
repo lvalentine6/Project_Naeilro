@@ -73,4 +73,9 @@ public class MemberDaoImpl implements MemberDao{
 		return sqlSession.selectOne("member.idCheck", memberVo);
 	}
 
+	@Override
+	public int nickCheck(MemberVo memberVo) {
+		return sqlSession.selectOne("member.nickCheck", memberVo);
+	}
+
 }

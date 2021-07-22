@@ -72,19 +72,19 @@ public class MemberController {
 	@ResponseBody
 	public boolean idCheck(@ModelAttribute MemberVo memberVo) {
 		System.out.println("아이디 중복값 체크 : " + memberVo);
-		boolean result = memberFindService.idCheck(memberVo) > 0;
-		System.out.println("아이디 체크값 반환 : " + result);
-		return result;
+		boolean idResult = memberFindService.idCheck(memberVo) > 0;
+		System.out.println("아이디 체크값 반환 : " + idResult);
+		return idResult;
 	}
 	
 	// 회원 가입 닉네임 중복체크
-	@PostMapping("/idCheck")
+	@PostMapping("/nickCheck")
 	@ResponseBody
 	public boolean nickCheck(@ModelAttribute MemberVo memberVo) {
 		System.out.println("닉네임 중복값 체크 : " + memberVo);
-		boolean result = memberFindService.idCheck(memberVo) > 0;
-		System.out.println("닉네임 체크값 반환 : " + result);
-		return result;
+		boolean Nickresult = memberFindService.nickCheck(memberVo) > 0;
+		System.out.println("닉네임 체크값 반환 : " + Nickresult);
+		return Nickresult;
 		}
 	
 	// 로그인 페이지

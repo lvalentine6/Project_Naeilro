@@ -32,13 +32,14 @@ $(function() {
 				})
 				.done(function(resp){
 					id = resp;
-					console.log(resp);
 					if (id == true) {
 						$('#memberId').removeClass("is-valid");
 						$('#memberId').addClass("is-invalid");
+						$(".idCheck").text("다른 아이디를 입력해 주세요.");
 					} else {
 					$('#memberId').addClass("is-valid");
 					$('#memberId').removeClass("is-invalid");
+					$(".idCheck").text("사용 가능한 아이디 입니다.");
 					}
 				})
 				.fail(function(){
@@ -87,20 +88,25 @@ $(function() {
 			$("#nickck").removeClass("text-muted")
 			$("#nickck").removeClass("text-danger")
 			$("#nickck").addClass("text-success")
-			
-			
+			let memberNick = $(this).val();
 			$.ajax({
 				url:"nickCheck",
 				data : {
-					memberId : memberId,
+					memberNick : memberNick,
 				},
 				method:"POST",
 				})
-				.done(function(){
-					nick = true;
+				.done(function(resp){
+					nick = resp;
+					if (nick == true) {
+						$('#nickck').addClass("is-invalid");
+						$('#nickck').removeClass("is-valid");
+						$(".nickCheck").text("다른 닉네임을 입력해 주세요.");
+					} else {
 					$('#nickck').addClass("is-valid");
 					$('#nickck').removeClass("is-invalid");
-					$(".nickck").hide()
+					$(".nickCheck").text("사용 가능한 닉네임 입니다.");
+					}
 				})
 				.fail(function(){
 					nick = false;
@@ -205,7 +211,7 @@ $(function() {
 						</label>
 					</div>
 					<div class="form-row mb-3">
-						<label for="memberId">아이디</label> <input type="text"
+						<label for="memberId">아이디</label><span class="mx-2 text-sm text-danger idCheck"></span> <input type="text"
 							class="form-control " id="memberId" name="memberId" required>
 						<small id="emailHelp" class="form-text text-muted">4~12자의
 							영문 소문자, 대문자, 숫자만 사용 가능합니다.</small>
@@ -227,7 +233,7 @@ $(function() {
 							한글만 사용 가능합니다.</small>
 					</div>
 					<div class="form-row mb-3">
-						<label for="memberNick">닉네임</label> <input type="text"
+						<label for="memberNick">닉네임</label><span class="mx-2 text-sm text-danger nickCheck"></span> <input type="text"
 							class="form-control" id="memberNick" name="memberNick" required>
 						<small id="emailHelp" class="form-text text-muted">4~12자의
 							영문 소문자, 대문자, 한글, 숫자만 사용 가능합니다.</small>
