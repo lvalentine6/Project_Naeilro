@@ -56,7 +56,12 @@ public class HomeController {
 	@RequestMapping("/member/editProfile")
 	public String editProfile(Model model) {
 		model.addAttribute("memberId", httpSession.getAttribute("memberId"));
-		return "member/editProfile";
+		return "member/editProfile"; 
+	}
+	
+	@RequestMapping("/admin")
+	public String admin(Model model) {
+		return "admin/home";
 	}
 
 }

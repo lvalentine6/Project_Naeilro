@@ -20,6 +20,7 @@ public class PhotostoryDaoImpl implements PhotostoryDao {
 		int pageNo;
 		try {
 			pageNo = photostoryListVO.getPageNo();
+			System.out.println(pageNo+"zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz");
 			if (pageNo < 1) {
 				throw new Exception();
 			}

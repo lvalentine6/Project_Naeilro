@@ -20,10 +20,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
@@ -56,17 +54,36 @@ public class MemberController {
 	private MemberJoinService memberJoinService;
 	
 	@PostMapping("/join")
-	public String join(@ModelAttribute MemberVo memberVo) {
+	public String join(@ModelAttribute MemberVo memberVo) throws IllegalStateException, IOException {
 		System.out.println("수신값 확인 : " + memberVo);
 		memberJoinService.memberjoin(memberVo);		
 		return "redirect:join_success";
 	}
 	
-	
 	@GetMapping("/join_success")
 	public String registSuccess() {
 		return "member/joinSuccess";
 	}
+	
+	// 회원 가입 아이디 중복체크
+	@PostMapping("/idCheck")
+	@ResponseBody
+	public boolean idCheck(@ModelAttribute MemberVo memberVo) {
+		System.out.println("아이디 중복값 체크 : " + memberVo);
+		boolean idResult = memberFindService.idCheck(memberVo) > 0;
+		System.out.println("아이디 체크값 반환 : " + idResult);
+		return idResult;
+	}
+	
+	// 회원 가입 닉네임 중복체크
+	@PostMapping("/nickCheck")
+	@ResponseBody
+	public boolean nickCheck(@ModelAttribute MemberVo memberVo) {
+		System.out.println("닉네임 중복값 체크 : " + memberVo);
+		boolean Nickresult = memberFindService.nickCheck(memberVo) > 0;
+		System.out.println("닉네임 체크값 반환 : " + Nickresult);
+		return Nickresult;
+		}
 	
 	// 로그인 페이지
 	@GetMapping("/login")
@@ -230,7 +247,7 @@ public class MemberController {
 	@Autowired
 	MemberEditService memberEditService;
 	
-	// 마이페이지 수정 기능
+	// 마이페이지 수정 기능 - 수정 후 로그아웃
 	@PostMapping("/editProfile")
 	public String editProfile(@ModelAttribute MemberVo memberVo, HttpSession httpSession) {
 		System.out.println("수신값 검사 : " + memberVo);
@@ -242,6 +259,18 @@ public class MemberController {
 		httpSession.removeAttribute("memberId");
 		httpSession.removeAttribute("memberContextNick");
 		return "redirect:/";
+	}
+	
+	// 회원 탈퇴
+	@GetMapping("/exit")
+	public String exit(HttpSession httpSession, MemberVo memberVo) {
+		memberVo.setMemberId((String) httpSession.getAttribute("memberId"));
+		memberEditService.exit(memberVo);
+		memberEditService.exitProfile(memberVo);
+		httpSession.removeAttribute("memberNo");
+		httpSession.removeAttribute("memberId");
+		httpSession.removeAttribute("memberContextNick");
+		return "member/exit";
 	}
 	
 }

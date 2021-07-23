@@ -11,7 +11,12 @@
 	let id = false;
 	let nick = false;
 	let name = false;
+	
+	
 	$(function() {
+		
+	$(".nickck").hide()
+	
 		$('#memberId').blur(function() {
 			if (regex.test($(this).val())) {
 				id = true;
@@ -28,26 +33,29 @@
 				$("#nickck").removeClass("text-muted")
 				$("#nickck").removeClass("text-danger")
 				$("#nickck").addClass("text-success")
-				
-				
+				let memberNick = $(this).val();
 				$.ajax({
 					url:"nickCheck",
 					data : {
-						memberId : memberId,
+						memberNick : memberNick,
 					},
 					method:"POST",
 					})
-					.done(function(){
+					.done(function(json){
+						if(json) {
+							nick = false;
+							$('#nickck').removeClass("is-valid");
+							$('#nickck').addClass("is-invalid");
+							$(".nickck").show()
+						}
+						else {
 						nick = true;
 						$('#nickck').addClass("is-valid");
 						$('#nickck').removeClass("is-invalid");
 						$(".nickck").hide()
+						}
 					})
 					.fail(function(){
-						nick = false;
-						$('#nickck').removeClass("is-valid");
-						$('#nickck').addClass("is-invalid");
-						$(".nickck").show()
 					})
 			} else {
 				nick = false;
@@ -71,11 +79,6 @@
 		})
 		/* form submit 전송 검사 */
 		$('.submit_btn').click(function(e) {
-			if (!id) {
-				e.preventDefault();
-				$('#memberId').focus();
-				return;
-			}
 			if (!name) {
 				e.preventDefault();
 				$('#memberName').focus();
@@ -123,6 +126,7 @@
 						<label for="memberProfile"> <img
 							class='upload_img user_profile'
 							src="profileImage?memberId=${memberId}"
+							onerror="this.src='${pageContext.request.contextPath}/image/default_user_profile.jpg'"
 							style="width: 100px; height: 100px;"> <input
 							class="input_img" type="file" accept=".png, .jpg, .gif"
 							id="memberProfile" name="memberProfile" style="display: none" />
@@ -136,7 +140,7 @@
 					</div>
 					<div class="form-row mb-3">
 						<label for="memberNick">닉네임</label>
-						<small class="idck form-text text-danger text-left ">
+						<small class="nickck form-text text-danger text-left ">
 						&nbsp;&nbsp; 중복된 닉네임입니다.
 						</small> 
 						 <input type="text"
@@ -185,7 +189,7 @@
 					<div class="form-row mb-5 justify-content-around">
 						<button class="btn btn-primary submit_btn btn-block" type="submit">수정하기</button>
 						<button class="btn btn-secondary cancel-btn btn-block"
-							type="button">취소</button>
+							type="reset">취소</button>
 					</div>
 				</form>
 			</div>

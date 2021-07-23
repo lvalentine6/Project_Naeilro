@@ -32,4 +32,16 @@ public class MemberFindServiceImpl implements MemberFindService{
 		return memberDao.checkAuthEmail(memberAuthDto);
 	}
 	
+	// 회원가입 아이디 중복값 검사
+	@Override
+	public int idCheck(MemberVo memberVo) {
+		return memberDao.idCheck(memberVo);
+	}
+	
+	// 회원가입 닉네임 중복값 검사
+	@Override
+	public int nickCheck(MemberVo memberVo) {
+		return memberDao.nickCheck(memberVo);
+	}
+	
 }
