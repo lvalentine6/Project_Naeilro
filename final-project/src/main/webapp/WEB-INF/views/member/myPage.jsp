@@ -165,14 +165,6 @@ $(function(){
 					</div>
 					<div class='row align-items-center border-left border-right'>
 						<div class="col-1 py-2">
-							<%-- <c:choose>
-								<c:when test="${photostoryListDto.isLike}">
-									<i class="fa-heart fa-lg like-btn fas like" data-photostoryNo="${photostoryListDto.photostoryNo}"></i>
-								</c:when>
-								<c:otherwise>
-									<i class="fa-heart fa-lg like-btn far" data-photostoryNo="${photostoryListDto.photostoryNo}"></i> 
-								</c:otherwise>
-							</c:choose> --%>
 							<i class="fa-heart fa-lg like-btn far"
 								data-photostoryNo="${photostoryListDto.photostoryNo}"></i>
 						</div>

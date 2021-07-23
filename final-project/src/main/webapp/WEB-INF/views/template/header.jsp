@@ -239,8 +239,6 @@
 </script>
 
 <script>
-	
-
 	/* 비밀번호 인코딩 */
 	$(function() {
 		$("form.encrypt-form").submit(function(e) {
