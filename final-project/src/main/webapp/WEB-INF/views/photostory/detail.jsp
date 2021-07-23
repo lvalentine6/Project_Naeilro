@@ -154,13 +154,34 @@
 							</c:choose>
 					</div>
 				</div>
-				<div class=' row align-items-center'>
-					<c:forEach var="photostoryPhotoDto" items="${photostoryPhotoList}">
-					   <img class="w-100 border"
-					      src="${pageContext.request.contextPath}/photostory/photo/${photostoryPhotoDto.photostoryPhotoNo}" />
-					</c:forEach>
-
+					
+				<div id="carouselExampleControls" class="carousel slide row align-items-center" data-ride="carousel">
+				  <div class="carousel-inner">
+				    <c:forEach var="photostoryPhotoDto" items="${photostoryPhotoList}" varStatus="status">
+				    <c:choose>
+				    	<c:when test="${status.first}">
+						    <div class="carousel-item active">
+						       <img class="w-100 d-block border" src="${pageContext.request.contextPath}/photostory/photo/${photostoryPhotoDto.photostoryPhotoNo}" />
+						    </div>
+				    	</c:when>
+				    	<c:otherwise>
+						    <div class="carousel-item">
+						       <img class="w-100 d-block border" src="${pageContext.request.contextPath}/photostory/photo/${photostoryPhotoDto.photostoryPhotoNo}" />
+						    </div>
+				    	</c:otherwise>
+				    </c:choose>
+				     </c:forEach>
+				  </div>
+				  <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+				    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+				    <span class="sr-only">Previous</span>
+				  </a>
+				  <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+				    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+				    <span class="sr-only">Next</span>
+				  </a>
 				</div>
+
 				<div class='row align-items-center border-left border-right'>
 					<div class="col-1 py-2">
 						<c:choose>
@@ -170,7 +191,7 @@
 								<c:otherwise>
 									<i class="fa-heart fa-lg like-btn far" data-photostoryNo="${photostoryListDto.photostoryNo}"></i> 
 								</c:otherwise>
-							</c:choose>
+						</c:choose>
 					</div>
 					<div class="col-1">
 						<i class="far fa-comment fa-lg comment-icon-btn"></i>
