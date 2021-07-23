@@ -6,6 +6,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <mapper namespace="memberProfile">
 	
+	<!-- 프로필 등록 -->
 	<insert id="insert" parameterType="MemberProfileDto">
 		insert into member_profile values(
 			member_Profile_seq.nextval, #{memberId}, 
@@ -13,10 +14,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		)
 	</insert>
 	
+	<!-- 프로필 정보 조회 -->
 	<select id="find" parameterType="String" resultType="MemberProfileDto">
 		select * from member_profile where member_id = #{memberId}
 	</select>
 	
+	<!-- 프로필 정보 업데이트 -->
 	<update id="update" parameterType="MemberProfileDto">
 		update member_profile set
 		profile_origin_name = #{profileOriginName},
@@ -24,7 +27,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		profile_save_name = #{profileSaveName} 
 		where member_id = #{memberId}
 	</update>
-	
+	<!-- 회원 탈퇴시 프로필 삭제 -->
 	<delete id="exitProfile" parameterType="MemberVo">
 		delete from member_profile where member_id = #{memberId}
 	</delete>

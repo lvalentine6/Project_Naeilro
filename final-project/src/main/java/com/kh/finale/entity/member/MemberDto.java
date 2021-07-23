@@ -19,4 +19,5 @@ public class MemberDto {
 	private String memberGender;
 	private int memberGrade;
 	private String memberIntro;
+	private String memberState;
 }

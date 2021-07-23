@@ -33,6 +33,7 @@ public class MemberJoinServiceImpl implements MemberJoinService{
 							.memberGender(memberVo.getMemberGender())
 							.memberGrade(memberVo.getMemberGrade())
 							.memberIntro(memberVo.getMemberIntro())
+							.memberState(memberVo.getMemberState())
 							.build();
 							memberDao.join(memberDto);
 			
