@@ -1,9 +1,9 @@
 package com.kh.finale.repository.plan;
 
-import com.kh.finale.vo.plan.PlannerInsertVO;
+import com.kh.finale.vo.plan.PlanInsertServiceVO;
 
 public interface PlannerDao {
 	int getSequnece();
 	
-	void plannerInsert(PlannerInsertVO plannerInsertVO);
+	void plannerInsert(PlanInsertServiceVO planInsertServiceVO);
 }
