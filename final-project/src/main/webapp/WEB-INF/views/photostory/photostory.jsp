@@ -5,7 +5,7 @@
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
 <script>
 	$(function() {
-		let pageNo = 1;
+		
 		/* 좋아요 버튼 */
 		$(".like-btn").each(function() {
 			$(this).click(function() {
@@ -60,7 +60,6 @@
 				}
 			})
 		})
-		
 		$(".coment-btn").each(function(){
 			$(this).click(function(){
 				if(${memberNo==null }){
@@ -103,11 +102,14 @@
 		})
 		
 		
+		let pageNo = 1;
+		let oneTime = true;
 		
 		$(window).scroll(function(){
-			console.log($(document).scrollTop()+" /// "+ $(document).height()*0.6 )
-			if($(document).scrollTop()>= $(document).height()*0.6){
-				pageNo+=1;
+			console.log($(document).scrollTop()+" /// "+ $("main").height()*0.8 )
+			if($(document).scrollTop()>=$("main").height()*0.8&&oneTime){
+				oneTime = false;
+				pageNo+=1;				
 				$.ajax({
 					url:"${pageContext.request.contextPath}/photostory",
 					data : {
@@ -117,9 +119,9 @@
 					dataType : "html"
 				})
 				.done(function(html){
-					 var e = $(html).find('main');
-					 
-					 $('main').append(e);
+					console.dir($(html)[33].children)
+					console.dir($("main").append($(html)[33].children))
+					oneTime=true;
 				})
 				.fail(function(){
 
