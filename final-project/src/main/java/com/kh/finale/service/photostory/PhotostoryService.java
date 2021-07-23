@@ -16,4 +16,10 @@ public interface PhotostoryService {
 	
 	// 포토스토리 이미지 등록
 	void insertPhotostoryPhoto(PhotostoryVO photostoryVO) throws IllegalStateException, IOException;
+	
+	// 포토스토리 이미지 삭제
+	void deletePhotostoryPhoto(int photostoryNo);
+
+	// 포토스토리 기존 이미지 삭제
+	void deleteExistencePhotostoryPhoto(PhotostoryVO photostoryVO);
 }

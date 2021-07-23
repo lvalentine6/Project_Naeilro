@@ -19,17 +19,17 @@ public class PhotostoryPhotoDaoImpl implements PhotostoryPhotoDao {
 	public void insertPhotostoryPhoto(PhotostoryPhotoDto photostoryPhotoDto) {
 		sqlSession.insert("photostoryPhoto.insert", photostoryPhotoDto);
 	}
-
+	
 	// 이미지 삭제 기능
 	@Override
-	public void deletePhotostoryPhoto(int photostoryPhotoNo) {
-		sqlSession.delete("photostoryPhoto.delete", photostoryPhotoNo);
+	public void deletePhotostoryPhoto(int photostoryNo) {
+		sqlSession.delete("photostoryPhoto.delete", photostoryNo);
 	}
 	
-	// 이미지 삭제 기능(포토스토리 번호로)
+	// 이미지 삭제 기능(포토번호)
 	@Override
-	public void deletePhotostoryPhotoByPhotostoryNo(int photostoryNo) {
-		sqlSession.delete("photostoryPhoto.deleteByPhotostoryNo", photostoryNo);
+	public void deletePhotostoryPhotoByPhotoNo(int photostoryPhotoNo) {
+		sqlSession.delete("photostoryPhoto.deleteByPhotoNo", photostoryPhotoNo);
 	}
 
 	// 이미지 리스트 조회 기능

@@ -43,8 +43,6 @@ public class PhotostoryListDto {
 	
 	// 글작성시 지난날짜를 표기하기 위한 get 메소드
 	public String getPastDateString() throws ParseException {
-		DateUtils dateUtils = new DateUtils();
-		
-		return dateUtils.getDifferenceInDate(photostoryDate);
+		return DateUtils.getDifferenceInDate(photostoryDate);
 	}
 }
