@@ -43,7 +43,7 @@
 	
 	function deleteImageAction(index){
 		console.log('index =' + index)
-		sel_files.splice(index,1);
+		sel_files.splice(sel_files.indexOf(index),1);
 		
 		let img_id = "#img_id_"+index
 		$(img_id).remove();

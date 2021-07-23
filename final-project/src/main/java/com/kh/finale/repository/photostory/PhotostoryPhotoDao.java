@@ -10,6 +10,9 @@ public interface PhotostoryPhotoDao {
 
 	// 이미지 삭제 기능
 	void deletePhotostoryPhoto(int photostoryNo);
+	
+	// 이미지 삭제 기능(포토번호)
+	void deletePhotostoryPhotoByPhotoNo(int photostoryPhotoNo);
 
 	// 이미지 리스트 조회 기능
 	List<PhotostoryPhotoDto> get(int photostoryNo);
