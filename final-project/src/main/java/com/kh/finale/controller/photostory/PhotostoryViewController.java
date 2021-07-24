@@ -144,10 +144,8 @@ public class PhotostoryViewController {
 	@GetMapping("/write")
 	public String write(HttpSession session, Model model) {
 		// memberDto 전송
-		int memberNo = 0;
 		if (session.getAttribute("memberNo") != null) {
-			memberNo = (int) session.getAttribute("memberNo");
-			MemberDto memberDto = memberDao.findInfo(memberNo);
+			MemberDto memberDto = memberDao.findInfo((int) session.getAttribute("memberNo"));
 			model.addAttribute("memberDto", memberDto);
 		}
 		
@@ -168,7 +166,7 @@ public class PhotostoryViewController {
 	
 	// 포토스토리 수정 페이지
 	@GetMapping("/edit")
-	public String edit(@RequestParam int photostoryNo, Model model, HttpSession session) {
+	public String edit(@RequestParam int photostoryNo, Model model) {
 		// 포토스토리 정보
 		PhotostoryListDto photostoryListDto = photostoryListDao.get(photostoryNo);
 		
@@ -179,12 +177,8 @@ public class PhotostoryViewController {
 		model.addAttribute("photostoryPhotoList", photostoryPhotoList);
 		
 		// memberDto 전송
-		int memberNo = 0;
-		if (session.getAttribute("memberNo") != null) {
-			memberNo = (int) session.getAttribute("memberNo");
-			MemberDto memberDto = memberDao.findInfo(memberNo);
-			model.addAttribute("memberDto", memberDto);
-		}
+		MemberDto memberDto = memberDao.findInfo(photostoryListDto.getMemberNo());
+		model.addAttribute("memberDto", memberDto);
 		
     	return "photostory/edit";
 	}
