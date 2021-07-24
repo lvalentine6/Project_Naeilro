@@ -19,6 +19,7 @@ public class HomeController {
 	
 	@RequestMapping("/")
 	public String index(Model model, HttpSession session) {
+		// memberDto 전송
 		if (session.getAttribute("memberNo") != null) {
 			MemberDto memberDto = memberDao.findInfo((int) session.getAttribute("memberNo"));
 			model.addAttribute("memberDto", memberDto);

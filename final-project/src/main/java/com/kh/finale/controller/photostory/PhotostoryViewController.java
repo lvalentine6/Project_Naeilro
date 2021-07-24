@@ -66,6 +66,7 @@ public class PhotostoryViewController {
 		photostoryListVO = photostoryDao.getPageVariable(photostoryListVO);
 		List<PhotostoryListDto> photostoryList = photostoryListDao.list(photostoryListVO);
 		
+		// memberDto 전송
 		int memberNo = 0;
 		if (session.getAttribute("memberNo") != null) {
 			memberNo = (int) session.getAttribute("memberNo");
@@ -111,6 +112,7 @@ public class PhotostoryViewController {
 		PhotostoryListDto photostoryListDto = photostoryListDao.get(photostoryNo);
 		List<PhotostoryCommentListDto> photostoryCommentList = photostoryCommentListDao.list(photostoryNo);
 		
+		// memberDto 전송
 		int memberNo = 0;
 		if (session.getAttribute("memberNo") != null) {
 			memberNo = (int) session.getAttribute("memberNo");
@@ -140,7 +142,15 @@ public class PhotostoryViewController {
 	
 	// 포토스토리 작성 페이지
 	@GetMapping("/write")
-	public String write() {
+	public String write(HttpSession session, Model model) {
+		// memberDto 전송
+		int memberNo = 0;
+		if (session.getAttribute("memberNo") != null) {
+			memberNo = (int) session.getAttribute("memberNo");
+			MemberDto memberDto = memberDao.findInfo(memberNo);
+			model.addAttribute("memberDto", memberDto);
+		}
+		
 		return "photostory/write";
 	}
 	
@@ -158,7 +168,7 @@ public class PhotostoryViewController {
 	
 	// 포토스토리 수정 페이지
 	@GetMapping("/edit")
-	public String edit(@RequestParam int photostoryNo, Model model) {
+	public String edit(@RequestParam int photostoryNo, Model model, HttpSession session) {
 		// 포토스토리 정보
 		PhotostoryListDto photostoryListDto = photostoryListDao.get(photostoryNo);
 		
@@ -168,7 +178,15 @@ public class PhotostoryViewController {
 		model.addAttribute("photostoryListDto", photostoryListDto);
 		model.addAttribute("photostoryPhotoList", photostoryPhotoList);
 		
-    		return "photostory/edit";
+		// memberDto 전송
+		int memberNo = 0;
+		if (session.getAttribute("memberNo") != null) {
+			memberNo = (int) session.getAttribute("memberNo");
+			MemberDto memberDto = memberDao.findInfo(memberNo);
+			model.addAttribute("memberDto", memberDto);
+		}
+		
+    	return "photostory/edit";
 	}
 	
 	// 포토스토리 수정 처리
