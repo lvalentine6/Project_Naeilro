@@ -18,6 +18,7 @@
 		$(".nickck").hide()
 		
 		$('#memberId').blur(function() {
+			$(".idck").hide()
 			if (regex.test($(this).val())) {
 				$("#idck").removeClass("text-muted")
 				$("#idck").removeClass("text-danger")
@@ -33,15 +34,15 @@
 					.done(function(json){
 						if(json) {
 							id=false;
-							$(this).removeClass("is-valid");
-							$(this).addClass("is-invalid");
+							$('#memberId').removeClass("is-valid");
+							$('#memberId').addClass("is-invalid");
 							$(".idck").show()
 						}
 						else {
-						id = true;
-						$('#memberId').addClass("is-valid");
-						$('#memberId').removeClass("is-invalid");
-						$(".idck").hide()
+							id = true;
+							$('#memberId').addClass("is-valid");
+							$('#memberId').removeClass("is-invalid");
+							$(".idck").hide()
 						}
 					})
 					.fail(function(){
@@ -82,6 +83,7 @@
 			}
 		})
 		$('#memberNick').blur(function() {
+			$(".nickck").hide()
 			if (nick_name_regex.test($(this).val())) {
 				$("#nickck").removeClass("text-muted")
 				$("#nickck").removeClass("text-danger")
@@ -96,16 +98,16 @@
 					})
 					.done(function(json){
 						if(json) {
-							nick = false;
-							$('#nickck').removeClass("is-valid");
-							$('#nickck').addClass("is-invalid");
+							nick=false;
+							$('#memberNick').removeClass("is-valid");
+							$('#memberNick').addClass("is-invalid");
 							$(".nickck").show()
 						}
 						else {
-						nick = true;
-						$('#nickck').addClass("is-valid");
-						$('#nickck').removeClass("is-invalid");
-						$(".nickck").hide()
+							nick = true;
+							$('#memberNick').addClass("is-valid");
+							$('#memberNick').removeClass("is-invalid");
+							$(".nickck").hide()
 						}
 					})
 					.fail(function(){
