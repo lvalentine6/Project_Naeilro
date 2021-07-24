@@ -253,11 +253,10 @@ public class MemberController {
 		System.out.println("수신값 검사 : " + memberVo);
 		memberVo.setMemberNo((int) httpSession.getAttribute("memberNo"));
 		memberVo.setMemberId((String) httpSession.getAttribute("memberId"));
+		httpSession.setAttribute("memberContextNick", memberVo.getMemberNick());
 		System.out.println("세션값 적용 : " + memberVo);
 		memberEditService.editProfile(memberVo);
-		httpSession.removeAttribute("memberNo");
-		httpSession.removeAttribute("memberId");
-		httpSession.removeAttribute("memberContextNick");
+
 		return "redirect:/";
 	}
 	
