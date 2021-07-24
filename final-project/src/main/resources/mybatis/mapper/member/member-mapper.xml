@@ -12,7 +12,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			member_seq.nextval, #{memberId}, #{memberPw}, 
 			#{memberNick}, #{memberEmail}, #{memberName}, 
 			#{memberBirth}, #{memberGender},
-			#{memberGrade}, #{memberIntro}
+			#{memberGrade}, #{memberIntro}, #{memberState}
 		)
 	</insert>
 	

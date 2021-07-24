@@ -20,5 +20,6 @@ public class MemberVo {
 	private String memberProfilePath;
 	private int memberGrade;
 	private String memberIntro;
+	private String memberState;
 	private MultipartFile memberProfile;
 }

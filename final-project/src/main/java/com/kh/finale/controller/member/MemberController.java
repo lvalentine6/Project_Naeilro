@@ -119,7 +119,7 @@ public class MemberController {
 	// 아이디 찾기 페이지
 	@GetMapping("/findId")
 	public String findId() {
-		return "member/findId";
+		return "member/findId"; 
 	}
 	
 	@Autowired
