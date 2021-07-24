@@ -44,6 +44,7 @@
 		/* 비활성화 */
 		$("#search").hide();
 		$("#daily-title").hide();
+		$("#plan-insert-container").hide();
 		
 		/* 체크박스 중복 불가 */
 		function check(){
