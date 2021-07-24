@@ -27,6 +27,12 @@ public class MemberDaoImpl implements MemberDao{
 		return sqlSession.selectOne("member.login", memberDto);
 	}
 
+	// 회원정보 조회(프로필 편집)
+	@Override
+	public MemberDto findInfo(int memberNo) {
+		return sqlSession.selectOne("member.findInfo", memberNo);
+	}
+	
 	@Override
 	public MemberDto findId(MemberDto memberDto) {
 		return sqlSession.selectOne("member.findId", memberDto);

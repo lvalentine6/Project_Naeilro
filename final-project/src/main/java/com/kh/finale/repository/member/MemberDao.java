@@ -9,6 +9,8 @@ import com.kh.finale.vo.member.MemberVo;
 public interface MemberDao {
 	void join(MemberDto memberDto);
 	MemberDto login(MemberDto memberDto);
+	// 회원정보 조회(프로필 편집)
+	MemberDto findInfo(int memberNo);
 	MemberDto findId(MemberDto memberDto);
 	MemberVo findPw(MemberVo memberVo);
 	void authInsert(MemberAuthDto memberAuthDto);
