@@ -90,8 +90,8 @@
 					let template = $("#comment-tpl").html();
 					let comment_count =$(".comment-count").text()*1 + 1
 					$(".comment-count").text(comment_count)
-					template = template.replace("{{userId}}","${memberContextNick }")
-					template = template.replace("{{userId}}","${memberContextNick }")
+					template = template.replace("{{userId}}","${memberDto.memberNick}")
+					template = template.replace("{{userId}}","${memberDto.memberNick}")
 					template = template.replace("{{comment}}",comment)
 					$(curEl).parent().parent().prev().prev().append(template)
 					comment_div.val("")

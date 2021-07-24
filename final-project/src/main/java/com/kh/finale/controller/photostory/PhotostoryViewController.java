@@ -20,10 +20,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.kh.finale.entity.member.MemberDto;
 import com.kh.finale.entity.photostory.PhotostoryCommentListDto;
 import com.kh.finale.entity.photostory.PhotostoryLikeDto;
 import com.kh.finale.entity.photostory.PhotostoryListDto;
 import com.kh.finale.entity.photostory.PhotostoryPhotoDto;
+import com.kh.finale.repository.member.MemberDao;
 import com.kh.finale.repository.photostory.PhotostoryCommentListDao;
 import com.kh.finale.repository.photostory.PhotostoryDao;
 import com.kh.finale.repository.photostory.PhotostoryLikeDao;
@@ -54,6 +56,9 @@ public class PhotostoryViewController {
 
 	@Autowired
 	private PhotostoryPhotoDao photostoryPhotoDao;
+	
+	@Autowired
+	private MemberDao memberDao;
 
 	// 포토스토리 리스트 페이지
 	@GetMapping("")
@@ -64,6 +69,8 @@ public class PhotostoryViewController {
 		int memberNo = 0;
 		if (session.getAttribute("memberNo") != null) {
 			memberNo = (int) session.getAttribute("memberNo");
+			MemberDto memberDto = memberDao.findInfo(memberNo);
+			model.addAttribute("memberDto", memberDto);
 		}
 		
 		for (int i = 0; i < photostoryList.size(); i++) {
@@ -107,6 +114,8 @@ public class PhotostoryViewController {
 		int memberNo = 0;
 		if (session.getAttribute("memberNo") != null) {
 			memberNo = (int) session.getAttribute("memberNo");
+			MemberDto memberDto = memberDao.findInfo(memberNo);
+			model.addAttribute("memberDto", memberDto);
 		}
 		
 		// 이미지 리스트

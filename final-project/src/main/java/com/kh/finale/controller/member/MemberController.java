@@ -99,7 +99,6 @@ public class MemberController {
 		if(check != null) {
 			httpSession.setAttribute("memberNo", check.getMemberNo());
 			httpSession.setAttribute("memberId", check.getMemberId());
-			httpSession.setAttribute("memberContextNick", check.getMemberNick());
 			return "redirect:/";
 		}
 		else {
@@ -112,7 +111,6 @@ public class MemberController {
 	public String logout(HttpSession httpSession) {
 		httpSession.removeAttribute("memberNo");
 		httpSession.removeAttribute("memberId");
-		httpSession.removeAttribute("memberContextNick");
 		return "redirect:/";
 	}
 	
@@ -255,7 +253,6 @@ public class MemberController {
 		memberVo.setMemberId((String) httpSession.getAttribute("memberId"));
 		System.out.println("세션값 적용 : " + memberVo);
 		memberEditService.editProfile(memberVo);
-		httpSession.setAttribute("memberContextNick", memberVo.getMemberNick());
 
 		return "redirect:/";
 	}
@@ -268,7 +265,6 @@ public class MemberController {
 		memberEditService.exitProfile(memberVo);
 		httpSession.removeAttribute("memberNo");
 		httpSession.removeAttribute("memberId");
-		httpSession.removeAttribute("memberContextNick");
 		return "member/exit";
 	}
 	
