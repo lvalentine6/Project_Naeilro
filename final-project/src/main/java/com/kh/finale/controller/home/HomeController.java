@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.kh.finale.entity.member.FollowDto;
 import com.kh.finale.entity.member.MemberDto;
 import com.kh.finale.repository.member.FollowDao;
+import com.kh.finale.repository.member.MemberDao;
 
 @Controller
 public class HomeController {
@@ -53,9 +54,13 @@ public class HomeController {
 	@Autowired
 	HttpSession httpSession;
 	
+	@Autowired
+	private MemberDao memberDao;
+	
 	@RequestMapping("/member/editProfile")
 	public String editProfile(Model model) {
-		model.addAttribute("memberId", httpSession.getAttribute("memberId"));
+		MemberDto memberDto = memberDao.findInfo((int) httpSession.getAttribute("memberNo"));
+		model.addAttribute("memberDto", memberDto);
 		return "member/editProfile"; 
 	}
 	

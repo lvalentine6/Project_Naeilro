@@ -125,7 +125,7 @@
 					<div class="form-row mb-3 justify-content-center">
 						<label for="memberProfile"> <img
 							class='upload_img user_profile'
-							src="profileImage?memberId=${memberId}"
+							src="profileImage?memberId=${memberDto.memberId}"
 							onerror="this.src='${pageContext.request.contextPath}/image/default_user_profile.jpg'"
 							style="width: 100px; height: 100px;"> <input
 							class="input_img" type="file" accept=".png, .jpg, .gif"
@@ -144,7 +144,7 @@
 						&nbsp;&nbsp; 중복된 닉네임입니다.
 						</small> 
 						 <input type="text"
-							class="form-control" id="memberNick" name="memberNick" required>
+							class="form-control" id="memberNick" name="memberNick" value="${memberDto.memberNick}" required>
 						<small id="nickck" class="form-text text-muted">4~12자의
 							영문 소문자, 대문자, 한글, 숫자만 사용 가능합니다.</small>
 					</div>
@@ -159,28 +159,28 @@
 					</div>
 					<div class="form-row mb-5 justify-content-around">
 						<c:choose>
-							<c:when test='${memberDto.memberGender=="남"}'>
+							<c:when test="${memberDto.memberGender=='남'}">
 								<div class="form-check">
-							<input class="form-check-input" type="radio" name="memberGender"
-								id="memberGender1" value="남" checked> <label
-								class="form-check-label" for="memberGender1"> 남자 </label>
+									<input class="form-check-input" type="radio" name="memberGender"
+										id="memberGender1" value="남" checked>
+									<label class="form-check-label" for="memberGender1"> 남자 </label>
 								</div>
 								<div class="form-check">
 									<input class="form-check-input" type="radio" name="memberGender"
-										id="memberGender2" value="여"> <label
-										class="form-check-label" for="memberGender2"> 여자 </label>
+										id="memberGender2" value="여">
+									<label class="form-check-label" for="memberGender2"> 여자 </label>
 								</div>
 							</c:when>
 							<c:otherwise>
 								<div class="form-check">
-							<input class="form-check-input" type="radio" name="memberGender"
-								id="memberGender1" value="남" > <label
-								class="form-check-label" for="memberGender1"> 남자 </label>
+									<input class="form-check-input" type="radio" name="memberGender"
+										id="memberGender1" value="남" >
+									<label class="form-check-label" for="memberGender1"> 남자 </label>
 								</div>
 								<div class="form-check">
 									<input class="form-check-input" type="radio" name="memberGender"
-										id="memberGender2" value="여" checked> <label
-										class="form-check-label" for="memberGender2" > 여자 </label>
+										id="memberGender2" value="여" checked>
+									<label class="form-check-label" for="memberGender2" > 여자 </label>
 								</div>
 							</c:otherwise>
 						</c:choose>
