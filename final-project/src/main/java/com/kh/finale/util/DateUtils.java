@@ -1,17 +1,18 @@
 package com.kh.finale.util;
 
 import java.text.ParseException;
+import java.util.Calendar;
 import java.util.Date;
 
 /**
- * Date 자료형을 다루는 클래스
+ * Date 관련 유틸 모음
  * @author swjk78
  */
 public class DateUtils {
 
 	// 작성날짜와 현재날짜의 차이를 얻는 메소드
 	// (주의) sql.Date 타입으로 올 경우 시간/분/초 단위도 제대로 반환되는지 확인 필요
-	public String getDifferenceInDate(Date inputDate) throws ParseException {
+	public static String getDifferenceInDate(Date inputDate) throws ParseException {
 		long currentTime = System.currentTimeMillis();
 		long compareTime = inputDate.getTime();
 		long differenceTime = (currentTime - compareTime) / 1000;
@@ -33,5 +34,45 @@ public class DateUtils {
 		}
 		
 		return msg;
+	}
+	
+	// 현재 연도월일시분초를 반환하는 메소드
+	public static String getDateString() {
+		Calendar cal = Calendar.getInstance();
+		
+		int year = cal.get(Calendar.YEAR);
+		String yearString = String.valueOf(year);
+		
+		int month = cal.get(Calendar.MONTH) + 1;
+		String monthString = String.valueOf(month);
+		if (month / 10 == 0) {
+			monthString = "0" + monthString;
+		}
+		
+		int day = cal.get(Calendar.DAY_OF_MONTH);
+		String dayString = String.valueOf(day);
+		if (day / 10 == 0) {
+			dayString = "0" + dayString;
+		}
+		
+		int hour = cal.get(Calendar.HOUR_OF_DAY);
+		String hourString = String.valueOf(hour);
+		if (hour / 10 == 0) {
+			hourString = "0" + hourString;
+		}
+		
+		int min = cal.get(Calendar.MINUTE);
+		String minString = String.valueOf(min);
+		if (min / 10 == 0) {
+			minString = "0" + minString;
+		}
+		
+		int sec = cal.get(Calendar.SECOND);
+		String secString = String.valueOf(sec);
+		if (sec / 10 == 0) {
+			secString = "0" + secString;
+		}
+		
+		return yearString + monthString + dayString + hourString + minString + secString;
 	}
 }
