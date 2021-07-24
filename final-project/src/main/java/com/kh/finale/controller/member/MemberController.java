@@ -57,7 +57,7 @@ public class MemberController {
 	public String join(@ModelAttribute MemberVo memberVo) throws IllegalStateException, IOException {
 		System.out.println("수신값 확인 : " + memberVo);
 		memberJoinService.memberjoin(memberVo);		
-		return "redirect:join_success";
+		return "redirect:join_success"; 
 	}
 	
 	@GetMapping("/join_success")
