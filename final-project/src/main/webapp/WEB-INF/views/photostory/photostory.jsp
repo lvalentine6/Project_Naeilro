@@ -244,7 +244,7 @@
 							<strong>${photostoryCommentListDto.photostoryCommentMemberNick}</strong>
 							</a>
 							&nbsp;
-							${photostoryCommentListDto.photostoryCommentDate}
+							${photostoryCommentListDto.getPastDateString()}
 							<div>
 							${photostoryCommentListDto.photostoryCommentContent}
 							</div>
