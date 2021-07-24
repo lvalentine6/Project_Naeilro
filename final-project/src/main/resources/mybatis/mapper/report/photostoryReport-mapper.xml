@@ -4,14 +4,13 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="member">
+<mapper namespace="report">
 
 	<!-- 포토스트리 신고 등록 -->
-	<insert id="pReportInsert" parameterType="CommentReportDto">
-		insert into comment_report values(
-			photostory_report_seq.nextval, 
-			#{memberNo}, #{pReportNo}, #{pReportReason}, 
-			#{pReportResult}
+	<insert id="pReportInsert" parameterType="PhotostoryReportDto">
+		insert into photostory_report values(
+			report_seq.nextval, 
+			#{memberNo}, #{pReportNo}, #{pReportReason}
 		)
 	</insert>
 	

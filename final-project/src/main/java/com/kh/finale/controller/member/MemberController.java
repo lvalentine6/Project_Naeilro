@@ -205,7 +205,6 @@ public class MemberController {
 			model.addAttribute("memberId", selectMember.getMemberId());
 			return "member/changePw";
 	}
-	
 	// 비밀번호 찾기 (변경 후 메인페이지 리다이렉트)
 	@PostMapping("/edit")
 	public String edit(@ModelAttribute MemberDto memberDto){

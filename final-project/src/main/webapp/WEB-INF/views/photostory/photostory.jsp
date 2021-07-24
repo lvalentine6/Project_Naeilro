@@ -179,7 +179,7 @@
 									</c:when>
 									<c:otherwise>
 										<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-											<a class="dropdown-item text-danger" href="#">게시글 신고</a> 
+											<a class="dropdown-item text-danger" href="/finale/report/pReport">게시글 신고</a> 
 											<a class="dropdown-item" >취소</a> 
 										</div>
 									</c:otherwise>
