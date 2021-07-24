@@ -25,13 +25,13 @@ public class HomeController {
 			model.addAttribute("memberDto", memberDto);
 		}
 		
-		return "home";
+		return "home"; 
 	}
 	
 	@Autowired
 	private SqlSession sqlSession;
 	
-	
+	// 마이페이지 조회
 	@Autowired
 	private FollowDao followDao;
 	@RequestMapping("/member/{memberNick}")
@@ -58,6 +58,7 @@ public class HomeController {
 		return "member/myPage";
 	}
 	
+	// 맴버 프로필 편집
 	@Autowired
 	HttpSession httpSession;
 	
@@ -71,6 +72,7 @@ public class HomeController {
 		return "member/editProfile"; 
 	}
 	
+	// 관리자 페이지
 	@RequestMapping("/admin")
 	public String admin(Model model) {
 		return "admin/home";
