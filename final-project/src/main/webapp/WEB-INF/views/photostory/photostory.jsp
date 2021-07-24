@@ -84,8 +84,8 @@
 				})
 				.done(function(){
 					let template = $("#comment-tpl").html();
-					template = template.replace("{{userId}}","${memberContextNick }")
-					template = template.replace("{{userId}}","${memberContextNick }")
+					template = template.replace("{{userId}}","${memberDto.memberNick}")
+					template = template.replace("{{userId}}","${memberDto.memberNick}")
 					template = template.replace("{{comment}}",comment)
 					$(curEl).parent().parent().prev().prev().append(template)
 					
