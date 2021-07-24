@@ -247,15 +247,15 @@ public class MemberController {
 	@Autowired
 	MemberEditService memberEditService;
 	
-	// 마이페이지 수정 기능 - 수정 후 로그아웃
+	// 마이페이지 수정 기능
 	@PostMapping("/editProfile")
 	public String editProfile(@ModelAttribute MemberVo memberVo, HttpSession httpSession) {
 		System.out.println("수신값 검사 : " + memberVo);
 		memberVo.setMemberNo((int) httpSession.getAttribute("memberNo"));
 		memberVo.setMemberId((String) httpSession.getAttribute("memberId"));
-		httpSession.setAttribute("memberContextNick", memberVo.getMemberNick());
 		System.out.println("세션값 적용 : " + memberVo);
 		memberEditService.editProfile(memberVo);
+		httpSession.setAttribute("memberContextNick", memberVo.getMemberNick());
 
 		return "redirect:/";
 	}
