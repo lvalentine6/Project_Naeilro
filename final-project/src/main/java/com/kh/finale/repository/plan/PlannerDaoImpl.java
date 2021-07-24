@@ -4,7 +4,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.kh.finale.vo.plan.PlannerInsertVO;
+import com.kh.finale.vo.plan.PlanInsertServiceVO;
 
 @Repository
 public class PlannerDaoImpl implements PlannerDao {
@@ -18,8 +18,8 @@ public class PlannerDaoImpl implements PlannerDao {
 	}
 	
 	@Override
-	public void plannerInsert(PlannerInsertVO plannerInsertVO) {
-		sqlSession.insert("planner.plannerInsert", plannerInsertVO);
+	public void plannerInsert(PlanInsertServiceVO planInsertServiceVO) {
+		sqlSession.insert("planner.plannerInsert", planInsertServiceVO);
 	}
 
 }

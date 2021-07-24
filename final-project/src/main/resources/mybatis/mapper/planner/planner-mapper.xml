@@ -10,7 +10,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select planner_seq.nextval from dual
 	</select>
 	
-	<insert id="plannerInsert" parameterType="PlannerInsertVO">
+	<insert id="plannerInsert" parameterType="PlanInsertServiceVO">
 		insert into planner values(
 			#{plannerNo}, #{plannerStartDate}, #{plannerEndDate}, 'N', #{plannerName}
 		)

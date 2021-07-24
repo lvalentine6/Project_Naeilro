@@ -16,16 +16,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		)	
 	</insert>
 	
-	<select id="dailyOrderConfirm" parameterType="PlanInsertServiceVO" resultType="Integer">
-		select daily_order from daily where daily_order = #{dailyOrder} and planner_no = #{plannerNo}
+	<select id="dailyNoConfirm" parameterType="int" resultType="Integer">
+		select daily_no from daily where daily_no = #{dailyNo}
 	</select>
-	
-	<select id="dailyNoConfirm" parameterType="PlanInsertServiceVO" resultType="int">
-		select daily_no from daily where daily_order = #{dailyOrder} and planner_no = #{plannerNo}
-	</select>
-	
-	<select id="dailyListService" parameterType="int"  resultType="DailyDto">
-		select * from daily where planner_no = #{planner_no}
-	</select>
-	
 </mapper>
