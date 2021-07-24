@@ -31,7 +31,7 @@ public class PhotostoryReportTest {
 	public void pReportInsert() {
 		PhotostoryReportDto photostoryReportDto = PhotostoryReportDto.builder()
 									.memberNo(112)
-									.pReportNo(2)
+									.pReportNo(16)
 									.pReportReason("부적절한 게시글")
 									.build();
 		photostoryReportService.pReportInsert(photostoryReportDto);

@@ -33,7 +33,7 @@ public class HomeController {
 	
 	// 마이페이지 조회
 	@Autowired
-	private FollowDao followDao;
+	private FollowDao followDao; 
 	@RequestMapping("/member/{memberNick}")
 	public String myPage(@PathVariable String memberNick
 			,Model model,HttpSession session) {
