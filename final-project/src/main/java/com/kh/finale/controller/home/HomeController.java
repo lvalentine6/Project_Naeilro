@@ -48,7 +48,7 @@ public class HomeController {
 					.followTo(memberDto.getMemberNo())
 					.build();
 			if(followDao.isFollow(followDto)!=null) {
-				isFollow=true;
+				isFollow=true; 
 			}
 		}
 		
