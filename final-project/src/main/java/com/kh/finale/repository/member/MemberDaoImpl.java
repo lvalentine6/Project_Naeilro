@@ -27,7 +27,7 @@ public class MemberDaoImpl implements MemberDao{
 		return sqlSession.selectOne("member.login", memberDto);
 	}
 
-	// 회원정보 조회(프로필 편집)
+	// 회원정보 조회(회원번호로)
 	@Override
 	public MemberDto findInfo(int memberNo) {
 		return sqlSession.selectOne("member.findInfo", memberNo);
@@ -89,4 +89,15 @@ public class MemberDaoImpl implements MemberDao{
 		sqlSession.delete("member.exit", memberVo);
 	}
 
+	// 회원 정지
+	@Override
+	public void block(int memberNo) {
+		sqlSession.update("member.block", memberNo);
+	}
+	
+	// 회원 정지 해제
+	@Override
+	public void unblock(int memberNo) {
+		sqlSession.update("member.unblock", memberNo);
+	}
 }
