@@ -20,7 +20,6 @@ public class PhotostoryDaoImpl implements PhotostoryDao {
 		int pageNo;
 		try {
 			pageNo = photostoryListVO.getPageNo();
-			System.out.println(pageNo+"zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz");
 			if (pageNo < 1) {
 				throw new Exception();
 			}
@@ -105,5 +104,10 @@ public class PhotostoryDaoImpl implements PhotostoryDao {
 	@Override
 	public void refreshPhotostoryCommentCount(int photostoryNo) {
 		sqlSession.update("photostory.refreshPhotostoryCommentCount", photostoryNo);
+	}
+	
+	@Override
+	public int getPhotostoryCountWithMemberNo(int memberNo) {
+		return sqlSession.selectOne("photostory.getCountWithMemberNo", memberNo);
 	}
 }
