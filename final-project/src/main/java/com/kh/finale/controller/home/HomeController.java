@@ -25,7 +25,7 @@ public class HomeController {
 			model.addAttribute("memberDto", memberDto);
 		}
 		
-		return "home"; 
+		return "home";
 	}
 	
 	@Autowired
