@@ -1,8 +1,7 @@
 package com.kh.finale.util;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 import org.junit.Test;
 
@@ -50,32 +49,45 @@ public class DateUtilsTest {
 //		log.debug("msg = {}", msg);
 //	}
 	
+//	@Test
+//	public void getSysdate() {
+//		Calendar cal = Calendar.getInstance();
+//		
+//		String year = String.valueOf(cal.get(Calendar.YEAR));
+//		
+//		int monthInt = cal.get(Calendar.MONTH) + 1;
+//		String month;
+//		
+//		if (monthInt < 10) {
+//			month = "0" + String.valueOf(monthInt);
+//		} else {
+//			month = String.valueOf(monthInt);
+//		}
+//		
+//		String day;
+//		int dayInt = cal.get(Calendar.DAY_OF_MONTH);
+//		
+//		if (dayInt < 10) {
+//			day = "0" + String.valueOf(dayInt);
+//		} else {
+//			day = String.valueOf(dayInt);
+//		}
+//		
+//		String msg = year + month + day;
+//		
+//		log.debug("결과: {}", msg);
+//	}
+	
 	@Test
-	public void getSysdate() {
+	public void test() {
 		Calendar cal = Calendar.getInstance();
 		
-		String year = String.valueOf(cal.get(Calendar.YEAR));
+		// 일수 더하기
+		cal.add(Calendar.DAY_OF_MONTH, 365);
 		
-		int monthInt = cal.get(Calendar.MONTH) + 1;
-		String month;
+		// Calendar를 Date로 변환
+		Date date = cal.getTime();
 		
-		if (monthInt < 10) {
-			month = "0" + String.valueOf(monthInt);
-		} else {
-			month = String.valueOf(monthInt);
-		}
-		
-		String day;
-		int dayInt = cal.get(Calendar.DAY_OF_MONTH);
-		
-		if (dayInt < 10) {
-			day = "0" + String.valueOf(dayInt);
-		} else {
-			day = String.valueOf(dayInt);
-		}
-		
-		String msg = year + month + day;
-		
-		log.debug("결과: {}", msg);
+		log.debug("date = {}", date);
 	}
 }

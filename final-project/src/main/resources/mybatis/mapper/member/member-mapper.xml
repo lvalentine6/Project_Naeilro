@@ -23,9 +23,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			and member_pw = #{memberPw}
 	</select>
 	
-	<!-- 회원정보 조회(프로필 편집) -->
+	<!-- 회원정보 조회(회원번호로) -->
 	<select id="findInfo" parameterType="int" resultType="MemberDto">
-		select member_nick, member_name, member_email, member_gender, member_intro
+		select member_nick, member_email, member_name, member_gender, member_grade, member_intro, member_state
 		from member where member_no = #{memberNo}
 	</select>
 	
@@ -78,4 +78,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<delete id="exit" parameterType="MemberVo">
 		delete from member where member_id = #{memberId}
 	</delete>
+	
+	<!-- 회원 정지 -->
+	<update id="block" parameterType="int">
+		update member set member_state = '정지' where member_no = #{memberNo}
+	</update>
+	
+	<!-- 회원 정지 해제 -->
+	<update id="unblock" parameterType="int">
+		update member set member_state = '정상' where member_no = #{memberNo}
+	</update>
+	
 </mapper>

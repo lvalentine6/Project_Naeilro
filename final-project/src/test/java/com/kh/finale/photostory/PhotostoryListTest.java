@@ -32,10 +32,10 @@ import lombok.extern.slf4j.Slf4j;
 public class PhotostoryListTest {
 
 	@Autowired
-	PhotostoryListDao photostoryListDao;
+	private PhotostoryListDao photostoryListDao;
 	
 	@Autowired
-	PhotostoryCommentListDao photostoryCommentListDao;
+	private PhotostoryCommentListDao photostoryCommentListDao;
 	
 	@Test
 	public void test() {
