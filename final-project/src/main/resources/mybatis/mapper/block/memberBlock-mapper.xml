@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="memberBlock">
+
+	<!-- 회원 정지 정보 등록 -->
+	<insert id="insert" parameterType="MemberBlockDto">
+		insert into member_block(block_no, member_no, block_period, block_content, block_reason)
+		values(member_block_seq.nextval, #{memberNo}, #{blockPeriod}, #{blockContent}, #{blockReason})
+	</insert>
+	
+	<!-- 회원 정지 정보 삭제 -->
+	<delete id="delete" parameterType="int">
+		delete member_block where member_no = #{memberNo}
+	</delete>
+	
+	<!-- 정지 정보 조회 -->
+	<select id="select" parameterType="int" resultType="MemberBlockDto">
+		select * from member_block where member_no = #{memberNo}
+	</select>
+	
+</mapper>
