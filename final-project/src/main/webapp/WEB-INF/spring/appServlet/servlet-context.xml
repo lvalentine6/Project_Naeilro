@@ -66,7 +66,7 @@
 	<!-- 인터셉터 등록 -->
 	<interceptors>
 		
-		<!-- 회원 기능 접근 차단 인터셉터 -->
+		<!-- 비회원의 회원 기능 접근 차단 인터셉터 -->
 		<interceptor>
 			<mapping path="/photostory/**"/>
 			<mapping path="/process/**"/>
@@ -78,16 +78,16 @@
 			<beans:bean class="com.kh.finale.interceptor.MemberLoginInterceptor"></beans:bean>
 		</interceptor>
 		
-		<!-- 비회원 기능 접근 차단 인터셉터 -->
-		<interceptor>
-			<mapping path="/member/**"/>
-			<exclude-mapping path="/member/idCheck"/>
-			<exclude-mapping path="/member/nickCheck"/>
-			<exclude-mapping path="/member/logout"/>
-			<exclude-mapping path="/member/editProfile"/>
-			<exclude-mapping path="/member/exit"/>
-			<beans:bean class="com.kh.finale.interceptor.MemberLogoutInterceptor"></beans:bean>
-		</interceptor>
+		<!-- 회원의 비회원 기능 접근 차단 인터셉터 -->
+<!-- 		<interceptor> -->
+<!-- 			<mapping path="/member/**"/> -->
+<!-- 			<exclude-mapping path="/member/idCheck"/> -->
+<!-- 			<exclude-mapping path="/member/nickCheck"/> -->
+<!-- 			<exclude-mapping path="/member/logout"/> -->
+<!-- 			<exclude-mapping path="/member/editProfile"/> -->
+<!-- 			<exclude-mapping path="/member/exit"/> -->
+<!-- 			<beans:bean class="com.kh.finale.interceptor.MemberLogoutInterceptor"></beans:bean> -->
+<!-- 		</interceptor> -->
 		
 		<!-- 정지된 회원의 기능 사용 제한 인터셉터 -->
 		<interceptor>
