@@ -70,24 +70,28 @@
 		<interceptor>
 			<mapping path="/photostory/**"/>
 			<mapping path="/process/**"/>
+			<mapping path="/report/**"/>
 			<mapping path="/member/logout"/>
 			<mapping path="/member/editProfile"/>
 			<mapping path="/member/exit"/>
+			<mapping path="/member/profile/edit**"/>
 			<exclude-mapping path="/photostory"/>
 			<exclude-mapping path="/photostory/detail"/>
 			<beans:bean class="com.kh.finale.interceptor.MemberLoginInterceptor"></beans:bean>
 		</interceptor>
 		
 		<!-- 회원의 비회원 기능 접근 차단 인터셉터 -->
-<!-- 		<interceptor> -->
-<!-- 			<mapping path="/member/**"/> -->
-<!-- 			<exclude-mapping path="/member/idCheck"/> -->
-<!-- 			<exclude-mapping path="/member/nickCheck"/> -->
-<!-- 			<exclude-mapping path="/member/logout"/> -->
-<!-- 			<exclude-mapping path="/member/editProfile"/> -->
-<!-- 			<exclude-mapping path="/member/exit"/> -->
-<!-- 			<beans:bean class="com.kh.finale.interceptor.MemberLogoutInterceptor"></beans:bean> -->
-<!-- 		</interceptor> -->
+		<interceptor>
+			<mapping path="/member/**"/>
+			<exclude-mapping path="/member/profile/**"/>
+			<exclude-mapping path="/member/findPw"/>
+			<exclude-mapping path="/member/changePw"/>
+			<exclude-mapping path="/member/edit"/>
+			<exclude-mapping path="/member/logout"/>
+			<exclude-mapping path="/member/exit"/>
+			<exclude-mapping path="/member/*Email"/>
+			<beans:bean class="com.kh.finale.interceptor.MemberLogoutInterceptor"></beans:bean>
+		</interceptor>
 		
 		<!-- 정지된 회원의 기능 사용 제한 인터셉터 -->
 		<interceptor>
@@ -95,6 +99,7 @@
 			<mapping path="/process/**"/>
 			<exclude-mapping path="/photostory"/>
 			<exclude-mapping path="/photostory/detail"/>
+			<exclude-mapping path="/photostory/photo/**"/>
 			<beans:bean class="com.kh.finale.interceptor.MemberBlockInterceptor"></beans:bean>
 		</interceptor>
 		
@@ -106,10 +111,10 @@
 		</interceptor>
 
 		<!-- 관리자 기능 접근 차단 인터셉터 -->
-		<interceptor>
-			<mapping path="/admin/**"/>
-			<beans:bean class="com.kh.finale.interceptor.AdminInterceptor"></beans:bean>
-		</interceptor>
+<!-- 		<interceptor> -->
+<!-- 			<mapping path="/admin/**"/> -->
+<!-- 			<beans:bean class="com.kh.finale.interceptor.AdminInterceptor"></beans:bean> -->
+<!-- 		</interceptor> -->
 		
 	</interceptors>
 </beans:beans>

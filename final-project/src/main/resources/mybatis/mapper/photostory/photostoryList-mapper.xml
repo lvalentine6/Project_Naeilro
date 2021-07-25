@@ -12,9 +12,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			select rownum rn, tmp.* from (
 				select * from photostory_list
 				<where>
-					<if test="searchType != null and searchKeyword != null">
+					<if test="searchKeyword != null">
 						<![CDATA[
-							instr(${searchType}, #{searchKeyword}) > 0
+							instr(member_nick, #{searchKeyword}) > 0 or
+							instr(photostory_content, #{searchKeyword}) > 0
 						]]>
 					</if>
 				</where>

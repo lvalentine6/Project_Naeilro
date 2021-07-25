@@ -168,7 +168,9 @@ public class PhotostoryViewController {
 	public String write(@ModelAttribute PhotostoryVO photostoryVO,
 			HttpSession session) throws IllegalStateException, IOException {
 		int memberNo = (int) session.getAttribute("memberNo");
+		int plannerNo = 2; // 임시
 		photostoryVO.setMemberNo(memberNo);
+		photostoryVO.setPlannerNo(plannerNo); // 임시
 		
 		photostoryService.insertPhotostory(photostoryVO);
 		
@@ -200,7 +202,8 @@ public class PhotostoryViewController {
 			HttpSession session) throws IllegalStateException, IOException {
 		int memberNo = (int) session.getAttribute("memberNo");
 		photostoryVO.setMemberNo(memberNo);
-		
+		int plannerNo = 2; // 임시
+		photostoryVO.setPlannerNo(plannerNo); // 임시
 		photostoryService.updatePhotostory(photostoryVO);
 		
 		return "redirect:/photostory/detail?photostoryNo=" + photostoryVO.getPhotostoryNo();

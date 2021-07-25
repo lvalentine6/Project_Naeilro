@@ -42,6 +42,12 @@ public class MemberDaoImpl implements MemberDao{
 	public MemberVo findPw(MemberVo memberVo) {
 		return sqlSession.selectOne("member.findPw", memberVo);
 	}
+	
+	// 회원 정보 조회(닉네임으로)
+	@Override
+	public MemberDto findWithNick(String memberNick) {
+		return sqlSession.selectOne("member.findWithNick", memberNick);
+	}
 
 	@Override
 	public void authInsert(MemberAuthDto memberAuthDto) {
@@ -108,8 +114,4 @@ public class MemberDaoImpl implements MemberDao{
 		sqlSession.update("member.unblock", memberNo);
 	}
 	
-	@Override
-	public MemberDto findWithNick(String memberNick) {
-		return sqlSession.selectOne("findWithNick",memberNick);
-	}
 }

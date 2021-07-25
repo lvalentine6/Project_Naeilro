@@ -7,115 +7,7 @@
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
 
 <script>
-	/* 아이디(영문/숫자 4~12자), 비밀번호 (영문/숫자/한글 4~12자), 이름 (한글 2~7자), 닉네임 (영문/숫자/한글 4~12자) 검사 */
-	let regex = /^[0-9a-zA-Z]{4,12}$/;
-	let name_regex = /^[가-힣]{2,7}$/;
-	let nick_name_regex = /^[0-9a-zA-Z가-힣]{4,12}$/;
-	let id = false;
-	let nick = false;
-	let name = false;
-	$(function() {
-		$('#memberId').blur(function() {
-			if (regex.test($(this).val())) {
-				id = true;
-				$(this).addClass("is-valid");
-				$(this).removeClass("is-invalid");
-			} else {
-				id = false;
-				$(this).removeClass("is-valid");
-				$(this).addClass("is-invalid");
-			}
-		})
-		$('#memberNick').blur(function() {
-			if (nick_name_regex.test($(this).val())) {
-				$("#nickck").removeClass("text-muted")
-				$("#nickck").removeClass("text-danger")
-				$("#nickck").addClass("text-success")
-				
-				
-				$.ajax({
-					url:"nickCheck",
-					data : {
-						memberId : memberId,
-					},
-					method:"POST",
-					})
-					.done(function(){
-						nick = true;
-						$('#nickck').addClass("is-valid");
-						$('#nickck').removeClass("is-invalid");
-						$(".nickck").hide()
-					})
-					.fail(function(){
-						nick = false;
-						$('#nickck').removeClass("is-valid");
-						$('#nickck').addClass("is-invalid");
-						$(".nickck").show()
-					})
-			} else {
-				nick = false;
-				$(this).removeClass("is-valid");
-				$(this).addClass("is-invalid");
-				$("#nickck").removeClass("text-muted")
-				$("#nickck").removeClass("text-success")
-				$("#nickck").addClass("text-danger")
-			}
-		})
-		$('#memberName').blur(function() {
-			if (name_regex.test($(this).val())) {
-				name = true;
-				$(this).addClass("is-valid");
-				$(this).removeClass("is-invalid");
-			} else {
-				name = false;
-				$(this).removeClass("is-valid");
-				$(this).addClass("is-invalid");
-			}
-		})
-		/* form submit 전송 검사 */
-		$('.submit_btn').click(function(e) {
-			if (!id) {
-				e.preventDefault();
-				$('#memberId').focus();
-				return;
-			}
-			if (!name) {
-				e.preventDefault();
-				$('#memberName').focus();
-				return;
-			}
-			if (!nick) {
-				e.preventDefault();
-				$('#memberNick').focus();
-				return;
-			}
-		})
-		
-		function readImage(input) {
-		    if(input.files && input.files[0]) {
-		        const reader = new FileReader()
-		        reader.onload = e => {
-		            const previewImage = document.querySelector(".upload_img")
-		            previewImage.src = e.target.result
-		        }
-		        reader.readAsDataURL(input.files[0])
-		    }
-/* function readImage(input) {
-    if(input.files && input.files[0]) {
-        const reader = new FileReader()
-        reader.onload = e => {
-            const previewImage = document.querySelector(".upload_img")
-            previewImage.src = e.target.result
-        }
-        reader.readAsDataURL(input.files[0])
-    }
-}
-$(function(){
-	$(".input_img").change(function(e){
-		console.dir(e.target)
-		readImage(e.target)
-	})
-}) */
+
 
 $(function(){
 	$(".follow-btn").click(function(){
@@ -127,24 +19,25 @@ $(function(){
 			readImage(e.target)
 		})
 	})
+})
 </script>
 <main>
 	<div class="container-lg">
 		<div class="row">
 			<div class="col-lg-3 offset-lg-1">
 				<label for="memberProfile"> 
-					<img class='upload_img my-3 user_profile_lg user_profile' src="profileImage?memberNo=${memberDto.memberNo}"
+					<img class='upload_img my-3 user_profile_lg user_profile' src="${pageContext.request.contextPath}/member/profile/profileImage?memberNo=${profileMemberDto.memberNo}"
 					onerror="this.src='${pageContext.request.contextPath}/image/default_user_profile.jpg'"> 
 					<input class="input_img" type="file" accept=".png, .jpg, .gif" id="memberProfile" name="memberProfile" style="display: none" disabled/>
 				</label>
 			</div>
 			<div class="col-lg-7">
 				<div class="row my-3 align-items-center">
-					<div class="col-4" style="font-size: 2rem">${memberDto.memberNick}</div>
+					<div class="col-4" style="font-size: 2rem">${profileMemberDto.memberNick}</div>
 					
 					<div class="col-4">
 					<c:choose>
-						<c:when test="${memberDto.memberNo==memberNo}">
+						<c:when test="${profileMemberDto.memberNo==memberNo}">
 							<a class="btn btn-outline-secondary" href="editProfile" role="button">프로필 편집</a>
 						</c:when>
 						<c:otherwise>
@@ -173,16 +66,16 @@ $(function(){
 					
 					<div class="col-4">
 					<c:choose>
-						<c:when test="${memberDto.memberNo==memberNo}">
+						<c:when test="${profileMemberDto.memberNo==memberNo}">
 							<div class="dropdown">
 								<a href="#" role="button" id="dropdownMenuLink"
 									data-toggle="dropdown"><i class="fas fa-cog fa-2x"></i></a>
 	
 								<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-									<a class="dropdown-item" href="findPw">비밀번호 변경</a>
+									<a class="dropdown-item" href="${pageContext.request.contextPath}/member/findPw">비밀번호 변경</a>
 									<a class="dropdown-item" href="#">문제 신고</a> 
-									<a class="dropdown-item" href="logout">로그아웃</a> 
-									<a class="dropdown-item text-danger confirm-link" data-message="정말 탈퇴하시겠습니까?" href="exit">회원 탈퇴</a> 
+									<a class="dropdown-item" href="${pageContext.request.contextPath}/member/logout">로그아웃</a> 
+									<a class="dropdown-item text-danger confirm-link" data-message="정말 탈퇴하시겠습니까?" href="${pageContext.request.contextPath}/member/exit">회원 탈퇴</a> 
 								</div>
 							</div>
 						</c:when>
@@ -202,7 +95,7 @@ $(function(){
 					</div>
 				</div>
 				<div class="row">
-					<div class="col-12">${memberDto.memberIntro}</div>
+					<div class="col-12">${profileMemberDto.memberIntro}</div>
 				</div>
 
 			</div>
