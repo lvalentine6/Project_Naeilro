@@ -4,17 +4,8 @@
 <style>
 	/* 맵 비활성화 - 등록하면 활성화 용도 */
 	#map{
-		height: 800px;
 		opacity: 0.6;
 		pointer-events: none;
-	}
-	.list-daily {
-		border: 1px solid;
-		margin-top: 10px;
-	}
-	#search {
-		border: 1px solid;
-		margin-top: 10px;
 	}
 </style>
 <script type="text/javascript"
@@ -540,7 +531,7 @@
 </script>
 <script type="text/template" id="user-daily-template">
 	<!-- 사용자용 : 하루계획표 리스트 -->
-	<div class="list-daily" data-index="{index}">
+	<div class="list-daily" style="border: 1px solid; margin-top: 10px" data-index="{index}">
 		<div class="list-daily-order">
 			<label>{dailyOrder} 일차 하루계획표</label>
 		</div>
@@ -572,51 +563,76 @@
 	</div>
 	<!-- 사용자용 : 장소 & 장소계획 리스트 -->
 </script>
+</head>
 <body>
 	<main>
-		<div class="container-lg">
-			<div class="row">
-				<div class="col-xs-6 col-md-4">
-					<!-- 통합계획표 입력창 -->
-					<div id="planner-insert-confirm" style="border: 1px solid">
-						<div style="font-weight:bold;">통합계획표</div>
-							<label>계획표 이름</label>
-							<input type="text" id="planner-name"> 
-							<br>
-							<label>날짜선택</label>
-							<input type="text" id="demo">
-							<br>
-							<input type="button" id="planner-map-find" value="계획표 생성">
-							<input type="hidden" id="planner-insert-button" value="계획표 생성완료">
-							<br>
+		<!-- 전체 컨테이너 -->
+	<div id="container" style="width: 100%; height: 1200px; overflow: hidden"> 
+		<!-- 확인 컨테이너 -->
+		<div style="width: 30%; height: 1200px; border: 1px solid;float: left;" id="confirm">
+			<!-- 사용자 컨테이너 -->
+			<div id="user-container">
+				<!-- 통합계획표 입력창 -->
+				<div id="planner-insert-confirm" style="border-bottom: 1px solid;">
+					<div style="font-weight:bold;">통합계획표</div>
+					<div class="row">
+						<label>계획표 이름</label>
+						<input type="text" id="planner-name"> 
 					</div>
-					<!-- 통합계획표 입력창 -->	
-					<!-- 검색창 -->
-					<div id="search"> 
-						<div style="font-weight:bold;">장소 검색창</div>
-							<label>검색 유형 : </label>
-							<input type="checkbox" class="type" id="hotel" value="호텔">
-							<label>호텔</label>
-							<input type="checkbox" class="type" id="tour" value="관광지">
-							<label>관광지</label>
-							<br>
-							<label>검색어</label>
-							<input type="text" id="keyword" required="required">
-							<button id="find">검색</button>
+					<div class="row">
+						<label>날짜선택</label>
+						<input type="text" id="demo">
 					</div>
+					<br>
+					<div class="row" id="planner-insert-button-div">
+						<input type="button" id="planner-map-find" value="계획표 생성">
+						<input type="hidden" id="planner-insert-button" value="계획표 생성완료">
+					</div>
+					<br>
+				</div>
+				<!-- 통합계획표 입력창 -->
+				<!-- 검색창 -->
+				<div id="search" style="border-bottom: 1px solid"> 
+					<div style="font-weight:bold;">장소 검색창</div>
+					<div class="row">
+						<label>검색 유형 : </label>
+						<input type="checkbox" class="type" id="hotel" value="호텔">
+						<label>호텔</label>
+						<input type="checkbox" class="type" id="tour" value="관광지">
+						<label>관광지</label>
+					</div>
+					<div class="row">
+						<label>검색어</label>
+						<input type="text" id="keyword" required="required">
+					</div>
+					<div class="row">
+						<button id="find">검색</button>
+					</div>
+				</div>
 				<!-- 검색창 -->
 				<!-- 하루계획표 -->
 				<div id="daily-list-container"></div>
 				<!-- 하루계획표 -->
-				<form id="plan-insert-container"></form>
-				<input type="hidden" id="daily-index">
-				<input type="hidden" id="place-index">
-				</div>
-				<div class="col-xs-12 col-md-8">
-					<div id="map"></div>
-				</div>
+				<!-- 하루계획표 입력창 -->
+				<div id="daily-insert-confirm"></div>
+				<!-- 하루계획표 입력창 -->
+				<!-- 장소계획 입력창 -->
+				<div id="dailyplan-insert-confirm"></div>
+				<!-- 장소계획 입력창 -->
 			</div>
+			<!-- 사용자 컨테이너 -->
+			<!-- 개발자 컨테이너 -->
+			<form id="plan-insert-container" style="border-bottom: 1px solid; bottom-top: 1px solid"></form>
+			<input type="hidden" id="daily-index">
+			<input type="hidden" id="place-index">
+			<!-- 개발자 컨테이너 -->
 		</div>
+		<!-- 확인 컨테이너 -->
+		<!-- 지도 -->
+		<div id="map" style="width: 70%; height: 800px; float: right"></div>
+		<!-- 지도 -->
+	</div>
+	<!-- 전체 컨테이너 -->
 	</main>
 </body>
 </html>
