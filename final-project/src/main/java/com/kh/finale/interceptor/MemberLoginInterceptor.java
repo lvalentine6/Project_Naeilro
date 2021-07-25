@@ -6,7 +6,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 /**
- * 회원 기능 접근 차단 인터셉터
+ * 비회원의 회원 기능 접근 차단 인터셉터
  * @author swjk78
  */
 public class MemberLoginInterceptor implements HandlerInterceptor {
