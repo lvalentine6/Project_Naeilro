@@ -1,6 +1,7 @@
 package com.kh.finale.service.member;
 
 import java.io.File;
+import java.io.IOException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,10 +21,11 @@ public class MemberEditServiceImpl implements MemberEditService{
 	MemberProfileDao memberProfileDao;
 	
 	@Override
-	public void editProfile(MemberVo memberVo) {
+	public void editProfile(MemberVo memberVo) throws IllegalStateException, IOException {
 		// 회원 이미지 수정
-		try {
-			
+		
+		
+		if(!memberVo.getMemberProfile().isEmpty()) {
 		// 프로필 이미지 경로
 		File dir = new File("D:/upload/kh5/member");
 		dir.mkdir();
@@ -42,9 +44,6 @@ public class MemberEditServiceImpl implements MemberEditService{
 													.build();
 		memberProfileDao.update(memberProfileDto);
 		System.out.println("수정 DB 값 확인" + memberProfileDto);
-		}
-		catch(Exception e){
-			e.printStackTrace();
 		}
 		
 		// 이미지를 제외한 회원정보 수정

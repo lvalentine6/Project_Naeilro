@@ -64,8 +64,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select count(*) from member where member_id = #{memberId}
 	</select>
 	
-	<!-- 닉네임 중복 체크 -->
-	<select id="nickCheck" parameterType="MemberVo" resultType="int">
+	<!-- 프로필 편집 닉네임 중복 체크 -->
+	<select id="pNickCheck" parameterType="MemberVo" resultType="MemberVo">
+		select member_nick from member where member_nick = #{memberNick}
+	</select>
+	
+	<!-- 회원가입 닉네임 중복 체크 -->
+	<select id="jNickCheck" parameterType="MemberVo" resultType="int">
 		select count(*) from member where member_nick = #{memberNick}
 	</select>
 	

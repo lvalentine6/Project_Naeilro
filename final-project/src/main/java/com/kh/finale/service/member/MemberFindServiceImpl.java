@@ -38,10 +38,16 @@ public class MemberFindServiceImpl implements MemberFindService{
 		return memberDao.idCheck(memberVo);
 	}
 	
-	// 회원가입 닉네임 중복값 검사
+	// 프로필 편집 닉네임 중복값 검사
 	@Override
-	public int nickCheck(MemberVo memberVo) {
-		return memberDao.nickCheck(memberVo);
+	public MemberVo pNickCheck(MemberVo memberVo) {
+		return memberDao.pNickCheck(memberVo);
+	}
+	
+	// 회원 가입 닉네임 중복값 검사
+	@Override
+	public int jNickCheck(MemberVo memberVo) {
+		return memberDao.jNickCheck(memberVo);
 	}
 	
 }
