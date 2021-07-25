@@ -27,4 +27,6 @@ public interface MemberDao {
 	void block(int memberNo);
 	// 회원 정지 해제
 	void unblock(int memberNo);
+	
+	MemberDto findWithNick(String memberNick);
 }

@@ -16,8 +16,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class PhotostoryDto {
-	private int photostoryNo, plannerNo, memberNo;
+	private int photostoryNo, memberNo;
 	private String photostoryContent;
 	private Date photostoryDate;
 	private int photostoryCommentCount, photostoryLikeCount;
+	private Integer plannerNo;
 }

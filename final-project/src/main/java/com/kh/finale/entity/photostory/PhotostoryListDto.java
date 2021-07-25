@@ -21,11 +21,12 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class PhotostoryListDto {
-	private int photostoryNo, plannerNo, memberNo;
+	private int photostoryNo, memberNo;
 	private String photostoryContent;
 	private Date photostoryDate;
 	private int photostoryCommentCount, photostoryLikeCount;
 	private String memberNick;
+	private Integer plannerNo;
 	
 	private String pastDate;
 	private Boolean isLike;

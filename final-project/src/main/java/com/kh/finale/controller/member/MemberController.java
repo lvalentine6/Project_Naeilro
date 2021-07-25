@@ -242,9 +242,8 @@ public class MemberController {
 	HttpSession httpSession;
 
 	@GetMapping("/profileImage")
-	public ResponseEntity<ByteArrayResource> image() throws IOException {
-		String memberId = (String) httpSession.getAttribute("memberId");
-		System.out.println("아이디 값 :" + memberId);
+	public ResponseEntity<ByteArrayResource> image(int memberNo) throws IOException {
+		String memberId = String.valueOf(memberNo);
 		MemberProfileDto memberProfileDto = memberProfileDao.find(memberId);
 		if (memberProfileDto == null) {
 			return ResponseEntity.notFound().build();

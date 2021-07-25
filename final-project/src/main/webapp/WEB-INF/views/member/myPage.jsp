@@ -133,7 +133,7 @@ $(function(){
 		<div class="row">
 			<div class="col-lg-3 offset-lg-1">
 				<label for="memberProfile"> 
-					<img class='upload_img my-3 user_profile_lg user_profile' src="profileImage?memberId=${memberDto.memberId}"
+					<img class='upload_img my-3 user_profile_lg user_profile' src="profileImage?memberNo=${memberDto.memberNo}"
 					onerror="this.src='${pageContext.request.contextPath}/image/default_user_profile.jpg'"> 
 					<input class="input_img" type="file" accept=".png, .jpg, .gif" id="memberProfile" name="memberProfile" style="display: none" disabled/>
 				</label>

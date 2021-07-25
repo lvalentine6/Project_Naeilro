@@ -86,6 +86,7 @@
 					template = template.replaceAll("{{userId}}","${memberDto.memberNick}")
 					template = template.replaceAll("{{comment}}",comment)
 					template = template.replaceAll("{{no}}",result)
+					template = template.replaceAll("{{memberNo}}","${memberNo}")
 					
 					$(curEl).parent().parent().prev().prev().prepend(template)
 					$('.comment_content_form_'+result).hide()
@@ -98,7 +99,6 @@
 				})
 			})
 		})
-		
 		
 		let pageNo = 1;
 		let oneTime = true;
@@ -122,6 +122,7 @@
 				.fail(function(){
 
 				})
+				
 			}
 		})
 		
@@ -171,6 +172,7 @@
 	
 function delete_comment(no){
 	let commentNo = $(this).data('no')
+	console.log()
 	if(!commentNo){
 		commentNo=no
 	}
@@ -185,9 +187,9 @@ function delete_comment(no){
 		method:"POST",
 	})
 	.done(function(){
-		$("#comment_3_"+no).remove()
-		$("#comment_2_"+no).remove()
-		$("#comment_1_"+no).remove()
+		$("#comment_3_"+commentNo).remove()
+		$("#comment_2_"+commentNo).remove()
+		$("#comment_1_"+commentNo).remove()
 	})
 	.fail(function(){
 
@@ -228,7 +230,9 @@ function edit_comment(no){
 </script>
 <script type="text/template" id="comment-tpl">
 						<div class="col-11 text-sm text-break" id="comment_1_{{no}}">
-							<img class="my-2 user_profile_sm user_profile" src="${pageContext.request.contextPath}/image/default_user_profile.jpg">
+							<img class="my-2 user_profile_sm user_profile"
+								src="${pageContext.request.contextPath}/member/profileImage?memberNo={{memberNo}}"
+					onerror="this.src='${pageContext.request.contextPath}/image/default_user_profile.jpg'">
 							&nbsp;
 							<a href="${pageContext.request.contextPath}/member/{{userId}}">
 							<strong>{{userId}}</strong>
@@ -287,7 +291,8 @@ function edit_comment(no){
 					<div class='border row align-items-center'>
 						<div class="col-1">
 							<img class="my-2 user_profile_sm user_profile"
-								src="${pageContext.request.contextPath}/image/default_user_profile.jpg">
+								src="${pageContext.request.contextPath}/member/profileImage?memberNo=${photostoryListDto.memberNo}"
+					onerror="this.src='${pageContext.request.contextPath}/image/default_user_profile.jpg'">
 						</div>
 						<div class="col-3 ">
 							<a class="font-weight-bold text-nowrap"
@@ -373,7 +378,8 @@ function edit_comment(no){
 					<div class='row align-items-center border-left border-right pb-1 text-wrap'>
 						<c:forEach var="photostoryCommentListDto" items="${photostoryListDto.photostoryCommentList}">
 						<div class="col-11 text-sm text-break" id="comment_1_${photostoryCommentListDto.photostoryCommentNo}">
-							<img class="my-2 user_profile_sm user_profile" src="${pageContext.request.contextPath}/image/default_user_profile.jpg">
+							<img class="my-2 user_profile_sm user_profile" src="${pageContext.request.contextPath}/member/profileImage?memberNo=${photostoryCommentListDto.memberNo}"
+					onerror="this.src='${pageContext.request.contextPath}/image/default_user_profile.jpg'">
 							&nbsp;
 							<a href="${pageContext.request.contextPath}/member/${photostoryCommentListDto.photostoryCommentMemberNick}">
 							<strong>${photostoryCommentListDto.photostoryCommentMemberNick}</strong>
