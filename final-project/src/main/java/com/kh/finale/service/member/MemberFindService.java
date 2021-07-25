@@ -9,5 +9,5 @@ public interface MemberFindService {
 	MemberVo findPw(MemberVo memberVo);
 	MemberAuthDto checkAuthEmail(MemberAuthDto memberAuthDto);
 	int idCheck(MemberVo memberVo);
-	int nickCheck(MemberVo memberVo);
+	MemberVo nickCheck(MemberVo memberVo);
 }

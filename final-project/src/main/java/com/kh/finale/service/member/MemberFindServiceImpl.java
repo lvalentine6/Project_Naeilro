@@ -40,7 +40,7 @@ public class MemberFindServiceImpl implements MemberFindService{
 	
 	// 회원가입 닉네임 중복값 검사
 	@Override
-	public int nickCheck(MemberVo memberVo) {
+	public MemberVo nickCheck(MemberVo memberVo) {
 		return memberDao.nickCheck(memberVo);
 	}
 	

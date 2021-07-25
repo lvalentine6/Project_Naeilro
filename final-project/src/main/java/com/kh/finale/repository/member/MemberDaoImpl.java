@@ -80,7 +80,7 @@ public class MemberDaoImpl implements MemberDao{
 	}
 
 	@Override
-	public int nickCheck(MemberVo memberVo) {
+	public MemberVo nickCheck(MemberVo memberVo) {
 		return sqlSession.selectOne("member.nickCheck", memberVo);
 	}
 

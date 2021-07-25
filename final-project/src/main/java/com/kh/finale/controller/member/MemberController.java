@@ -18,6 +18,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -75,15 +76,54 @@ public class MemberController {
 		return idResult;
 	}
 	
-	// 회원 가입 닉네임 중복체크
-	@PostMapping("/nickCheck")
-	@ResponseBody
-	public boolean nickCheck(@ModelAttribute MemberVo memberVo) {
-		System.out.println("닉네임 중복값 체크 : " + memberVo);
-		boolean Nickresult = memberFindService.nickCheck(memberVo) > 0;
-		System.out.println("닉네임 체크값 반환 : " + Nickresult);
-		return Nickresult;
-		}
+	// 닉네임 중복체크
+//	@PostMapping("/nickCheck")
+//	@ResponseBody
+//	public boolean nickCheck(@ModelAttribute MemberVo memberVo, HttpSession httpSession) {
+//		MemberDto memberDto;
+//		boolean result = false;
+//		if (httpSession.getAttribute("memberNo") != null) {
+//			memberDto = memberDao.findInfo((int) httpSession.getAttribute("memberNo"));
+//		System.out.println("닉네임 중복값 체크 : " + memberVo);
+//		MemberVo Nickresult = memberFindService.nickCheck(memberVo);
+//		System.out.println("닉네임 체크값 반환 : " + Nickresult);
+//		System.out.println("닉첵 : "+ Nickresult.getMemberNick());
+//		System.out.println("디첵 : "+ memberDto.getMemberNick());
+//			if(Nickresult.getMemberNick() == memberDto.getMemberNick() || Nickresult.getMemberNick() == null) {
+//				result = false;
+//			}
+//			else {
+//				result = true;
+//			}
+//		}
+//		System.out.println(result);
+//		return result;
+//		}
+	
+		// 닉네임 중복체크
+		@PostMapping("/nickCheck")
+		@ResponseBody
+		public boolean nickCheck(@ModelAttribute MemberVo memberVo, HttpSession httpSession) {
+			System.out.println("닉네임 중복값 체크 : " + memberVo);
+			MemberVo Nickresult = memberFindService.nickCheck(memberVo);
+			System.out.println("닉네임 체크값 반환 : " + Nickresult);
+			httpSession.getAttribute("memberNo");
+				MemberDto memberDto = memberDao.findInfo((int) httpSession.getAttribute("memberNo"));
+			boolean result = false;
+			if(ObjectUtils.isEmpty(Nickresult)) {
+				result = false;
+			}
+			else {
+				if(Nickresult.getMemberNick().equals(memberDto.getMemberNick())) {
+					result = false;
+				}
+				else {
+					result = true;
+				}
+			}
+			System.out.println(result);
+			return result;
+			}
 	
 	// 로그인 페이지
 	@GetMapping("/login")
@@ -244,7 +284,7 @@ public class MemberController {
 	@Autowired
 	MemberEditService memberEditService;
 	
-	// 마이페이지 수정 기능
+	// 프로필 편집
 	@PostMapping("/editProfile")
 	public String editProfile(@ModelAttribute MemberVo memberVo, HttpSession httpSession) {
 		System.out.println("수신값 검사 : " + memberVo);
