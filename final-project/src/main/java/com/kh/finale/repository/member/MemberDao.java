@@ -20,7 +20,8 @@ public interface MemberDao {
 	void updatePw(MemberDto memberDto);
 	void editProfile(MemberVo memberVo);
 	int idCheck(MemberVo memberVo);
-	int nickCheck(MemberVo memberVo);
+	MemberVo pNickCheck(MemberVo memberVo);
+	int jNickCheck(MemberVo memberVo);
 	void exit(MemberVo memberVo);
 	// 회원 정지
 	void block(int memberNo);

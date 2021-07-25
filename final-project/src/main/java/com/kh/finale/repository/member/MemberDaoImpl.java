@@ -78,15 +78,22 @@ public class MemberDaoImpl implements MemberDao{
 	public int idCheck(MemberVo memberVo) {
 		return sqlSession.selectOne("member.idCheck", memberVo);
 	}
-
+	
+	// 프로필 편집 닉네임 중복값 검사
 	@Override
-	public int nickCheck(MemberVo memberVo) {
-		return sqlSession.selectOne("member.nickCheck", memberVo);
+	public MemberVo pNickCheck(MemberVo memberVo) {
+		return sqlSession.selectOne("member.pNickCheck", memberVo);
 	}
 
 	@Override
 	public void exit(MemberVo memberVo) {
 		sqlSession.delete("member.exit", memberVo);
+	}
+	
+	// 회원 가입 닉네임 중복값 검사
+	@Override
+	public int jNickCheck(MemberVo memberVo) {
+		return sqlSession.selectOne("member.jNickCheck", memberVo);
 	}
 
 	// 회원 정지
