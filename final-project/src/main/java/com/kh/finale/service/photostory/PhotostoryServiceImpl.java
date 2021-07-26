@@ -83,9 +83,7 @@ public class PhotostoryServiceImpl implements PhotostoryService {
 		// 경로 설정 및 생성
 		File dir = new File("D:/upload/kh5/photostory/");
 		dir.mkdirs();
-		for (int i = 0; i < photostoryVO.getPhotostoryPhoto().length; i++) {
-			System.out.println("사진: " + photostoryVO.getPhotostoryPhoto()[i]);
-		}
+
 		for (int i = 0; i < photostoryVO.getPhotostoryPhoto().length; i++) {
 			if (ArrayUtils.contains(photostoryVO.getIndex(), i)) {
 				String filePath = String.valueOf(photostoryVO.getPhotostoryNo()) + "/"
