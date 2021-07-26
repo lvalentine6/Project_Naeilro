@@ -20,4 +20,6 @@ public class MemberBlockDto {
 	private Date blockStartDate;
 	private int blockPeriod;
 	private String blockContent, blockReason;
+	
+	private Date blockEndDate;
 }
