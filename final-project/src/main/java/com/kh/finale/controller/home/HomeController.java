@@ -59,7 +59,7 @@ public class HomeController {
 	}
 	
 	// 맴버 프로필 편집
-	@Autowired
+	@Autowired 
 	HttpSession httpSession;
 	
 	@Autowired
