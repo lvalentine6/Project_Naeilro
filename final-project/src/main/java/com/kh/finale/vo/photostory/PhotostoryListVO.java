@@ -15,6 +15,6 @@ import lombok.NoArgsConstructor;
 @Builder
 public class PhotostoryListVO {
 	private int startRow, endRow, pageNo, pageSize;
-	private String searchType, searchKeyword;
+	private String searchKeyword;
 	private int startBlock, endBlock, lastBlock;
 }
