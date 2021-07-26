@@ -28,7 +28,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 
-import com.kh.finale.entity.block.MemberBlockDto;
 import com.kh.finale.entity.member.FollowDto;
 import com.kh.finale.entity.member.MemberAuthDto;
 import com.kh.finale.entity.member.MemberDto;
