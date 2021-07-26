@@ -1,7 +1,5 @@
 package com.kh.finale.service.block;
 
-import java.sql.Date;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -9,7 +7,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.kh.finale.entity.block.MemberBlockDto;
 import com.kh.finale.repository.block.MemberBlockDao;
 import com.kh.finale.repository.member.MemberDao;
-import com.kh.finale.util.DateUtils;
 
 @Service
 public class MemberBlockServiceImpl implements MemberBlockService {
