@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 
 import com.kh.finale.repository.plan.DailyDao;
 import com.kh.finale.repository.plan.DailyplanDao;
-import com.kh.finale.repository.plan.GroupsDao;
 import com.kh.finale.repository.plan.PlaceDao;
 import com.kh.finale.repository.plan.PlannerDao;
 import com.kh.finale.vo.plan.PlanInsertServiceSubVO;
@@ -21,9 +20,6 @@ public class PlanServiceImpl implements PlanService {
 	
 	@Autowired
 	private PlannerDao plannerDao;
-	
-	@Autowired
-	private GroupsDao groupsDao;
 	
 	@Autowired
 	private DailyDao dailyDao;
@@ -43,6 +39,7 @@ public class PlanServiceImpl implements PlanService {
 		// 번호표
 		int plannerNo = plannerDao.getSequnece();
 		
+		
 		// 1. 통합계획표 등록 & 2. 공유그룹 등록
 		if(planInsertServiceVO.getPlannerName() != null && planInsertServiceVO.getPlannerStartDate() != null && planInsertServiceVO.getPlannerEndDate() != null) {
 			// 통합계획표 번호 세팅
@@ -50,7 +47,6 @@ public class PlanServiceImpl implements PlanService {
 			
 			// SQL 실행
 			plannerDao.plannerInsert(planInsertServiceVO);
-			groupsDao.groupInsert(planInsertServiceVO);
 		}
 		
 		// 3. 하루계획표 등록 & 4. 장소 등록 & 5. 장소계획 등록
@@ -107,7 +103,10 @@ public class PlanServiceImpl implements PlanService {
 				log.info("교통수단 : " + planInsertServiceVO.getDailyplanTransfer());
 				log.info("문제 데이터 : " + plan.getDailyStayDate()); // 확인 : 2번째 인덱스부터 인식을 못하는 것 같다(..) -> 근데 해결은 됐는데 왜 됐는지 모르겠다 (...)
 				
-				dailyplanDao.dailyplanInsert(planInsertServiceVO);
+				if(planInsertServiceVO.getDailyplanTransfer() != null) {
+					dailyplanDao.dailyplanInsert(planInsertServiceVO);
+				}
+				
 			}
 		}
 		
