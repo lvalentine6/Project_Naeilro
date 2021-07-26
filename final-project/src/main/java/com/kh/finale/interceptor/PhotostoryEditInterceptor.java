@@ -12,10 +12,13 @@ import com.kh.finale.entity.photostory.PhotostoryListDto;
 import com.kh.finale.repository.member.MemberDao;
 import com.kh.finale.repository.photostory.PhotostoryListDao;
 
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * 포토스토리 편집 차단 인터셉터
  * @author swjk78
  */
+@Slf4j
 public class PhotostoryEditInterceptor implements HandlerInterceptor {
 
 	@Autowired
@@ -42,6 +45,7 @@ public class PhotostoryEditInterceptor implements HandlerInterceptor {
 			if (photostoryListDto == null) {
 				// 존재하지 않는 글이란 에러 페이지로 리다이렉트?
 				response.sendRedirect(request.getContextPath() + "/photostory");
+				log.debug("인터셉터: PhotostoryEditInterceptor 차단");
 				
 				return false;
 			}
@@ -51,6 +55,7 @@ public class PhotostoryEditInterceptor implements HandlerInterceptor {
 			if (writerNo != memberNo) {
 				// 403이 맞나?
 				response.sendError(403);
+				log.debug("인터셉터: PhotostoryEditInterceptor 차단");
 				
 				return false;
 			}

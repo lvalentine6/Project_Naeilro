@@ -1,10 +1,13 @@
 package com.kh.finale.repository.block;
 
+import java.util.Date;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.kh.finale.entity.block.MemberBlockDto;
+import com.kh.finale.util.DateUtils;
 
 @Repository
 public class MemberBlockDaoImpl implements MemberBlockDao {
@@ -28,5 +31,18 @@ public class MemberBlockDaoImpl implements MemberBlockDao {
 	@Override
 	public MemberBlockDto getBlockInfo(int memberNo) {
 		return sqlSession.selectOne("memberBlock.select", memberNo);
+	}
+	
+	// 정지 해제 체크 기능
+	// - 정지 해제 날짜가 지났으면 true 반환
+	@Override
+	public boolean checkBlock(int memberNo) throws Exception {
+		// 회원 정지 정보 및 정지 해제 날짜 조회
+		MemberBlockDto memberBlockDto = getBlockInfo(memberNo);
+		
+		// 정지 해제 날짜 계산
+		Date blockEndDate = memberBlockDto.getBlockEndDate();
+		
+		return DateUtils.compareWithSysdate(blockEndDate);
 	}
 }

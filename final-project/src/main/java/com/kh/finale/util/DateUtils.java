@@ -100,4 +100,11 @@ public class DateUtils {
 		// 입력 날짜가 현재 시간을 지났을 경우 true 반환
 		return inputDate.before(sysdate);
 	}
+	
+	// java.util.Date에서 java.sql.Date로 변환하는 메소드
+	public static java.sql.Date formatToSqlDate(Date date) {
+		java.sql.Date result = new java.sql.Date(date.getTime());
+		
+		return result;
+	}
 }
