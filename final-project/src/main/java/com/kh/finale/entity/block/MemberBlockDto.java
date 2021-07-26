@@ -17,9 +17,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class MemberBlockDto {
 	private int blockNo, memberNo;
-	private Date blockStartDate;
+	private Date blockStartDate, blockEndDate;
 	private int blockPeriod;
 	private String blockContent, blockReason;
-	
-	private Date blockEndDate;
 }
