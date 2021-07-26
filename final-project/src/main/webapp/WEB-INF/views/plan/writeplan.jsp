@@ -207,6 +207,46 @@
 			    {
 			    	title: '안동',
 			    	latlng: new kakao.maps.LatLng(36.566667, 128.716667)
+			    },
+			    {
+			    	title: '서울',
+			    	latlng: new kakao.maps.LatLng(37.566667, 126.978056)
+			    },
+			    {
+			    	title: '강릉',
+			    	latlng: new kakao.maps.LatLng(37.75, 128.9)
+			    },
+			    {
+			    	title: '대구',
+			    	latlng: new kakao.maps.LatLng(35.871389, 128.601389)
+			    },
+			    {
+			    	title: '경주',
+			    	latlng: new kakao.maps.LatLng(36.856043, 129.224953)
+			    },
+			    {
+			    	title: '춘천',
+			    	latlng: new kakao.maps.LatLng(37.884797, 127.716908)
+			    },
+			    {
+			    	title: '인천',
+			    	latlng: new kakao.maps.LatLng(37.456111, 126.705278)
+			    },
+			    {
+			    	title: '전주',
+			    	latlng: new kakao.maps.LatLng(35.821944, 127.148889)
+			    },
+			    {
+			    	title: '여수',
+			    	latlng: new kakao.maps.LatLng(34.760374, 127.662222)
+			    },
+			    {
+			    	title: '대전',
+			    	latlng: new kakao.maps.LatLng(36.350833, 127.385)
+			    },
+			    {
+			    	title: '광주',
+			    	latlng: new kakao.maps.LatLng(35.159444, 126.8525)
 			    }
 			];
 		
@@ -255,6 +295,46 @@
 		    {
 		    	title: '안동',
 		    	latlng: new kakao.maps.LatLng(36.566667, 128.716667)
+		    },
+		    {
+		    	title: '서울',
+		    	latlng: new kakao.maps.LatLng(37.566667, 126.978056)
+		    },
+		    {
+		    	title: '강릉',
+		    	latlng: new kakao.maps.LatLng(37.75, 128.9)
+		    },
+		    {
+		    	title: '대구',
+		    	latlng: new kakao.maps.LatLng(35.871389, 128.601389)
+		    },
+		    {
+		    	title: '경주',
+		    	latlng: new kakao.maps.LatLng(36.856043, 129.224953)
+		    },
+		    {
+		    	title: '춘천',
+		    	latlng: new kakao.maps.LatLng(37.884797, 127.716908)
+		    },
+		    {
+		    	title: '인천',
+		    	latlng: new kakao.maps.LatLng(37.456111, 126.705278)
+		    },
+		    {
+		    	title: '전주',
+		    	latlng: new kakao.maps.LatLng(35.821944, 127.148889)
+		    },
+		    {
+		    	title: '여수',
+		    	latlng: new kakao.maps.LatLng(34.760374, 127.662222)
+		    },
+		    {
+		    	title: '대전',
+		    	latlng: new kakao.maps.LatLng(36.350833, 127.385)
+		    },
+		    {
+		    	title: '광주',
+		    	latlng: new kakao.maps.LatLng(35.159444, 126.8525)
 		    }
 		];
 	
