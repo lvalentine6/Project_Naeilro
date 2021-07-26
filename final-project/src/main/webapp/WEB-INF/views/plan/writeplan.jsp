@@ -182,7 +182,7 @@
 		}
 		/* 하루계획표 */
 		
-		//지도 초기화
+		//지도 초기화 (여기다 좌표 입력 1번째)
 		function createMap(dailyIndex){
 			$("#search").hide();
 			
@@ -196,13 +196,17 @@
 		 
 			// #. 마커를 표시할 위치와 title 객체 배열입니다 
 			var positions = [
-			    {
+				{
 			        title: '제주도', 
 			        latlng: new kakao.maps.LatLng(33.511111, 126.492778)
 			    },
 			    {
 			        title: '부산', 
 			        latlng: new kakao.maps.LatLng(35.114992, 129.042089)
+			    },
+			    {
+			    	title: '안동',
+			    	latlng: new kakao.maps.LatLng(36.566667, 128.716667)
 			    }
 			];
 		
@@ -229,7 +233,7 @@
 			}		
 		}
 		
-		/* 지도 생성(초기) */
+		/* 지도 생성(초기) : 2번째 입력 */
 		var mapContainer = document.getElementById('map'), // 지도를 표시할 div  
 	    mapOption = { 
 	        center: new kakao.maps.LatLng(34.442373196846404, 128.10680344968128), // #. 지도의 중심좌표
@@ -247,6 +251,10 @@
 		    {
 		        title: '부산', 
 		        latlng: new kakao.maps.LatLng(35.114992, 129.042089)
+		    },
+		    {
+		    	title: '안동',
+		    	latlng: new kakao.maps.LatLng(36.566667, 128.716667)
 		    }
 		];
 	
@@ -400,86 +408,71 @@
 					userTemplate = userTemplate.replace("{place-name}", place.place_name);
 					$(".list-daily").eq(dailyIndex-1).append(userTemplate);
 					
-					/* 서버 */
-					var dataTemplate = $("#place-dailyplan-insert-template").html();
-					
-					// 하루계획 번호 (완료)
-					dataTemplate = dataTemplate.replace("{dailyList-index-lat}", dailyIndex-1);
-					dataTemplate = dataTemplate.replace("{dailyList-index-lng}", dailyIndex-1);
-					dataTemplate = dataTemplate.replace("{dailyList-index-name}", dailyIndex-1);
-					dataTemplate = dataTemplate.replace("{dailyList-index-type}", dailyIndex-1);
-					dataTemplate = dataTemplate.replace("{dailyList-index-place-order}", dailyIndex-1);
-					dataTemplate = dataTemplate.replace("{dailyList-index-transfer}", dailyIndex-1);
-					// 삭제용 데이터
-					dataTemplate = dataTemplate.replace("{label-daily-index}", dailyIndex-1);
-					
-					// 장소순서 (완료)
-					if(placeIndex == null) {
-						dataTemplate = dataTemplate.replace("{placeList-index-lat}", 0);
-						dataTemplate = dataTemplate.replace("{placeList-index-lng}", 0);
-						dataTemplate = dataTemplate.replace("{placeList-index-name}", 0);
-						dataTemplate = dataTemplate.replace("{placeList-index-type}", 0);
-						dataTemplate = dataTemplate.replace("{dailyplanList-index-place-order}", 0);
-						dataTemplate = dataTemplate.replace("{dailyplanList-index-transfer}", 0);
-						// 삭제용 데이터
-						dataTemplate = dataTemplate.replace("{placeList-index-data}", 0);
-						dataTemplate = dataTemplate.replace("{label-place-index}", 0);
+					/* 제어 : 교통수단 */
+					$(".list-daily").eq(dailyIndex-1).find("select").change(function(){
+						var text = $(this).val();
 						
-						dataTemplate = dataTemplate.replace("{dailyplanPlaceOrder}", 1);
+						if(text !== "선택"){
+							/* 서버 */
+							var dataTemplate = $("#place-dailyplan-insert-template").html();
+							
+							// 하루계획 번호 (완료)
+							dataTemplate = dataTemplate.replace("{dailyList-index-lat}", dailyIndex-1);
+							dataTemplate = dataTemplate.replace("{dailyList-index-lng}", dailyIndex-1);
+							dataTemplate = dataTemplate.replace("{dailyList-index-name}", dailyIndex-1);
+							dataTemplate = dataTemplate.replace("{dailyList-index-type}", dailyIndex-1);
+							dataTemplate = dataTemplate.replace("{dailyList-index-place-order}", dailyIndex-1);
+							dataTemplate = dataTemplate.replace("{dailyList-index-transfer}", dailyIndex-1);
+							// 삭제용 데이터
+							dataTemplate = dataTemplate.replace("{label-daily-index}", dailyIndex-1);
+							
+							// 장소순서 (완료)
+							if(placeIndex == null) {
+								dataTemplate = dataTemplate.replace("{placeList-index-lat}", 0);
+								dataTemplate = dataTemplate.replace("{placeList-index-lng}", 0);
+								dataTemplate = dataTemplate.replace("{placeList-index-name}", 0);
+								dataTemplate = dataTemplate.replace("{placeList-index-type}", 0);
+								dataTemplate = dataTemplate.replace("{dailyplanList-index-place-order}", 0);
+								dataTemplate = dataTemplate.replace("{dailyplanList-index-transfer}", 0);
+								// 삭제용 데이터
+								dataTemplate = dataTemplate.replace("{placeList-index-data}", 0);
+								dataTemplate = dataTemplate.replace("{label-place-index}", 0);
+								
+								dataTemplate = dataTemplate.replace("{dailyplanPlaceOrder}", 1);
+								
+							} else {
+								dataTemplate = dataTemplate.replace("{placeList-index-lat}", placeIndex);
+								dataTemplate = dataTemplate.replace("{placeList-index-lng}", placeIndex);
+								dataTemplate = dataTemplate.replace("{placeList-index-name}", placeIndex);
+								dataTemplate = dataTemplate.replace("{placeList-index-type}", placeIndex);
+								dataTemplate = dataTemplate.replace("{dailyplanList-index-place-order}", placeIndex);
+								dataTemplate = dataTemplate.replace("{dailyplanList-index-transfer}", placeIndex);
+								// 삭제용 데이터
+								dataTemplate = dataTemplate.replace("{placeList-index-data}", placeIndex);
+								dataTemplate = dataTemplate.replace("{label-place-index}", placeIndex);
+								
+								dataTemplate = dataTemplate.replace("{dailyplanPlaceOrder}", placeIndex+1);
+							}
+							
+							// 값 
+							dataTemplate = dataTemplate.replace("{placeLatitude}", place.y);
+							dataTemplate = dataTemplate.replace("{placeLongitude}", place.x);
+							dataTemplate = dataTemplate.replace("{placeName}", placeName);
+							dataTemplate = dataTemplate.replace("{placeType}", placeType);
+							dataTemplate = dataTemplate.replace("{placeType}", placeType);
+							dataTemplate = dataTemplate.replace("{dailyplanTransfer}", text); 
+							
+							$(".planList-daily").eq(dailyIndex-1).append(dataTemplate);	
+						}
 						
-					} else {
-						dataTemplate = dataTemplate.replace("{placeList-index-lat}", placeIndex);
-						dataTemplate = dataTemplate.replace("{placeList-index-lng}", placeIndex);
-						dataTemplate = dataTemplate.replace("{placeList-index-name}", placeIndex);
-						dataTemplate = dataTemplate.replace("{placeList-index-type}", placeIndex);
-						dataTemplate = dataTemplate.replace("{dailyplanList-index-place-order}", placeIndex);
-						dataTemplate = dataTemplate.replace("{dailyplanList-index-transfer}", placeIndex);
-						// 삭제용 데이터
-						dataTemplate = dataTemplate.replace("{placeList-index-data}", placeIndex);
-						dataTemplate = dataTemplate.replace("{label-place-index}", placeIndex);
-						
-						dataTemplate = dataTemplate.replace("{dailyplanPlaceOrder}", placeIndex+1);
-					}
-					
-					// 값 
-					dataTemplate = dataTemplate.replace("{placeLatitude}", place.y);
-					dataTemplate = dataTemplate.replace("{placeLongitude}", place.x);
-					dataTemplate = dataTemplate.replace("{placeName}", placeName);
-					dataTemplate = dataTemplate.replace("{placeType}", placeType);
-					dataTemplate = dataTemplate.replace("{placeType}", placeType);
-					dataTemplate = dataTemplate.replace("{dailyplanTransfer}", "자동차"); // 초기값
-					
-					$(".planList-daily").eq(dailyIndex-1).append(dataTemplate);
+					});
 					
 			        /* 제어 : 삭제 */
 			    	$(".list-daily").eq(dailyIndex-1).find(".place-delete-button").click(function(){
 			        	// 뷰 
 			        	$(this).parents('.list-dailyplan').remove();
 			        	
-			        	// 서버
-			        	var daily = $("#daily-index").val();
-			        	var place = $(this).parents('.list-dailyplan').data("index");
-			        	
-			        	// console.log("daily="+daily);
-			        	// console.log("place="+place);
-			        	
-			        	// 목표 : DIV 타겟
-			        	// GG - 월요일에 강사님께 여쭈어보기
-			        	
-			        	// 확인
-			        	console.log("삭제완료");
-			        	
 			        });
-					
-					/* 제어 : 교통수단 */
-					 $(".list-daily").eq(dailyIndex).find("select").change(function(){
-						var text = $(this).val();
-						$(this).parents(".list-dailyplan").find("input[name=dailyplanTransfer]").val(text);
-						
-						// 목표 : DIV 타겟
-			        	// GG - 월요일에 강사님께 여쭈어보기
-			        	
-					});
 					
 			    });
 			}
@@ -563,9 +556,10 @@
 		<div class="list-dailyplan-transfer">
 			<label>교통수단</label>
 			<select clsss="transfer">
+				<option value="선택" selected>선택</option>
 				<option value="항공">항공</option>
 				<option value="기차">기차</option>
-				<option value="자동차" selected>자동차</option>
+				<option value="자동차">자동차</option>
 			</select>
 		</div>
 		<input type="button" class="place-delete-button" value="삭제">
