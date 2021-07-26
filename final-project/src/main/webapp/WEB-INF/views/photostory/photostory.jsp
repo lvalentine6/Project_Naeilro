@@ -5,7 +5,7 @@
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
 <script>
 	$(function() {
-		
+
 		/* 좋아요 버튼 */
 		$(".like-btn").each(function() {
 			$(this).click(function() {
@@ -73,7 +73,6 @@
 					return;
 				}
 				
-				console.log(comment);
 				$.ajax({
 					url:"${pageContext.request.contextPath}/process/insert_comment",
 					data : {
@@ -82,18 +81,17 @@
 					},
 					method:"POST",
 				})
-				.done(function(){
+				.done(function(result){
 					let template = $("#comment-tpl").html();
-					template = template.replace("{{userId}}","${memberDto.memberNick}")
-					template = template.replace("{{userId}}","${memberDto.memberNick}")
-					template = template.replace("{{comment}}",comment)
-					$(curEl).parent().parent().prev().prev().append(template)
+					template = template.replaceAll("{{userId}}","${memberDto.memberNick}")
+					template = template.replaceAll("{{comment}}",comment)
+					template = template.replaceAll("{{no}}",result)
 					
-					console.log($(".comment-count").html())
-					let comment_count =$(".comment-count").html()*1 + 1
+					$(curEl).parent().parent().prev().prev().prepend(template)
+					$('.comment_content_form_'+result).hide()
+					comment_count =$(".comment-count").html()*1 + 1
 					$(".comment-count").text(comment_count)
 					comment_div.val("")
-					console.log(curEl);
 				})
 				.fail(function(){
 					console.log('fail');
@@ -118,8 +116,8 @@
 					dataType : "html"
 				})
 				.done(function(html){
-					console.dir($("main").append($(html)[33].children[1]))
 					oneTime=true;
+					$('.comment_content_form').hide();
 				})
 				.fail(function(){
 
@@ -143,39 +141,127 @@
 		})
 		
 		$(".comment_edit_btn").click(function(){
-			$(this).parent().parent().parent().parent().prev().html($(this).parent().prev().val())
-			$(this).parent().parent().parent().parent().hide()
-			$(this).parent().parent().parent().parent().prev().show()
+			let commentNo = $(this).data('no')
+			let comment = $(this).parent().prev().val();
+			console.log(comment)
+			console.log(commentNo)
+			$.ajax({
+				url:"${pageContext.request.contextPath}/process/update_comment",
+				data : {
+					photostoryCommentNo : commentNo,
+					photostoryCommentContent : comment,
+				},
+				method:"POST",
+			})
+			.done(function(){
+				$("#comment_3_"+commentNo).html(comment).show()
+				$('.comment_content_form_'+commentNo).hide()
+				$("#comment_3_"+commentNo).show()
+			})
+			.fail(function(){
+
+			})
 		})
 	})
+	
+	$(function(){
+		/* 댓글 삭제 */
+		$('.comment_delete_btn').click(delete_comment)
+	})
+	
+function delete_comment(no){
+	let commentNo = $(this).data('no')
+	if(!commentNo){
+		commentNo=no
+	}
+	if (!window.confirm("정말 삭제하시겠습니까?")){ 
+		e.preventDefault()
+	}
+	$.ajax({
+		url:"${pageContext.request.contextPath}/process/delete_comment",
+		data : {
+			photostoryCommentNo : commentNo,
+		},
+		method:"POST",
+	})
+	.done(function(){
+		$("#comment_3_"+no).remove()
+		$("#comment_2_"+no).remove()
+		$("#comment_1_"+no).remove()
+	})
+	.fail(function(){
+
+	})
+}
+function show_form(no){
+	$("#comment_3_"+no).hide()
+	$('.comment_content_form_'+no).show()
+}
+function hide_form(no){
+	$("#comment_3_"+no).show()
+	$('.comment_content_form_'+no).hide()
+}
+function edit_comment(no){
+	let commentNo = no
+	let comment = $('#comment_edit_id_'+no).parent().prev().val();
+	console.log(comment)
+	console.log(commentNo)
+	$.ajax({
+		url:"${pageContext.request.contextPath}/process/update_comment",
+		data : {
+			photostoryCommentNo : commentNo,
+			photostoryCommentContent : comment,
+		},
+		method:"POST",
+	})
+	.done(function(){
+		$("#comment_3_"+commentNo).html(comment).show()
+		$('.comment_content_form_'+commentNo).hide()
+		$("#comment_3_"+commentNo).show()
+	})
+	.fail(function(){
+
+	})
+}
 	
 	
 </script>
 <script type="text/template" id="comment-tpl">
-
-						<div class="col-11 text-sm text-break">
+						<div class="col-11 text-sm text-break" id="comment_1_{{no}}">
 							<img class="my-2 user_profile_sm user_profile" src="${pageContext.request.contextPath}/image/default_user_profile.jpg">
 							&nbsp;
 							<a href="${pageContext.request.contextPath}/member/{{userId}}">
 							<strong>{{userId}}</strong>
 							</a>
 							&nbsp;
-							방금 전
+							방금전
 						</div>
-						<div class="col-1">
+						<div class="col-1" id="comment_2_{{no}}">
 							<a href="#" role="button" id="dropdownMenuLink"
 									data-toggle="dropdown"><i class="fas fa-ellipsis-h"></i></a>
-									
 										<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-											<a class="dropdown-item text-danger" 
-											href="#">삭제</a> 
-											<a class="dropdown-item " 
-											href="#">수정</a> 
+											<a class="dropdown-item text-danger comment_delete_btn"
+											data-no="{{no}}" onclick="delete_comment({{no}})" 
+											>삭제</a> 
+											<a class="dropdown-item comment_edit_btn_1" data-no="{{no}}" 
+											onclick="show_form({{no}})"
+											>수정</a> 
 											<a class="dropdown-item" >취소</a> 
 										</div>
 						</div>
-						<div class="col-12  text-sm text-break">
+						<div class="col-12  text-sm text-break" id="comment_3_{{no}}">
 						{{comment}}
+						</div>
+						<div class="col-12 text-sm text-break comment_content_form comment_content_form_{{no}}">
+							<form class="w-100">
+								<div class="input-group">
+								  <input type="text" class="form-control" value="{{comment}}">`
+								  <div class="input-group-append" id="button-addon4">
+								    <button class="btn btn-outline-primary comment_edit_btn" onclick="edit_comment({{no}})" id="comment_edit_id_{{no}}" type="button" data-no="{{no}}">수정</button>
+								    <button class="btn btn-outline-secondary comment_cancel_btn" onclick="hide_form({{no}})" type="button">취소</button>
+								  </div>
+								</div>
+							</form>
 						</div>
 </script>
 <main>
@@ -209,8 +295,6 @@
 							</a>
 						</div>
 						<div class="col-1 offset-7 text-right">
-							
-							
 							<a href="#" role="button" id="dropdownMenuLink"
 									data-toggle="dropdown"><i class="fas fa-ellipsis-h"></i></a>
 									
@@ -288,7 +372,7 @@
 					</div>
 					<div class='row align-items-center border-left border-right pb-1 text-wrap'>
 						<c:forEach var="photostoryCommentListDto" items="${photostoryListDto.photostoryCommentList}">
-						<div class="col-11 text-sm text-break">
+						<div class="col-11 text-sm text-break" id="comment_1_${photostoryCommentListDto.photostoryCommentNo}">
 							<img class="my-2 user_profile_sm user_profile" src="${pageContext.request.contextPath}/image/default_user_profile.jpg">
 							&nbsp;
 							<a href="${pageContext.request.contextPath}/member/${photostoryCommentListDto.photostoryCommentMemberNick}">
@@ -297,15 +381,15 @@
 							&nbsp;
 							${photostoryCommentListDto.getPastDateString()}
 						</div>
-						<div class="col-1">
+						<div class="col-1" id="comment_2_${photostoryCommentListDto.photostoryCommentNo}">
 							<a href="#" role="button" id="dropdownMenuLink"
 									data-toggle="dropdown"><i class="fas fa-ellipsis-h"></i></a>
-									
 								<c:choose>
-									<c:when test="${photostoryListDto.memberNo==memberNo}">
+									<c:when test="${photostoryCommentListDto.photostoryCommentMemberNick==memberContextNick}">
 										<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-											<a class="dropdown-item text-danger" 
-											href="#">삭제</a> 
+											<a class="dropdown-item text-danger comment_delete_btn"
+											data-no="${photostoryCommentListDto.photostoryCommentNo}" 
+											>삭제</a> 
 											<a class="dropdown-item comment_edit_btn_1" 
 											>수정</a> 
 											<a class="dropdown-item" >취소</a> 
@@ -319,15 +403,15 @@
 									</c:otherwise>
 								</c:choose>
 						</div>
-						<div class="col-12 text-sm text-break comment_content_val">
+						<div class="col-12 text-sm text-break comment_content_val" id="comment_3_${photostoryCommentListDto.photostoryCommentNo}">
 						${photostoryCommentListDto.photostoryCommentContent}
 						</div>
-						<div class="col-12 text-sm text-break comment_content_form">
+						<div class="col-12 text-sm text-break comment_content_form comment_content_form_${photostoryCommentListDto.photostoryCommentNo}">
 							<form class="w-100">
 								<div class="input-group">
-								  <input type="text" class="form-control" value="${photostoryCommentListDto.photostoryCommentContent}">
+								  <input type="text" class="form-control" value="${photostoryCommentListDto.photostoryCommentContent}">`
 								  <div class="input-group-append" id="button-addon4">
-								    <button class="btn btn-outline-primary comment_edit_btn" type="button">수정</button>
+								    <button class="btn btn-outline-primary comment_edit_btn" id="comment_edit_id_${photostoryCommentListDto.photostoryCommentNo}" type="button" data-no="${photostoryCommentListDto.photostoryCommentNo}">수정</button>
 								    <button class="btn btn-outline-secondary comment_cancel_btn" type="button">취소</button>
 								  </div>
 								</div>

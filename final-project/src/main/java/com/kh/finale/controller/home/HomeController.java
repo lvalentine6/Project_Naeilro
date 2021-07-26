@@ -24,7 +24,6 @@ public class HomeController {
 			MemberDto memberDto = memberDao.findInfo((int) session.getAttribute("memberNo"));
 			model.addAttribute("memberDto", memberDto);
 		}
-		
 		return "home"; 
 	}
 	

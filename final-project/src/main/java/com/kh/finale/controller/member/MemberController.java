@@ -121,6 +121,7 @@ public class MemberController {
 		if (check != null) {
 			httpSession.setAttribute("memberNo", check.getMemberNo());
 			httpSession.setAttribute("memberId", check.getMemberId());
+			httpSession.setAttribute("memberContextNick", check.getMemberNick());
 			return "redirect:/";
 		} else {
 			return "redirect:login?error";
@@ -132,6 +133,7 @@ public class MemberController {
 	public String logout(HttpSession httpSession) {
 		httpSession.removeAttribute("memberNo");
 		httpSession.removeAttribute("memberId");
+		httpSession.removeAttribute("memberContextNick");
 		return "redirect:/";
 	}
 

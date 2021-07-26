@@ -14,6 +14,11 @@ public class PhotostoryCommentDaoImpl implements PhotostoryCommentDao {
 	@Autowired
 	private SqlSession sqlSession;
 	
+	@Override
+	public int getPhotostoryCommentNo() {
+		return sqlSession.selectOne("photostoryComment.getNo");
+	}
+	
 	// 댓글 등록 기능
 	@Override
 	public void insertPhotostoryComment(PhotostoryCommentDto photostoryCommentDto) {
