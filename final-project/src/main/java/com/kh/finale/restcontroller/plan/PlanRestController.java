@@ -20,7 +20,7 @@ public class PlanRestController {
 	@PostMapping("/planInsertService")
 	public void planInsertService(@ModelAttribute PlanInsertServiceVO planInsertServiceVO) {
 		// 회원번호 세팅
-		planInsertServiceVO.setMemberNo(126);
+		planInsertServiceVO.setMemberNo(1);
 		
 		planService.planInsertService(planInsertServiceVO);
 	}
