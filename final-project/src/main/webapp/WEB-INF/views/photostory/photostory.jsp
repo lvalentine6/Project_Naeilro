@@ -106,7 +106,6 @@
 		let oneTime = true;
 		
 		$(window).scroll(function(){
-			console.log($(document).scrollTop()+" /// "+ $("main").height()*0.8 )
 			if($(document).scrollTop()>=$("main").height()*0.8&&oneTime){
 				oneTime = false;
 				pageNo+=1;				
@@ -119,8 +118,7 @@
 					dataType : "html"
 				})
 				.done(function(html){
-					console.dir($(html)[33].children)
-					console.dir($("main").append($(html)[33].children))
+					console.dir($("main").append($(html)[33].children[1]))
 					oneTime=true;
 				})
 				.fail(function(){
@@ -131,22 +129,71 @@
 		
 		
 	})
+	
+	$(function(){
+		$(".comment_content_form").hide();
+		$(".comment_edit_btn_1").click(function(){
+			$(this).parent().parent().next().hide()
+			$(this).parent().parent().next().next().show()
+		})
+		
+		$(".comment_cancel_btn").click(function(){
+			$(this).parent().parent().parent().parent().hide()
+			$(this).parent().parent().parent().parent().prev().show()
+		})
+		
+		$(".comment_edit_btn").click(function(){
+			$(this).parent().parent().parent().parent().prev().html($(this).parent().prev().val())
+			$(this).parent().parent().parent().parent().hide()
+			$(this).parent().parent().parent().parent().prev().show()
+		})
+	})
+	
+	
 </script>
 <script type="text/template" id="comment-tpl">
-<div class="col-12 text-sm text-break">
-	<img class="my-2 user_profile_sm user_profile" src="${pageContext.request.contextPath}/image/default_user_profile.jpg">
-	&nbsp;
-	<a href="${pageContext.request.contextPath}/member/{{userId}}">
-	<strong>{{userId}}</strong>
-	</a>
-	&nbsp;
-	방금 전
-	<div>
-	{{comment}}
-	</div>
-</div>
+
+						<div class="col-11 text-sm text-break">
+							<img class="my-2 user_profile_sm user_profile" src="${pageContext.request.contextPath}/image/default_user_profile.jpg">
+							&nbsp;
+							<a href="${pageContext.request.contextPath}/member/{{userId}}">
+							<strong>{{userId}}</strong>
+							</a>
+							&nbsp;
+							방금 전
+						</div>
+						<div class="col-1">
+							<a href="#" role="button" id="dropdownMenuLink"
+									data-toggle="dropdown"><i class="fas fa-ellipsis-h"></i></a>
+									
+										<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+											<a class="dropdown-item text-danger" 
+											href="#">삭제</a> 
+											<a class="dropdown-item " 
+											href="#">수정</a> 
+											<a class="dropdown-item" >취소</a> 
+										</div>
+						</div>
+						<div class="col-12  text-sm text-break">
+						{{comment}}
+						</div>
 </script>
 <main>
+	<div class="container-lg">
+		<div class="row">
+			<div class="input-group mb-3 col-lg-8 offset-lg-2">
+				<form class="w-100">
+					  <div class="form-group input-group mb-3">
+						  <input type="text" class="form-control" placeholder="검색어를 입력해주세요 . . ." >
+						  <div class="input-group-append">
+						    <button class="btn btn-outline-secondary" type="button" >검색</button>
+						  </div>
+					  </div>
+				</form>
+			</div>
+		</div>
+	</div>
+	<div class="story-container">
 	<c:forEach var="photostoryListDto" items="${photostoryList}">
 		<div class="container-lg ">
 			<div class="row justify-content-center ">
@@ -225,7 +272,11 @@
 							<a href="${pageContext.request.contextPath}/member/${photostoryListDto.memberNick}">
 							<strong>${photostoryListDto.memberNick}</strong>
 							</a>
-							&nbsp;&nbsp; ${photostoryListDto.photostoryContent}
+						</div>
+					</div>
+					<div class='row align-items-center border-left border-right pb-1'>
+						<div class="col-12 text-sm">
+							<pre>${photostoryListDto.photostoryContent}</pre>
 						</div>
 					</div>
 					<div class='row align-items-center border-left border-right pb-1'>
@@ -237,7 +288,7 @@
 					</div>
 					<div class='row align-items-center border-left border-right pb-1 text-wrap'>
 						<c:forEach var="photostoryCommentListDto" items="${photostoryListDto.photostoryCommentList}">
-						<div class="col-12 text-sm text-break">
+						<div class="col-11 text-sm text-break">
 							<img class="my-2 user_profile_sm user_profile" src="${pageContext.request.contextPath}/image/default_user_profile.jpg">
 							&nbsp;
 							<a href="${pageContext.request.contextPath}/member/${photostoryCommentListDto.photostoryCommentMemberNick}">
@@ -245,9 +296,42 @@
 							</a>
 							&nbsp;
 							${photostoryCommentListDto.getPastDateString()}
-							<div>
-							${photostoryCommentListDto.photostoryCommentContent}
-							</div>
+						</div>
+						<div class="col-1">
+							<a href="#" role="button" id="dropdownMenuLink"
+									data-toggle="dropdown"><i class="fas fa-ellipsis-h"></i></a>
+									
+								<c:choose>
+									<c:when test="${photostoryListDto.memberNo==memberNo}">
+										<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+											<a class="dropdown-item text-danger" 
+											href="#">삭제</a> 
+											<a class="dropdown-item comment_edit_btn_1" 
+											>수정</a> 
+											<a class="dropdown-item" >취소</a> 
+										</div>
+									</c:when>
+									<c:otherwise>
+										<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+											<a class="dropdown-item text-danger" href="#">댓글 신고</a> 
+											<a class="dropdown-item" >취소</a> 
+										</div>
+									</c:otherwise>
+								</c:choose>
+						</div>
+						<div class="col-12 text-sm text-break comment_content_val">
+						${photostoryCommentListDto.photostoryCommentContent}
+						</div>
+						<div class="col-12 text-sm text-break comment_content_form">
+							<form class="w-100">
+								<div class="input-group">
+								  <input type="text" class="form-control" value="${photostoryCommentListDto.photostoryCommentContent}">
+								  <div class="input-group-append" id="button-addon4">
+								    <button class="btn btn-outline-primary comment_edit_btn" type="button">수정</button>
+								    <button class="btn btn-outline-secondary comment_cancel_btn" type="button">취소</button>
+								  </div>
+								</div>
+							</form>
 						</div>
 						</c:forEach>
 					</div>
@@ -272,6 +356,7 @@
 			</div>
 		</div>
 	</c:forEach>
+	</div>
 </main>
 <jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>
 
