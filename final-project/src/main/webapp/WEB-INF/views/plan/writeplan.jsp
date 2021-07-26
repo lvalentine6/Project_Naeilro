@@ -47,7 +47,7 @@
 		/* 비활성화 */
 		$("#search").hide();
 		$("#daily-title").hide();
-		// $("#plan-insert-container").hide(); // 삭제 확인 후 비활성화
+		$("#plan-insert-container").hide(); 
 		
 		/* 체크박스 중복 불가 */
 		function check(){
@@ -490,86 +490,88 @@
 						userTemplate = userTemplate.replace("{index}", placeIndex+1);
 					}
 					userTemplate = userTemplate.replace("{place-name}", place.place_name);
+					userTemplate = userTemplate.replace("{data-latitude}", place.y);
+					userTemplate = userTemplate.replace("{data-longitude}", place.x);
+					userTemplate = userTemplate.replace("{data-name}", placeName);
+					userTemplate = userTemplate.replace("{data-type}", placeType);
+					
 					$(".list-daily").eq(dailyIndex-1).append(userTemplate);
-					
-					var dailyIndex = $('#daily-index').val(); // 하루계획표 인덱스 선택자
-					var placeIndex = $(".list-daily").eq(dailyIndex-1).find(".list-dailyplan").last().data("index"); // 장소 선택자
-					
-					var dataTemplate = $("#place-dailyplan-insert-template").html();
-					
-					// 하루계획 번호 (완료)
-					dataTemplate = dataTemplate.replace("{dailyList-index-lat}", dailyIndex-1);
-					dataTemplate = dataTemplate.replace("{dailyList-index-lng}", dailyIndex-1);
-					dataTemplate = dataTemplate.replace("{dailyList-index-name}", dailyIndex-1);
-					dataTemplate = dataTemplate.replace("{dailyList-index-type}", dailyIndex-1);
-					dataTemplate = dataTemplate.replace("{dailyList-index-place-order}", dailyIndex-1);
-					dataTemplate = dataTemplate.replace("{dailyList-index-transfer}", dailyIndex-1);
-					// 삭제용 데이터
-					dataTemplate = dataTemplate.replace("{label-daily-index}", dailyIndex-1);
-					
-					// 장소순서 (완료)
-					if(placeIndex == null) {
-						dataTemplate = dataTemplate.replace("{label-place-index}", 0);
-						dataTemplate = dataTemplate.replace("{placeList-index-lat}", 0);
-						dataTemplate = dataTemplate.replace("{placeList-index-lng}", 0);
-						dataTemplate = dataTemplate.replace("{placeList-index-name}", 0);
-						dataTemplate = dataTemplate.replace("{placeList-index-type}", 0);
-						dataTemplate = dataTemplate.replace("{dailyplanList-index-place-order}", 0);
-						dataTemplate = dataTemplate.replace("{dailyplanList-index-transfer}", 0);
-						// 삭제용 데이터
-						dataTemplate = dataTemplate.replace("{placeList-index-data}", 0);
-						
-						dataTemplate = dataTemplate.replace("{dailyplanPlaceOrder}", 1);
-						
-					} else {
-						dataTemplate = dataTemplate.replace("{placeList-index-lat}", placeIndex);
-						dataTemplate = dataTemplate.replace("{placeList-index-lng}", placeIndex);
-						dataTemplate = dataTemplate.replace("{placeList-index-name}", placeIndex);
-						dataTemplate = dataTemplate.replace("{placeList-index-type}", placeIndex);
-						dataTemplate = dataTemplate.replace("{dailyplanList-index-place-order}", placeIndex);
-						dataTemplate = dataTemplate.replace("{dailyplanList-index-transfer}", placeIndex);
-						// 삭제용 데이터
-						dataTemplate = dataTemplate.replace("{placeList-index-data}", placeIndex);
-						dataTemplate = dataTemplate.replace("{label-place-index}", placeIndex);
-						
-						dataTemplate = dataTemplate.replace("{dailyplanPlaceOrder}", placeIndex);
-					}
-					
-					// 값 
-					dataTemplate = dataTemplate.replace("{placeLatitude}", place.y);
-					dataTemplate = dataTemplate.replace("{placeLongitude}", place.x);
-					dataTemplate = dataTemplate.replace("{placeName}", placeName);
-					dataTemplate = dataTemplate.replace("{placeType}", placeType);
-					dataTemplate = dataTemplate.replace("{placeType}", placeType);
-					dataTemplate = dataTemplate.replace("{dailyplanTransfer}", "자동차"); 
-					
-					 $("#plan-insert-container").append(dataTemplate); 
 					 
-					/* 제어 : 교통수단 */
-					$(".list-dailyplan").eq(placeIndex).find("select").change(function(){ // 문의 : 셀렉트박스 선택 시 N번째 하루계획표의 N번째 장소의 셀렉트 박스를! 
-						var text = $(this).val();
+					/* 제어 */
+					// 개발완료 : 07-27 00:58
+					// 로직 형태 :
+					// #. UI 의 등록되는 DIV 를 중심으로 서버에 보낼 데이터를 제어하는 형태이다
+					// #. 반복문(= .each()) 으로 DIV 에 등록된 데이터 사이즈를 필터링한 후
+					// #. 각 DIV 에 등록된 인덱스로 서버에 보낼 다자원 인덱스 배열 데이터를 추산한 뒤
+					// #. UI 에 hidden 처리된 데이터 값을 불러오서 처리하는 로직
+					$(".list-dailyplan").find("select").change(function(){ 
+						
 						dataTemplate();
 						
-						// 데이터 등록 전에 이미 존재한다면 삭제
-						// dataTemplate(text);
+						function dataTemplate(){
+							
+							// FORM 데이터 초기화 
+							$(".planList-place").remove();
+							
+							// 반복문 : 하루계획 
+							$('.list-daily').each(function(){ 
+								// 반복문 : 장소계획
+								$(this).find('.list-dailyplan').each(function(){
+									// 조건 : 선택 안한 값들은 데이터 등록에서 제외
+									if($(this).find("select").val() != "선택") {
+									
+									var dataTemplate = $("#place-dailyplan-insert-template").html();
+									
+									var dailyIndex = $(this).parents('.list-daily').data("index");
+									var placeIndex = $(this).data("index");
+									
+									// 데이터 전송 : 체크용 (완료)
+									dataTemplate = dataTemplate.replace("{label-daily-index}", dailyIndex-1);
+									dataTemplate = dataTemplate.replace("{label-place-index}", placeIndex-1);
+									
+									// 데이터 전송 : 다차원 배열 인덱스 (완료)
+									
+									// 하루 인덱스
+									dataTemplate = dataTemplate.replace("{dailyList-index-lat}", dailyIndex-1);
+									dataTemplate = dataTemplate.replace("{dailyList-index-lng}", dailyIndex-1);
+									dataTemplate = dataTemplate.replace("{dailyList-index-name}", dailyIndex-1);
+									dataTemplate = dataTemplate.replace("{dailyList-index-type}", dailyIndex-1);
+									dataTemplate = dataTemplate.replace("{dailyList-index-place-order}", dailyIndex-1);
+									dataTemplate = dataTemplate.replace("{dailyList-index-transfer}", dailyIndex-1);
+									
+									// 장소 인덱스
+									dataTemplate = dataTemplate.replace("{placeList-index-lat}", placeIndex-1);
+									dataTemplate = dataTemplate.replace("{placeList-index-lng}", placeIndex-1);
+									dataTemplate = dataTemplate.replace("{placeList-index-name}", placeIndex-1);
+									dataTemplate = dataTemplate.replace("{placeList-index-type}", placeIndex-1);
+									dataTemplate = dataTemplate.replace("{dailyplanList-index-place-order}", placeIndex-1);
+									dataTemplate = dataTemplate.replace("{dailyplanList-index-transfer}", placeIndex-1);
+									
+									// 데이터 전송 : 전송 값
+									dataTemplate = dataTemplate.replace("{dailyplanPlaceOrder}", placeIndex);
+									dataTemplate = dataTemplate.replace("{dailyplanTransfer}", $(this).find("select").val()); 
+									
+									dataTemplate = dataTemplate.replace("{placeLatitude}", $(this).find('.list-dailyplan-latitude').val());	
+									dataTemplate = dataTemplate.replace("{placeLongitude}", $(this).find('.list-dailyplan-longitude').val());
+									dataTemplate = dataTemplate.replace("{placeName}",$(this).find('.list-dailyplan-name').val());
+									dataTemplate = dataTemplate.replace("{placeType}", $(this).find('.list-dailyplan-type').val());
+									
+									$("#plan-insert-container").append(dataTemplate);
+									}
+								});
+								// 반복문 : 장소계획
+							});
+							// 반복문 : 하루계획
+						}
 						
-						// 목표 : UI 내의 하루계획 DIV 와 장소계획 DIV 를 반복문으로 체크한 뒤 설정된 값이 정해지면 데이터 등록
-					});
+					}); 
+					/* 제어  */
 					
-					// 반복문 함수
-					function dataTemplate(){
-						console.log("콜백");
-						
-						$('.list-daily').each(function(){
-							
-							console.log($(this).data("index"));
-						});
-						
-						$('.list-dailyplan').each(function(){
-							
-							console.log($(this).data("index"));
-						});
-					}
+					/* 삭제 (완료) */ 
+					$('.list-dailyplan').find('.place-delete-button').click(function(){
+						$(this).parents('.list-dailyplan').remove();
+					})
+					/* 삭제 (완료) */
 					
 			    });
 			}
@@ -627,7 +629,6 @@
 			<input type="hidden" name="planList[{dailyList-index-place-order}][{dailyplanList-index-place-order}].dailyplanPlaceOrder" required readonly value={dailyplanPlaceOrder}>
  			<input type="hidden" name="planList[{dailyList-index-transfer}][{dailyplanList-index-transfer}].dailyplanTransfer" required readonly value={dailyplanTransfer}>
 		</div>
-	<!-- 비동기 처리 : 장소 & 장소계획 생성(N회) -->
 </script>
 <script type="text/template" id="user-daily-template">
 	<!-- 사용자용 : 하루계획표 리스트 -->
@@ -660,6 +661,10 @@
 				<option value="자동차">자동차</option>
 			</select>
 		</div>
+		<input type="hidden" class="list-dailyplan-latitude" value={data-latitude}>
+		<input type="hidden" class="list-dailyplan-longitude" value={data-longitude}>
+		<input type="hidden" class="list-dailyplan-name" value={data-name}>
+		<input type="hidden" class="list-dailyplan-type" value={data-type}>
 		<input type="button" class="place-delete-button" value="삭제">
 	</div>
 	<!-- 사용자용 : 장소 & 장소계획 리스트 -->

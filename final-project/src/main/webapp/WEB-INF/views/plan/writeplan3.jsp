@@ -4,8 +4,17 @@
 <style>
 	/* 맵 비활성화 - 등록하면 활성화 용도 */
 	#map{
+		height: 800px;
 		opacity: 0.6;
 		pointer-events: none;
+	}
+	.list-daily {
+		border: 1px solid;
+		margin-top: 10px;
+	}
+	#search {
+		border: 1px solid;
+		margin-top: 10px;
 	}
 </style>
 <script type="text/javascript"
@@ -173,7 +182,7 @@
 		}
 		/* 하루계획표 */
 		
-		//지도 초기화
+		//지도 초기화 (여기다 좌표 입력 1번째)
 		function createMap(dailyIndex){
 			$("#search").hide();
 			
@@ -187,13 +196,57 @@
 		 
 			// #. 마커를 표시할 위치와 title 객체 배열입니다 
 			var positions = [
-			    {
+				{
 			        title: '제주도', 
 			        latlng: new kakao.maps.LatLng(33.511111, 126.492778)
 			    },
 			    {
 			        title: '부산', 
 			        latlng: new kakao.maps.LatLng(35.114992, 129.042089)
+			    },
+			    {
+			    	title: '안동',
+			    	latlng: new kakao.maps.LatLng(36.566667, 128.716667)
+			    },
+			    {
+			    	title: '서울',
+			    	latlng: new kakao.maps.LatLng(37.566667, 126.978056)
+			    },
+			    {
+			    	title: '강릉',
+			    	latlng: new kakao.maps.LatLng(37.75, 128.9)
+			    },
+			    {
+			    	title: '대구',
+			    	latlng: new kakao.maps.LatLng(35.871389, 128.601389)
+			    },
+			    {
+			    	title: '경주',
+			    	latlng: new kakao.maps.LatLng(36.856043, 129.224953)
+			    },
+			    {
+			    	title: '춘천',
+			    	latlng: new kakao.maps.LatLng(37.884797, 127.716908)
+			    },
+			    {
+			    	title: '인천',
+			    	latlng: new kakao.maps.LatLng(37.456111, 126.705278)
+			    },
+			    {
+			    	title: '전주',
+			    	latlng: new kakao.maps.LatLng(35.821944, 127.148889)
+			    },
+			    {
+			    	title: '여수',
+			    	latlng: new kakao.maps.LatLng(34.760374, 127.662222)
+			    },
+			    {
+			    	title: '대전',
+			    	latlng: new kakao.maps.LatLng(36.350833, 127.385)
+			    },
+			    {
+			    	title: '광주',
+			    	latlng: new kakao.maps.LatLng(35.159444, 126.8525)
 			    }
 			];
 		
@@ -220,7 +273,7 @@
 			}		
 		}
 		
-		/* 지도 생성(초기) */
+		/* 지도 생성(초기) : 2번째 입력 */
 		var mapContainer = document.getElementById('map'), // 지도를 표시할 div  
 	    mapOption = { 
 	        center: new kakao.maps.LatLng(34.442373196846404, 128.10680344968128), // #. 지도의 중심좌표
@@ -238,6 +291,50 @@
 		    {
 		        title: '부산', 
 		        latlng: new kakao.maps.LatLng(35.114992, 129.042089)
+		    },
+		    {
+		    	title: '안동',
+		    	latlng: new kakao.maps.LatLng(36.566667, 128.716667)
+		    },
+		    {
+		    	title: '서울',
+		    	latlng: new kakao.maps.LatLng(37.566667, 126.978056)
+		    },
+		    {
+		    	title: '강릉',
+		    	latlng: new kakao.maps.LatLng(37.75, 128.9)
+		    },
+		    {
+		    	title: '대구',
+		    	latlng: new kakao.maps.LatLng(35.871389, 128.601389)
+		    },
+		    {
+		    	title: '경주',
+		    	latlng: new kakao.maps.LatLng(36.856043, 129.224953)
+		    },
+		    {
+		    	title: '춘천',
+		    	latlng: new kakao.maps.LatLng(37.884797, 127.716908)
+		    },
+		    {
+		    	title: '인천',
+		    	latlng: new kakao.maps.LatLng(37.456111, 126.705278)
+		    },
+		    {
+		    	title: '전주',
+		    	latlng: new kakao.maps.LatLng(35.821944, 127.148889)
+		    },
+		    {
+		    	title: '여수',
+		    	latlng: new kakao.maps.LatLng(34.760374, 127.662222)
+		    },
+		    {
+		    	title: '대전',
+		    	latlng: new kakao.maps.LatLng(36.350833, 127.385)
+		    },
+		    {
+		    	title: '광주',
+		    	latlng: new kakao.maps.LatLng(35.159444, 126.8525)
 		    }
 		];
 	
@@ -379,8 +476,12 @@
 			        infowindow.open(map, marker);
 			        
 			        /* 뷰 */
-			        var dailyIndex = $('#daily-index').val();
-					var placeIndex = $(".list-daily").eq(dailyIndex-1).find(".list-dailyplan").last().data("index");
+			        var dailyIndex = $('#daily-index').val(); // 하루계획표 인덱스 선택자
+					var placeIndex = $(".list-daily").eq(dailyIndex-1).find(".list-dailyplan").last().data("index"); // 장소 선택자
+					
+					if(placeIndex == null) {
+						placeIndex = 0;
+					}
 					
 					var userTemplate = $("#user-place-dailyplan-template").html();
 					if(placeIndex == null) {
@@ -391,7 +492,9 @@
 					userTemplate = userTemplate.replace("{place-name}", place.place_name);
 					$(".list-daily").eq(dailyIndex-1).append(userTemplate);
 					
-					/* 서버 */
+					var dailyIndex = $('#daily-index').val(); // 하루계획표 인덱스 선택자
+					var placeIndex = $(".list-daily").eq(dailyIndex-1).find(".list-dailyplan").last().data("index"); // 장소 선택자
+					
 					var dataTemplate = $("#place-dailyplan-insert-template").html();
 					
 					// 하루계획 번호 (완료)
@@ -406,6 +509,7 @@
 					
 					// 장소순서 (완료)
 					if(placeIndex == null) {
+						dataTemplate = dataTemplate.replace("{label-place-index}", 0);
 						dataTemplate = dataTemplate.replace("{placeList-index-lat}", 0);
 						dataTemplate = dataTemplate.replace("{placeList-index-lng}", 0);
 						dataTemplate = dataTemplate.replace("{placeList-index-name}", 0);
@@ -414,7 +518,6 @@
 						dataTemplate = dataTemplate.replace("{dailyplanList-index-transfer}", 0);
 						// 삭제용 데이터
 						dataTemplate = dataTemplate.replace("{placeList-index-data}", 0);
-						dataTemplate = dataTemplate.replace("{label-place-index}", 0);
 						
 						dataTemplate = dataTemplate.replace("{dailyplanPlaceOrder}", 1);
 						
@@ -429,7 +532,7 @@
 						dataTemplate = dataTemplate.replace("{placeList-index-data}", placeIndex);
 						dataTemplate = dataTemplate.replace("{label-place-index}", placeIndex);
 						
-						dataTemplate = dataTemplate.replace("{dailyplanPlaceOrder}", placeIndex+1);
+						dataTemplate = dataTemplate.replace("{dailyplanPlaceOrder}", placeIndex);
 					}
 					
 					// 값 
@@ -438,44 +541,37 @@
 					dataTemplate = dataTemplate.replace("{placeName}", placeName);
 					dataTemplate = dataTemplate.replace("{placeType}", placeType);
 					dataTemplate = dataTemplate.replace("{placeType}", placeType);
-					dataTemplate = dataTemplate.replace("{dailyplanTransfer}", "자동차"); // 초기값
+					dataTemplate = dataTemplate.replace("{dailyplanTransfer}", "자동차"); 
 					
-					$(".planList-daily").eq(dailyIndex-1).append(dataTemplate);
-					
-			        /* 제어 : 삭제 */
-			    	$(".list-daily").eq(dailyIndex-1).find(".place-delete-button").click(function(){
-			        	// 뷰 
-			        	$(this).parents('.list-dailyplan').remove();
-			        	
-			        	// 서버
-			        	var daily = $("#daily-index").val();
-			        	var place = $(this).parents('.list-dailyplan').data("index");
-			        	
-			        	// console.log("daily="+daily);
-			        	// console.log("place="+place);
-			        	
-			        	// 목표 : DIV 타겟
-			        	// GG - 월요일에 강사님께 여쭈어보기
-			        	
-			        	// 확인
-			        	console.log("삭제완료");
-			        	
-			        });
-					
+					 $("#plan-insert-container").append(dataTemplate); 
+					 
 					/* 제어 : 교통수단 */
-					 $(".list-daily").eq(dailyIndex).find("select").change(function(){
+					$(".list-dailyplan").eq(placeIndex).find("select").change(function(){ // 문의 : 셀렉트박스 선택 시 N번째 하루계획표의 N번째 장소의 셀렉트 박스를! 
 						var text = $(this).val();
-						$(this).parents(".list-dailyplan").find("input[name=dailyplanTransfer]").val(text);
+						dataTemplate();
 						
-						// 목표 : DIV 타겟
-			        	// GG - 월요일에 강사님께 여쭈어보기
-			        	
 					});
+					
+					// 반복문 함수
+					function dataTemplate(){
+						console.log("콜백");
+						
+						$('.list-daily').each(function(){
+							
+							console.log($(this).data("index"));
+						});
+						
+						$('.list-dailyplan').each(function(){
+							
+							console.log($(this).data("index"));
+						});
+					}
 					
 			    });
 			}
 		
 		} 
+		
 		
 		/* 이벤트 : 계획표 생성 */
 		$("#planner-insert-button").click(function(){
@@ -531,7 +627,7 @@
 </script>
 <script type="text/template" id="user-daily-template">
 	<!-- 사용자용 : 하루계획표 리스트 -->
-	<div class="list-daily" style="border: 1px solid; margin-top: 10px" data-index="{index}">
+	<div class="list-daily" data-index="{index}">
 		<div class="list-daily-order">
 			<label>{dailyOrder} 일차 하루계획표</label>
 		</div>
@@ -554,85 +650,61 @@
 		<div class="list-dailyplan-transfer">
 			<label>교통수단</label>
 			<select clsss="transfer">
+				<option value="선택" selected>선택</option>
 				<option value="항공">항공</option>
 				<option value="기차">기차</option>
-				<option value="자동차" selected>자동차</option>
+				<option value="자동차">자동차</option>
 			</select>
 		</div>
 		<input type="button" class="place-delete-button" value="삭제">
 	</div>
 	<!-- 사용자용 : 장소 & 장소계획 리스트 -->
 </script>
-</head>
 <body>
 	<main>
-		<!-- 전체 컨테이너 -->
-	<div id="container" style="width: 100%; height: 1200px; overflow: hidden"> 
-		<!-- 확인 컨테이너 -->
-		<div style="width: 30%; height: 1200px; border: 1px solid;float: left;" id="confirm">
-			<!-- 사용자 컨테이너 -->
-			<div id="user-container">
-				<!-- 통합계획표 입력창 -->
-				<div id="planner-insert-confirm" style="border-bottom: 1px solid;">
-					<div style="font-weight:bold;">통합계획표</div>
-					<div class="row">
-						<label>계획표 이름</label>
-						<input type="text" id="planner-name"> 
+		<div class="container-lg">
+			<div class="row">
+				<div class="col-xs-6 col-md-4">
+					<!-- 통합계획표 입력창 -->
+					<div id="planner-insert-confirm" style="border: 1px solid">
+						<div style="font-weight:bold;">통합계획표</div>
+							<label>계획표 이름</label>
+							<input type="text" id="planner-name"> 
+							<br>
+							<label>날짜선택</label>
+							<input type="text" id="demo">
+							<br>
+							<input type="button" id="planner-map-find" value="계획표 생성">
+							<input type="hidden" id="planner-insert-button" value="계획표 생성완료">
+							<br>
 					</div>
-					<div class="row">
-						<label>날짜선택</label>
-						<input type="text" id="demo">
+					<!-- 통합계획표 입력창 -->	
+					<!-- 검색창 -->
+					<div id="search"> 
+						<div style="font-weight:bold;">장소 검색창</div>
+							<label>검색 유형 : </label>
+							<input type="checkbox" class="type" id="hotel" value="호텔">
+							<label>호텔</label>
+							<input type="checkbox" class="type" id="tour" value="관광지">
+							<label>관광지</label>
+							<br>
+							<label>검색어</label>
+							<input type="text" id="keyword" required="required">
+							<button id="find">검색</button>
 					</div>
-					<br>
-					<div class="row" id="planner-insert-button-div">
-						<input type="button" id="planner-map-find" value="계획표 생성">
-						<input type="hidden" id="planner-insert-button" value="계획표 생성완료">
-					</div>
-					<br>
-				</div>
-				<!-- 통합계획표 입력창 -->
-				<!-- 검색창 -->
-				<div id="search" style="border-bottom: 1px solid"> 
-					<div style="font-weight:bold;">장소 검색창</div>
-					<div class="row">
-						<label>검색 유형 : </label>
-						<input type="checkbox" class="type" id="hotel" value="호텔">
-						<label>호텔</label>
-						<input type="checkbox" class="type" id="tour" value="관광지">
-						<label>관광지</label>
-					</div>
-					<div class="row">
-						<label>검색어</label>
-						<input type="text" id="keyword" required="required">
-					</div>
-					<div class="row">
-						<button id="find">검색</button>
-					</div>
-				</div>
 				<!-- 검색창 -->
 				<!-- 하루계획표 -->
 				<div id="daily-list-container"></div>
 				<!-- 하루계획표 -->
-				<!-- 하루계획표 입력창 -->
-				<div id="daily-insert-confirm"></div>
-				<!-- 하루계획표 입력창 -->
-				<!-- 장소계획 입력창 -->
-				<div id="dailyplan-insert-confirm"></div>
-				<!-- 장소계획 입력창 -->
+				<form id="plan-insert-container"></form>
+				<input type="hidden" id="daily-index">
+				<input type="hidden" id="place-index">
+				</div>
+				<div class="col-xs-12 col-md-8">
+					<div id="map"></div>
+				</div>
 			</div>
-			<!-- 사용자 컨테이너 -->
-			<!-- 개발자 컨테이너 -->
-			<form id="plan-insert-container" style="border-bottom: 1px solid; bottom-top: 1px solid"></form>
-			<input type="hidden" id="daily-index">
-			<input type="hidden" id="place-index">
-			<!-- 개발자 컨테이너 -->
 		</div>
-		<!-- 확인 컨테이너 -->
-		<!-- 지도 -->
-		<div id="map" style="width: 70%; height: 800px; float: right"></div>
-		<!-- 지도 -->
-	</div>
-	<!-- 전체 컨테이너 -->
 	</main>
 </body>
 </html>
