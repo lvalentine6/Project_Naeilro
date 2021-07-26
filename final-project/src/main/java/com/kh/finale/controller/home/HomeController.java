@@ -24,13 +24,13 @@ public class HomeController {
 			model.addAttribute("memberDto", memberDto);
 		}
 		
-		return "home"; 
+		return "home";
 	}
-	
+
 	// 관리자 페이지
 	@RequestMapping("/admin")
 	public String admin(Model model) {
 		return "admin/home";
-	}
+	} 
 
 }
