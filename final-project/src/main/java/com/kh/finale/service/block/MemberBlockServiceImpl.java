@@ -1,5 +1,7 @@
 package com.kh.finale.service.block;
 
+import java.text.ParseException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,7 +22,7 @@ public class MemberBlockServiceImpl implements MemberBlockService {
 	// 회원 정지
 	@Override
 	@Transactional
-	public void block(MemberBlockDto memberBlockDto) {
+	public void block(MemberBlockDto memberBlockDto) throws ParseException {
 		memberDao.block(memberBlockDto.getMemberNo());
 		memberBlockDao.insertBlockInfo(memberBlockDto);
 	}

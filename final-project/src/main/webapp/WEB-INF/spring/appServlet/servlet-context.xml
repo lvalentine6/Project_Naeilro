@@ -84,8 +84,12 @@
 		<interceptor>
 			<mapping path="/member/**"/>
 			<exclude-mapping path="/member/profile/**"/>
+			<exclude-mapping path="/member/findPw"/>
+			<exclude-mapping path="/member/changePw"/>
+			<exclude-mapping path="/member/edit"/>
 			<exclude-mapping path="/member/logout"/>
 			<exclude-mapping path="/member/exit"/>
+			<exclude-mapping path="/member/*Email"/>
 			<beans:bean class="com.kh.finale.interceptor.MemberLogoutInterceptor"></beans:bean>
 		</interceptor>
 		
@@ -95,6 +99,7 @@
 			<mapping path="/process/**"/>
 			<exclude-mapping path="/photostory"/>
 			<exclude-mapping path="/photostory/detail"/>
+			<exclude-mapping path="/photostory/photo/**"/>
 			<beans:bean class="com.kh.finale.interceptor.MemberBlockInterceptor"></beans:bean>
 		</interceptor>
 		

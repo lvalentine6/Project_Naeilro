@@ -8,8 +8,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	<!-- 회원 정지 정보 등록 -->
 	<insert id="insert" parameterType="MemberBlockDto">
-		insert into member_block(block_no, member_no, block_period, block_content, block_reason)
-		values(member_block_seq.nextval, #{memberNo}, #{blockPeriod}, #{blockContent}, #{blockReason})
+		insert into member_block(block_no, member_no, block_start_date, block_end_date, block_period, block_content, block_reason)
+		values(member_block_seq.nextval, #{memberNo}, #{blockStartDate}, #{blockEndDate}, #{blockPeriod}, #{blockContent}, #{blockReason})
 	</insert>
 	
 	<!-- 회원 정지 정보 삭제 -->
