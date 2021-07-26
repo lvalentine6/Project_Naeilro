@@ -6,14 +6,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <mapper namespace="groups">
 	
-	<insert id="groupsInsert" parameterType="PlannerInsertVO">
+	<insert id="groupsInsert" parameterType="PlanInsertServiceVO">
 		insert into groups values(
 			groups_seq.nextval, #{memberNo}, #{plannerNo}
 		)	
 	</insert>
-	
-	<select id="groupsSelectPlanner" parameterType="int" resultType="GroupsDto">
-		select * from groups where = #{memberNo}
-	</select>
 	
 </mapper>

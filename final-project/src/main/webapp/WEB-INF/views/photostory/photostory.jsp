@@ -84,8 +84,8 @@
 				})
 				.done(function(){
 					let template = $("#comment-tpl").html();
-					template = template.replace("{{userId}}","${memberContextNick }")
-					template = template.replace("{{userId}}","${memberContextNick }")
+					template = template.replace("{{userId}}","${memberDto.memberNick}")
+					template = template.replace("{{userId}}","${memberDto.memberNick}")
 					template = template.replace("{{comment}}",comment)
 					$(curEl).parent().parent().prev().prev().append(template)
 					
@@ -226,7 +226,7 @@
 									</c:when>
 									<c:otherwise>
 										<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-											<a class="dropdown-item text-danger" href="#">게시글 신고</a> 
+											<a class="dropdown-item text-danger" href="/finale/report/pReport">게시글 신고</a> 
 											<a class="dropdown-item" >취소</a> 
 										</div>
 									</c:otherwise>
@@ -295,7 +295,7 @@
 							<strong>${photostoryCommentListDto.photostoryCommentMemberNick}</strong>
 							</a>
 							&nbsp;
-							${photostoryCommentListDto.photostoryCommentDate}
+							${photostoryCommentListDto.getPastDateString()}
 						</div>
 						<div class="col-1">
 							<a href="#" role="button" id="dropdownMenuLink"

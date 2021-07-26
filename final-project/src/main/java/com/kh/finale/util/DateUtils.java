@@ -1,6 +1,7 @@
 package com.kh.finale.util;
 
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -11,7 +12,6 @@ import java.util.Date;
 public class DateUtils {
 
 	// 작성날짜와 현재날짜의 차이를 얻는 메소드
-	// (주의) sql.Date 타입으로 올 경우 시간/분/초 단위도 제대로 반환되는지 확인 필요
 	public static String getDifferenceInDate(Date inputDate) throws ParseException {
 		long currentTime = System.currentTimeMillis();
 		long compareTime = inputDate.getTime();
@@ -74,5 +74,30 @@ public class DateUtils {
 		}
 		
 		return yearString + monthString + dayString + hourString + minString + secString;
+	}
+	
+	// 입력받은 날짜에서 입력받은 일수를 더해서 반환하는 메소드
+	public static Date plusDayToDate(Date date, int day) {
+		// 입력받은 날짜를 Calendar로 변환
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(date);
+		
+		// 일수 더하기
+		cal.add(Calendar.DAY_OF_MONTH, day);
+		
+		// Calendar를 Date로 변환
+		date = cal.getTime();
+		
+		return date;
+	}
+	
+	// 입력받은 날짜와 현재 시간을 비교하는 기능
+	public static boolean compareWithSysdate(Date inputDate) throws Exception {
+		SimpleDateFormat simpleDateformat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");				
+		String currentTime = simpleDateformat.format(System.currentTimeMillis());
+		Date sysdate = simpleDateformat.parse(currentTime);
+
+		// 입력 날짜가 현재 시간을 지났을 경우 true 반환
+		return inputDate.before(sysdate);
 	}
 }

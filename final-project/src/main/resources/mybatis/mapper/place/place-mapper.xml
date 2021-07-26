@@ -16,8 +16,4 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		)	
 	</insert>
 	
-	<select id="placeListService" parameterType="int" resultType="PlaceListServiceVO">
-		select * from place p left outer join dailyplan dp on p.place_no = dp.place_no where dp.daily_no = #{dailyNo}
-	</select>
-	
 </mapper>

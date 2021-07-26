@@ -90,7 +90,7 @@
 				$("#nickck").addClass("text-success")
 				let memberNick = $(this).val();
 				$.ajax({
-					url:"nickCheck",
+					url:"jNickCheck",
 					data : {
 						memberNick : memberNick,
 					},
@@ -274,6 +274,10 @@
 					<div class="form-row mb-3">
 						<input type="hidden" class="form-control" id="memberIntro"
 							name="memberIntro" value="자기소개를 입력해 주세요">
+					</div>
+					<div class="form-row mb-3">
+						<input type="hidden" class="form-control" id="memberState"
+							name="memberState" value="정상">
 					</div>
 					<div class="form-row mb-5 justify-content-around">
 						<button class="btn btn-primary submit_btn btn-block" type="submit">회원가입</button>

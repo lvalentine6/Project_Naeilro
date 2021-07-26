@@ -20,10 +20,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.kh.finale.entity.block.MemberBlockDto;
+import com.kh.finale.entity.member.MemberDto;
 import com.kh.finale.entity.photostory.PhotostoryCommentListDto;
 import com.kh.finale.entity.photostory.PhotostoryLikeDto;
 import com.kh.finale.entity.photostory.PhotostoryListDto;
 import com.kh.finale.entity.photostory.PhotostoryPhotoDto;
+import com.kh.finale.repository.block.MemberBlockDao;
+import com.kh.finale.repository.member.MemberDao;
 import com.kh.finale.repository.photostory.PhotostoryCommentListDao;
 import com.kh.finale.repository.photostory.PhotostoryDao;
 import com.kh.finale.repository.photostory.PhotostoryLikeDao;
@@ -54,6 +58,12 @@ public class PhotostoryViewController {
 
 	@Autowired
 	private PhotostoryPhotoDao photostoryPhotoDao;
+	
+	@Autowired
+	private MemberDao memberDao;
+	
+	@Autowired
+	private MemberBlockDao memberBlockDao;
 
 	// 포토스토리 리스트 페이지
 	@GetMapping("")
@@ -61,9 +71,15 @@ public class PhotostoryViewController {
 		photostoryListVO = photostoryDao.getPageVariable(photostoryListVO);
 		List<PhotostoryListDto> photostoryList = photostoryListDao.list(photostoryListVO);
 		
+		// 회원 정보 및 회원 정지 정보 전송
 		int memberNo = 0;
 		if (session.getAttribute("memberNo") != null) {
 			memberNo = (int) session.getAttribute("memberNo");
+			MemberDto memberDto = memberDao.findInfo(memberNo);
+			MemberBlockDto memberBlockDto = memberBlockDao.getBlockInfo(memberNo);
+			
+			model.addAttribute("memberDto", memberDto);
+			model.addAttribute("memberBlockDto", memberBlockDto);
 		}
 		
 		for (int i = 0; i < photostoryList.size(); i++) {
@@ -104,9 +120,15 @@ public class PhotostoryViewController {
 		PhotostoryListDto photostoryListDto = photostoryListDao.get(photostoryNo);
 		List<PhotostoryCommentListDto> photostoryCommentList = photostoryCommentListDao.list(photostoryNo);
 		
+		// 회원 정보 및 회원 정지 정보 전송
 		int memberNo = 0;
 		if (session.getAttribute("memberNo") != null) {
 			memberNo = (int) session.getAttribute("memberNo");
+			MemberDto memberDto = memberDao.findInfo(memberNo);
+			MemberBlockDto memberBlockDto = memberBlockDao.getBlockInfo(memberNo);
+			
+			model.addAttribute("memberDto", memberDto);
+			model.addAttribute("memberBlockDto", memberBlockDto);
 		}
 		
 		// 이미지 리스트
@@ -131,7 +153,13 @@ public class PhotostoryViewController {
 	
 	// 포토스토리 작성 페이지
 	@GetMapping("/write")
-	public String write() {
+	public String write(HttpSession session, Model model) {
+		// 회원 정보 전송
+		if (session.getAttribute("memberNo") != null) {
+			MemberDto memberDto = memberDao.findInfo((int) session.getAttribute("memberNo"));
+			model.addAttribute("memberDto", memberDto);
+		}
+		
 		return "photostory/write";
 	}
 	
@@ -159,7 +187,11 @@ public class PhotostoryViewController {
 		model.addAttribute("photostoryListDto", photostoryListDto);
 		model.addAttribute("photostoryPhotoList", photostoryPhotoList);
 		
-    		return "photostory/edit";
+		// 회원 정보 전송
+		MemberDto memberDto = memberDao.findInfo(photostoryListDto.getMemberNo());
+		model.addAttribute("memberDto", memberDto);
+		
+    	return "photostory/edit";
 	}
 	
 	// 포토스토리 수정 처리

@@ -1,17 +1,16 @@
 package com.kh.finale.plan;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
-import com.kh.finale.repository.plan.DailyDao;
-import com.kh.finale.repository.plan.DailyplanDao;
-import com.kh.finale.repository.plan.PlaceDao;
-import com.kh.finale.vo.plan.PlanInsertServiceVO;
-import lombok.extern.slf4j.Slf4j;
+import com.kh.finale.vo.plan.TestVO;
+
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {
@@ -21,41 +20,46 @@ import lombok.extern.slf4j.Slf4j;
 @WebAppConfiguration
 public class PlanInsertServiceTest {
 	
-	@Autowired
-	private PlaceDao placeDao;
-	
-	@Autowired
-	private DailyDao dailyDao;
-	
-	@Autowired
-	private DailyplanDao dailyplanDao;
-	
 	@Test
 	public void test() {
-		PlanInsertServiceVO planInsertServiceVO = PlanInsertServiceVO.builder()
-																														.plannerNo(190)
-																														.dailyStayDate(1)
-																														.dailyOrder(1)
-																														.dailyplanPlaceOrder(1)
-																														.dailyplanTransfer("항공")
-																														.placeLatitude("33.37830925245249")
-																														.placeLongitude("126.251182712647")
-																														.placeName("제주도")
-																														.placeType("호텔")
-																														.build();
 		
-		if(dailyDao.dailyOrderConfirm(planInsertServiceVO) == null) {
-			dailyDao.dailyInsert(planInsertServiceVO); 
-		}  else {
-			int dailyNo = dailyDao.dailyNoConfirm(planInsertServiceVO);
-			planInsertServiceVO.setDailyNo(dailyNo);
+		TestVO entity1 = TestVO.builder().dailyOrder(1).dailyplanPlaceOrder(1).placeName("테스트1").build(); 
+		TestVO entity2 = TestVO.builder().dailyOrder(1).dailyplanPlaceOrder(2).placeName("테스트2").build(); 
+		TestVO entity3 = TestVO.builder().dailyOrder(2).dailyplanPlaceOrder(1).placeName("테스트3").build(); 
+		TestVO entity4 = TestVO.builder().dailyOrder(2).dailyplanPlaceOrder(2).placeName("테스트4").build(); 
+		
+		List<TestVO> data1 = new ArrayList<TestVO>();
+		data1.add(entity1);
+		data1.add(entity2);
+		
+		for(TestVO test : data1) {
+			System.out.println("하루 순서 : " + test.getDailyOrder());
+			System.out.println("장소 순서 : " + test.getDailyplanPlaceOrder());
 		}
 		
-		// 3. 장소 등록
-		placeDao.placeInsert(planInsertServiceVO); 
+		System.out.println("=====");
 		
-		// 4. 장소계획 등록
-		dailyplanDao.dailyplanInsert(planInsertServiceVO);
+		List<TestVO> data2 = new ArrayList<TestVO>();
+		data2.add(entity3);
+		data2.add(entity4);
+		
+		for(TestVO test : data2) {
+			System.out.println("하루 순서 : " + test.getDailyOrder());
+			System.out.println("장소 순서 : " + test.getDailyplanPlaceOrder());
+		}
+		
+		List<List<TestVO>> datas = new ArrayList<List<TestVO>>();
+		datas.add(data1);
+		datas.add(data2);
+		
+		System.out.println("=====");
+		
+		for(List<TestVO> data : datas) {
+			for(TestVO test : data) {
+				System.out.println(test);
+				System.out.println(test.getDailyOrder() + "일 차의 장소 순서 : " + test.getDailyplanPlaceOrder() + ", 장소 이름 : " + test.getPlaceName());
+			}
+		}
 	}
 	
 }

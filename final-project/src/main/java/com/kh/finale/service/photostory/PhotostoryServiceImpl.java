@@ -5,6 +5,7 @@ import java.io.IOException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.kh.finale.entity.photostory.PhotostoryDto;
 import com.kh.finale.entity.photostory.PhotostoryPhotoDto;
@@ -25,6 +26,7 @@ public class PhotostoryServiceImpl implements PhotostoryService {
 	
 	// 포토스토리 등록
 	@Override
+	@Transactional
 	public void insertPhotostory(PhotostoryVO photostoryVO) throws IllegalStateException, IOException {
 		// 포토스토리 정보 등록
 		photostoryVO.setPhotostoryNo(photostoryDao.getSequence());
@@ -45,6 +47,7 @@ public class PhotostoryServiceImpl implements PhotostoryService {
 
 	// 포토스토리 수정
 	@Override
+	@Transactional
 	public void updatePhotostory(PhotostoryVO photostoryVO) throws IllegalStateException, IOException {
 		// 포토스토리 정보 수정
 		PhotostoryDto photostoryDto = PhotostoryDto.builder()
@@ -68,6 +71,7 @@ public class PhotostoryServiceImpl implements PhotostoryService {
 
 	// 포토스토리 삭제
 	@Override
+	@Transactional
 	public void deletePhotostory(int photostoryNo) {
 		deletePhotostoryPhoto(photostoryNo);
 		photostoryDao.deletePhotostory(photostoryNo);

@@ -12,18 +12,26 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.kh.finale.entity.member.FollowDto;
 import com.kh.finale.entity.member.MemberDto;
 import com.kh.finale.repository.member.FollowDao;
+import com.kh.finale.repository.member.MemberDao;
 
 @Controller
 public class HomeController {
+	
 	@RequestMapping("/")
-	public String index() {
-		return "home";
+	public String index(Model model, HttpSession session) {
+		// 회원 정보 전송
+		if (session.getAttribute("memberNo") != null) {
+			MemberDto memberDto = memberDao.findInfo((int) session.getAttribute("memberNo"));
+			model.addAttribute("memberDto", memberDto);
+		}
+		
+		return "home"; 
 	}
 	
 	@Autowired
 	private SqlSession sqlSession;
 	
-	
+	// 마이페이지 조회
 	@Autowired
 	private FollowDao followDao;
 	@RequestMapping("/member/{memberNick}")
@@ -50,15 +58,21 @@ public class HomeController {
 		return "member/myPage";
 	}
 	
+	// 맴버 프로필 편집
 	@Autowired
 	HttpSession httpSession;
 	
+	@Autowired
+	private MemberDao memberDao;
+	
 	@RequestMapping("/member/editProfile")
 	public String editProfile(Model model) {
-		model.addAttribute("memberId", httpSession.getAttribute("memberId"));
+		MemberDto memberDto = memberDao.findInfo((int) httpSession.getAttribute("memberNo"));
+		model.addAttribute("memberDto", memberDto);
 		return "member/editProfile"; 
 	}
 	
+	// 관리자 페이지
 	@RequestMapping("/admin")
 	public String admin(Model model) {
 		return "admin/home";

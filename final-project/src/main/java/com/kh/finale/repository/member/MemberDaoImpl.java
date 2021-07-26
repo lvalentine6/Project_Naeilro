@@ -27,6 +27,12 @@ public class MemberDaoImpl implements MemberDao{
 		return sqlSession.selectOne("member.login", memberDto);
 	}
 
+	// 회원정보 조회(회원번호로)
+	@Override
+	public MemberDto findInfo(int memberNo) {
+		return sqlSession.selectOne("member.findInfo", memberNo);
+	}
+	
 	@Override
 	public MemberDto findId(MemberDto memberDto) {
 		return sqlSession.selectOne("member.findId", memberDto);
@@ -72,15 +78,33 @@ public class MemberDaoImpl implements MemberDao{
 	public int idCheck(MemberVo memberVo) {
 		return sqlSession.selectOne("member.idCheck", memberVo);
 	}
-
+	
+	// 프로필 편집 닉네임 중복값 검사
 	@Override
-	public int nickCheck(MemberVo memberVo) {
-		return sqlSession.selectOne("member.nickCheck", memberVo);
+	public MemberVo pNickCheck(MemberVo memberVo) {
+		return sqlSession.selectOne("member.pNickCheck", memberVo);
 	}
 
 	@Override
 	public void exit(MemberVo memberVo) {
 		sqlSession.delete("member.exit", memberVo);
 	}
+	
+	// 회원 가입 닉네임 중복값 검사
+	@Override
+	public int jNickCheck(MemberVo memberVo) {
+		return sqlSession.selectOne("member.jNickCheck", memberVo);
+	}
 
+	// 회원 정지
+	@Override
+	public void block(int memberNo) {
+		sqlSession.update("member.block", memberNo);
+	}
+	
+	// 회원 정지 해제
+	@Override
+	public void unblock(int memberNo) {
+		sqlSession.update("member.unblock", memberNo);
+	}
 }

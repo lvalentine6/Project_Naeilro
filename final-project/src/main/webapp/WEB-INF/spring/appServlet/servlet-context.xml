@@ -62,4 +62,54 @@
 		<beans:property name="maxUploadSize" value="100000000"></beans:property>
 		<beans:property name="maxUploadSizePerFile" value="10000000"></beans:property>
 	</beans:bean>
+	
+	<!-- 인터셉터 등록 -->
+	<interceptors>
+		
+		<!-- 비회원의 회원 기능 접근 차단 인터셉터 -->
+		<interceptor>
+			<mapping path="/photostory/**"/>
+			<mapping path="/process/**"/>
+			<mapping path="/member/logout"/>
+			<mapping path="/member/editProfile"/>
+			<mapping path="/member/exit"/>
+			<exclude-mapping path="/photostory"/>
+			<exclude-mapping path="/photostory/detail"/>
+			<beans:bean class="com.kh.finale.interceptor.MemberLoginInterceptor"></beans:bean>
+		</interceptor>
+		
+		<!-- 회원의 비회원 기능 접근 차단 인터셉터 -->
+<!-- 		<interceptor> -->
+<!-- 			<mapping path="/member/**"/> -->
+<!-- 			<exclude-mapping path="/member/idCheck"/> -->
+<!-- 			<exclude-mapping path="/member/nickCheck"/> -->
+<!-- 			<exclude-mapping path="/member/logout"/> -->
+<!-- 			<exclude-mapping path="/member/editProfile"/> -->
+<!-- 			<exclude-mapping path="/member/exit"/> -->
+<!-- 			<beans:bean class="com.kh.finale.interceptor.MemberLogoutInterceptor"></beans:bean> -->
+<!-- 		</interceptor> -->
+		
+		<!-- 정지된 회원의 기능 사용 제한 인터셉터 -->
+		<interceptor>
+			<mapping path="/photostory/**"/>
+			<mapping path="/process/**"/>
+			<exclude-mapping path="/photostory"/>
+			<exclude-mapping path="/photostory/detail"/>
+			<beans:bean class="com.kh.finale.interceptor.MemberBlockInterceptor"></beans:bean>
+		</interceptor>
+		
+		<!-- 포토스토리 편집 차단 인터셉터 -->
+		<interceptor>
+			<mapping path="/photostory/edit"/>
+			<mapping path="/photostory/delete"/>
+			<beans:bean class="com.kh.finale.interceptor.PhotostoryEditInterceptor"></beans:bean>
+		</interceptor>
+
+		<!-- 관리자 기능 접근 차단 인터셉터 -->
+		<interceptor>
+			<mapping path="/admin/**"/>
+			<beans:bean class="com.kh.finale.interceptor.AdminInterceptor"></beans:bean>
+		</interceptor>
+		
+	</interceptors>
 </beans:beans>
