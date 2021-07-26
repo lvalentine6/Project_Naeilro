@@ -5,10 +5,13 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.web.servlet.HandlerInterceptor;
 
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * 회원의 비회원 기능 접근 차단 인터셉터
  * @author swjk78
  */
+@Slf4j
 public class MemberLogoutInterceptor implements HandlerInterceptor {
 
 	@Override
@@ -19,6 +22,7 @@ public class MemberLogoutInterceptor implements HandlerInterceptor {
 		if (memberNo != null) {
 			// 어느 페이지로 보낼지, 보낸 후 어떤 알림창을 띄울 것인지 미정
 			response.sendRedirect(request.getContextPath());
+			log.debug("인터셉터: MemberLogoutInterceptor 차단");
 			
 			return false;
 		}

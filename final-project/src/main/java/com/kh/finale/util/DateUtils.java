@@ -11,7 +11,7 @@ import java.util.Date;
  */
 public class DateUtils {
 
-	// 작성날짜와 현재날짜의 차이를 얻는 메소드
+	// 작성 경과 시간을 반환하는 메소드
 	public static String getDifferenceInDate(Date inputDate) throws ParseException {
 		long currentTime = System.currentTimeMillis();
 		long compareTime = inputDate.getTime();
@@ -36,7 +36,7 @@ public class DateUtils {
 		return msg;
 	}
 	
-	// 현재 연도월일시분초를 반환하는 메소드
+	// 현재 연도월일시분초를 문자열로 반환하는 메소드
 	public static String getDateString() {
 		Calendar cal = Calendar.getInstance();
 		
@@ -99,5 +99,10 @@ public class DateUtils {
 
 		// 입력 날짜가 현재 시간을 지났을 경우 true 반환
 		return inputDate.before(sysdate);
+	}
+	
+	// java.util.Date에서 java.sql.Date로 변환하는 메소드
+	public static java.sql.Date formatToSqlDate(Date date) {
+		return new java.sql.Date(date.getTime());
 	}
 }

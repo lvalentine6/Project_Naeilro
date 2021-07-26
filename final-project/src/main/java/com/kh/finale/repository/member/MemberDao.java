@@ -13,6 +13,8 @@ public interface MemberDao {
 	MemberDto findInfo(int memberNo);
 	MemberDto findId(MemberDto memberDto);
 	MemberVo findPw(MemberVo memberVo);
+	// 회원정보 조회(닉네임으로)
+	MemberDto findWithNick(String memberNick);
 	void authInsert(MemberAuthDto memberAuthDto);
 	Map<String,Object> resultAuth(MemberAuthDto memberAuthDto);
 	MemberAuthDto checkAuthEmail(MemberAuthDto memberAuthDto);

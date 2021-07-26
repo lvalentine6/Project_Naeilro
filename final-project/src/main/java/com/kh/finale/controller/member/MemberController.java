@@ -21,15 +21,18 @@ import org.springframework.ui.Model;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 
+import com.kh.finale.entity.member.FollowDto;
 import com.kh.finale.entity.member.MemberAuthDto;
 import com.kh.finale.entity.member.MemberDto;
 import com.kh.finale.entity.member.MemberProfileDto;
+import com.kh.finale.repository.member.FollowDao;
 import com.kh.finale.repository.member.MemberDao;
 import com.kh.finale.repository.member.MemberProfileDao;
 import com.kh.finale.service.member.MemberAuthService;
@@ -87,7 +90,7 @@ public class MemberController {
 	}
 
 	// 프로필 편집 닉네임 중복체크
-	@PostMapping("/pNickCheck")
+	@PostMapping("/profile/pNickCheck")
 	@ResponseBody
 	public boolean pNickCheck(@ModelAttribute MemberVo memberVo, HttpSession httpSession) {
 		System.out.println("닉네임 중복값 체크 : " + memberVo);
@@ -163,7 +166,15 @@ public class MemberController {
 
 	// 비밀번호 찾기 페이지
 	@GetMapping("/findPw")
-	public String findPw() {
+	public String findPw(HttpSession session, Model model) {
+		// 회원 정보 전송
+		int memberNo = 0;
+		if (session.getAttribute("memberNo") != null) {
+			memberNo = (int) session.getAttribute("memberNo");
+			MemberDto memberDto = memberDao.findInfo(memberNo);
+			
+			model.addAttribute("memberDto", memberDto);
+		}
 		return "member/findPw";
 	}
 
@@ -231,7 +242,37 @@ public class MemberController {
 		return "redirect:/";
 	}
 
-	// 마이페이지 이미지 출력
+	// 마이페이지 조회
+	@Autowired
+	private FollowDao followDao;
+	@RequestMapping("/profile/{memberNick}")
+	public String myPage(@PathVariable String memberNick
+			,Model model,HttpSession session) {
+		// 마이페이지 회원 정보 전송
+		MemberDto memberDto = memberDao.findWithNick(memberNick);
+		model.addAttribute("profileMemberDto", memberDto);
+		
+		boolean isFollow = false;
+		
+		if((Integer)session.getAttribute("memberNo")!=null) {
+			// 회원 정보 전송
+			memberDto = memberDao.findInfo((int) session.getAttribute("memberNo"));
+			model.addAttribute("memberDto", memberDto);
+			
+			FollowDto followDto = FollowDto.builder()
+					.followFrom((Integer)session.getAttribute("memberNo"))
+					.followTo(memberDto.getMemberNo())
+					.build();
+			if(followDao.isFollow(followDto)!=null) {
+				isFollow=true;
+			}
+		}
+		
+		model.addAttribute("isFollow",isFollow);
+		model.addAttribute("countFollower",followDao.getCountFollower(memberDto.getMemberNo()));
+		model.addAttribute("countFollowing",followDao.getCountFollowing(memberDto.getMemberNo()));
+		return "member/myPage";
+	}
 
 	@Autowired
 	MemberProfileDao memberProfileDao;
@@ -239,7 +280,8 @@ public class MemberController {
 	@Autowired
 	HttpSession httpSession;
 
-	@GetMapping("/profileImage")
+	// 마이페이지 이미지 출력
+	@GetMapping("/profile/profileImage")
 	public ResponseEntity<ByteArrayResource> image() throws IOException {
 		String memberId = (String) httpSession.getAttribute("memberId");
 		System.out.println("아이디 값 :" + memberId);
@@ -260,11 +302,19 @@ public class MemberController {
 				.body(resource);
 	}
 
+	// 프로필 편집 페이지
+	@GetMapping("/profile/editProfile")
+	public String editProfile(Model model) {
+		MemberDto memberDto = memberDao.findInfo((int) httpSession.getAttribute("memberNo"));
+		model.addAttribute("memberDto", memberDto);
+		return "member/editProfile"; 
+	}
+	
 	@Autowired
 	MemberEditService memberEditService;
 
-	// 프로필 편집
-	@PostMapping("/editProfile")
+	// 프로필 편집 처리
+	@PostMapping("/profile/editProfile")
 	public String editProfile(@ModelAttribute MemberVo memberVo, HttpSession httpSession) throws IllegalStateException, IOException {
 		System.out.println("수신값 검사 : " + memberVo);
 		memberVo.setMemberNo((int) httpSession.getAttribute("memberNo"));

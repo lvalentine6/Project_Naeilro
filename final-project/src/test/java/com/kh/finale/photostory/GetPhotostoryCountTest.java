@@ -35,7 +35,6 @@ public class GetPhotostoryCountTest {
 				.endRow(10)
 				.pageNo(1)
 				.pageSize(10)
-				.searchType(null)
 				.searchKeyword(null)
 				.startBlock(1)
 				.endBlock(1)
