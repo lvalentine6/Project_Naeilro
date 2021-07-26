@@ -103,8 +103,6 @@ public class DateUtils {
 	
 	// java.util.Date에서 java.sql.Date로 변환하는 메소드
 	public static java.sql.Date formatToSqlDate(Date date) {
-		java.sql.Date result = new java.sql.Date(date.getTime());
-		
-		return result;
+		return new java.sql.Date(date.getTime());
 	}
 }
