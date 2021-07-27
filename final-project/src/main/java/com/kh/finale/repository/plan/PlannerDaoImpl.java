@@ -22,4 +22,9 @@ public class PlannerDaoImpl implements PlannerDao {
 		sqlSession.insert("planner.plannerInsert", planInsertServiceVO);
 	}
 
+	@Override
+	public PlanInsertServiceVO selectPlan(PlanInsertServiceVO planInsertServiceVO) {
+		return sqlSession.selectOne("planner.selectPlan", planInsertServiceVO);
+	}
+
 }

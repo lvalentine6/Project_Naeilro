@@ -1,11 +1,8 @@
-package com.kh.finale.repository.plan;
+package com.kh.finale.service.plan;
 
 import com.kh.finale.vo.plan.PlanInsertServiceVO;
 
-public interface PlannerDao {
-	int getSequnece();
-	
-	void plannerInsert(PlanInsertServiceVO planInsertServiceVO);
+public interface ResultPlanService {
 	
 	// 결과페이지 DB 조회
 	PlanInsertServiceVO selectPlan(PlanInsertServiceVO planInsertServiceVO);

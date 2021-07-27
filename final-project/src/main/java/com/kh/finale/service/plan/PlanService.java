@@ -4,4 +4,5 @@ import com.kh.finale.vo.plan.PlanInsertServiceVO;
 
 public interface PlanService {
 	void planInsertService(PlanInsertServiceVO planInsertServiceVO);
+	
 }
