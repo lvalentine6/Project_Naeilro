@@ -29,13 +29,19 @@
 			}
 		})
 		$('#memberNick').blur(function() {
+			$(".nickck").hide()
+			if($(this).val()=='${memberContextNick}'){
+				$('#memberNick').addClass("is-valid");
+				$('#memberNick').removeClass("is-invalid");
+				return
+			}
 			if (nick_name_regex.test($(this).val())) {
 				$("#nickck").removeClass("text-muted")
 				$("#nickck").removeClass("text-danger")
 				$("#nickck").addClass("text-success")
 				let memberNick = $(this).val();
 				$.ajax({
-					url:"pNickCheck",
+					url:"jNickCheck",
 					data : {
 						memberNick : memberNick,
 					},
@@ -43,16 +49,16 @@
 					})
 					.done(function(json){
 						if(json) {
-							nick = false;
-							$('#nickck').removeClass("is-valid");
-							$('#nickck').addClass("is-invalid");
+							nick=false;
+							$('#memberNick').removeClass("is-valid");
+							$('#memberNick').addClass("is-invalid");
 							$(".nickck").show()
 						}
 						else {
-						nick = true;
-						$('#nickck').addClass("is-valid");
-						$('#nickck').removeClass("is-invalid");
-						$(".nickck").hide()
+							nick = true;
+							$('#memberNick').addClass("is-valid");
+							$('#memberNick').removeClass("is-invalid");
+							$(".nickck").hide()
 						}
 					})
 					.fail(function(){
@@ -144,7 +150,7 @@
 						&nbsp;&nbsp; 중복된 닉네임입니다.
 						</small> 
 						 <input type="text"
-							class="form-control" id="memberNick" name="memberNick" value="${memberDto.memberNick}" required>
+							class="form-control" id="memberNick" name="memberNick" required>
 						<small id="nickck" class="form-text text-muted">4~12자의
 							영문 소문자, 대문자, 한글, 숫자만 사용 가능합니다.</small>
 					</div>

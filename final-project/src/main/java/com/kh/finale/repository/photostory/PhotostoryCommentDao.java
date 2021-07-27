@@ -5,6 +5,7 @@ import java.util.List;
 import com.kh.finale.entity.photostory.PhotostoryCommentDto;
 
 public interface PhotostoryCommentDao {
+	int getPhotostoryCommentNo();
 	// 댓글 등록 기능
 	void insertPhotostoryComment(PhotostoryCommentDto photostoryCommentDto);
 	

@@ -20,7 +20,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class PhotostoryCommentListDto {
-	private int photostoryCommentNo;
+	private int photostoryCommentNo,memberNo;
 	private String photostoryCommentContent;
 	private Date photostoryCommentDate;
 	private String photostoryCommentMemberNick;

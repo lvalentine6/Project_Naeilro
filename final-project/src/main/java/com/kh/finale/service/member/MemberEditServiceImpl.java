@@ -31,13 +31,13 @@ public class MemberEditServiceImpl implements MemberEditService{
 		dir.mkdir();
 					
 		// 저장 파일명 설정
-		String FileName= memberVo.getMemberId()+"profile";
+		String FileName= memberVo.getMemberNo()+"profile";
 		File target = new File(dir, FileName);
 		memberVo.getMemberProfile().transferTo(target);
 					
 		// 파일 정보 등록
 		MemberProfileDto memberProfileDto = MemberProfileDto.builder()
-													.memberId(memberVo.getMemberId())
+													.memberId(String.valueOf(memberVo.getMemberNo()))
 													.profileOriginName(memberVo.getMemberProfile().getOriginalFilename())
 													.profileSize(memberVo.getMemberProfile().getSize())
 													.profileSaveName(FileName)

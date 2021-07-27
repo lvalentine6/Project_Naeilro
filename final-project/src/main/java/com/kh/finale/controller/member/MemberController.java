@@ -124,6 +124,7 @@ public class MemberController {
 		if (check != null) {
 			httpSession.setAttribute("memberNo", check.getMemberNo());
 			httpSession.setAttribute("memberId", check.getMemberId());
+			httpSession.setAttribute("memberContextNick", check.getMemberNick());
 			return "redirect:/";
 		} else {
 			return "redirect:login?error";
@@ -135,6 +136,7 @@ public class MemberController {
 	public String logout(HttpSession httpSession) {
 		httpSession.removeAttribute("memberNo");
 		httpSession.removeAttribute("memberId");
+		httpSession.removeAttribute("memberContextNick");
 		return "redirect:/";
 	}
 
@@ -291,8 +293,8 @@ public class MemberController {
 
 	// 마이페이지 이미지 출력
 	@GetMapping("/profile/profileImage")
-	public ResponseEntity<ByteArrayResource> image() throws IOException {
-		String memberId = (String) httpSession.getAttribute("memberId");
+	public ResponseEntity<ByteArrayResource> image(int memberNo) throws IOException {
+		String memberId = String.valueOf(memberNo);
 		System.out.println("아이디 값 :" + memberId);
 		MemberProfileDto memberProfileDto = memberProfileDao.find(memberId);
 		if (memberProfileDto == null) {
