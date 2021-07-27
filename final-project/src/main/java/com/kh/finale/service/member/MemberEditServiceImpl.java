@@ -41,7 +41,17 @@ public class MemberEditServiceImpl implements MemberEditService{
 													.profileSize(memberVo.getMemberProfile().getSize())
 													.profileSaveName(FileName)
 													.build();
-		memberProfileDao.update(memberProfileDto);
+		
+		// 기존 프로필 이미지의 존재 유무 확인
+		MemberProfileDto find = memberProfileDao.find(memberVo.getMemberId());
+		
+		// 기존 프로필 이미지가 존재하면 업데이트, 아니면 등록
+		if (find != null) {
+			memberProfileDao.update(memberProfileDto);
+		} else {
+			memberProfileDao.insert(memberProfileDto);
+		}
+		
 		System.out.println("수정 DB 값 확인" + memberProfileDto);
 		}
 		

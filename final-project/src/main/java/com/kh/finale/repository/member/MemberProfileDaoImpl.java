@@ -8,7 +8,7 @@ import com.kh.finale.entity.member.MemberProfileDto;
 import com.kh.finale.vo.member.MemberVo;
 
 @Repository
-public class MemberProfileImpl implements MemberProfileDao{
+public class MemberProfileDaoImpl implements MemberProfileDao{
 	
 	@Autowired
 	private SqlSession sqlSession;

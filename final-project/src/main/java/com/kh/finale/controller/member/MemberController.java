@@ -226,7 +226,16 @@ public class MemberController {
 
 	// 비밀번호 찾기 (변경 페이지 이동)
 	@GetMapping("/changePw")
-	public String changePw(@ModelAttribute MemberAuthDto memberAuthDto, Model model) {
+	public String changePw(@ModelAttribute MemberAuthDto memberAuthDto, Model model, HttpSession session) {
+		// 회원 정보 전송
+		int memberNo = 0;
+		if (session.getAttribute("memberNo") != null) {
+			memberNo = (int) session.getAttribute("memberNo");
+			MemberDto memberDto = memberDao.findInfo(memberNo);
+			
+			model.addAttribute("memberDto", memberDto);
+		}
+		
 		System.out.println("인증페이지 수신값 : " + memberAuthDto);
 		MemberAuthDto selectMember = memberAuthService.selectId(memberAuthDto);
 		System.out.println("db 수신 값 : " + selectMember);
@@ -329,8 +338,8 @@ public class MemberController {
 	@GetMapping("/exit")
 	public String exit(HttpSession httpSession, MemberVo memberVo) {
 		memberVo.setMemberId((String) httpSession.getAttribute("memberId"));
-		memberEditService.exit(memberVo);
 		memberEditService.exitProfile(memberVo);
+		memberEditService.exit(memberVo);
 		httpSession.removeAttribute("memberNo");
 		httpSession.removeAttribute("memberId");
 		return "member/exit";

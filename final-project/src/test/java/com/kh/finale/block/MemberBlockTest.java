@@ -41,7 +41,7 @@ public class MemberBlockTest {
 	@Test
 	public void block() throws ParseException {
 		MemberBlockDto memberBlockDto = MemberBlockDto.builder()
-				.memberNo(119)
+				.memberNo(4)
 				.blockPeriod(1)
 				.blockContent("차단글 내용")
 				.blockReason("차단 이유")
@@ -50,17 +50,13 @@ public class MemberBlockTest {
 		log.debug("blockStartDate = {}", memberBlockDto.getBlockStartDate());
 		memberBlockDto = memberBlockDao.getBlockInfo(memberBlockDto.getMemberNo());
 		log.debug("blockStartDate = {}", memberBlockDto.getBlockStartDate());
-		
-		// 정지 해제 날짜 설정
-		java.sql.Date blockEndDate = DateUtils.formatToSqlDate(DateUtils.plusDayToDate(memberBlockDto.getBlockStartDate(), memberBlockDto.getBlockPeriod()));
-		memberBlockDto.setBlockEndDate(blockEndDate);
 		log.debug("blockEndDate = {}", memberBlockDto.getBlockEndDate());
 	}
 	
 	// 정지 해제 테스트
 //	@Test
 //	public void unblock() {
-//		int memberNo = 119;
+//		int memberNo = 4;
 //		memberBlockService.unblock(memberNo);
 //	}
 }
