@@ -9,6 +9,9 @@ public interface PhotostoryListDao {
 	// 포토스토리 리스트 조회 기능
 	List<PhotostoryListDto> list(PhotostoryListVO photostoryListVO);
 	
+	// 포토스토리 리스트 조회 기능
+	List<PhotostoryListDto> listWhitMemberNo(PhotostoryListVO photostoryListVO);
+	
 	// 포토스토리 단일 조회 기능
 	PhotostoryListDto get(int photostoryNo);
 }

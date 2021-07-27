@@ -26,4 +26,9 @@ public class PhotostoryListDaoImpl implements PhotostoryListDao {
 	public PhotostoryListDto get(int photostoryNo) {
 		return sqlSession.selectOne("photostoryList.get", photostoryNo);
 	}
+	
+	@Override
+	public List<PhotostoryListDto> listWhitMemberNo(PhotostoryListVO photostoryListVO) {
+		return sqlSession.selectList("photostoryList.listWithMemberNo", photostoryListVO);
+	}
 }

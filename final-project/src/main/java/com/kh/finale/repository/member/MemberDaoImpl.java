@@ -113,4 +113,5 @@ public class MemberDaoImpl implements MemberDao{
 	public void unblock(int memberNo) {
 		sqlSession.update("member.unblock", memberNo);
 	}
+	
 }

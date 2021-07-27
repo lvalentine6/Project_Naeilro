@@ -53,15 +53,18 @@ public class PhotostoryRestController {
 	
 	// 포토스토리 댓글 등록 처리
 	@PostMapping("/insert_comment")
-	public void insertPhotostoryComment(
+	public int insertPhotostoryComment(
 			HttpSession session, @ModelAttribute PhotostoryCommentDto photostoryCommentDto) {
+		int no = photostoryCommentDao.getPhotostoryCommentNo();
 		PhotostoryCommentDto commentDto = PhotostoryCommentDto.builder()
+				.photostoryCommentNo(no)
 				.photostoryNo(photostoryCommentDto.getPhotostoryNo())
 				.memberNo((int) session.getAttribute("memberNo"))
 				.photostoryCommentContent(photostoryCommentDto.getPhotostoryCommentContent())
 				.build();
 		photostoryCommentDao.insertPhotostoryComment(commentDto);
 		photostoryDao.refreshPhotostoryCommentCount(commentDto.getPhotostoryNo());
+		return no;
 	}
 	
 	// 포토스토리 댓글 수정 처리
@@ -69,9 +72,9 @@ public class PhotostoryRestController {
 	public void updatePhotostoryComment(
 			HttpSession session, @ModelAttribute PhotostoryCommentDto photostoryCommentDto) {
 		PhotostoryCommentDto commentDto = PhotostoryCommentDto.builder()
-				.photostoryNo(photostoryCommentDto.getPhotostoryNo())
-				.memberNo((int) session.getAttribute("memberNo"))
+				.photostoryCommentNo(photostoryCommentDto.getPhotostoryCommentNo())
 				.photostoryCommentContent(photostoryCommentDto.getPhotostoryCommentContent())
+				.memberNo((int) session.getAttribute("memberNo"))
 				.build();
 		photostoryCommentDao.updatePhotostoryComment(commentDto);
 	}
@@ -81,9 +84,8 @@ public class PhotostoryRestController {
 	public void deletePhotostoryComment(
 			HttpSession session, @ModelAttribute PhotostoryCommentDto photostoryCommentDto) {
 		PhotostoryCommentDto commentDto = PhotostoryCommentDto.builder()
-				.photostoryNo(photostoryCommentDto.getPhotostoryNo())
+				.photostoryCommentNo(photostoryCommentDto.getPhotostoryCommentNo())
 				.memberNo((int) session.getAttribute("memberNo"))
-				.photostoryCommentContent(photostoryCommentDto.getPhotostoryCommentContent())
 				.build();
 		photostoryCommentDao.deletePhotostoryComment(commentDto);
 		photostoryDao.refreshPhotostoryCommentCount(commentDto.getPhotostoryNo());

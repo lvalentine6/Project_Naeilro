@@ -76,6 +76,7 @@
 			<mapping path="/member/exit"/>
 			<mapping path="/member/profile/edit**"/>
 			<exclude-mapping path="/photostory"/>
+			<exclude-mapping path="/photostory/photo/**"/>
 			<exclude-mapping path="/photostory/detail"/>
 			<beans:bean class="com.kh.finale.interceptor.MemberLoginInterceptor"></beans:bean>
 		</interceptor>

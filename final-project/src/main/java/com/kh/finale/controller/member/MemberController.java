@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.mail.MessagingException;
@@ -32,14 +33,20 @@ import com.kh.finale.entity.member.FollowDto;
 import com.kh.finale.entity.member.MemberAuthDto;
 import com.kh.finale.entity.member.MemberDto;
 import com.kh.finale.entity.member.MemberProfileDto;
+import com.kh.finale.entity.photostory.PhotostoryListDto;
+import com.kh.finale.entity.photostory.PhotostoryPhotoDto;
 import com.kh.finale.repository.member.FollowDao;
 import com.kh.finale.repository.member.MemberDao;
 import com.kh.finale.repository.member.MemberProfileDao;
+import com.kh.finale.repository.photostory.PhotostoryDao;
+import com.kh.finale.repository.photostory.PhotostoryListDao;
+import com.kh.finale.repository.photostory.PhotostoryPhotoDao;
 import com.kh.finale.service.member.MemberAuthService;
 import com.kh.finale.service.member.MemberEditService;
 import com.kh.finale.service.member.MemberFindService;
 import com.kh.finale.service.member.MemberJoinService;
 import com.kh.finale.vo.member.MemberVo;
+import com.kh.finale.vo.photostory.PhotostoryListVO;
 
 @Controller
 @RequestMapping("/member")
@@ -47,6 +54,17 @@ public class MemberController {
 
 	@Autowired
 	MemberDao memberDao;
+	
+	
+	
+	@Autowired
+	private PhotostoryPhotoDao photostoryPhotoDao;
+	
+	@Autowired
+	private PhotostoryDao photostoryDao;
+	
+	@Autowired
+	private PhotostoryListDao photostoryListDao;
 
 	// 회원 가입 페이지
 	@GetMapping("/join")
@@ -124,6 +142,7 @@ public class MemberController {
 		if (check != null) {
 			httpSession.setAttribute("memberNo", check.getMemberNo());
 			httpSession.setAttribute("memberId", check.getMemberId());
+			httpSession.setAttribute("memberContextNick", check.getMemberNick());
 			return "redirect:/";
 		} else {
 			return "redirect:login?error";
@@ -135,6 +154,7 @@ public class MemberController {
 	public String logout(HttpSession httpSession) {
 		httpSession.removeAttribute("memberNo");
 		httpSession.removeAttribute("memberId");
+		httpSession.removeAttribute("memberContextNick");
 		return "redirect:/";
 	}
 
@@ -251,14 +271,29 @@ public class MemberController {
 		return "redirect:/";
 	}
 
-	// 마이페이지 조회
+	// 마이페이지 조회 TODO
 	@Autowired
 	private FollowDao followDao;
 	@RequestMapping("/profile/{memberNick}")
 	public String myPage(@PathVariable String memberNick
-			,Model model,HttpSession session) {
-		// 마이페이지 회원 정보 전송
+			,Model model,HttpSession session,@ModelAttribute PhotostoryListVO photostoryListVO) {
 		MemberDto memberDto = memberDao.findWithNick(memberNick);
+		photostoryListVO.setMemberNo(memberDto.getMemberNo());
+		photostoryListVO.setPageSize(30);
+		photostoryListVO = photostoryDao.getPageVariable(photostoryListVO);
+		List<PhotostoryListDto> photostoryList = photostoryListDao.listWhitMemberNo(photostoryListVO);
+		
+		for (int i = 0; i < photostoryList.size(); i++) {
+			PhotostoryListDto photostoryListDto = photostoryList.get(i);
+			
+			// 이미지 처리
+			List<PhotostoryPhotoDto> photostoryPhotoList = photostoryPhotoDao.get(photostoryListDto.getPhotostoryNo());
+			if (!photostoryPhotoList.isEmpty()) {
+				photostoryListDto.setPhotostoryPhotoNo(photostoryPhotoList.get(0).getPhotostoryPhotoNo());
+			}
+		}
+		// 마이페이지 회원 정보 전송
+		
 		model.addAttribute("profileMemberDto", memberDto);
 		
 		boolean isFollow = false;
@@ -277,7 +312,9 @@ public class MemberController {
 			}
 		}
 		
+		model.addAttribute("photostoryList",photostoryList);
 		model.addAttribute("isFollow",isFollow);
+		model.addAttribute("countPhotostory",photostoryDao.getPhotostoryCountWithMemberNo(memberDto.getMemberNo()));
 		model.addAttribute("countFollower",followDao.getCountFollower(memberDto.getMemberNo()));
 		model.addAttribute("countFollowing",followDao.getCountFollowing(memberDto.getMemberNo()));
 		return "member/myPage";
@@ -291,8 +328,8 @@ public class MemberController {
 
 	// 마이페이지 이미지 출력
 	@GetMapping("/profile/profileImage")
-	public ResponseEntity<ByteArrayResource> image() throws IOException {
-		String memberId = (String) httpSession.getAttribute("memberId");
+	public ResponseEntity<ByteArrayResource> image(int memberNo) throws IOException {
+		String memberId = String.valueOf(memberNo);
 		System.out.println("아이디 값 :" + memberId);
 		MemberProfileDto memberProfileDto = memberProfileDao.find(memberId);
 		if (memberProfileDto == null) {
