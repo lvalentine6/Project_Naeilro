@@ -27,4 +27,6 @@ public interface PhotostoryDao {
 
 	// 포토스토리 댓글 수 갱신 기능
 	void refreshPhotostoryCommentCount(int photostoryNo);
+
+	int getPhotostoryCountWithMemberNo(int memberNo);
 }

@@ -10,6 +10,8 @@
 
 
 $(function(){
+	$(".story-photo").height($('.story-photo').width()+'px')
+	
 	$(".follow-btn").click(function(){
 		if(${memberNo==null }){
 			alert("로그인후 이용해주세요");
@@ -19,13 +21,49 @@ $(function(){
 			readImage(e.target)
 		})
 	})
+	
+	$( window ).resize(function() {
+		$(".story-photo").height($('.story-photo').width()+'px')
+	});
+	
+	
+	let pageNo = 1;
+	let oneTime = true;
+	
+	$(window).scroll(function(){
+		if($(document).scrollTop()>=$("main").height()*0.5&&oneTime){
+			oneTime = false;
+			pageNo+=1;				
+			$.ajax({
+				url:"${pageContext.request.contextPath}/member/profile/${profileMemberDto.memberNick}",
+				data : {
+					pageNo : pageNo,
+				},
+				method:"GET",
+				dataType : "html"
+			})
+			.done(function(html){
+				oneTime=true;
+				$(".mypage_photostory .row").append($(html)[31].querySelector(".mypage_photostory").children[0].children)
+				$('.comment_content_form').hide();
+				pageNo+=1;
+			})
+			.fail(function(){
+
+			})
+			
+		}
+	})
 })
+
+		
+
 </script>
 <main>
 	<div class="container-lg">
 		<div class="row">
 			<div class="col-lg-3 offset-lg-1">
-				<label for="memberProfile"> 
+				<label for="memberProfile">
 					<img class='upload_img my-3 user_profile_lg user_profile' src="${pageContext.request.contextPath}/member/profile/profileImage?memberNo=${profileMemberDto.memberNo}"
 					onerror="this.src='${pageContext.request.contextPath}/image/default_user_profile.jpg'"> 
 					<input class="input_img" type="file" accept=".png, .jpg, .gif" id="memberProfile" name="memberProfile" style="display: none" disabled/>
@@ -83,208 +121,45 @@ $(function(){
 					</div>
 					
 				</div>
-				<div class="row mb-3">
-					<div class="col-4">
-						게시글 <strong>0</strong>
-					</div>
-					<div class="col-4">
-						팔로워 <strong>${countFollower }</strong>
-					</div>
-					<div class="col-4">
-						팔로잉 <strong>${countFollowing }</strong>
-					</div>
-				</div>
 				<div class="row">
 					<div class="col-12">${profileMemberDto.memberIntro}</div>
 				</div>
 
-			</div>
-		</div>
-		<hr class="my-5">
-		<div class="container-lg ">
-			<div class="row justify-content-center ">
-				<div class=" col-lg-8 offset-lg-2 mx-2">
-					<div class='border row align-items-center'>
-						<div class="col-1">
-							<img class="my-2 user_profile_sm user_profile"
-								src="${pageContext.request.contextPath}/image/default_user_profile.jpg">
-						</div>
-						<div class="col-3 ">
-							<a class="font-weight-bold text-nowrap"
-								href="${pageContext.request.contextPath}/member/${photostoryListDto.memberNick}">${photostoryListDto.memberNick}글작성자
-								닉네임</a>
-						</div>
-						<div class="col-1 offset-7 text-right">
-							<i class="fas fa-ellipsis-h"></i>
-						</div>
-					</div>
-					<div class=' row align-items-center'>
-						<img class="w-100 border"
-							src="${pageContext.request.contextPath}/image/bgimg.webp" />
-					</div>
-					<div class='row align-items-center border-left border-right'>
-						<div class="col-1 py-2">
-							<i class="fa-heart fa-lg like-btn far"
-								data-photostoryNo="${photostoryListDto.photostoryNo}"></i>
-						</div>
-						<div class="col-1">
-							<a
-								href="${pageContext.request.contextPath}/photostory/detail?photostoryNo=${photostoryListDto.photostoryNo}">
-								<i class="far fa-comment fa-lg"></i>
-							</a>
-						</div>
-						<div class="col-10"></div>
-					</div>
-					<div class='row align-items-center border-left border-right'>
-						<div class="col-12 text-sm">
-							좋아요 <span> ${photostoryListDto.photostoryLikeCount}</span>
-						</div>
-					</div>
-					<div class='row align-items-center border-left border-right mb-1'>
-						<div class="col-12 text-sm">
-							<strong>${photostoryListDto.memberNick}글작성자 닉네임</strong>
-							&nbsp;&nbsp; ${photostoryListDto.photostoryContent}
-						</div>
-					</div>
-					<div class='row align-items-center border-left border-right mb-1'>
-						<div class="col-12 ">
-							<a class="text-black-50 font-weight-bold text-sm"
-								href="${pageContext.request.contextPath}/photostory/detail?photostoryNo=${photostoryListDto.photostoryNo}">
-								댓글 ${photostoryListDto.photostoryCommentCount}개 모두 보기 </a>
-						</div>
-					</div>
-					<div class='row align-items-center border-left border-right mb-1'>
-						<c:forEach var="commentList" items="${recentCommentList}">
-							<c:forEach var="photostoryCommentListDto" items="${commentList}">
-								<div class="col-12 text-sm">
-									<a
-										href="${pageContext.request.contextPath}/member/${photostoryCommentListDto.photostoryCommentMemberNick}">
-										<strong>${photostoryCommentListDto.photostoryCommentMemberNick}</strong>
-									</a> &nbsp;&nbsp;
-									${photostoryCommentListDto.photostoryCommentContent}
-								</div>
-							</c:forEach>
-						</c:forEach>
-					</div>
-					<div
-						class='row align-items-center border-left border-right border-bottom pb-3'>
-						<div
-							class="col-12 text-black-50 font-weight-bold text-right text-sm ">${photostoryListDto.getPastDateString()}</div>
-					</div>
-					<div
-						class='row align-items-center border-left border-right border-bottom mb-3 py-2'>
-						<div class="col-9">
-							<input type="text" class="form-control border-0"
-								placeholder="댓글 달기 . . .">
-						</div>
-						<div class="col-3 text-right">
-							<button type="button"
-								class="btn btn-outline-primary text-nowrap coment-btn"
-								data-photostoryNo="${photostoryListDto.photostoryNo}">게시</button>
-						</div>
-					</div>
+				<div class="row mb-3">
 				</div>
 			</div>
 		</div>
-
-
-
-		<div class="container-lg ">
-			<div class="row justify-content-center ">
-				<div class=" col-lg-8 offset-lg-2 mx-2">
-					<div class='border row align-items-center'>
-						<div class="col-1">
-							<img class="my-2 user_profile_sm user_profile"
-								src="${pageContext.request.contextPath}/image/default_user_profile.jpg">
-						</div>
-						<div class="col-3 ">
-							<a class="font-weight-bold text-nowrap"
-								href="${pageContext.request.contextPath}/member/${photostoryListDto.memberNick}">${photostoryListDto.memberNick}글작성자
-								닉네임</a>
-						</div>
-						<div class="col-1 offset-7 text-right">
-							<i class="fas fa-ellipsis-h"></i>
-						</div>
-					</div>
-					<div class=' row align-items-center'>
-						<img class="w-100 border"
-							src="${pageContext.request.contextPath}/image/bgimg.webp" />
-					</div>
-					<div class='row align-items-center border-left border-right'>
-						<div class="col-1 py-2">
-							<%-- <c:choose>
-								<c:when test="${photostoryListDto.isLike}">
-									<i class="fa-heart fa-lg like-btn fas like" data-photostoryNo="${photostoryListDto.photostoryNo}"></i>
-								</c:when>
-								<c:otherwise>
-									<i class="fa-heart fa-lg like-btn far" data-photostoryNo="${photostoryListDto.photostoryNo}"></i> 
-								</c:otherwise>
-							</c:choose> --%>
-							<i class="fa-heart fa-lg like-btn far"
-								data-photostoryNo="${photostoryListDto.photostoryNo}"></i>
-						</div>
-						<div class="col-1">
-							<a
-								href="${pageContext.request.contextPath}/photostory/detail?photostoryNo=${photostoryListDto.photostoryNo}">
-								<i class="far fa-comment fa-lg"></i>
-							</a>
-						</div>
-						<div class="col-10"></div>
-					</div>
-					<div class='row align-items-center border-left border-right'>
-						<div class="col-12 text-sm">
-							좋아요 <span> ${photostoryListDto.photostoryLikeCount}</span>
-						</div>
-					</div>
-					<div class='row align-items-center border-left border-right mb-1'>
-						<div class="col-12 text-sm">
-							<strong>${photostoryListDto.memberNick}글작성자 닉네임</strong>
-							&nbsp;&nbsp; ${photostoryListDto.photostoryContent}
-						</div>
-					</div>
-					<div class='row align-items-center border-left border-right mb-1'>
-						<div class="col-12 ">
-							<a class="text-black-50 font-weight-bold text-sm"
-								href="${pageContext.request.contextPath}/photostory/detail?photostoryNo=${photostoryListDto.photostoryNo}">
-								댓글 ${photostoryListDto.photostoryCommentCount}개 모두 보기 </a>
-						</div>
-					</div>
-					<div class='row align-items-center border-left border-right mb-1'>
-						<c:forEach var="commentList" items="${recentCommentList}">
-							<c:forEach var="photostoryCommentListDto" items="${commentList}">
-								<div class="col-12 text-sm">
-									<a
-										href="${pageContext.request.contextPath}/member/${photostoryCommentListDto.photostoryCommentMemberNick}">
-										<strong>${photostoryCommentListDto.photostoryCommentMemberNick}</strong>
-									</a> &nbsp;&nbsp;
-									${photostoryCommentListDto.photostoryCommentContent}
-								</div>
-							</c:forEach>
-						</c:forEach>
-					</div>
-					<div
-						class='row align-items-center border-left border-right border-bottom pb-3'>
-						<div
-							class="col-12 text-black-50 font-weight-bold text-right text-sm ">${photostoryListDto.getPastDateString()}</div>
-					</div>
-					<div
-						class='row align-items-center border-left border-right border-bottom mb-3 py-2'>
-						<div class="col-9">
-							<input type="text" class="form-control border-0"
-								placeholder="댓글 달기 . . .">
-						</div>
-						<div class="col-3 text-right">
-							<button type="button"
-								class="btn btn-outline-primary text-nowrap coment-btn"
-								data-photostoryNo="${photostoryListDto.photostoryNo}">게시</button>
-						</div>
-					</div>
-				</div>
+		<div class="container-lg mb-2 pr-0">
+			<div class="row w-100">
+				<ul class="nav nav-tabs w-100">
+					  <li class="nav-item w-25 text-center">
+					    <a class="nav-link active" href="#">게시글 <strong>${countPhotostory}</strong></a>
+					  </li>
+					  <li class="nav-item w-25 text-center">
+					    <a class="nav-link" href="#">플래너 <strong>0</strong></a>
+					  </li>
+					  <li class="nav-item w-25 text-center">
+					    <a class="nav-link" href="#">팔로워 <strong>${countFollower }</strong></a>
+					  </li>
+					  <li class="nav-item w-25 text-center">
+					    <a class="nav-link" href="#">팔로잉 <strong>${countFollowing }</strong></a>
+					  </li>
+					</ul>
 			</div>
 		</div>
-
-
-
+		
+		<div class="container-lg mypage_photostory">
+			<div class="row">
+				<c:forEach items="${photostoryList}" var="photostoryListDto">
+					<c:if test="${not empty photostoryListDto.photostoryPhotoNo}">
+					<div class="col-4 col-lg-3 px-0 pr-1 mb-1">
+						   <img class="w-100 story-photo"
+						      src="${pageContext.request.contextPath}/photostory/photo/${photostoryListDto.photostoryPhotoNo}" />
+			    	</div>
+					</c:if>
+				</c:forEach>
+			</div>		
+		</div>
 
 	</div>
 </main>

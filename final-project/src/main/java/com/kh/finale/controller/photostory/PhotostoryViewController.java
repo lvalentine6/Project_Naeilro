@@ -168,7 +168,7 @@ public class PhotostoryViewController {
 	public String write(@ModelAttribute PhotostoryVO photostoryVO,
 			HttpSession session) throws IllegalStateException, IOException {
 		int memberNo = (int) session.getAttribute("memberNo");
-		int plannerNo = 2; // 임시
+		int plannerNo = 6; // 임시
 		photostoryVO.setMemberNo(memberNo);
 		photostoryVO.setPlannerNo(plannerNo); // 임시
 		
@@ -223,8 +223,10 @@ public class PhotostoryViewController {
 		PhotostoryPhotoDto photostoryPhotoDto = photostoryPhotoDao.getSingle(photostoryPhotoNo);
 		
 		if (photostoryPhotoDto == null) {
+			System.out.println("NOT FOUND");
 			return ResponseEntity.notFound().build();
 		}
+		System.out.println("FOUND");
 		
 		File target = new File("D:/upload/kh5/photostory/", photostoryPhotoDto.getPhotostoryPhotoFilePath());
 		byte[] data = FileUtils.readFileToByteArray(target);
