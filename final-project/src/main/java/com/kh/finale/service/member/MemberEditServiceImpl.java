@@ -24,7 +24,6 @@ public class MemberEditServiceImpl implements MemberEditService{
 	public void editProfile(MemberVo memberVo) throws IllegalStateException, IOException {
 		// 회원 이미지 수정
 		
-		
 		if(!memberVo.getMemberProfile().isEmpty()) {
 		// 프로필 이미지 경로
 		File dir = new File("D:/upload/kh5/member");
