@@ -391,7 +391,9 @@
 			});
 		} 
 		
-		/* 장소 검색 기능 */
+		/* 장소 검색  */
+		find();
+		
 		function find(){
 			$("#find").click(function(){
 				// #. 체크박스 설정으로 유형 값 변경
@@ -406,7 +408,6 @@
 				setMapBounds(placeName, placeType, keyword); 
 			});
 		}
-		find();
 		
 		/* 지도 재설정 함수 */
 		function setMapBounds(placeName, placeType, keyword){
@@ -475,6 +476,18 @@
 			        		'</div>');
 			        infowindow.open(map, marker);
 			        
+			        /* 선택한 장소 마커 생성 */
+					function placeMarker(){
+						var markerPosition  = new kakao.maps.LatLng(place.x, place.y); 
+						
+						// 마커를 생성합니다
+						var marker = new kakao.maps.Marker({
+						    position: markerPosition
+						});
+						
+						marker.setMap(map);
+					}
+			        
 			        /* 뷰 */
 			        var dailyIndex = $('#daily-index').val(); // 하루계획표 인덱스 선택자
 					var placeIndex = $(".list-daily").eq(dailyIndex-1).find(".list-dailyplan").last().data("index"); // 장소 선택자
@@ -497,57 +510,56 @@
 					
 					$(".list-daily").eq(dailyIndex-1).append(userTemplate);
 					
+					
 					/* 경로(선) */
-					// 전역 변수(선 관련)
-					var linePath = []; 
-					var polyline = new kakao.maps.Polyline({ 
-					    path: linePath, // 선을 구성하는 좌표배열 입니다
-					});
+					// 지역변수
+					var linepath = [];
+					var polyline = new kakao.maps.Polyline({});
 					
-					polyLine(); // 2. 선 생성 함수
+					polyPath();
 					
-					// #. 선 생성 함수
-					function polyLine(){
-						// 맵 초기화
-						polyline.setMap(null);
-						linePath = [];
-						console.log("초기화");
-						
+					function polyPath(){
+						// 선 생성하기 위한 경로 계산
 						$('.list-daily').each(function(){
-							// 반복문 : 장소계획
 							$(this).find('.list-dailyplan').each(function(){
 								var latitude = $(this).find('.list-dailyplan-latitude').val();
 								var longitude = $(this).find('.list-dailyplan-longitude').val();
-								var dir = new kakao.maps.LatLng(latitude, longitude);
-								linePath.push(dir); // 좌표 반복문으로 추가
+								
+								linepath.push(new kakao.maps.LatLng(latitude, longitude));
 							});
 						});
 						
-						polyline = new kakao.maps.Polyline({ // 좌표를 베이스로 선 생성
-							endArrow: true, // 화살표 여부
-						    path: linePath, // 선을 구성하는 좌표배열 입니다
-						    strokeWeight: 3, // 선의 두께 입니다
-							strokeColor: '#000000', // 선의 색깔입니다
-							strokeOpacity: 0.7, // 선의 불투명도 입니다 1에서 0 사이의 값이며 0에 가까울수록 투명합니다
-							strokeStyle: 'solid' // 선의 스타일입니다
+						// 계산한 경로 바탕으로 선 재구성 
+						polyline.setOptions({
+							path: linepath,
+							strokeWeight: 2,
+							strokeColor: '#000000',
+							strokeOpacity: 0.8,
+							strokeStyle: 'solid'
 						});
 						
-						// 지도에 선을 표시합니다 
-						polyline.setMap(map);  
+						// 일반 초기화
+						polyline.setMap(null);	
+						
+						// 삭제되면 기존에 선이 생성된 맵 초기화
+						$('.list-dailyplan').find('.place-delete-button').click(function(){
+							$('.list-daily').each(function(){
+								$(this).find('.list-dailyplan').each(function(){
+									polyline.setMap(null);
+								})
+							});
+						});
+						// 경로 집어넣기
+						polyline.setMap(map);
 					}
-					/* 경로(선) */
 					
 					/* 삭제 (완료) */ 
 					$('.list-dailyplan').find('.place-delete-button').click(function(){
+						// 데이터 삭제
 						$(this).parents('.list-dailyplan').remove();
+					});
 						
-						polyline.setMap(null);
-						
-						polyLine();
-					})
-					/* 삭제 (완료) */
-					
-					/* 제어 */
+					/* 제어 (완료)*/
 					$(".list-dailyplan").find("select").change(function(){ 
 						
 						dataTemplate();
@@ -609,7 +621,6 @@
 						}
 						
 					}); 
-					/* 제어  */
 					
 			    });
 			}
@@ -699,7 +710,7 @@
 				<option value="자동차">자동차</option>
 			</select>
 		</div>
-		<input type="hidden" class="list-dailyplan-latitude" value={data-latitude}>
+		<input type="text" class="list-dailyplan-latitude" value={data-latitude}>
 		<input type="hidden" class="list-dailyplan-longitude" value={data-longitude}>
 		<input type="hidden" class="list-dailyplan-name" value={data-name}>
 		<input type="hidden" class="list-dailyplan-type" value={data-type}>
