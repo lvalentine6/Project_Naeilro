@@ -72,19 +72,44 @@
     integrity="sha384-+YQ4JLhjyBLPDQt//I+STsc9iw4uQqACwlvpslubQzn4u2UU2UFM80nGisd026JF" crossorigin="anonymous">
 </script>
 <script>
-
 	$(function(){
+		let open = false;
 		$(window).scroll(function(){
-			if($(document).scrollTop()==0){
-				$('nav').removeClass("scroll shadow-sm");
-				$('nav ul a').addClass("text-white");
-				$('nav h1').addClass("text-white");
-				$('nav ul a').removeClass("text-black");
+			if($(document).scrollTop()==0 && !open){
+				$('nav').addClass("bg-transparent")
+				$('nav').removeClass("bg-white")
+				$('.cl-text').removeClass("text-black")
+				$('.cl-text').addClass("text-white")
 			}else{
-				$('nav').addClass("scroll shadow-sm");
-				$('nav ul a').removeClass("text-white");
-				$('nav h1').removeClass("text-white");
-				$('nav ul a').addClass("text-black");
+				$('nav').addClass("bg-white")
+				$('nav').removeClass("bg-transparent")
+				$('.cl-text').removeClass("text-white")
+				$('.cl-text').addClass("text-black")
+			}
+		})
+		
+
+		
+		$(".menu-btn").click(function(){
+			if(open){
+				open=false;
+			}else{
+				open=true;
+			}
+			
+			if($(document).scrollTop()!=0){
+				return;
+			}
+			if($('nav').hasClass("bg-transparent")&&open){
+				$('nav').addClass("bg-white")
+				$('nav').removeClass("bg-transparent")
+				$('.cl-text').removeClass("text-white")
+				$('.cl-text').addClass("text-black")
+			}else{
+				$('nav').addClass("bg-transparent")
+				$('nav').removeClass("bg-white")
+				$('.cl-text').removeClass("text-black")
+				$('.cl-text').addClass("text-white")
 			}
 		})
 	})
@@ -95,37 +120,44 @@
 		<div class="header-img-area">
 			<img class="header-img" src="image/bgimg.webp">
 		</div>
-		<nav>
-			<div class="container-lg">
-				<div class="row">
-					<div class="col-2">
-						<h1 class="h-100 text-white text-nowrap">NAEILRO</h1>
-					</div>
-					<div class="col-7">
-						<ul class="d-flex align-items-center h-100 font-weight-bold text-white">
-							<li><a class="text-white text-nowrap" href="#">여행지</a></li>
-							<li><a class="text-white text-nowrap" href="#">일정</a></li>
-							<li><a class="text-white text-nowrap" href="${root}/photostory">스토리</a></li>
-							<li><a class="text-white text-nowrap" href="#">이용방법</a></li>
-						</ul>
-					</div>
-					<div class="col-3">
-						<ul class="d-flex justify-content-end align-items-center h-100 font-weight-bold text-white">
-							<c:choose>
-							<c:when test="${isLogin}">
-								<li><a class="text-white text-nowrap" href="${root}/member/logout">로그아웃</a></li>
-								<li><a class="text-white text-nowrap" href="${root}/member/profile/${memberDto.memberNick}">마이페이지</a></li>
-							</c:when>
-							<c:otherwise>
-								<li><a class="text-white text-nowrap" href="${root}/member/login">로그인</a></li>
-								<li><a class="text-white text-nowrap" href="${root}/member/join">회원가입</a></li>
-							</c:otherwise>
-						</c:choose>
-						</ul>
-					</div>
-				</div>
-			</div>
+		
+		<nav class="navbar navbar-expand-lg navbar-light bg-transparent  shadow-sm fixed-top">
+		  <a class="navbar-brand text-white cl-text" href="${root}">NAEILRO</a>
+		  <button class="navbar-toggler border-0 menu-btn" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+		    <span class="text-white menu-btn cl-text">
+		    	<i class="fas fa-bars menu-btn"></i>
+		    </span>
+		  </button>
+		  <div class="collapse navbar-collapse text-right" id="navbarText">
+		    <ul class="navbar-nav mr-auto text-right pr-3">
+		      <li class="nav-item">
+		        <a class="nav-link text-white cl-text" href="#">여행지</a>
+		      </li>
+		      <li class="nav-item">
+		        <a class="nav-link text-white cl-text" href="${root}/photostory">스토리</a>
+		      </li>
+		      <li class="nav-item">
+		        <a class="nav-link text-white cl-text" href="#">일정</a>
+		      </li>
+		      <li class="nav-item">
+		        <a class="nav-link text-white cl-text" href="#">이용방법</a>
+		      </li>
+		    </ul>
+		    <span class="navbar-text text-right pr-3">
+		      <c:choose>
+					<c:when test="${isLogin}">
+						<a class="mr-3 text-white cl-text" href="${root}/member/logout">로그아웃</a>
+						<a class="text-white cl-text" href="${root}/member/profile/${memberDto.memberNick}">마이페이지</a>
+					</c:when>
+					<c:otherwise>
+						<a class="mr-3 text-white cl-text"  href="${root}/member/login">로그인</a>
+						<a class="text-white cl-text"  href="${root}/member/join">회원가입</a>
+					</c:otherwise>
+				</c:choose>
+		    </span>
+		  </div>
 		</nav>
+		
 		<div class="container-lg">
 			<div class="intro">
 				<h4 class="text-center">나만의 여행 플래너 NAEILRO!<br> 쉽고 빠르게 여행을 계획하세요.</h4>	

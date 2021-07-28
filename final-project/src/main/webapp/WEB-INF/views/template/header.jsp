@@ -259,34 +259,39 @@
 </script>
 </head>
 <body>
-	<nav class="bg-white shadow-sm">
-		<div class="container-lg">
-			<div class="row">
-				<div class="col-2">
-					<h1 class="h-100 text-nowrap"><a href="${root}">NAEILRO</a></h1>
-				</div>
-				<div class="col-7">
-					<ul class="d-flex align-items-center h-100 font-weight-bold">
-						<li><a class="text-nowrap" href="#H">여행지</a></li>
-						<li><a class="text-nowrap" href="#">일정</a></li>
-						<li><a class="text-nowrap" href="${root}/photostory">스토리</a></li>
-						<li><a class="text-nowrap" href="#">이용방법</a></li>
-					</ul>
-				</div>
-				<div class="col-3">
-					<ul class="d-flex justify-content-end align-items-center h-100 font-weight-bold">
-						<c:choose>
-							<c:when test="${isLogin}">
-									<li><a class="text-nowrap" href="${root}/member/logout">로그아웃</a></li>
-									<li><a class="text-nowrap" href="${root}/member/profile/${memberDto.memberNick}">마이페이지</a></li>
-							</c:when>
-							<c:otherwise>
-							<li><a class="text-nowrap"  href="${root}/member/login">로그인</a></li>
-							<li><a class="text-nowrap"  href="${root}/member/join">회원가입</a></li>
-							</c:otherwise>
-						</c:choose>
-					</ul>
-				</div>
-			</div>
-		</div>
+	<nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm fixed-top">
+	  <a class="navbar-brand" href="${root}">NAEILRO</a>
+	  <button class="navbar-toggler border-0" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+	    <span>
+	    	<i class="fas fa-bars"></i>
+	    </span>
+	  </button>
+	  <div class="collapse navbar-collapse text-right" id="navbarText">
+	    <ul class="navbar-nav mr-auto text-right">
+	      <li class="nav-item">
+	        <a class="nav-link" href="#">여행지</a>
+	      </li>
+	      <li class="nav-item">
+	        <a class="nav-link" href="${root}/photostory">스토리</a>
+	      </li>
+	      <li class="nav-item">
+	        <a class="nav-link" href="#">일정</a>
+	      </li>
+	      <li class="nav-item">
+	        <a class="nav-link" href="#">이용방법</a>
+	      </li>
+	    </ul>
+	    <span class="navbar-text text-right">
+	      <c:choose>
+				<c:when test="${isLogin}">
+					<a class="mr-3" href="${root}/member/logout">로그아웃</a>
+					<a class="" href="${root}/member/profile/${memberDto.memberNick}">마이페이지</a>
+				</c:when>
+				<c:otherwise>
+					<a class="mr-3"  href="${root}/member/login">로그인</a>
+					<a class=""  href="${root}/member/join">회원가입</a>
+				</c:otherwise>
+			</c:choose>
+	    </span>
+	  </div>
 	</nav>
