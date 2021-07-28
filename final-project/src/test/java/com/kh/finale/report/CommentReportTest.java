@@ -30,7 +30,7 @@ public class CommentReportTest {
 	public void cReportInsert() {
 		CommentReportDto commentReportDto = CommentReportDto.builder()
 									.memberNo(112)
-									.cReportNo(2)
+									.ReportNo(2)
 									.cReportReason("부적절한 댓글2")
 									.build();
 		commentReportService.cReportInsert(commentReportDto);
