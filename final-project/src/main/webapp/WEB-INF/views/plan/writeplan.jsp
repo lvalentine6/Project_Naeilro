@@ -741,7 +741,6 @@
 							<br>
 					</div>
 					<!-- 통합계획표 입력창 -->	
-					
 					<!-- 검색창 -->
 					<div id="search"> 
 						<div style="font-weight:bold;">장소 검색창</div>
