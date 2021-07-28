@@ -10,7 +10,6 @@
 		$(".like-btn").each(function() {
 			$(this).click(function() {
 				let like_btn = $(this);
-				console.log(like_btn)
 				if(${memberNo==null }){
 					alert("로그인후 이용해주세요");
 					return
@@ -25,12 +24,11 @@
 						method:"GET",
 					})
 					.done(function(){
-						console.log("좋아요")
 						$(like_btn).removeClass("like")
 						$(like_btn).removeClass("fas")
 						$(like_btn).addClass("far")
-						let curval = $(like_btn).parent().parent().next().children().children().text() * 1;
-						$(like_btn).parent().parent().next().children().children().text(curval-1)
+						let curval = $(like_btn).parent().parent().next().children().children().find('.count_val').text()*1
+						$(like_btn).parent().parent().next().children().children().find('.count_val').text(curval-1)
 					})
 					.fail(function(){
 						
@@ -46,13 +44,11 @@
 						method:"GET",
 					})
 					.done(function(){
-						console.log("좋아요")
 						$(like_btn).removeClass("far")
 						$(like_btn).addClass("like")
 						$(like_btn).addClass("fas")
-						
-						let curval = $(like_btn).parent().parent().next().children().children().text() * 1;
-						$(like_btn).parent().parent().next().children().children().text(curval+1)
+						let curval = $(like_btn).parent().parent().next().children().children().find('.count_val').text()*1
+						$(like_btn).parent().parent().next().children().children().find('.count_val').text(curval+1)
 					})
 					.fail(function(){
 					})
@@ -72,11 +68,11 @@
 				if(!comment){
 					return;
 				}
-				
+				let photostoryNo = $(this).attr("data-photostoryNo");
 				$.ajax({
 					url:"${pageContext.request.contextPath}/process/insert_comment",
 					data : {
-						photostoryNo : $(this).attr("data-photostoryNo"),
+						photostoryNo : photostoryNo,
 						photostoryCommentContent : comment
 					},
 					method:"POST",
@@ -87,6 +83,7 @@
 					template = template.replaceAll("{{comment}}",comment)
 					template = template.replaceAll("{{no}}",result)
 					template = template.replaceAll("{{memberNo}}","${memberNo}")
+					template = template.replaceAll("{{pno}}",photostoryNo)					
 					
 					$(curEl).parent().parent().prev().prev().prepend(template)
 					$('.comment_content_form_'+result).hide()
@@ -172,12 +169,16 @@
 		$('.comment_delete_btn').click(delete_comment)
 	})
 	
-function delete_comment(no){
+function delete_comment(no,pno){
 	let commentNo = $(this).data('no')
-	console.log()
+	let photostoryNo2 = $(this).data('pno')
 	if(!commentNo){
 		commentNo=no
 	}
+	if(!photostoryNo2){
+		photostoryNo2=pno
+	}
+	console.log(photostoryNo2)
 	if (!window.confirm("정말 삭제하시겠습니까?")){ 
 		e.preventDefault()
 	}
@@ -185,6 +186,7 @@ function delete_comment(no){
 		url:"${pageContext.request.contextPath}/process/delete_comment",
 		data : {
 			photostoryCommentNo : commentNo,
+			photostoryNo : photostoryNo2,
 		},
 		method:"POST",
 	})
@@ -229,6 +231,48 @@ function edit_comment(no){
 }
 	
 	
+	/* 팔로우 처리 */
+$(function(){
+	$(".f-follow-btn").click(function(){
+		if(${memberNo==null }){
+			alert("로그인후 이용해주세요");
+			return
+		}
+		let memberNo = $(this).data('memberno');
+		$.ajax({
+			url:"${pageContext.request.contextPath}/memberprocess/insert_follow",
+			data : {
+				followTo : memberNo,
+			},
+			method:"GET",
+		})
+		.done(function(){
+			$('.f-unfollow-btn-'+memberNo).removeClass('d-none')
+			$('.f-follow-btn-'+memberNo).addClass('d-none')
+		})
+		.fail(function(){
+		})
+	});
+	
+	$(".f-unfollow-btn").click(function(){
+		let memberNo = $(this).data('memberno');
+		console.log(memberNo)
+		$.ajax({
+			url:"${pageContext.request.contextPath}/memberprocess/delete_follow",
+			data : {
+				followTo : memberNo,
+			},
+			method:"GET",
+		})
+		.done(function(){
+			$('.f-unfollow-btn-'+memberNo).addClass('d-none')
+			$('.f-follow-btn-'+memberNo).removeClass('d-none')
+			
+		})
+		.fail(function(){
+		})
+	});
+})
 </script>
 <script type="text/template" id="comment-tpl">
 						<div class="col-11 text-sm text-break" id="comment_1_{{no}}">
@@ -247,7 +291,7 @@ function edit_comment(no){
 									data-toggle="dropdown"><i class="fas fa-ellipsis-h"></i></a>
 										<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
 											<a class="dropdown-item text-danger comment_delete_btn"
-											data-no="{{no}}" onclick="delete_comment({{no}})" 
+											data-no="{{no}}" data-pno="{{pno}}" onclick="delete_comment({{no}},{{pno}})" 
 											>삭제</a> 
 											<a class="dropdown-item comment_edit_btn_1" data-no="{{no}}" 
 											onclick="show_form({{no}})"
@@ -355,7 +399,60 @@ function edit_comment(no){
 					</div>
 					<div class='row align-items-center border-left border-right'>
 						<div class="col-12 text-sm">
-							좋아요 <span> ${photostoryListDto.photostoryLikeCount}</span>
+							<a class="nav-link d-inline p-0" data-toggle="modal" data-target="#like_list_${photostoryListDto.photostoryNo}"  href="#">
+							좋아요 <span class="count_val"> ${photostoryListDto.photostoryLikeCount}</span>
+							</a>
+							
+							<!-- Modal -->
+						<div class="modal fade" id="like_list_${photostoryListDto.photostoryNo}" tabindex="-1" role="dialog" aria-hidden="true">
+						  <div class="modal-dialog modal-dialog-scrollable" role="document">
+						    <div class="modal-content">
+						      <div class="modal-header">
+						        <h5 class="modal-title" id="exampleModalScrollableTitle">좋아요</h5>
+						        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						          <span aria-hidden="true">&times;</span>
+						        </button>
+						      </div>
+						      <div class="modal-body">
+						      	<c:forEach items="${photostoryListDto.photostoryLikeMemberList}" var="followingList" varStatus="status">
+						      	<div class='row align-items-center'>
+						      		<div class="col-2 text-center">
+						      			<img class="pr-0 user_profile_sm user_profile" src="${pageContext.request.contextPath}/member/profile/profileImage?memberNo=${followingList.member.memberNo}"
+										onerror="this.src='${pageContext.request.contextPath}/image/default_user_profile.jpg'">
+						      		</div>
+						      		<div class="pl-0 col-4"><a href="${pageContext.request.contextPath}/member/profile/${followingList.member.memberNick }">${followingList.member.memberNick }</a></div>
+						      		
+						      		<c:choose>
+						      			<c:when test="${followingList.isFollow()}">
+								      		<div class="offset-2 col-4 text-right f-unfollow-btn-${followingList.member.memberNo}"><button class="btn btn-outline-secondary f-unfollow-btn f-unfollow-btn " data-memberNo='${followingList.member.memberNo}'>팔로우 <i class="fas fa-check"></i></button></div>
+								      		<div class="offset-2 col-4 text-right d-none f-follow-btn-${followingList.member.memberNo}"><button class="btn btn-primary f-follow-btn " data-memberNo='${followingList.member.memberNo}'>팔로우</button></div>
+						      			</c:when>
+						      			<c:otherwise >
+						      				<c:choose>
+								      			<c:when test="${followingList.member.memberNo==memberNo}">
+								      				
+								      			</c:when>
+								      			<c:otherwise>
+										      		<div class="offset-2 col-4 text-right d-none f-unfollow-btn-${followingList.member.memberNo}"><button class="btn btn-outline-secondary f-unfollow-btn f-unfollow-btn " data-memberNo='${followingList.member.memberNo}'>팔로우 <i class="fas fa-check"></i></button></div>
+										      		<div class="offset-2 col-4 text-right f-follow-btn-${followingList.member.memberNo}"><button class="btn btn-primary f-follow-btn " data-memberNo='${followingList.member.memberNo}'>팔로우</button></div>
+								      			</c:otherwise>
+								      		</c:choose>
+						      			</c:otherwise>
+						      		</c:choose>
+						      	</div>
+						      	<c:if test="${!status.last}">
+						      		<hr>
+						      	</c:if>
+						      </c:forEach>
+						      </div>
+						      <div class="modal-footer">
+						        <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+						      </div>
+						    </div>
+						  </div>
+						</div>
+						
+						
 						</div>
 					</div>
 					<div class='row align-items-center border-left border-right pb-1'>
@@ -396,7 +493,8 @@ function edit_comment(no){
 									<c:when test="${photostoryCommentListDto.photostoryCommentMemberNick==memberContextNick}">
 										<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
 											<a class="dropdown-item text-danger comment_delete_btn"
-											data-no="${photostoryCommentListDto.photostoryCommentNo}" 
+											data-no="${photostoryCommentListDto.photostoryCommentNo}"
+											data-pno="${photostoryListDto.photostoryPhotoNo}"
 											>삭제</a> 
 											<a class="dropdown-item comment_edit_btn_1" 
 											>수정</a> 

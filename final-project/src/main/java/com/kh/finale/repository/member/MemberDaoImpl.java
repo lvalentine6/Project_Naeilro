@@ -1,11 +1,13 @@
 package com.kh.finale.repository.member;
 
+import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.kh.finale.entity.member.FollowDto;
 import com.kh.finale.entity.member.MemberAuthDto;
 import com.kh.finale.entity.member.MemberDto;
 import com.kh.finale.vo.member.MemberVo;
@@ -113,5 +115,5 @@ public class MemberDaoImpl implements MemberDao{
 	public void unblock(int memberNo) {
 		sqlSession.update("member.unblock", memberNo);
 	}
-	
+
 }
