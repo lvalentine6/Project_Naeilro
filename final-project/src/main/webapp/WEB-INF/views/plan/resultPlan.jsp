@@ -3,7 +3,10 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
 <script>
+
+
 	
+
 </script>
 
 <main>
@@ -12,7 +15,9 @@
 			<div class="jumbotron col-lg-12 offset-lg-0.5">
 				<div class="row my-3 align-items-center">
 					<div class="col-3" style="font-size: 1.5rem">
-						<b>플래너 제목</b>
+						<c:forEach items="${list}" var="list">
+							<c:out value="${list.plannerName}"/><br>
+						</c:forEach>
 					</div>
 					<div class="col-4">
 						<div class="dropdown">
@@ -28,8 +33,8 @@
 				<div class="row">
 					<img class="img-responsive left-block" alt="더미"
 						src="${pageContext.request.contextPath}/image/default_user_profile.jpg">
-					<div class="col-4 align-items-center" style="font-size: 1.5rem">포토
-						스토리 연동</div>
+					<div class="col-4 align-items-center" style="font-size: 1.5rem">
+					포토 스토리 연동</div>
 				</div>
 			</div>
 			<div class="col-12">
