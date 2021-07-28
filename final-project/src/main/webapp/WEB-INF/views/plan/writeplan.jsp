@@ -3,6 +3,10 @@
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
 <style>
 	/* 맵 비활성화 - 등록하면 활성화 용도 */
+	main {
+		padding-top: 60px;
+		padding-bottom: 60px;
+	}
 	#map{
 		height: 800px;
 		opacity: 0.6;
@@ -720,9 +724,9 @@
 </script>
 <body>
 	<main>
-		<div class="container-lg">
+		<div class="container-fluid">
 			<div class="row">
-				<div class="col-xs-6 col-md-4">
+				<div class="col-xs-6 col-md-3">
 					<!-- 통합계획표 입력창 -->
 					<div id="planner-insert-confirm" style="border: 1px solid">
 						<div style="font-weight:bold;">통합계획표</div>
@@ -758,7 +762,7 @@
 				<input type="hidden" id="daily-index">
 				<input type="hidden" id="place-index">
 				</div>
-				<div class="col-xs-12 col-md-8">
+				<div class="col-xs-12 col-md-9">
 					<div id="map"></div>
 				</div>
 			</div>
