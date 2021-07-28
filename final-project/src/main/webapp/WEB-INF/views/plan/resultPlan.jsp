@@ -16,7 +16,7 @@
 				<div class="row my-3 align-items-center">
 					<div class="col-3" style="font-size: 1.5rem">
 						<c:forEach items="${list}" var="list">
-							<c:out value="${list.plannerName}"/><br>
+							<c:out value="${list.plannerName}"/><br> 
 						</c:forEach>
 					</div>
 					<div class="col-4">
