@@ -31,5 +31,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select count(*) from follow where follow_from=#{memberNo}
 	</select>
 	
+	<select id="followerList" parameterType="MemberDto" resultType="MemberDto">
+		select member.* from follow
+		  inner join member
+		    on member_no = follow_from
+		   where follow_to = #{memberNo}
+	</select>
+	
+	<select id="followingList" parameterType="MemberDto" resultType="MemberDto">
+		select member.* from follow
+		  inner join member
+		    on member_no = follow_to
+		   where follow_from = #{memberNo}
+	</select>
+	
 	
 </mapper>

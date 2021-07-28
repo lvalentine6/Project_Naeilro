@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 @Data @AllArgsConstructor @NoArgsConstructor @Builder
 public class PhotostoryReportDto {
 	private int memberNo;
-	private int pReportNo;
+	private int ReportNo;
+	private int photostoryNo;
 	private String pReportReason;
 }
