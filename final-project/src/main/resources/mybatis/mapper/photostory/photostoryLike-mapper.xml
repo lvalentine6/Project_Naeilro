@@ -22,4 +22,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select * from photostory_like where photostory_no = #{photostoryNo} and member_no = #{memberNo}
 	</select>
 	
+	<!-- 포토스토리 Member List-->
+	<select id="memberList" parameterType="int" resultType="MemberDto">
+		select m.* from photostory_like p
+		  inner join member m
+		    on m.member_no = p.member_no
+		   where p.photostory_no = #{photostoryNo}
+	</select>
+	
 </mapper>

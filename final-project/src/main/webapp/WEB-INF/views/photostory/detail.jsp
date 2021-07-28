@@ -13,7 +13,6 @@
 		$(".like-btn").each(function() {
 			$(this).click(function() {
 				let like_btn = $(this);
-				console.log(like_btn)
 				if(${memberNo==null }){
 					alert("로그인후 이용해주세요");
 					return
@@ -28,12 +27,11 @@
 						method:"GET",
 					})
 					.done(function(){
-						console.log("좋아요")
 						$(like_btn).removeClass("like")
 						$(like_btn).removeClass("fas")
 						$(like_btn).addClass("far")
-						let curval = $(like_btn).parent().parent().next().children().children().text() * 1;
-						$(like_btn).parent().parent().next().children().children().text(curval-1)
+						let curval = $(like_btn).parent().parent().next().children().children().find('.count_val').text()*1
+						$(like_btn).parent().parent().next().children().children().find('.count_val').text(curval-1)
 					})
 					.fail(function(){
 						
@@ -49,13 +47,11 @@
 						method:"GET",
 					})
 					.done(function(){
-						console.log("좋아요")
 						$(like_btn).removeClass("far")
 						$(like_btn).addClass("like")
 						$(like_btn).addClass("fas")
-						
-						let curval = $(like_btn).parent().parent().next().children().children().text() * 1;
-						$(like_btn).parent().parent().next().children().children().text(curval+1)
+						let curval = $(like_btn).parent().parent().next().children().children().find('.count_val').text()*1
+						$(like_btn).parent().parent().next().children().children().find('.count_val').text(curval+1)
 					})
 					.fail(function(){
 					})
@@ -326,15 +322,70 @@ function edit_comment(no){
 				</div>
 				<div class='row align-items-center border-left border-right'>
 					<div class="col-12 text-sm pb-1">
-						좋아요 <span> ${photostoryListDto.photostoryLikeCount}</span>
+						<a class="nav-link d-inline p-0" data-toggle="modal" data-target="#like_list_${photostoryListDto.photostoryNo}"  href="#">
+							좋아요 <span class="count_val"> ${photostoryListDto.photostoryLikeCount}</span>
+							</a>
+							
+							<!-- Modal -->
+						<div class="modal fade" id="like_list_${photostoryListDto.photostoryNo}" tabindex="-1" role="dialog" aria-hidden="true">
+						  <div class="modal-dialog modal-dialog-scrollable" role="document">
+						    <div class="modal-content">
+						      <div class="modal-header">
+						        <h5 class="modal-title" id="exampleModalScrollableTitle">좋아요</h5>
+						        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						          <span aria-hidden="true">&times;</span>
+						        </button>
+						      </div>
+						      <div class="modal-body">
+						      	<c:forEach items="${photostoryListDto.photostoryLikeMemberList}" var="followingList" varStatus="status">
+						      	<div class='row align-items-center'>
+						      		<div class="col-2 text-center">
+						      			<img class="pr-0 user_profile_sm user_profile" src="${pageContext.request.contextPath}/member/profile/profileImage?memberNo=${followingList.member.memberNo}"
+										onerror="this.src='${pageContext.request.contextPath}/image/default_user_profile.jpg'">
+						      		</div>
+						      		<div class="pl-0 col-4"><a href="${pageContext.request.contextPath}/member/profile/${followingList.member.memberNick }">${followingList.member.memberNick }</a></div>
+						      		
+						      		<c:choose>
+						      			<c:when test="${followingList.isFollow()}">
+								      		<div class="offset-2 col-4 text-right f-unfollow-btn-${followingList.member.memberNo}"><button class="btn btn-outline-secondary f-unfollow-btn f-unfollow-btn " data-memberNo='${followingList.member.memberNo}'>팔로우 <i class="fas fa-check"></i></button></div>
+								      		<div class="offset-2 col-4 text-right d-none f-follow-btn-${followingList.member.memberNo}"><button class="btn btn-primary f-follow-btn " data-memberNo='${followingList.member.memberNo}'>팔로우</button></div>
+						      			</c:when>
+						      			<c:otherwise >
+						      				<c:choose>
+								      			<c:when test="${followingList.member.memberNo==memberNo}">
+								      				
+								      			</c:when>
+								      			<c:otherwise>
+										      		<div class="offset-2 col-4 text-right d-none f-unfollow-btn-${followingList.member.memberNo}"><button class="btn btn-outline-secondary f-unfollow-btn f-unfollow-btn " data-memberNo='${followingList.member.memberNo}'>팔로우 <i class="fas fa-check"></i></button></div>
+										      		<div class="offset-2 col-4 text-right f-follow-btn-${followingList.member.memberNo}"><button class="btn btn-primary f-follow-btn " data-memberNo='${followingList.member.memberNo}'>팔로우</button></div>
+								      			</c:otherwise>
+								      		</c:choose>
+						      			</c:otherwise>
+						      		</c:choose>
+						      	</div>
+						      	<c:if test="${!status.last}">
+						      		<hr>
+						      	</c:if>
+						      </c:forEach>
+						      </div>
+						      <div class="modal-footer">
+						        <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+						      </div>
+						    </div>
+						  </div>
+						</div>
 					</div>
 				</div>
 				<div class='row align-items-center border-left border-right pb-1'>
 					<div class="col-12 text-sm">
-						
+						<a href="${pageContext.request.contextPath}/member/profile/${photostoryListDto.memberNick}">
 						<strong>${photostoryListDto.memberNick}</strong>
-						&nbsp;&nbsp;
-						${photostoryListDto.photostoryContent}
+						</a>
+					</div>
+				</div>
+				<div class='row align-items-center border-left border-right pb-1'>
+					<div class="col-12 text-sm">
+						<pre>${photostoryListDto.photostoryContent}</pre>
 					</div>
 				</div>
 				<div class='row align-items-center border-left border-right pb-1'>

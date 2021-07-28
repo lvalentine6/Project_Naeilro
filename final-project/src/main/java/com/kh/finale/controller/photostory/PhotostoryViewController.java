@@ -2,6 +2,7 @@ package com.kh.finale.controller.photostory;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -21,12 +22,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.kh.finale.entity.block.MemberBlockDto;
+import com.kh.finale.entity.member.FollowDto;
 import com.kh.finale.entity.member.MemberDto;
 import com.kh.finale.entity.photostory.PhotostoryCommentListDto;
 import com.kh.finale.entity.photostory.PhotostoryLikeDto;
 import com.kh.finale.entity.photostory.PhotostoryListDto;
 import com.kh.finale.entity.photostory.PhotostoryPhotoDto;
 import com.kh.finale.repository.block.MemberBlockDao;
+import com.kh.finale.repository.member.FollowDao;
 import com.kh.finale.repository.member.MemberDao;
 import com.kh.finale.repository.photostory.PhotostoryCommentListDao;
 import com.kh.finale.repository.photostory.PhotostoryDao;
@@ -34,6 +37,7 @@ import com.kh.finale.repository.photostory.PhotostoryLikeDao;
 import com.kh.finale.repository.photostory.PhotostoryListDao;
 import com.kh.finale.repository.photostory.PhotostoryPhotoDao;
 import com.kh.finale.service.photostory.PhotostoryService;
+import com.kh.finale.vo.member.LikeFollowVo;
 import com.kh.finale.vo.photostory.PhotostoryListVO;
 import com.kh.finale.vo.photostory.PhotostoryVO;
 
@@ -64,6 +68,9 @@ public class PhotostoryViewController {
 	
 	@Autowired
 	private MemberBlockDao memberBlockDao;
+
+	@Autowired
+	private FollowDao followDao;
 
 	// 포토스토리 리스트 페이지
 	@GetMapping("")
@@ -107,10 +114,37 @@ public class PhotostoryViewController {
 			if (!photostoryPhotoList.isEmpty()) {
 				photostoryListDto.setPhotostoryPhotoNo(photostoryPhotoList.get(0).getPhotostoryPhotoNo());
 			}
+			
+			//좋아요 리스트 처리
+			List<MemberDto> tlikeList = 
+					photostoryLikeDao.getLikeList(photostoryListDto.getPhotostoryNo());
+			
+			List<LikeFollowVo> likeList = new ArrayList<>();
+			for(MemberDto m : tlikeList) {
+				LikeFollowVo lfv = LikeFollowVo.builder()
+						.member(m)
+						.isFollow(false)
+						.build();
+				likeList.add(lfv);
+			}
+			if((Integer)session.getAttribute("memberNo")!=null) {
+				for(LikeFollowVo f : likeList) {
+					FollowDto followDto = FollowDto.builder()
+							.followFrom((Integer)session.getAttribute("memberNo"))
+							.followTo(f.getMember().getMemberNo())
+							.build();
+					if(followDao.isFollow(followDto)!=null) {
+						f.setFollow(true);
+					}
+				}
+			}
+			photostoryList.get(i).setPhotostoryLikeMemberList(likeList);
 		}
 
 		model.addAttribute("photostoryList", photostoryList);
-		
+		for(int i = 0; i < photostoryList.size(); i++) {
+			System.out.println(photostoryList.get(i).getPhotostoryLikeMemberList().size()+"개 수 개 수개 수개 수");
+		}
 		return "photostory/photostory";
 	}
 	
@@ -144,6 +178,31 @@ public class PhotostoryViewController {
 			photostoryListDto.setIsLike(isLike);
 		}
 		
+		
+		//좋아요 리스트 처리
+		List<MemberDto> tlikeList = 
+				photostoryLikeDao.getLikeList(photostoryListDto.getPhotostoryNo());
+		
+		List<LikeFollowVo> likeList = new ArrayList<>();
+		for(MemberDto m : tlikeList) {
+			LikeFollowVo lfv = LikeFollowVo.builder()
+					.member(m)
+					.isFollow(false)
+					.build();
+			likeList.add(lfv);
+		}
+		if((Integer)session.getAttribute("memberNo")!=null) {
+			for(LikeFollowVo f : likeList) {
+				FollowDto followDto = FollowDto.builder()
+						.followFrom((Integer)session.getAttribute("memberNo"))
+						.followTo(f.getMember().getMemberNo())
+						.build();
+				if(followDao.isFollow(followDto)!=null) {
+					f.setFollow(true);
+				}
+			}
+		}
+		photostoryListDto.setPhotostoryLikeMemberList(likeList);
 		model.addAttribute("photostoryListDto", photostoryListDto);
 		model.addAttribute("photostoryCommentList", photostoryCommentList);
 		model.addAttribute("photostoryPhotoList", photostoryPhotoList);

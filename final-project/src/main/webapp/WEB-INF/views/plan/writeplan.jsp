@@ -496,14 +496,58 @@
 					userTemplate = userTemplate.replace("{data-type}", placeType);
 					
 					$(".list-daily").eq(dailyIndex-1).append(userTemplate);
-					 
+					
+					/* 경로(선) */
+					// 전역 변수(선 관련)
+					var linePath = []; 
+					var polyline = new kakao.maps.Polyline({ 
+					    path: linePath, // 선을 구성하는 좌표배열 입니다
+					});
+					
+					polyLine(); // 2. 선 생성 함수
+					
+					// #. 선 생성 함수
+					function polyLine(){
+						// 맵 초기화
+						polyline.setMap(null);
+						linePath = [];
+						console.log("초기화");
+						
+						$('.list-daily').each(function(){
+							// 반복문 : 장소계획
+							$(this).find('.list-dailyplan').each(function(){
+								var latitude = $(this).find('.list-dailyplan-latitude').val();
+								var longitude = $(this).find('.list-dailyplan-longitude').val();
+								var dir = new kakao.maps.LatLng(latitude, longitude);
+								linePath.push(dir); // 좌표 반복문으로 추가
+							});
+						});
+						
+						polyline = new kakao.maps.Polyline({ // 좌표를 베이스로 선 생성
+							endArrow: true, // 화살표 여부
+						    path: linePath, // 선을 구성하는 좌표배열 입니다
+						    strokeWeight: 3, // 선의 두께 입니다
+							strokeColor: '#000000', // 선의 색깔입니다
+							strokeOpacity: 0.7, // 선의 불투명도 입니다 1에서 0 사이의 값이며 0에 가까울수록 투명합니다
+							strokeStyle: 'solid' // 선의 스타일입니다
+						});
+						
+						// 지도에 선을 표시합니다 
+						polyline.setMap(map);  
+					}
+					/* 경로(선) */
+					
+					/* 삭제 (완료) */ 
+					$('.list-dailyplan').find('.place-delete-button').click(function(){
+						$(this).parents('.list-dailyplan').remove();
+						
+						polyline.setMap(null);
+						
+						polyLine();
+					})
+					/* 삭제 (완료) */
+					
 					/* 제어 */
-					// 개발완료 : 07-27 00:58
-					// 로직 형태 :
-					// #. UI 의 등록되는 DIV 를 중심으로 서버에 보낼 데이터를 제어하는 형태이다
-					// #. 반복문(= .each()) 으로 DIV 에 등록된 데이터 사이즈를 필터링한 후
-					// #. 각 DIV 에 등록된 인덱스로 서버에 보낼 다자원 인덱스 배열 데이터를 추산한 뒤
-					// #. UI 에 hidden 처리된 데이터 값을 불러오서 처리하는 로직
 					$(".list-dailyplan").find("select").change(function(){ 
 						
 						dataTemplate();
@@ -566,12 +610,6 @@
 						
 					}); 
 					/* 제어  */
-					
-					/* 삭제 (완료) */ 
-					$('.list-dailyplan').find('.place-delete-button').click(function(){
-						$(this).parents('.list-dailyplan').remove();
-					})
-					/* 삭제 (완료) */
 					
 			    });
 			}

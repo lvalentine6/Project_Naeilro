@@ -6,6 +6,7 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 
 import com.kh.finale.util.DateUtils;
+import com.kh.finale.vo.member.LikeFollowVo;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -32,6 +33,7 @@ public class PhotostoryListDto {
 	private Boolean isLike;
 	
 	private List<PhotostoryCommentListDto> photostoryCommentList;
+	private List<LikeFollowVo> photostoryLikeMemberList;
 	
 	private Integer photostoryPhotoNo;
 	

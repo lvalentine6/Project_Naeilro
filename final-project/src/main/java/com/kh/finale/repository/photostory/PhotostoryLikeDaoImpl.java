@@ -1,9 +1,12 @@
 package com.kh.finale.repository.photostory;
 
+import java.util.List;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.kh.finale.entity.member.MemberDto;
 import com.kh.finale.entity.photostory.PhotostoryLikeDto;
 
 @Repository
@@ -28,5 +31,10 @@ public class PhotostoryLikeDaoImpl implements PhotostoryLikeDao {
 	@Override
 	public Boolean checkPhotostoryLike(PhotostoryLikeDto photostoryLikeDto) {
 		return sqlSession.selectOne("photostoryLike.check", photostoryLikeDto);
+	}
+	
+	@Override
+	public List<MemberDto> getLikeList(int photostoryNo) {
+		return sqlSession.selectList("photostoryLike.memberList", photostoryNo);
 	}
 }
