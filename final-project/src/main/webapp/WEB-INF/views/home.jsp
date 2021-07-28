@@ -73,7 +73,15 @@
 </script>
 <script>
 	$(function(){
+		
 		let open = false;
+		
+		$(window).resize(function(){
+			console.log()
+			if($( window ).width()>=992&&open){
+				$(".menu-btn").click()
+			}
+		})
 		$(window).scroll(function(){
 			if($(document).scrollTop()==0 && !open){
 				$('nav').addClass("bg-transparent")
@@ -87,30 +95,31 @@
 				$('.cl-text').addClass("text-black")
 			}
 		})
-		
-
-		
 		$(".menu-btn").click(function(){
-			if(open){
-				open=false;
+			if($(document).scrollTop()==0){
+				if(open){
+					$('nav').addClass("bg-transparent")
+					$('nav').removeClass("bg-white")
+					$('.cl-text').removeClass("text-black")
+					$('.cl-text').addClass("text-white")
+					open=false;
+				}else{
+					$('nav').addClass("bg-white")
+					$('nav').removeClass("bg-transparent")
+					$('.cl-text').removeClass("text-white")
+					$('.cl-text').addClass("text-black")
+					open=true;
+				}
 			}else{
-				open=true;
+				if(open){
+					open=false;
+				}else{
+					open=true;
+				}
 			}
+			console.log(open)
 			
-			if($(document).scrollTop()!=0){
-				return;
-			}
-			if($('nav').hasClass("bg-transparent")&&open){
-				$('nav').addClass("bg-white")
-				$('nav').removeClass("bg-transparent")
-				$('.cl-text').removeClass("text-white")
-				$('.cl-text').addClass("text-black")
-			}else{
-				$('nav').addClass("bg-transparent")
-				$('nav').removeClass("bg-white")
-				$('.cl-text').removeClass("text-black")
-				$('.cl-text').addClass("text-white")
-			}
+			
 		})
 	})
 </script>
@@ -121,26 +130,26 @@
 			<img class="header-img" src="image/bgimg.webp">
 		</div>
 		
-		<nav class="navbar navbar-expand-lg navbar-light bg-transparent  shadow-sm fixed-top">
+		<nav class="navbar navbar-expand-lg px-lg-5 navbar-light bg-transparent  shadow-sm fixed-top">
 		  <a class="navbar-brand text-white cl-text" href="${root}">NAEILRO</a>
 		  <button class="navbar-toggler border-0 menu-btn" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
-		    <span class="text-white menu-btn cl-text">
-		    	<i class="fas fa-bars menu-btn"></i>
+		    <span class="text-white  cl-text">
+		    	<i class="fas fa-bars "></i>
 		    </span>
 		  </button>
 		  <div class="collapse navbar-collapse text-right" id="navbarText">
 		    <ul class="navbar-nav mr-auto text-right pr-3">
 		      <li class="nav-item">
-		        <a class="nav-link text-white cl-text" href="#">여행지</a>
+		        <a class="nav-link d-inline-block text-white cl-text" href="#">여행지</a>
 		      </li>
 		      <li class="nav-item">
-		        <a class="nav-link text-white cl-text" href="${root}/photostory">스토리</a>
+		        <a class="nav-link d-inline-block text-white cl-text" href="${root}/photostory">스토리</a>
 		      </li>
 		      <li class="nav-item">
-		        <a class="nav-link text-white cl-text" href="#">일정</a>
+		        <a class="nav-link d-inline-block text-white cl-text" href="#">일정</a>
 		      </li>
 		      <li class="nav-item">
-		        <a class="nav-link text-white cl-text" href="#">이용방법</a>
+		        <a class="nav-link d-inline-block text-white cl-text" href="#">이용방법</a>
 		      </li>
 		    </ul>
 		    <span class="navbar-text text-right pr-3">

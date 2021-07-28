@@ -259,7 +259,7 @@
 </script>
 </head>
 <body>
-	<nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm fixed-top">
+	<nav class="navbar navbar-expand-lg px-lg-5 navbar-light bg-white shadow-sm fixed-top">
 	  <a class="navbar-brand" href="${root}">NAEILRO</a>
 	  <button class="navbar-toggler border-0" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
 	    <span>
@@ -269,16 +269,16 @@
 	  <div class="collapse navbar-collapse text-right" id="navbarText">
 	    <ul class="navbar-nav mr-auto text-right">
 	      <li class="nav-item">
-	        <a class="nav-link" href="#">여행지</a>
+	        <a class="nav-link d-inline-block" href="#">여행지</a>
 	      </li>
 	      <li class="nav-item">
-	        <a class="nav-link" href="${root}/photostory">스토리</a>
+	        <a class="nav-link d-inline-block" href="${root}/photostory">스토리</a>
 	      </li>
 	      <li class="nav-item">
-	        <a class="nav-link" href="#">일정</a>
+	        <a class="nav-link d-inline-block" href="#">일정</a>
 	      </li>
 	      <li class="nav-item">
-	        <a class="nav-link" href="#">이용방법</a>
+	        <a class="nav-link d-inline-block" href="#">이용방법</a>
 	      </li>
 	    </ul>
 	    <span class="navbar-text text-right">
