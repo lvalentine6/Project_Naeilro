@@ -20,7 +20,7 @@ public class MemberRestController {
 	private FollowDao followDao;
 	
 	
-	// 포토스토리 좋아요 등록 처리
+	// 팔로우 추가
 	@GetMapping("/insert_follow")
 	public void likePhotostory(HttpSession session, @RequestParam int followTo) {
 		FollowDto followDto = FollowDto.builder()
@@ -32,7 +32,7 @@ public class MemberRestController {
 		followDao.insert(followDto);
 	}
 
-	// 포토스토리 좋아요 삭제 처리
+	// 팔로우 삭제 처리
 	@GetMapping("/delete_follow")
 	public void unlikePhotostory(HttpSession session, @RequestParam int followTo) {
 		FollowDto followDto = FollowDto.builder()
