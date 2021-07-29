@@ -603,7 +603,9 @@
 				type: "post",
 				data: $("form").serialize(),
 				success: function(){
+					
 					console.log("성공");
+					
 				},
 				error: function(){
 					console.log("실패");
