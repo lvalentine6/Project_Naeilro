@@ -8,9 +8,9 @@
 	let regex = /^[0-9a-zA-Z]{4,12}$/;
 	let name_regex = /^[가-힣]{2,7}$/;
 	let nick_name_regex = /^[0-9a-zA-Z가-힣]{4,12}$/;
-	let id = false;
-	let nick = false;
-	let name = false;
+	let id = true;
+	let nick = true;
+	let name = true;
 	
 	
 	$(function() {
@@ -132,7 +132,7 @@
 						<label for="memberProfile"> <img
 							class='upload_img user_profile'
 							src="${pageContext.request.contextPath}/member/profile/profileImage?memberNo=${memberNo}"
-							
+							onerror="this.src='${pageContext.request.contextPath}/image/default_user_profile.jpg'"
 							style="width: 100px; height: 100px;"> <input
 							class="input_img" type="file" accept=".png, .jpg, .gif"
 							id="memberProfile" name="memberProfile" style="display: none" />
@@ -156,7 +156,7 @@
 					</div>
 					<div class="form-row mb-3">
 						<label for="memberIntro">소개</label> 
-						<textarea class="form-control" aria-label="With textarea" name="memberIntro" >${memberDto.memberIntro}</textarea>
+						<textarea class="form-control" aria-label="With textarea" name="memberIntro" maxlength="33">${memberDto.memberIntro}</textarea>
 						<small id="emailHelp" class="form-text text-muted">소개를 작성해 주세요</small>
 					</div>
 					<div class="form-row mb-3">

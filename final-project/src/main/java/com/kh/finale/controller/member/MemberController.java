@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -45,6 +46,7 @@ import com.kh.finale.service.member.MemberAuthService;
 import com.kh.finale.service.member.MemberEditService;
 import com.kh.finale.service.member.MemberFindService;
 import com.kh.finale.service.member.MemberJoinService;
+import com.kh.finale.vo.member.FollowVo;
 import com.kh.finale.vo.member.MemberVo;
 import com.kh.finale.vo.photostory.PhotostoryListVO;
 
@@ -277,15 +279,14 @@ public class MemberController {
 	@RequestMapping("/profile/{memberNick}")
 	public String myPage(@PathVariable String memberNick
 			,Model model,HttpSession session,@ModelAttribute PhotostoryListVO photostoryListVO) {
-		MemberDto memberDto = memberDao.findWithNick(memberNick);
-		photostoryListVO.setMemberNo(memberDto.getMemberNo());
+		MemberDto target = memberDao.findWithNick(memberNick);
+		model.addAttribute("countPhotostory",photostoryDao.getPhotostoryCountWithMemberNo(target.getMemberNo()));
+		photostoryListVO.setMemberNo(target.getMemberNo());
 		photostoryListVO.setPageSize(30);
 		photostoryListVO = photostoryDao.getPageVariable(photostoryListVO);
 		List<PhotostoryListDto> photostoryList = photostoryListDao.listWhitMemberNo(photostoryListVO);
-		
 		for (int i = 0; i < photostoryList.size(); i++) {
 			PhotostoryListDto photostoryListDto = photostoryList.get(i);
-			
 			// 이미지 처리
 			List<PhotostoryPhotoDto> photostoryPhotoList = photostoryPhotoDao.get(photostoryListDto.getPhotostoryNo());
 			if (!photostoryPhotoList.isEmpty()) {
@@ -293,30 +294,78 @@ public class MemberController {
 			}
 		}
 		// 마이페이지 회원 정보 전송
-		
-		model.addAttribute("profileMemberDto", memberDto);
+		model.addAttribute("profileMemberDto", target);
 		
 		boolean isFollow = false;
 		
 		if((Integer)session.getAttribute("memberNo")!=null) {
 			// 회원 정보 전송
-			memberDto = memberDao.findInfo((int) session.getAttribute("memberNo"));
-			model.addAttribute("memberDto", memberDto);
+			MemberDto sessionUser = memberDao.findInfo((int) session.getAttribute("memberNo"));
+			model.addAttribute("memberDto", sessionUser);
 			
 			FollowDto followDto = FollowDto.builder()
 					.followFrom((Integer)session.getAttribute("memberNo"))
-					.followTo(memberDto.getMemberNo())
+					.followTo(target.getMemberNo())
 					.build();
 			if(followDao.isFollow(followDto)!=null) {
 				isFollow=true;
 			}
 		}
+		List<MemberDto> tempFollowerList=followDao.getFollowerList(target);
+		List<FollowVo> followerList = new ArrayList<>();
+		
+		for(MemberDto m : tempFollowerList) {
+			FollowVo fv = FollowVo.builder()
+					.member(m)
+					.isFollow(false)
+					.build();
+			followerList.add(fv);
+		}
+		
+		
+		if((Integer)session.getAttribute("memberNo")!=null) {
+			for(FollowVo f : followerList) {
+				FollowDto followDto = FollowDto.builder()
+						.followFrom((Integer)session.getAttribute("memberNo"))
+						.followTo(f.getMember().getMemberNo())
+						.build();
+				if(followDao.isFollow(followDto)!=null) {
+					f.setFollow(true);
+				}
+			}
+		}
+		List<MemberDto> tempFollowingList=followDao.getFollowingList(target);
+		List<FollowVo> followingList = new ArrayList<>();
+		
+		for(MemberDto m : tempFollowingList) {
+			FollowVo fv = FollowVo.builder()
+					.member(m)
+					.isFollow(false)
+					.build();
+			followingList.add(fv);
+		}
+		
+		
+		if((Integer)session.getAttribute("memberNo")!=null) {
+			for(FollowVo f : followingList) {
+				FollowDto followDto = FollowDto.builder()
+						.followFrom((Integer)session.getAttribute("memberNo"))
+						.followTo(f.getMember().getMemberNo())
+						.build();
+				if(followDao.isFollow(followDto)!=null) {
+					f.setFollow(true);
+				}
+			}
+		}
+		
+		model.addAttribute("followerList",followerList);
+		model.addAttribute("followingList",followingList);
 		
 		model.addAttribute("photostoryList",photostoryList);
 		model.addAttribute("isFollow",isFollow);
-		model.addAttribute("countPhotostory",photostoryDao.getPhotostoryCountWithMemberNo(memberDto.getMemberNo()));
-		model.addAttribute("countFollower",followDao.getCountFollower(memberDto.getMemberNo()));
-		model.addAttribute("countFollowing",followDao.getCountFollowing(memberDto.getMemberNo()));
+		
+		model.addAttribute("countFollower",followDao.getCountFollower(target.getMemberNo()));
+		model.addAttribute("countFollowing",followDao.getCountFollowing(target.getMemberNo()));
 		return "member/myPage";
 	}
 

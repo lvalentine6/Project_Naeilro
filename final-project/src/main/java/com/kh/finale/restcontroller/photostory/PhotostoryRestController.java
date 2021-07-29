@@ -85,8 +85,10 @@ public class PhotostoryRestController {
 			HttpSession session, @ModelAttribute PhotostoryCommentDto photostoryCommentDto) {
 		PhotostoryCommentDto commentDto = PhotostoryCommentDto.builder()
 				.photostoryCommentNo(photostoryCommentDto.getPhotostoryCommentNo())
+				.photostoryNo(photostoryCommentDto.getPhotostoryNo())
 				.memberNo((int) session.getAttribute("memberNo"))
 				.build();
+		System.out.println(commentDto.getPhotostoryNo());
 		photostoryCommentDao.deletePhotostoryComment(commentDto);
 		photostoryDao.refreshPhotostoryCommentCount(commentDto.getPhotostoryNo());
 	}
