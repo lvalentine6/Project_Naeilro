@@ -23,24 +23,22 @@
 // 			} 	
 // 		}
 		
-		/*작성자 : 정 계진*/
 		function planSelectService(){
 			console.log(typeof ${list});
 		}
-		/*작성자 : 정 계진*/
 		
 		
 		
-		function name() {
-			// 목표 : 가져온 데이터를 자바스크립트 형태의 배열로 바꾸기 
+// 		function name() {
+// 			// 목표 : 가져온 데이터를 자바스크립트 형태의 배열로 바꾸기 
 			
-			var a = ResultPlanVO
+// 			var a = ResultPlanVO
 			
-			var ResultPlanVO = {data:[{plannerNo:29, plannerName:'뭐지2', plannerOpen:'Y', memberNo:8, dailyNo:82, dailyStayDate:2, 
-				dailyOrder:1, placeNo:114, placeLatitude:35.1479610706454, placeLongitude:126.854957397537, placeName:'광주', 
-				placeType:'관광지', dailyplanPlaceOrder:3, dailyplanTransfer:'자동차'}]}
+// 			var ResultPlanVO = {data:[{plannerNo:29, plannerName:'뭐지2', plannerOpen:'Y', memberNo:8, dailyNo:82, dailyStayDate:2, 
+// 				dailyOrder:1, placeNo:114, placeLatitude:35.1479610706454, placeLongitude:126.854957397537, placeName:'광주', 
+// 				placeType:'관광지', dailyplanPlaceOrder:3, dailyplanTransfer:'자동차'}]}
 				
-			console.log(ResultPlanVO);
+// 			console.log(ResultPlanVO);
 				
 // 				ResultPlanVO(plannerNo=29, plannerName=뭐지2, plannerOpen=Y, memberNo=8, dailyNo=82, dailyStayDate=2, 
 // 						dailyOrder=1, placeNo=113, placeLatitude=35.1474913380556, placeLongitude=126.919801652795, placeName=광주, placeType=관광지, dailyplanPlaceOrder=2, dailyplanTransfer=자동차), 
