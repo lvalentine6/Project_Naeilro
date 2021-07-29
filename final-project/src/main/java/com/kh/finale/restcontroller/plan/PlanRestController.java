@@ -24,4 +24,12 @@ public class PlanRestController {
 		return planService.planInsertService(planInsertServiceVO);
 	}
 	
+	// 계획표 수정 처리
+	@PostMapping("/planUpdateService")
+	public void planUpdateService(@ModelAttribute PlanInsertServiceVO planInsertServiceVO) {
+		planInsertServiceVO.setMemberNo(1); // 임시
+		planInsertServiceVO.setPlannerNo(367); // 임시
+		
+		planService.planUpdateService(planInsertServiceVO);
+	}
 }

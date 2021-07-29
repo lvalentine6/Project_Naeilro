@@ -10,4 +10,20 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		insert into dailyplan values(#{dailyNo}, #{placeNo}, #{dailyplanPlaceOrder}, #{dailyplanTransfer})
 	</insert>
 	
+	<!-- 장소 계획 개수 조회 -->
+	<select id="getDailyplanCount" parameterType="int" resultType="int">
+		select count(daily_no) from dailyplan where daily_no = #{dailyNo}
+	</select>
+	
+	<!-- 장소 계획 수정 -->
+	<update id="dailyplanUpdate" parameterType="PlanInsertServiceVO">
+		update dailyplan set dailyplan_transfer = #{dailyplanTransfer}
+		where daily_no = #{dailyNo} and place_no = #{placeNo}
+	</update>
+	
+	<!-- 장소 계획 삭제 -->
+	<delete id="dailyplanDelete" parameterType="PlanInsertServiceVO">
+		delete dailyplan where daily_no = #{dailyNo} and place_no = #{placeNo}
+	</delete>
+	
 </mapper>

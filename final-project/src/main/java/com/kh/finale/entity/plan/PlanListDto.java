@@ -1,39 +1,33 @@
-package com.kh.finale.vo.plan;
-
-import java.util.List;
+package com.kh.finale.entity.plan;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Data @NoArgsConstructor @AllArgsConstructor @Builder
-public class PlanInsertServiceVO {
-	// 통합계획표
+/**
+ * 계획표 리스트 뷰를 이용해 데이터를 관리하기 위한 Dto
+ * @author swjk78
+ */
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class PlanListDto {
 	private int plannerNo;
 	private String plannerName;
 	private String plannerStartDate;
 	private String plannerEndDate;
 	private String plannerOpen;
-
-	private int memberNo;
 	
-	// 하루계획표
 	private int dailyNo;
 	private int dailyStayDate;
-	private int dailyOrder;
 	
-	// 장소
+	private String dailyplanTransfer;
+	
 	private int placeNo;
 	private String placeLatitude;
 	private String placeLongitude;
 	private String placeName;
 	private String placeType;
-	
-	// 장소계획
-	private int dailyplanPlaceOrder;
-	private String dailyplanTransfer;
-	
-	// 다차원 배열 : 장소 & 장소계획 & 하루계획표
-	private List<List<PlanInsertServiceSubVO>> planList;
 }

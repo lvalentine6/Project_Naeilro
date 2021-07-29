@@ -16,4 +16,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		)	
 	</insert>
 	
+	<!-- 장소 수정 -->
+	<update id="placeUpdate" parameterType="PlanInsertServiceVO">
+		update place
+		set place_latitude = #{placeLatitude}, place_longitude = #{placeLongitude},
+			place_name = #{placeName}, place_type = #{placeType}
+		where place_no = #{placeNo}
+	</update>
+	
+	<!-- 장소 삭제 -->
+	<delete id="placeDelete" parameterType="int">
+		delete place where place_no = #{placeNo}
+	</delete>
+	
 </mapper>
