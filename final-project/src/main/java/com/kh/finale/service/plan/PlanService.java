@@ -6,7 +6,7 @@ import com.kh.finale.vo.plan.PlanInsertServiceVO;
 import com.kh.finale.vo.plan.ResultPlanVO;
 
 public interface PlanService {
-	void planInsertService(PlanInsertServiceVO planInsertServiceVO);
+	int planInsertService(PlanInsertServiceVO planInsertServiceVO);
 	
 	// 결과페이지 DB 조회
 		List<ResultPlanVO> selectPlan(ResultPlanVO resultPlanVO);
