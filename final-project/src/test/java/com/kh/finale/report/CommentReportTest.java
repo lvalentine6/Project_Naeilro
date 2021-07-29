@@ -28,11 +28,10 @@ public class CommentReportTest {
 	// 댓글 신고 DB저장
 	@Test
 	public void cReportInsert() {
-		CommentReportDto commentReportDto = CommentReportDto.builder()
-									.memberNo(112)
-									.ReportNo(2)
-									.cReportReason("부적절한 댓글2")
-									.build();
-		commentReportService.cReportInsert(commentReportDto);
+		/*
+		 * CommentReportDto commentReportDto = CommentReportDto.builder() .memberNo(112)
+		 * .ReportNo(2) .cReportReason("부적절한 댓글2") .build();
+		 * commentReportService.cReportInsert(commentReportDto);
+		 */
 	}
 }

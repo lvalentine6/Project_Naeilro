@@ -10,7 +10,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<insert id="pReportInsert" parameterType="PhotostoryReportDto">
 		insert into photostory_report values(
 			report_seq.nextval, 
-			#{memberNo}, #{pReportNo}, #{pReportReason}
+			#{memberNo}, #{photostoryNo}, #{pReportReason}
 		)
 	</insert>
 	

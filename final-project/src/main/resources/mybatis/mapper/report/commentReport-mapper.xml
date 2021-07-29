@@ -10,7 +10,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<insert id="cReportInsert" parameterType="CommentReportDto">
 		insert into comment_report values(
 			report_seq.nextval, 
-			#{memberNo}, #{cReportNo}, #{cReportReason}
+			#{memberNo}, #{photostoryCommentNo}, #{cReportReason}
 		)
 	</insert>
 	

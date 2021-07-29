@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @Data @AllArgsConstructor @NoArgsConstructor @Builder
 public class CommentReportDto {
 	private int memberNo;
-	private int ReportNo;
-	private int photostoryCommnetNo;
+	private int reportNo;
+	private int photostoryCommentNo;
 	private String cReportReason;
 }
