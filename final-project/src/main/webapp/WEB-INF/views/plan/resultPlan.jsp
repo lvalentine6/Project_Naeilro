@@ -5,7 +5,8 @@
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
 <script>
 	$(function(){
-		name();
+		planSelectService();
+		//name();
 // 		function print(ResultPlanVO) { 
 			
 // 			var ResultPlanVO = [];
@@ -22,7 +23,11 @@
 // 			} 	
 // 		}
 		
-		
+		/*작성자 : 정 계진*/
+		function planSelectService(){
+			console.log(typeof ${list});
+		}
+		/*작성자 : 정 계진*/
 		
 		
 		

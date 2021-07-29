@@ -36,7 +36,7 @@ public class PlanServiceImpl implements PlanService {
 	private ResultPlanDao resultPlanDao;
 	
 	@Override
-	public void planInsertService(PlanInsertServiceVO planInsertServiceVO) {
+	public int planInsertService(PlanInsertServiceVO planInsertServiceVO) {
 		
 		// # 순서
 		// 1. 통합계획표 등록 -> 2. 공유그룹 등록 -> 3. 하루계획표 등록 -> 4. 장소 등록 -> 5. 장소 계획 등록
@@ -114,7 +114,7 @@ public class PlanServiceImpl implements PlanService {
 				
 			}
 		}
-		
+		return plannerNo;
 	}
 	// 결과페이지 DB 조회
 	@Override

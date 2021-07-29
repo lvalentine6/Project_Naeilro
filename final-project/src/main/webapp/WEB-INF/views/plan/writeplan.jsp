@@ -602,17 +602,18 @@
 				url:"${pageContext.request.contextPath}/plan/data/planInsertService",
 				type: "post",
 				data: $("form").serialize(),
-				success: function(){
-					
+				success: function(resp){
 					console.log("성공");
+					console.log("계획표 번호 : " + resp); // 성공
 					
+					// 조회 결과 페이지 이동
+					location.href = "${pageContext.request.contextPath}/plan/resultPlan?plannerNo=" + resp;
 				},
 				error: function(){
 					console.log("실패");
 				}
 			});
 		}
-		
 	}); 
 </script>
 <script type="text/template" id="planner-insert-template"> 
