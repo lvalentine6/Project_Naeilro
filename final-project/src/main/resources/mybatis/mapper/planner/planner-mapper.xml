@@ -31,4 +31,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		delete planner where planner_no = #{plannerNo}
 	</delete>
 	
+	<select id="selectPlan" parameterType="ResultPlanVO" resultType="ResultPlanVO">
+		select * from result_plan 
+		where member_no = #{memberNo} and planner_no = #{plannerNo}
+	</select>
+
 </mapper>

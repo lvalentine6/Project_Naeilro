@@ -3,6 +3,10 @@
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
 <style>
 	/* 맵 비활성화 - 등록하면 활성화 용도 */
+	main {
+		padding-top: 60px;
+		padding-bottom: 60px;
+	}
 	#map{
 		height: 800px;
 		opacity: 0.6;
@@ -44,6 +48,8 @@
 		var dailyplanPlaceOrder;
 		var dailyplanTransfer
 		
+		// 선
+		var linepa
 		/* 비활성화 */
 		$("#search").hide();
 		$("#daily-title").hide();
@@ -61,6 +67,15 @@
 		}
 		
 		check(); 
+		
+		/* 선(경로) 생성*/
+		function createPolyline(dailyIndex){
+			
+			$(".list-daily").eq(dailyIndex).find(".list-dailyplan").each(function(){
+				console.log("확인");
+			});
+			
+		}
 		
 		/* 통합계획표 */
 		
@@ -391,7 +406,9 @@
 			});
 		} 
 		
-		/* 장소 검색 기능 */
+		/* 장소 검색  */
+		find();
+		
 		function find(){
 			$("#find").click(function(){
 				// #. 체크박스 설정으로 유형 값 변경
@@ -406,7 +423,6 @@
 				setMapBounds(placeName, placeType, keyword); 
 			});
 		}
-		find();
 		
 		/* 지도 재설정 함수 */
 		function setMapBounds(placeName, placeType, keyword){
@@ -479,16 +495,17 @@
 			        var dailyIndex = $('#daily-index').val(); // 하루계획표 인덱스 선택자
 					var placeIndex = $(".list-daily").eq(dailyIndex-1).find(".list-dailyplan").last().data("index"); // 장소 선택자
 					
+					var userTemplate = $("#user-place-dailyplan-template").html();
+					
 					if(placeIndex == null) {
 						placeIndex = 0;
-					}
-					
-					var userTemplate = $("#user-place-dailyplan-template").html();
-					if(placeIndex == null) {
+						
 						userTemplate = userTemplate.replace("{index}", 1);
 					} else {
 						userTemplate = userTemplate.replace("{index}", placeIndex+1);
 					}
+
+					
 					userTemplate = userTemplate.replace("{place-name}", place.place_name);
 					userTemplate = userTemplate.replace("{data-latitude}", place.y);
 					userTemplate = userTemplate.replace("{data-longitude}", place.x);
@@ -497,57 +514,17 @@
 					
 					$(".list-daily").eq(dailyIndex-1).append(userTemplate);
 					
-					/* 경로(선) */
-					// 전역 변수(선 관련)
-					var linePath = []; 
-					var polyline = new kakao.maps.Polyline({ 
-					    path: linePath, // 선을 구성하는 좌표배열 입니다
-					});
-					
-					polyLine(); // 2. 선 생성 함수
-					
-					// #. 선 생성 함수
-					function polyLine(){
-						// 맵 초기화
-						polyline.setMap(null);
-						linePath = [];
-						console.log("초기화");
-						
-						$('.list-daily').each(function(){
-							// 반복문 : 장소계획
-							$(this).find('.list-dailyplan').each(function(){
-								var latitude = $(this).find('.list-dailyplan-latitude').val();
-								var longitude = $(this).find('.list-dailyplan-longitude').val();
-								var dir = new kakao.maps.LatLng(latitude, longitude);
-								linePath.push(dir); // 좌표 반복문으로 추가
-							});
-						});
-						
-						polyline = new kakao.maps.Polyline({ // 좌표를 베이스로 선 생성
-							endArrow: true, // 화살표 여부
-						    path: linePath, // 선을 구성하는 좌표배열 입니다
-						    strokeWeight: 3, // 선의 두께 입니다
-							strokeColor: '#000000', // 선의 색깔입니다
-							strokeOpacity: 0.7, // 선의 불투명도 입니다 1에서 0 사이의 값이며 0에 가까울수록 투명합니다
-							strokeStyle: 'solid' // 선의 스타일입니다
-						});
-						
-						// 지도에 선을 표시합니다 
-						polyline.setMap(map);  
-					}
-					/* 경로(선) */
+					/* 선택한 장소 마커 생성 */
+			        createPolyline(dailyIndex-1);
 					
 					/* 삭제 (완료) */ 
-					$('.list-dailyplan').find('.place-delete-button').click(function(){
+					$(".list-daily").eq(dailyIndex-1).find(".list-dailyplan").find(".place-delete-button").click(function(){
+						// 데이터 삭제
 						$(this).parents('.list-dailyplan').remove();
 						
-						polyline.setMap(null);
+					});
 						
-						polyLine();
-					})
-					/* 삭제 (완료) */
-					
-					/* 제어 */
+					/* 제어 (완료)*/
 					$(".list-dailyplan").find("select").change(function(){ 
 						
 						dataTemplate();
@@ -609,13 +586,10 @@
 						}
 						
 					}); 
-					/* 제어  */
 					
 			    });
 			}
-		
 		} 
-		
 		
 		/* 이벤트 : 계획표 생성 */
 		$("#planner-insert-button").click(function(){
@@ -628,15 +602,18 @@
 				url:"${pageContext.request.contextPath}/plan/data/planInsertService",
 				type: "post",
 				data: $("form").serialize(),
-				success: function(){
+				success: function(resp){
 					console.log("성공");
+					console.log("계획표 번호 : " + resp); // 성공
+					
+					// 조회 결과 페이지 이동
+					location.href = "${pageContext.request.contextPath}/plan/resultPlan?plannerNo=" + resp;
 				},
 				error: function(){
 					console.log("실패");
 				}
 			});
 		}
-		
 	}); 
 </script>
 <script type="text/template" id="planner-insert-template"> 
@@ -699,7 +676,7 @@
 				<option value="자동차">자동차</option>
 			</select>
 		</div>
-		<input type="hidden" class="list-dailyplan-latitude" value={data-latitude}>
+		<input type="text" class="list-dailyplan-latitude" value={data-latitude}>
 		<input type="hidden" class="list-dailyplan-longitude" value={data-longitude}>
 		<input type="hidden" class="list-dailyplan-name" value={data-name}>
 		<input type="hidden" class="list-dailyplan-type" value={data-type}>
@@ -709,9 +686,9 @@
 </script>
 <body>
 	<main>
-		<div class="container-lg">
+		<div class="container-fluid">
 			<div class="row">
-				<div class="col-xs-6 col-md-4">
+				<div class="col-xs-6 col-md-3">
 					<!-- 통합계획표 입력창 -->
 					<div id="planner-insert-confirm" style="border: 1px solid">
 						<div style="font-weight:bold;">통합계획표</div>
@@ -743,11 +720,15 @@
 				<!-- 하루계획표 -->
 				<div id="daily-list-container"></div>
 				<!-- 하루계획표 -->
+				<!-- 데이터 전송 FORM -->
 				<form id="plan-insert-container"></form>
+				<!-- 데이터 전송 FORM -->
+				<!-- 인덱스 -->
 				<input type="hidden" id="daily-index">
-				<input type="hidden" id="place-index">
+				<!-- 인덱스 -->
+				<div id="polyline-container"></div>
 				</div>
-				<div class="col-xs-12 col-md-8">
+				<div class="col-xs-12 col-md-9">
 					<div id="map"></div>
 				</div>
 			</div>

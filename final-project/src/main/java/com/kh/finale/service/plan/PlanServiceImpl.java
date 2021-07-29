@@ -12,8 +12,10 @@ import com.kh.finale.repository.plan.DailyplanDao;
 import com.kh.finale.repository.plan.PlaceDao;
 import com.kh.finale.repository.plan.PlanListDao;
 import com.kh.finale.repository.plan.PlannerDao;
+import com.kh.finale.repository.plan.ResultPlanDao;
 import com.kh.finale.vo.plan.PlanInsertServiceSubVO;
 import com.kh.finale.vo.plan.PlanInsertServiceVO;
+import com.kh.finale.vo.plan.ResultPlanVO;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -33,9 +35,11 @@ public class PlanServiceImpl implements PlanService {
 	@Autowired
 	private DailyplanDao dailyplanDao;
 	
+	@Autowired
+	private ResultPlanDao resultPlanDao;
+	
 	@Override
-	@Transactional
-	public void planInsertService(PlanInsertServiceVO planInsertServiceVO) {
+	public int planInsertService(PlanInsertServiceVO planInsertServiceVO) {
 		
 		// # 순서
 		// 1. 통합계획표 등록 -> 2. 공유그룹 등록 -> 3. 하루계획표 등록 -> 4. 장소 등록 -> 5. 장소 계획 등록
@@ -113,7 +117,12 @@ public class PlanServiceImpl implements PlanService {
 				
 			}
 		}
-		
+		return plannerNo;
+	}
+	// 결과페이지 DB 조회
+	@Override
+	public List<ResultPlanVO> selectPlan(ResultPlanVO resultPlanVO) {
+		return resultPlanDao.selectPlan(resultPlanVO);
 	}
 	
 	@Autowired

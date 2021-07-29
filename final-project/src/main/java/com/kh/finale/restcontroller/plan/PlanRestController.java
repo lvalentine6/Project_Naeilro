@@ -1,6 +1,5 @@
 package com.kh.finale.restcontroller.plan;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,11 +17,11 @@ public class PlanRestController {
 	private PlanService planService;
 	
 	@PostMapping("/planInsertService")
-	public void planInsertService(@ModelAttribute PlanInsertServiceVO planInsertServiceVO) {
+	public int planInsertService(@ModelAttribute PlanInsertServiceVO planInsertServiceVO) {
 		// 회원번호 세팅
 		planInsertServiceVO.setMemberNo(1);
 		
-		planService.planInsertService(planInsertServiceVO);
+		return planService.planInsertService(planInsertServiceVO);
 	}
 	
 	// 계획표 수정 처리
