@@ -25,4 +25,15 @@ public class PlannerDaoImpl implements PlannerDao {
 		sqlSession.insert("planner.plannerInsert", planInsertServiceVO);
 	}
 
+	// 통합 계획표 수정 기능
+	@Override
+	public int plannerUpdate(PlanInsertServiceVO planInsertServiceVO) {
+		return sqlSession.update("planner.plannerUpdate", planInsertServiceVO);
+	}
+	
+	// 통합 계획표 삭제 기능
+	@Override
+	public void plannerDelete(int plannerNo) {
+		sqlSession.delete("planner.plannerDelete", plannerNo);
+	}
 }

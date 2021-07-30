@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="planList">
+	
+	<!-- 계획표 리스트 조회 -->
+	<select id="selectPlanList" parameterType="int" resultType="PlanListDto">
+		select * from plan_list where planner_no = #{plannerNo}
+	</select>
+	
+	<!-- 일정 번호로 장소번호 조회 -->
+	<select id="selectPlanListByDailyNo" parameterType="int" resultType="int">
+		select place_no from plan_list where daily_no = #{dailyNo}
+	</select>
+	
+</mapper>
