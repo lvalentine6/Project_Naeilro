@@ -9,79 +9,87 @@
 		planSelectService();
 		//name();
 		
-		/*작성자 : 정 계진*/
 		function planSelectService(){
 			
 			var ResultPlanVO = [];
 			ResultPlanVO = ${list};
 			
+			// 데이터 정렬
+			ResultPlanVO.sort(function(a, b)  {
+				  return a.dailyOrder - b.dailyOrder;
+				});
+				console.log(ResultPlanVO);
+			
 			var plannerName = ResultPlanVO[0].plannerName
-			$('input[name=plannerName]').attr('value', plannerName);
+			
+			var dailyStayDate = ResultPlanVO[0].dailyStayDate
+			
+			// 변수 설정
+			$("#planName").text(plannerName);
+			$("#date").text(dailyStayDate + "일간의 여행");
 			
 			console.log(plannerName);
 			
-			console.log(ResultPlanVO[2].placeName);
+			console.log("초기값 : " + ResultPlanVO[0].dailyOrder);
 			
-			
-			// 템플릿 불러오기 
-			// 반복문 으로 배열길이 만큼 데이터 집어넣기 실행
-			 for(var i = 0; i < ResultPlanVO.length; i++) {
-		 		var template = $("#result-template").html();
-				console.log(ResultPlanVO[i].dailyOrder + "일 차 하루계획표 : ");
-				console.log("위도 : " + ResultPlanVO[i].placeLatitude);
-				console.log("경도 : " + ResultPlanVO[i].placeLongitude);
-				console.log("장소 순서 : " + ResultPlanVO[i].dailyplanPlaceOrder);
-				console.log("장소 번호 : " + ResultPlanVO[i].placeNo);
-				console.log("===============================================")
-				template = template.replace("{dailyOrder}", ResultPlanVO[i].dailyOrder);
-				$("#result-container").append(template); 
-				/* template = template.replace("{plannerNo}", ResultPlanVO[i].plannerNo)
-				template = template.replace("{plannerOpen}", ResultPlanVO[i].plannerOpen)
-				template = template.replace("{plannerName}", ResultPlanVO[i].plannerName)
-				template = template.replace("{memberNo}", ResultPlanVO[i].memberNo)
-				template = template.replace("{dailyNo}", ResultPlanVO[i].dailyNo)
-				template = template.replace("{dailyStayDate}", ResultPlanVO[i].dailyStayDate)
-				template = template.replace("{dailyOrder}", ResultPlanVO[i].dailyOrder)
-				template = template.replace("{placeNo}", ResultPlanVO[i].placeNo)
-				template = template.replace("{placeLatitude}", ResultPlanVO[i].placeLatitude)
-				template = template.replace("{placeLongitude}", ResultPlanVO[i].placeLongitude)
-				template = template.replace("{placeName}", ResultPlanVO[i].placeName)
-				template = template.replace("{placeType}", ResultPlanVO[i].placeType)
-				template = template.replace("{dailyplanPlaceOrder}", ResultPlanVO[i].dailyplanPlaceOrder)
-				template = template.replace("{dailyplanTransfer}", ResultPlanVO[i].dailyplanTransfer)
-				$("#result-container").append(template); */
-			 }
+			for(var i = 0; i < ResultPlanVO.length; i++){ // 1 1 2 2
+				// 0 이면 생성 
+				if(i == 0){
+					var template = $("#result-template").html();
+					template = template.replace("{dr}", ResultPlanVO[0].dailyOrder); // 1
+					template = template.replace("{index}", ResultPlanVO[0].dailyOrder);
+					$("#result-container").append(template);
+				} 
+				// 하루계획 순서가 달라지면 생성 
+				else if($(".daily-plan-container").data("index") != ResultPlanVO[i].dailyOrder){
+					var template = $("#result-template").html();
+					template = template.replace("{dr}", ResultPlanVO[i].dailyOrder); // 1 2 2
+					template = template.replace("{index}", ResultPlanVO[i].dailyOrder);
+					$("#result-container").append(template);
+				}
+			}
 		}
 	});
 </script>
 
 <script type="text/template" id="result-template">
-	<label>{dailyOrder} 일차 하루계획표</label>
-	<br><br>
-	<input type="text" name="plannerNo" value={plannerNo} readonly>
-	<input type="text" name="plannerOpen" value={plannerOpen} readonly>
-    <input type="text" name="plannerName" value={plannerName} readonly>
-    <input type="text" name="memberNo" value={memberNo} readonly>
-    <input type="text" name="dailyNo" value={dailyNo} readonly>
-    <input type="text" name="dailyStayDate" value={dailyStayDate} readonly> 
-    <input type="text" name="dailyOrder" value={dailyOrder} readonly>
-    <input type="text" name="placeNo" value={placeNo} readonly>
-    <input type="text" name="placeLatitude" value={placeLatitude} readonly>
-    <input type="text" name="placeLongitude" value={placeLongitude} readonly>
-    <input type="text" name="placeName" value={placeName} readonly>
-    <input type="text" name="placeType" value={placeType} readonly>
+	<!-- 하루 계획표 출력 템플릿 -->
+	<div style="border: 1px solid gray" class="daily-plan-container" data-index={index}>
+	<label>{dr} 일차 하루계획표</label>
+    </div>
+	<br>
+</script>
+
+<script type="text/template" id="plan-template">
+	<!-- 여행 계획 출력 템플릿 -->
+	<div>
+	<input type="hidden" name="plannerNo" value={plannerNo} readonly>
+	<input type="hidden" name="plannerOpen" value={plannerOpen} readonly>
+    <input type="hidden" name="plannerName" value={plannerName} readonly>
+    <input type="hidden" name="memberNo" value={memberNo} readonly>
+    <input type="hidden" name="dailyNo" value={dailyNo} readonly>
     <input type="text" name="dailyplanPlaceOrder" value={dailyplanPlaceOrder} readonly>
-    <input type="text" name="dailyplanTransfer" value={dailyplanTransfer} readonly>
-	<br><br>
+    <input style="border: none;" type="hidden" name="dailyStayDate" value={dailyStayDate} readonly> 
+    <input type="hidden" name="dailyOrder" value={dailyOrder} readonly>
+    <input type="hidden" name="placeNo" value={placeNo} readonly>
+    <input type="hidden" name="placeLatitude" value={placeLatitude} readonly>
+    <input type="hidden" name="placeLongitude" value={placeLongitude} readonly>
+    <input style="border: none;" type="text" name="placeName" value={placeName} readonly>
+    <input style="border: none;" type="text" name="placeType" value={placeType} readonly>
+    <input style="border: none;" type="text" name="dailyplanTransfer" value={dailyplanTransfer} readonly>
+	<br>
+    </div>
+	<br>
 </script>
 
 <main>
+<div></div>
 	<div class="container-lg">
 		<div class="row">
 			<div class="jumbotron col-lg-12 offset-lg-0.5">
 				<div class="row my-3 align-items-center">
 					<div class="col-3" style="font-size: 1.5rem">
-					<input type="text" name="plannerName" value="" readonly>
+					<span id ="planName"></span>
 					</div>
 					<div class="col-4">
 						<div class="dropdown">
@@ -97,13 +105,19 @@
 				<div class="row">
 					<img class="img-responsive left-block" alt="더미"
 						src="${pageContext.request.contextPath}/image/default_user_profile.jpg">
-					<div class="col-4 align-items-center" style="font-size: 1.5rem">
+					<div id ="result-image-template" class="col-4 align-items-center" style="font-size: 1.5rem">
 						포토 스토리 연동</div>
 				</div>
 			</div>
 			<div class="col-12">
-				<h3>여행 계획 출력</h3>
+					<div>
+					<b><span id = "date" style="font-size: 25px; color: rgb(3,199,90);" ></span></b>
+					</div>
+					<br>
+				<div>
+				</div>
 				<div id="result-container"></div>
+				<div id="plan-container"></div>
 			</div>
 		</div>
 	</div>
