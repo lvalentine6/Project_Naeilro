@@ -51,7 +51,7 @@
 			// 반복문 으로 배열길이 만큼 데이터 집어넣기 실행
 			 for(var i = 0; i < ResultPlanVO.length; i++) {
 				 var template2 = $("#plan-template").html();
-				 console.log(ResultPlanVO[3].dailyNo == $('#rt-dn').val());
+				 console.log($('.rt-do'));
 				if(ResultPlanVO[i].dailyNo == $('.rt-dn').val()) {
 				template2 = template2.replace("{plannerNo}", ResultPlanVO[i].plannerNo)
 				template2 = template2.replace("{plannerOpen}", ResultPlanVO[i].plannerOpen)
@@ -70,11 +70,10 @@
 				template2 = template2.replace("{placeNo}", ResultPlanVO[i].placeNo)
 				$(".box").append(template2);
  				}
-				else {
-					i++;
-				}
+ 				else {
+ 					
+ 				}
 			 }
-			 console.log($('.rt-dn'));
 		}
 	});
 </script>
@@ -82,7 +81,7 @@
 <script type="text/template" id="result-template">
 	<!-- 하루 계획표 출력 템플릿 -->
 	<div style="border: 1px solid gray" class="box">
-	<label>{dr} 일차 하루계획표</label>
+	<label class= "rt-do">{dr} 일차 하루계획표</label>
 	<input class="rt-dn" type="text" name="dailyNo" value={dailyNo} readonly>
     </div>
 	<br>
@@ -111,7 +110,6 @@
 </script>
 
 <main>
-<div></div>
 	<div class="container-lg">
 		<div class="row">
 			<div class="jumbotron col-lg-12 offset-lg-0.5">
