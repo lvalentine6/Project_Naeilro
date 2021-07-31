@@ -11,4 +11,5 @@ public class CommentReportDto {
 	private int reportNo;
 	private int photostoryCommentNo;
 	private String cReportReason;
+	private String reportConfirm;
 }

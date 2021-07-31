@@ -19,4 +19,6 @@ public interface PhotostoryPhotoDao {
 	
 	// 이미지 단일 조회 기능
 	PhotostoryPhotoDto getSingle(int photostoryPhotoNo);
+	
+	void adminDeletePhoto(int photostoryNo);
 }

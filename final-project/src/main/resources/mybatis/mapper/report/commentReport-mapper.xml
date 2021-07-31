@@ -4,14 +4,33 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="report">
+<mapper namespace="creport">
 
 	<!-- 댓글 신고 등록 -->
 	<insert id="cReportInsert" parameterType="CommentReportDto">
 		insert into comment_report values(
 			report_seq.nextval, 
-			#{memberNo}, #{photostoryCommentNo}, #{cReportReason}
+			#{memberNo}, #{photostoryCommentNo}, #{cReportReason},'N'
 		)
 	</insert>
+
 	
+	<select id="count" resultType="int">
+		select count(*) from comment_report
+	</select>
+	
+	<select id="list" parameterType="PageVo" resultType="ReportVo">
+		select * from (
+			select rownum rn, tmp.* from (
+				select p.member_no,m.member_nick,p.report_no,p.photostory_comment_no no,p.c_report_reason reason 
+				from comment_report p
+				    inner join member m 
+				    on m.member_no= p.member_no
+			) tmp
+		) where rn between #{startRow} and #{endRow}
+	</select>
+	
+		<update id="confirm" parameterType="int">
+		update comment_report set report_confirm='Y' where comment_NO=#{reportNo}
+	</update>
 </mapper>

@@ -43,4 +43,9 @@ public class PhotostoryPhotoDaoImpl implements PhotostoryPhotoDao {
 	public PhotostoryPhotoDto getSingle(int photostoryPhotoNo) {
 		return sqlSession.selectOne("photostoryPhoto.getSingle", photostoryPhotoNo);
 	}
+	
+	@Override
+	public void adminDeletePhoto(int photostoryNo) {
+		 sqlSession.update("photostoryPhoto.adminDelete", photostoryNo);
+	}
 }

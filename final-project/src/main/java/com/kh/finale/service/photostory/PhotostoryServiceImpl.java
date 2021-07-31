@@ -62,10 +62,11 @@ public class PhotostoryServiceImpl implements PhotostoryService {
 		if (photostoryVO.getDeleteNo() != null) {
 			deleteExistencePhotostoryPhoto(photostoryVO);
 		}
-		
-		if (!photostoryVO.getPhotostoryPhoto()[0].isEmpty()) {
-			// 포토스토리 이미지 등록
-			insertPhotostoryPhoto(photostoryVO);
+		if(photostoryVO.getPhotostoryPhoto()!=null) {
+			if (!photostoryVO.getPhotostoryPhoto()[0].isEmpty()) {
+				// 포토스토리 이미지 등록
+				insertPhotostoryPhoto(photostoryVO);
+			}
 		}
 	}
 

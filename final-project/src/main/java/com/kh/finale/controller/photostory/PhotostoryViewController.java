@@ -1,10 +1,15 @@
 package com.kh.finale.controller.photostory;
 
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.imageio.ImageIO;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.io.FileUtils;
@@ -278,18 +283,38 @@ public class PhotostoryViewController {
 	
 	// 이미지 다운로드 처리
 	@GetMapping("/photo/{photostoryPhotoNo}")
-	public ResponseEntity<ByteArrayResource> download(@PathVariable int photostoryPhotoNo) throws IOException {
+	public ResponseEntity<ByteArrayResource> download(@PathVariable int photostoryPhotoNo,HttpServletRequest req) throws IOException {
 		PhotostoryPhotoDto photostoryPhotoDto = photostoryPhotoDao.getSingle(photostoryPhotoNo);
 		
 		if (photostoryPhotoDto == null) {
 			System.out.println("NOT FOUND");
 			return ResponseEntity.notFound().build();
 		}
+		if(photostoryPhotoDto.getPhotostoryPhotoFilePath().equals("delete")) {
+			URL url = new URL("http://"+req.getServerName()+":"+req.getServerPort()+req.getContextPath()+"/image/delete_img.jpg");
+            System.out.println(url);
+            BufferedImage img = ImageIO.read(url);
+            System.out.println(img);
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            ImageIO.write(img,"jpg",baos);
+            baos.flush();
+            byte[] data1 = baos.toByteArray();
+            baos.close();
+			
+			ByteArrayResource resource = new ByteArrayResource(data1);
+			return ResponseEntity.ok()
+									.header(HttpHeaders.CONTENT_ENCODING, "UTF-8")
+									.body(resource);
+		}
 		System.out.println("FOUND");
 		
 		File target = new File("D:/upload/kh5/photostory/", photostoryPhotoDto.getPhotostoryPhotoFilePath());
+		
 		byte[] data = FileUtils.readFileToByteArray(target);
+		
 		ByteArrayResource resource = new ByteArrayResource(data);
+		
+		
 		
 		return ResponseEntity.ok()
 						 	 .contentLength(photostoryPhotoDto.getPhotostoryPhotoFileSize())

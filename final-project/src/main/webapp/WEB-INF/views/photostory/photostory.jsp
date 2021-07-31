@@ -4,99 +4,96 @@
 
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
 <script>
+
+function like_click(e){
+		let like_btn = $(e);
+		console.log(like_btn)
+		if(${memberNo==null }){
+			alert("로그인후 이용해주세요");
+			return
+		}
+			/* 좋아요 삭제 */
+		if ($(e).hasClass("like")) {
+			$.ajax({
+				url:"${pageContext.request.contextPath}/process/delete_like",
+				data : {
+					photostoryNo : $(like_btn).attr("data-photostoryNo"),
+				},
+				method:"GET",
+			})
+			.done(function(){
+				$(like_btn).removeClass("like")
+				$(like_btn).removeClass("fas")
+				$(like_btn).addClass("far")
+				let curval = $(like_btn).parent().parent().next().children().children().find('.count_val').text()*1
+				$(like_btn).parent().parent().next().children().children().find('.count_val').text(curval-1)
+			})
+			.fail(function(){
+				
+			})
+			
+		} else {
+			/* 좋아요 추가 */
+			$.ajax({
+				url:"${pageContext.request.contextPath}/process/insert_like",
+				data : {
+					photostoryNo : $(like_btn).attr("data-photostoryNo"),
+				},
+				method:"GET",
+			})
+			.done(function(){
+				$(like_btn).removeClass("far")
+				$(like_btn).addClass("like")
+				$(like_btn).addClass("fas")
+				let curval = $(like_btn).parent().parent().next().children().children().find('.count_val').text()*1
+				$(like_btn).parent().parent().next().children().children().find('.count_val').text(curval+1)
+			})
+			.fail(function(){
+			})
+			
+		}
+}
+
+function comment_click(e){
+	if(${memberNo==null }){
+		alert("로그인후 이용해주세요");
+		return
+	}
+	let comment = $(e).parent().prev().children().val();
+	let comment_div = $(e).parent().prev().children();
+	let curEl = $(e);
+	if(!comment){
+		return;
+	}
+	let photostoryNo = $(e).attr("data-photostoryNo");
+	$.ajax({
+		url:"${pageContext.request.contextPath}/process/insert_comment",
+		data : {
+			photostoryNo : photostoryNo,
+			photostoryCommentContent : comment
+		},
+		method:"POST",
+	})
+	.done(function(result){
+		let template = $("#comment-tpl").html();
+		template = template.replaceAll("{{userId}}","${memberDto.memberNick}")
+		template = template.replaceAll("{{comment}}",comment)
+		template = template.replaceAll("{{no}}",result)
+		template = template.replaceAll("{{memberNo}}","${memberNo}")
+		template = template.replaceAll("{{pno}}",photostoryNo)					
+		
+		$(curEl).parent().parent().prev().prev().prepend(template)
+		$('.comment_content_form_'+result).hide()
+		comment_count =$(".comment-count").html()*1 + 1
+		$(".comment-count").text(comment_count)
+		comment_div.val("")
+	})
+	.fail(function(){
+		console.log('fail');
+	})
+}
 	$(function() {
 
-		/* 좋아요 버튼 */
-		$(".like-btn").each(function() {
-			$(this).click(function() {
-				let like_btn = $(this);
-				if(${memberNo==null }){
-					alert("로그인후 이용해주세요");
-					return
-				}
-					/* 좋아요 삭제 */
-				if ($(this).hasClass("like")) {
-					$.ajax({
-						url:"${pageContext.request.contextPath}/process/delete_like",
-						data : {
-							photostoryNo : $(like_btn).attr("data-photostoryNo"),
-						},
-						method:"GET",
-					})
-					.done(function(){
-						$(like_btn).removeClass("like")
-						$(like_btn).removeClass("fas")
-						$(like_btn).addClass("far")
-						let curval = $(like_btn).parent().parent().next().children().children().find('.count_val').text()*1
-						$(like_btn).parent().parent().next().children().children().find('.count_val').text(curval-1)
-					})
-					.fail(function(){
-						
-					})
-					
-				} else {
-					/* 좋아요 추가 */
-					$.ajax({
-						url:"${pageContext.request.contextPath}/process/insert_like",
-						data : {
-							photostoryNo : $(like_btn).attr("data-photostoryNo"),
-						},
-						method:"GET",
-					})
-					.done(function(){
-						$(like_btn).removeClass("far")
-						$(like_btn).addClass("like")
-						$(like_btn).addClass("fas")
-						let curval = $(like_btn).parent().parent().next().children().children().find('.count_val').text()*1
-						$(like_btn).parent().parent().next().children().children().find('.count_val').text(curval+1)
-					})
-					.fail(function(){
-					})
-					
-				}
-			})
-		})
-		$(".coment-btn").each(function(){
-			$(this).click(function(){
-				if(${memberNo==null }){
-					alert("로그인후 이용해주세요");
-					return
-				}
-				let comment = $(this).parent().prev().children().val();
-				let comment_div = $(this).parent().prev().children();
-				let curEl = $(this);
-				if(!comment){
-					return;
-				}
-				let photostoryNo = $(this).attr("data-photostoryNo");
-				$.ajax({
-					url:"${pageContext.request.contextPath}/process/insert_comment",
-					data : {
-						photostoryNo : photostoryNo,
-						photostoryCommentContent : comment
-					},
-					method:"POST",
-				})
-				.done(function(result){
-					let template = $("#comment-tpl").html();
-					template = template.replaceAll("{{userId}}","${memberDto.memberNick}")
-					template = template.replaceAll("{{comment}}",comment)
-					template = template.replaceAll("{{no}}",result)
-					template = template.replaceAll("{{memberNo}}","${memberNo}")
-					template = template.replaceAll("{{pno}}",photostoryNo)					
-					
-					$(curEl).parent().parent().prev().prev().prepend(template)
-					$('.comment_content_form_'+result).hide()
-					comment_count =$(".comment-count").html()*1 + 1
-					$(".comment-count").text(comment_count)
-					comment_div.val("")
-				})
-				.fail(function(){
-					console.log('fail');
-				})
-			})
-		})
-		
 		let pageNo = 1;
 		let oneTime = true;
 		
@@ -114,6 +111,7 @@
 				})
 				.done(function(html){
 					oneTime=true;
+					
 					$(".story-container").append($(html)[33].children[1].children)
 					$('.comment_content_form').hide();
 					pageNo+=1;
@@ -128,46 +126,72 @@
 		
 	})
 	
+	function comment_edit_btn_1_click(e){
+		$(e).parent().parent().next().hide()
+		$(e).parent().parent().next().next().show()
+	}
+	function comment_cancel_btn_click(e){
+		$(e).parent().parent().parent().parent().hide()
+		$(e).parent().parent().parent().parent().prev().show()
+	}
+	
+	function comment_edit_btn_click(e){
+		let commentNo = $(e).data('no')
+		let comment = $(e).parent().prev().val();
+		console.log(comment)
+		console.log(commentNo)
+		$.ajax({
+			url:"${pageContext.request.contextPath}/process/update_comment",
+			data : {
+				photostoryCommentNo : commentNo,
+				photostoryCommentContent : comment,
+			},
+			method:"POST",
+		})
+		.done(function(){
+			$("#comment_3_"+commentNo).html(comment).show()
+			$('.comment_content_form_'+commentNo).hide()
+			$("#comment_3_"+commentNo).show()
+		})
+		.fail(function(){
+
+		})
+	}
+	
+	function comment_delete_btn_click(e){
+		let commentNo = $(e).data('no')
+		let photostoryNo2 = $(e).data('pno')
+		console.log(photostoryNo2)
+		if (!window.confirm("정말 삭제하시겠습니까?")){ 
+			e.preventDefault()
+		}
+		$.ajax({
+			url:"${pageContext.request.contextPath}/process/delete_comment",
+			data : {
+				photostoryCommentNo : commentNo,
+				photostoryNo : photostoryNo2,
+			},
+			method:"POST",
+		})
+		.done(function(){
+			$("#comment_3_"+commentNo).remove()
+			$("#comment_2_"+commentNo).remove()
+			$("#comment_1_"+commentNo).remove()
+		})
+		.fail(function(){
+
+		})
+	}
+	
 	$(function(){
 		$(".comment_content_form").hide();
-		$(".comment_edit_btn_1").click(function(){
-			$(this).parent().parent().next().hide()
-			$(this).parent().parent().next().next().show()
-		})
-		
-		$(".comment_cancel_btn").click(function(){
-			$(this).parent().parent().parent().parent().hide()
-			$(this).parent().parent().parent().parent().prev().show()
-		})
-		
-		$(".comment_edit_btn").click(function(){
-			let commentNo = $(this).data('no')
-			let comment = $(this).parent().prev().val();
-			console.log(comment)
-			console.log(commentNo)
-			$.ajax({
-				url:"${pageContext.request.contextPath}/process/update_comment",
-				data : {
-					photostoryCommentNo : commentNo,
-					photostoryCommentContent : comment,
-				},
-				method:"POST",
-			})
-			.done(function(){
-				$("#comment_3_"+commentNo).html(comment).show()
-				$('.comment_content_form_'+commentNo).hide()
-				$("#comment_3_"+commentNo).show()
-			})
-			.fail(function(){
-
-			})
-		})
 	})
 	
 	$(function(){
 		/* 댓글 삭제 */
 		$('.comment_delete_btn').click(delete_comment)
 	})
+	
 	
 function delete_comment(no,pno){
 	let commentNo = $(this).data('no')
@@ -231,78 +255,76 @@ function edit_comment(no){
 }
 	
 	
-	/* 팔로우 처리 */
-$(function(){
-	$(".f-follow-btn").click(function(){
-		if(${memberNo==null }){
-			alert("로그인후 이용해주세요");
-			return
-		}
-		let memberNo = $(this).data('memberno');
-		$.ajax({
-			url:"${pageContext.request.contextPath}/memberprocess/insert_follow",
-			data : {
-				followTo : memberNo,
-			},
-			method:"GET",
-		})
-		.done(function(){
-			$('.f-unfollow-btn-'+memberNo).removeClass('d-none')
-			$('.f-follow-btn-'+memberNo).addClass('d-none')
-		})
-		.fail(function(){
-		})
-	});
-	
-	$(".f-unfollow-btn").click(function(){
-		let memberNo = $(this).data('memberno');
-		console.log(memberNo)
-		$.ajax({
-			url:"${pageContext.request.contextPath}/memberprocess/delete_follow",
-			data : {
-				followTo : memberNo,
-			},
-			method:"GET",
-		})
-		.done(function(){
-			$('.f-unfollow-btn-'+memberNo).addClass('d-none')
-			$('.f-follow-btn-'+memberNo).removeClass('d-none')
-			
-		})
-		.fail(function(){
-		})
-	});
-})
-
-/* 신고처리 */
-$(function(){
-	$(".report-btn").click(function(e){
-		
-		
-		if($(this).data('storyno')){
-			$("#report_no").val($(this).data('storyno'))
-			$("#report_type").val('story')
-		}else{
-			$("#report_no").val($(this).data('commentno'))
-			$("#report_type").val('comment')
-		}
-		$(".report-confirm").hide()
-		$(".report-val").show()
+function f_follow_btn_click(e){
+	if(${memberNo==null }){
+		alert("로그인후 이용해주세요");
+		return
+	}
+	let memberNo = $(e).data('memberno');
+	$.ajax({
+		url:"${pageContext.request.contextPath}/memberprocess/insert_follow",
+		data : {
+			followTo : memberNo,
+		},
+		method:"GET",
 	})
+	.done(function(){
+		$('.f-unfollow-btn-'+memberNo).removeClass('d-none')
+		$('.f-follow-btn-'+memberNo).addClass('d-none')
+	})
+	.fail(function(){
+	})
+}
+
+function f_unfollow_btn_click(e){
+	let memberNo = $(e).data('memberno');
+	console.log(memberNo)
+	$.ajax({
+		url:"${pageContext.request.contextPath}/memberprocess/delete_follow",
+		data : {
+			followTo : memberNo,
+		},
+		method:"GET",
+	})
+	.done(function(){
+		$('.f-unfollow-btn-'+memberNo).addClass('d-none')
+		$('.f-follow-btn-'+memberNo).removeClass('d-none')
+		
+	})
+	.fail(function(){
+	})
+}
+/* 신고처리 */
+
+function report_btn_click(e){
+	if($(e).data('storyno')){
+		$("#report_no").val($(e).data('storyno'))
+		$("#report_type").val('story')
+	}else{
+		$("#report_no").val($(e).data('commentno'))
+		$("#report_type").val('comment')
+	}
+
+	$(".report-confirm").hide()
+	$(".report-val").show()
+}
+
+
+	
  <c:if test="${memberNo==null}">
- $(".report_reason_v").click(function(){
+	function report_reason_v_click(e){
 	 if(${memberNo==null}){
 			alert("로그인후 이용해주세요");
 			$(".r-c-btn").click()
 			e.preventDefault;
 			return
 		}
- })
-</c:if>
+ 	}
+	</c:if>
  <c:if test="${memberNo!=null}">
-	$(".report_reason_v").click(function(){
-		let no = $("#report_no").val()
-		let reason = $(this).text()
+ 	function report_reason_v_click(e){
+ 		let no = $("#report_no").val()
+		let reason = $(e).text()
 		/* 댓글신고 */
 		if($("#report_type").val()=='comment'){
 			$.ajax({
@@ -320,7 +342,6 @@ $(function(){
 			})
 			.fail(function(){
 			})
-			
 		/* 스토리신고 */
 		}else{
 			$.ajax({
@@ -339,9 +360,9 @@ $(function(){
 			.fail(function(){
 			})
 		}
-	})
+ 	}
 	</c:if>
-})
+
 </script>
 <script type="text/template" id="comment-tpl">
 						<div class="col-11 text-sm text-break" id="comment_1_{{no}}">
@@ -360,7 +381,7 @@ $(function(){
 									data-toggle="dropdown"><i class="fas fa-ellipsis-h"></i></a>
 										<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
 											<a class="dropdown-item text-danger comment_delete_btn"
-											data-no="{{no}}" data-pno="{{pno}}" onclick="delete_comment({{no}},{{pno}})" 
+											data-no="{{no}}" data-pno="{{pno}}" onclick="comment_delete_btn_click(this)" 
 											>삭제</a> 
 											<a class="dropdown-item comment_edit_btn_1" data-no="{{no}}" 
 											onclick="show_form({{no}})"
@@ -430,7 +451,7 @@ $(function(){
 									</c:when>
 									<c:otherwise>
 										<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-											<a class="dropdown-item text-danger report-btn" data-storyno="${photostoryListDto.photostoryNo}" data-toggle="modal" data-target="#report_modal">게시글 신고</a> 
+											<a class="dropdown-item text-danger report-btn" onclick="report_btn_click(this)" data-storyno="${photostoryListDto.photostoryNo}" data-toggle="modal" data-target="#report_modal">게시글 신고</a> 
 											<a class="dropdown-item" >취소</a> 
 										</div>
 									</c:otherwise>
@@ -451,10 +472,10 @@ $(function(){
 						<div class="col-1 py-2">
 							 <c:choose>
 								<c:when test="${photostoryListDto.isLike}">
-									<i class="fa-heart fa-lg like-btn fas like" data-photostoryNo="${photostoryListDto.photostoryNo}"></i>
+									<i class="fa-heart fa-lg like-btn fas like" onclick="like_click(this)" data-photostoryNo="${photostoryListDto.photostoryNo}"></i>
 								</c:when>
 								<c:otherwise>
-									<i class="fa-heart fa-lg like-btn far" data-photostoryNo="${photostoryListDto.photostoryNo}"></i> 
+									<i class="fa-heart fa-lg like-btn far" onclick="like_click(this)" data-photostoryNo="${photostoryListDto.photostoryNo}"></i> 
 								</c:otherwise>
 							</c:choose> 
 						</div>
@@ -493,8 +514,8 @@ $(function(){
 						      		
 						      		<c:choose>
 						      			<c:when test="${followingList.isFollow()}">
-								      		<div class="offset-2 col-4 text-right f-unfollow-btn-${followingList.member.memberNo}"><button class="btn btn-outline-secondary f-unfollow-btn f-unfollow-btn " data-memberNo='${followingList.member.memberNo}'>팔로우 <i class="fas fa-check"></i></button></div>
-								      		<div class="offset-2 col-4 text-right d-none f-follow-btn-${followingList.member.memberNo}"><button class="btn btn-primary f-follow-btn " data-memberNo='${followingList.member.memberNo}'>팔로우</button></div>
+								      		<div class="offset-2 col-4 text-right f-unfollow-btn-${followingList.member.memberNo}"><button class="btn btn-outline-secondary f-unfollow-btn f-unfollow-btn " onclick="f_unfollow_btn_click(this)" data-memberNo='${followingList.member.memberNo}'>팔로우 <i class="fas fa-check"></i></button></div>
+								      		<div class="offset-2 col-4 text-right d-none f-follow-btn-${followingList.member.memberNo}"><button class="btn btn-primary f-follow-btn " onclick="f_follow_btn_click(this)" data-memberNo='${followingList.member.memberNo}'>팔로우</button></div>
 						      			</c:when>
 						      			<c:otherwise >
 						      				<c:choose>
@@ -502,8 +523,8 @@ $(function(){
 								      				
 								      			</c:when>
 								      			<c:otherwise>
-										      		<div class="offset-2 col-4 text-right d-none f-unfollow-btn-${followingList.member.memberNo}"><button class="btn btn-outline-secondary f-unfollow-btn f-unfollow-btn " data-memberNo='${followingList.member.memberNo}'>팔로우 <i class="fas fa-check"></i></button></div>
-										      		<div class="offset-2 col-4 text-right f-follow-btn-${followingList.member.memberNo}"><button class="btn btn-primary f-follow-btn " data-memberNo='${followingList.member.memberNo}'>팔로우</button></div>
+										      		<div class="offset-2 col-4 text-right d-none f-unfollow-btn-${followingList.member.memberNo}"><button class="btn btn-outline-secondary f-unfollow-btn f-unfollow-btn " onclick="f_unfollow_btn_click(this)" data-memberNo='${followingList.member.memberNo}'>팔로우 <i class="fas fa-check"></i></button></div>
+										      		<div class="offset-2 col-4 text-right f-follow-btn-${followingList.member.memberNo}"><button class="btn btn-primary f-follow-btn " onclick="f_follow_btn_click(this)" data-memberNo='${followingList.member.memberNo}'>팔로우</button></div>
 								      			</c:otherwise>
 								      		</c:choose>
 						      			</c:otherwise>
@@ -564,15 +585,16 @@ $(function(){
 											<a class="dropdown-item text-danger comment_delete_btn"
 											data-no="${photostoryCommentListDto.photostoryCommentNo}"
 											data-pno="${photostoryListDto.photostoryPhotoNo}"
+											onclick="comment_delete_btn_click(this)"
 											>삭제</a> 
-											<a class="dropdown-item comment_edit_btn_1" 
+											<a class="dropdown-item comment_edit_btn_1" onclick="comment_edit_btn_1_click(this)"
 											>수정</a> 
 											<a class="dropdown-item" >취소</a> 
 										</div>
 									</c:when>
 									<c:otherwise>
 										<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-											<a class="dropdown-item text-danger report-btn" data-commentno="${photostoryCommentListDto.photostoryCommentNo}" href="#" data-toggle="modal" data-target="#report_modal">댓글 신고</a> 
+											<a class="dropdown-item text-danger report-btn" onclick="report_btn_click(this)" data-commentno="${photostoryCommentListDto.photostoryCommentNo}" href="#" data-toggle="modal" data-target="#report_modal">댓글 신고</a> 
 											<a class="dropdown-item" >취소</a> 
 										</div>
 									</c:otherwise>
@@ -586,8 +608,8 @@ $(function(){
 								<div class="input-group">
 								  <input type="text" class="form-control" value="${photostoryCommentListDto.photostoryCommentContent}">`
 								  <div class="input-group-append" id="button-addon4">
-								    <button class="btn btn-outline-primary comment_edit_btn" id="comment_edit_id_${photostoryCommentListDto.photostoryCommentNo}" type="button" data-no="${photostoryCommentListDto.photostoryCommentNo}">수정</button>
-								    <button class="btn btn-outline-secondary comment_cancel_btn" type="button">취소</button>
+								    <button class="btn btn-outline-primary comment_edit_btn" onclick="comment_edit_btn_click(this)" id="comment_edit_id_${photostoryCommentListDto.photostoryCommentNo}" type="button" data-no="${photostoryCommentListDto.photostoryCommentNo}">수정</button>
+								    <button class="btn btn-outline-secondary comment_cancel_btn" onclick="comment_cancel_btn_click(this)" type="button">취소</button>
 								  </div>
 								</div>
 							</form>
@@ -608,7 +630,7 @@ $(function(){
 						<div class="col-3 text-right">
 							<button type="button"
 								class="btn btn-outline-primary text-nowrap coment-btn"
-								data-photostoryNo="${photostoryListDto.photostoryNo}">게시</button>
+								data-photostoryNo="${photostoryListDto.photostoryNo}" onclick="comment_click(this)">게시</button>
 						</div>
 					</div>
 				</div>
@@ -640,42 +662,42 @@ $(function(){
        </div>
        <hr>
        <div class="row">
-    		<div class="col-12"><a class="d-block report_reason_v" href="#none">스팸</a></div>
+    		<div class="col-12"><a class="d-block report_reason_v" onclick="report_reason_v_click(this)" href="#none">스팸</a></div>
        </div>
        <hr>
        <div class="row">
-    		<div class="col-12"><a class="d-block report_reason_v" href="#none">혐오 발언 또는 상징</a></div>
+    		<div class="col-12"><a class="d-block report_reason_v" onclick="report_reason_v_click(this)" href="#none">혐오 발언 또는 상징</a></div>
        </div>
        <hr>
        <div class="row">
-    		<div class="col-12"><a class="d-block report_reason_v" href="#none">폭력 또는 위험한 단체</a></div>
+    		<div class="col-12"><a class="d-block report_reason_v" onclick="report_reason_v_click(this)" href="#none">폭력 또는 위험한 단체</a></div>
        </div>
        <hr>
        <div class="row">
-    		<div class="col-12"><a class="d-block report_reason_v" href="#none">불법 또는 규제 상품 판매</a></div>
+    		<div class="col-12"><a class="d-block report_reason_v" onclick="report_reason_v_click(this)" href="#none">불법 또는 규제 상품 판매</a></div>
        </div>
        <hr>
        <div class="row">
-    		<div class="col-12"><a class="d-block report_reason_v" href="#none">따돌림 또는 괴롭힘</a></div>
+    		<div class="col-12"><a class="d-block report_reason_v" onclick="report_reason_v_click(this)" href="#none">따돌림 또는 괴롭힘</a></div>
        </div>
        <hr>
        <div class="row">
-    		<div class="col-12"><a class="d-block report_reason_v" href="#none">지적 재산권 침해</a></div>
+    		<div class="col-12"><a class="d-block report_reason_v" onclick="report_reason_v_click(this)" href="#none">지적 재산권 침해</a></div>
        </div>
        <hr>
        <div class="row">
-    		<div class="col-12"><a class="d-block report_reason_v" href="#none">사기 또는 거짓</a></div>
+    		<div class="col-12"><a class="d-block report_reason_v" onclick="report_reason_v_click(this)" href="#none">사기 또는 거짓</a></div>
        </div>
        <hr>
        <div class="row">
-    		<div class="col-12"><a class="d-block report_reason_v" href="#none">마음에 들지 않습니다</a></div>
+    		<div class="col-12"><a class="d-block report_reason_v" onclick="report_reason_v_click(this)" href="#none">마음에 들지 않습니다</a></div>
        </div>
       </div>
       
-      
-		<div class="modal-body report-confirm">
        <input id="report_no" type="hidden">
        <input id="report_type" type="hidden">
+       
+		<div class="modal-body report-confirm">
        <div class="row">
     		<div class="col-12 "><strong>신고처리 되었습니다.</strong></div>
        </div>

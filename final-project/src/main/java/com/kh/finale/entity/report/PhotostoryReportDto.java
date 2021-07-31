@@ -11,4 +11,5 @@ public class PhotostoryReportDto {
 	private int reportNo;
 	private int photostoryNo;
 	private String pReportReason;
+	private String reportConfirm;
 }
