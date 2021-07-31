@@ -34,54 +34,55 @@
 			
 			
 			// 하루 계획표 템플릿 출력 준비
- 				/* var template = $("#result-template").html();
+ 				 var template = $("#result-template").html();
 				template = template.replace("{dr}", ResultPlanVO[0].dailyOrder)
-				$("#result-container").append(template); */
+				$("#result-container").append(template);
 			
-			 /* for(var i = 0; i < ResultPlanVO.length; i++) {
+			  for(var i = 0; i < ResultPlanVO.length - 1; i++) {
 				if(ResultPlanVO[i].dailyOrder != ResultPlanVO[i+1].dailyOrder) {
 					var template = $("#result-template").html();
 					template = template.replace("{dr}", ResultPlanVO[i+1].dailyOrder)
 					$("#result-container").append(template);
 				}
-			 } */
-			for(var i = 0; i < ResultPlanVO.length; i++){ // 1 1 2 2
-				// 0 이면 생성 
-				if(i == 0){
-					var template = $("#result-template").html();
-					template = template.replace("{dr}", ResultPlanVO[0].dailyOrder); // 1
-					template = template.replace("{index}", ResultPlanVO[0].dailyOrder);
-					$("#result-container").append(template);
-				} 
-				// 하루계획 순서가 달라지면 생성 
-				else if($(".daily-plan-container").data("index") != ResultPlanVO[i].dailyOrder){
-					var template = $("#result-template").html();
-					template = template.replace("{dr}", ResultPlanVO[i].dailyOrder); // 1 2 2
-					template = template.replace("{index}", ResultPlanVO[i].dailyOrder);
-					$("#result-container").append(template);
-				}
-			}
+			 } 
+
+// 			for(var i = 0; i < ResultPlanVO.length; i++){ // 1 1 2 2
+// 				// 0 이면 생성 
+// 				if(i == 0){
+// 					var template = $("#result-template").html();
+// 					template = template.replace("{dr}", ResultPlanVO[0].dailyOrder); // 1
+// 					template = template.replace("{index}", ResultPlanVO[0].dailyOrder);
+// 					$("#result-container").append(template);
+// 				} 
+// 				// 하루계획 순서가 달라지면 생성 
+// 				else if($(".daily-plan-container").data("index") != ResultPlanVO[i].dailyOrder){
+// 					var template = $("#result-template").html();
+// 					template = template.replace("{dr}", ResultPlanVO[i].dailyOrder); // 1 2 2
+// 					template = template.replace("{index}", ResultPlanVO[i].dailyOrder);
+// 					$("#result-container").append(template);
+// 				}
+// 			}
 			// 반복문 으로 배열길이 만큼 데이터 집어넣기 실행
-			 /* for(var i = 0; i < ResultPlanVO.length; i++) {
-				 var template1 = $("#plan-template").html();
+			 for(var i = 0; i < ResultPlanVO.length; i++) {
+				 var template2 = $("#plan-template").html();
 				console.log(ResultPlanVO[i].dailyOrder)
-				/* template1 = template1.replace("{plannerNo}", ResultPlanVO[i].plannerNo)
-				template1 = template.replace("{plannerOpen}", ResultPlanVO[i].plannerOpen)
-				template1 = template.replace("{plannerName}", ResultPlanVO[i].plannerName)
-				template1 = template.replace("{memberNo}", ResultPlanVO[i].memberNo)
-				template1 = template.replace("{dailyNo}", ResultPlanVO[i].dailyNo)
-				template1 = template.replace("{dailyStayDate}", ResultPlanVO[i].dailyStayDate)
-				template1 = template.replace("{dailyOrder}", ResultPlanVO[i].dailyOrder)
-				template1 = template.replace("{placeNo}", ResultPlanVO[i].placeNo)
-				template1 = template.replace("{placeLatitude}", ResultPlanVO[i].placeLatitude)
-				template1 = template.replace("{placeLongitude}", ResultPlanVO[i].placeLongitude)
-				template1 = template.replace("{placeName}", ResultPlanVO[i].placeName)
-				template1 = template.replace("{placeType}", ResultPlanVO[i].placeType)
-				template1 = template.replace("{dailyplanPlaceOrder}", ResultPlanVO[i].dailyplanPlaceOrder)
-				template1 = template.replace("{dailyplanTransfer}", ResultPlanVO[i].dailyplanTransfer)
-				template1 = template.replace("{placeNo}", ResultPlanVO[i].placeNo)
-				$(".daily-plan-container").append(template1);
-			 } */
+				template2 = template2.replace("{plannerNo}", ResultPlanVO[i].plannerNo)
+				template2 = template2.replace("{plannerOpen}", ResultPlanVO[i].plannerOpen)
+				template2 = template2.replace("{plannerName}", ResultPlanVO[i].plannerName)
+				template2 = template2.replace("{memberNo}", ResultPlanVO[i].memberNo)
+				template2 = template2.replace("{dailyNo}", ResultPlanVO[i].dailyNo)
+				template2 = template2.replace("{dailyStayDate}", ResultPlanVO[i].dailyStayDate)
+				template2 = template2.replace("{dailyOrder}", ResultPlanVO[i].dailyOrder)
+				template2 = template2.replace("{placeNo}", ResultPlanVO[i].placeNo)
+				template2 = template2.replace("{placeLatitude}", ResultPlanVO[i].placeLatitude)
+				template2 = template2.replace("{placeLongitude}", ResultPlanVO[i].placeLongitude)
+				template2 = template2.replace("{placeName}", ResultPlanVO[i].placeName)
+				template2 = template2.replace("{placeType}", ResultPlanVO[i].placeType)
+				template2 = template2.replace("{dailyplanPlaceOrder}", ResultPlanVO[i].dailyplanPlaceOrder)
+				template2 = template2.replace("{dailyplanTransfer}", ResultPlanVO[i].dailyplanTransfer)
+				template2 = template2.replace("{placeNo}", ResultPlanVO[i].placeNo)
+				$("#plan-container").append(template2);
+			 }
 			
 			
 		}
@@ -90,7 +91,7 @@
 
 <script type="text/template" id="result-template">
 	<!-- 하루 계획표 출력 템플릿 -->
-	<div style="border: 1px solid gray" class="daily-plan-container" data-index={index}>
+	<div style="border: 1px solid gray">
 	<label>{dr} 일차 하루계획표</label>
     </div>
 	<br>
@@ -152,8 +153,9 @@
 					<br>
 				<div>
 				</div>
-				<div id="result-container"></div>
+				<div id="result-container">
 				<div id="plan-container"></div>
+				</div>
 			</div>
 		</div>
 	</div>
