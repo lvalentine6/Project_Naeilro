@@ -24,12 +24,18 @@
 			
 			
 			// 템플릿 불러오기 
- 			var template = $("#result-template").html();
-			
 			// 반복문 으로 배열길이 만큼 데이터 집어넣기 실행
 			 for(var i = 0; i < ResultPlanVO.length; i++) {
-				console.log(ResultPlanVO[i].dailyOrder)
-				template = template.replace("{plannerNo}", ResultPlanVO[i].plannerNo)
+		 		var template = $("#result-template").html();
+				console.log(ResultPlanVO[i].dailyOrder + "일 차 하루계획표 : ");
+				console.log("위도 : " + ResultPlanVO[i].placeLatitude);
+				console.log("경도 : " + ResultPlanVO[i].placeLongitude);
+				console.log("장소 순서 : " + ResultPlanVO[i].dailyplanPlaceOrder);
+				console.log("장소 번호 : " + ResultPlanVO[i].placeNo);
+				console.log("===============================================")
+				template = template.replace("{dailyOrder}", ResultPlanVO[i].dailyOrder);
+				$("#result-container").append(template); 
+				/* template = template.replace("{plannerNo}", ResultPlanVO[i].plannerNo)
 				template = template.replace("{plannerOpen}", ResultPlanVO[i].plannerOpen)
 				template = template.replace("{plannerName}", ResultPlanVO[i].plannerName)
 				template = template.replace("{memberNo}", ResultPlanVO[i].memberNo)
@@ -43,7 +49,7 @@
 				template = template.replace("{placeType}", ResultPlanVO[i].placeType)
 				template = template.replace("{dailyplanPlaceOrder}", ResultPlanVO[i].dailyplanPlaceOrder)
 				template = template.replace("{dailyplanTransfer}", ResultPlanVO[i].dailyplanTransfer)
-				$("#result-container").append(template);
+				$("#result-container").append(template); */
 			 }
 		}
 	});

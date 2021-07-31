@@ -471,41 +471,31 @@
 			        position: new kakao.maps.LatLng(place.y, place.x)
 			    });
 			    
-			    // 마커에 클릭이벤트를 등록합니다 
-			    kakao.maps.event.addListener(marker, 'click', function(){
+			    // 마커에 이벤트를 등록합니다 
+			    kakao.maps.event.addListener(marker, 'mouseover', function(){
 			        // 마커를 클릭하면 장소명이 인포윈도우에 표출됩니다
 			        infowindow.setContent(
 			        		'<div style="padding:5px;font-size:12px;">' + 
 			        			place.place_name + 
 			        		'</div>');
 			        infowindow.open(map, marker);
-			        
-			        /* 선택한 장소 마커 생성 */
-					function placeMarker(){
-						var markerPosition  = new kakao.maps.LatLng(place.x, place.y); 
-						
-						// 마커를 생성합니다
-						var marker = new kakao.maps.Marker({
-						    position: markerPosition
-						});
-						
-						marker.setMap(map);
-					}
-			        
-			        /* 뷰 */
+			    });
+			    
+			    kakao.maps.event.addListener(marker, 'click', function(){
+			    	 /* 뷰 */
 			        var dailyIndex = $('#daily-index').val(); // 하루계획표 인덱스 선택자
 					var placeIndex = $(".list-daily").eq(dailyIndex-1).find(".list-dailyplan").last().data("index"); // 장소 선택자
 					
+					var userTemplate = $("#user-place-dailyplan-template").html();
+					
 					if(placeIndex == null) {
 						placeIndex = 0;
-					}
-					
-					var userTemplate = $("#user-place-dailyplan-template").html();
-					if(placeIndex == null) {
 						userTemplate = userTemplate.replace("{index}", 1);
 					} else {
 						userTemplate = userTemplate.replace("{index}", placeIndex+1);
 					}
+
+					
 					userTemplate = userTemplate.replace("{place-name}", place.place_name);
 					userTemplate = userTemplate.replace("{data-latitude}", place.y);
 					userTemplate = userTemplate.replace("{data-longitude}", place.x);
@@ -514,17 +504,23 @@
 					
 					$(".list-daily").eq(dailyIndex-1).append(userTemplate);
 					
+					/* 선택 마커 */
+					var markerImage = new kakao.maps.MarkerImage(
+						    'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_red.png',
+						    new kakao.maps.Size(31, 35), new kakao.maps.Point(13, 34));
+					marker.setImage(markerImage);
 					
 					/* 경로(선) */
-					// 지역변수
+					// 변수
 					var linepath = [];
 					var polyline = new kakao.maps.Polyline({});
 					
 					polyPath();
 					
 					function polyPath(){
+						
 						// 선 생성하기 위한 경로 계산
-						$('.list-daily').each(function(){
+						$('.list-daily').eq(dailyIndex-1).each(function(){
 							$(this).find('.list-dailyplan').each(function(){
 								var latitude = $(this).find('.list-dailyplan-latitude').val();
 								var longitude = $(this).find('.list-dailyplan-longitude').val();
@@ -557,8 +553,9 @@
 						polyline.setMap(map);
 					}
 					
+					
 					/* 삭제 (완료) */ 
-					$('.list-dailyplan').find('.place-delete-button').click(function(){
+					$(".list-daily").eq(dailyIndex-1).find(".list-dailyplan").find(".place-delete-button").click(function(){
 						// 데이터 삭제
 						$(this).parents('.list-dailyplan').remove();
 					});
@@ -625,12 +622,9 @@
 						}
 						
 					}); 
-					
 			    });
 			}
-		
 		} 
-		
 		
 		/* 이벤트 : 계획표 생성 */
 		$("#planner-insert-button").click(function(){
@@ -643,15 +637,18 @@
 				url:"${pageContext.request.contextPath}/plan/data/planInsertService",
 				type: "post",
 				data: $("form").serialize(),
-				success: function(){
+				success: function(resp){
 					console.log("성공");
+					console.log("계획표 번호 : " + resp); // 성공
+					
+					// 조회 결과 페이지 이동
+					location.href = "${pageContext.request.contextPath}/plan/resultPlan?plannerNo=" + resp;
 				},
 				error: function(){
 					console.log("실패");
 				}
 			});
 		}
-		
 	}); 
 </script>
 <script type="text/template" id="planner-insert-template"> 
@@ -729,16 +726,38 @@
 				<div class="col-xs-6 col-md-3">
 					<!-- 통합계획표 입력창 -->
 					<div id="planner-insert-confirm" style="border: 1px solid">
-						<div style="font-weight:bold;">통합계획표</div>
+						<div>
+							<span data-langum="17">통합계획표</span>
+						</div>
 							<label>계획표 이름</label>
 							<input type="text" id="planner-name"> 
 							<br>
 							<label>날짜선택</label>
-							<input type="text" id="demo">
-							<br>
-							<input type="button" id="planner-map-find" value="계획표 생성">
-							<input type="hidden" id="planner-insert-button" value="계획표 생성완료">
-							<br>
+						<input type="text" id="demo">
+						<br>
+						<input type="button" id="planner-map-find" value="계획표 생성">
+						<input type="hidden" id="planner-insert-button" value="계획표 생성완료">
+						<br>
+						<!-- <ul class="card hoverable z-depth-3 collapsible">
+							<h6 class="center">
+								<b>
+									<span>통합계획표</span>
+								</b>
+							</h6>
+							<li class="center">
+								<div id="traveltextdiv">
+									<h6>
+										<span style="letter-spacing: 1px !important;">
+											<span id="">계획표 이름</span>
+											<input type="text" id="planner-name"> 
+										</span>
+									</h6>
+								</div>
+								<div class="daycount-main2">
+									
+								</div>
+							</li>
+						</ul> -->
 					</div>
 					<!-- 통합계획표 입력창 -->	
 					<!-- 검색창 -->
@@ -758,9 +777,13 @@
 				<!-- 하루계획표 -->
 				<div id="daily-list-container"></div>
 				<!-- 하루계획표 -->
+				<!-- 데이터 전송 FORM -->
 				<form id="plan-insert-container"></form>
+				<!-- 데이터 전송 FORM -->
+				<!-- 인덱스 -->
 				<input type="hidden" id="daily-index">
-				<input type="hidden" id="place-index">
+				<!-- 인덱스 -->
+				<div id="polyline-container"></div>
 				</div>
 				<div class="col-xs-12 col-md-9">
 					<div id="map"></div>
