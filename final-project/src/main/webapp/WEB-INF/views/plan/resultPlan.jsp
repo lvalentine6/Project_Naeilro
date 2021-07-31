@@ -36,36 +36,23 @@
 			// 하루 계획표 템플릿 출력 준비
  				 var template = $("#result-template").html();
 				template = template.replace("{dr}", ResultPlanVO[0].dailyOrder)
+				template = template.replace("{dailyNo}", ResultPlanVO[0].dailyNo)
 				$("#result-container").append(template);
 			
 			  for(var i = 0; i < ResultPlanVO.length - 1; i++) {
 				if(ResultPlanVO[i].dailyOrder != ResultPlanVO[i+1].dailyOrder) {
 					var template = $("#result-template").html();
 					template = template.replace("{dr}", ResultPlanVO[i+1].dailyOrder)
+					template = template.replace("{dailyNo}", ResultPlanVO[i+1].dailyNo)
 					$("#result-container").append(template);
 				}
 			 } 
 
-// 			for(var i = 0; i < ResultPlanVO.length; i++){ // 1 1 2 2
-// 				// 0 이면 생성 
-// 				if(i == 0){
-// 					var template = $("#result-template").html();
-// 					template = template.replace("{dr}", ResultPlanVO[0].dailyOrder); // 1
-// 					template = template.replace("{index}", ResultPlanVO[0].dailyOrder);
-// 					$("#result-container").append(template);
-// 				} 
-// 				// 하루계획 순서가 달라지면 생성 
-// 				else if($(".daily-plan-container").data("index") != ResultPlanVO[i].dailyOrder){
-// 					var template = $("#result-template").html();
-// 					template = template.replace("{dr}", ResultPlanVO[i].dailyOrder); // 1 2 2
-// 					template = template.replace("{index}", ResultPlanVO[i].dailyOrder);
-// 					$("#result-container").append(template);
-// 				}
-// 			}
 			// 반복문 으로 배열길이 만큼 데이터 집어넣기 실행
 			 for(var i = 0; i < ResultPlanVO.length; i++) {
 				 var template2 = $("#plan-template").html();
-				console.log(ResultPlanVO[i].dailyOrder)
+				 console.log(ResultPlanVO[3].dailyNo == $('#rt-dn').val());
+				if(ResultPlanVO[i].dailyNo == $('.rt-dn').val()) {
 				template2 = template2.replace("{plannerNo}", ResultPlanVO[i].plannerNo)
 				template2 = template2.replace("{plannerOpen}", ResultPlanVO[i].plannerOpen)
 				template2 = template2.replace("{plannerName}", ResultPlanVO[i].plannerName)
@@ -81,18 +68,22 @@
 				template2 = template2.replace("{dailyplanPlaceOrder}", ResultPlanVO[i].dailyplanPlaceOrder)
 				template2 = template2.replace("{dailyplanTransfer}", ResultPlanVO[i].dailyplanTransfer)
 				template2 = template2.replace("{placeNo}", ResultPlanVO[i].placeNo)
-				$("#plan-container").append(template2);
+				$(".box").append(template2);
+ 				}
+				else {
+					i++;
+				}
 			 }
-			
-			
+			 console.log($('.rt-dn'));
 		}
 	});
 </script>
 
 <script type="text/template" id="result-template">
 	<!-- 하루 계획표 출력 템플릿 -->
-	<div style="border: 1px solid gray">
+	<div style="border: 1px solid gray" class="box">
 	<label>{dr} 일차 하루계획표</label>
+	<input class="rt-dn" type="text" name="dailyNo" value={dailyNo} readonly>
     </div>
 	<br>
 </script>
@@ -100,17 +91,17 @@
 <script type="text/template" id="plan-template">
 	<!-- 여행 계획 출력 템플릿 -->
 	<div>
-	<input type="hidden" name="plannerNo" value={plannerNo} readonly>
-	<input type="hidden" name="plannerOpen" value={plannerOpen} readonly>
-    <input type="hidden" name="plannerName" value={plannerName} readonly>
-    <input type="hidden" name="memberNo" value={memberNo} readonly>
-    <input type="hidden" name="dailyNo" value={dailyNo} readonly>
+	<input type="text" name="plannerNo" value={plannerNo} readonly>
+	<input type="text" name="plannerOpen" value={plannerOpen} readonly>
+    <input type="text" name="plannerName" value={plannerName} readonly>
+    <input type="text" name="memberNo" value={memberNo} readonly>
+    <input type="text" name="dailyNo" value={dailyNo} readonly>
     <input type="text" name="dailyplanPlaceOrder" value={dailyplanPlaceOrder} readonly>
-    <input style="border: none;" type="hidden" name="dailyStayDate" value={dailyStayDate} readonly> 
-    <input type="hidden" name="dailyOrder" value={dailyOrder} readonly>
-    <input type="hidden" name="placeNo" value={placeNo} readonly>
-    <input type="hidden" name="placeLatitude" value={placeLatitude} readonly>
-    <input type="hidden" name="placeLongitude" value={placeLongitude} readonly>
+    <input style="border: none;" type="text" name="dailyStayDate" value={dailyStayDate} readonly> 
+    <input type="text" name="dailyOrder" value={dailyOrder} readonly>
+    <input type="text" name="placeNo" value={placeNo} readonly>
+    <input type="text" name="placeLatitude" value={placeLatitude} readonly>
+    <input type="hidtextden" name="placeLongitude" value={placeLongitude} readonly>
     <input style="border: none;" type="text" name="placeName" value={placeName} readonly>
     <input style="border: none;" type="text" name="placeType" value={placeType} readonly>
     <input style="border: none;" type="text" name="dailyplanTransfer" value={dailyplanTransfer} readonly>
@@ -153,9 +144,7 @@
 					<br>
 				<div>
 				</div>
-				<div id="result-container">
-				<div id="plan-container"></div>
-				</div>
+				<div id="result-container"></div>
 			</div>
 		</div>
 	</div>
