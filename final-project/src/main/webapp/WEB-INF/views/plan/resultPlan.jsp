@@ -14,7 +14,13 @@
 			var ResultPlanVO = [];
 			ResultPlanVO = ${list};
 			
+			ResultPlanVO.sort(function(a, b)  {
+				  return a.dailyOrder - b.dailyOrder;
+				});
+				console.log(ResultPlanVO);
+			
 			var plannerName = ResultPlanVO[0].plannerName
+			
 			var dailyStayDate = ResultPlanVO[0].dailyStayDate
 			
 			$("#planName").text(plannerName);
@@ -22,14 +28,26 @@
 			
 			console.log(plannerName);
 			
-			console.log(ResultPlanVO[2].placeName);
+			console.log(ResultPlanVO[2+1].dailyOrder);
 			
 			
 			// 템플릿 불러오기 
 			
-			// 반복문 으로 배열길이 만큼 데이터 집어넣기 실행
 			 for(var i = 0; i < ResultPlanVO.length; i++) {
  				var template = $("#result-template").html();
+				template = template.replace("{dr}", ResultPlanVO[i].dailyOrder)
+				$("#result-container").append(template);
+				if(ResultPlanVO[i].dailyOrder != ResultPlanVO[i+1].dailyOrder) {
+					var template = $("#result-template").html();
+					template = template.replace("{dr}", ResultPlanVO[i].dailyOrder)
+					$("#result-container").append(template);
+				}
+			 }
+			
+			
+			// 반복문 으로 배열길이 만큼 데이터 집어넣기 실행
+			 for(var i = 0; i < ResultPlanVO.length; i++) {
+ 				var template = $("#result-template2").html();
 				console.log(ResultPlanVO[i].dailyOrder)
 				template = template.replace("{plannerNo}", ResultPlanVO[i].plannerNo)
 				template = template.replace("{plannerOpen}", ResultPlanVO[i].plannerOpen)
@@ -53,6 +71,15 @@
 </script>
 
 <script type="text/template" id="result-template">
+	<!-- 하루 계획표 출력 템플릿 -->
+	<div style="border: 1px solid gray">
+	<label>{dr} 일차 하루계획표</label>
+
+    </div>
+	<br>
+</script>
+
+<script type="text/template" id="result-template1">
 	<!-- 여행 계획 출력 템플릿 -->
 	<div style="border: 1px solid gray">
 	<label>{dr} 일차 하루계획표</label>
