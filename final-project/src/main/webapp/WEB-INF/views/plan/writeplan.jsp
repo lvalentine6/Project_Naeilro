@@ -15,10 +15,6 @@
 	.list-daily {
 		margin-top: 10px;
 	}
-	#search {
-		border: 1px solid;
-		margin-top: 10px;
-	}
 </style>
 <style>
 	ul:not(.browser-default) {
@@ -129,7 +125,6 @@
 	    margin-bottom: 5px !important;
 	    background-color: #000000 !important;
 	}
-	
 	.collapsibleDailyClosebtn {
 		color: #ffffff;
 	    font-size: 12px !important;
@@ -143,60 +138,74 @@
 		background-color: #00bcd4;
 	}
 	
-	.search-sidebar {
-        width: 230px !important;
-        padding-top: 35px !important;
-    }
-
-    #keyword {
-        height: 2.5rem !important;
-    }
-
-    #keyword {
-        height: 2.5rem !important;
-    }
-    
-    #keyword {
-    	font-family: "Noto Sans KR", "Nanum Gothic", sans-serif !important;
-    }
-    
-    #keyword {
-    	width: 245px;
-    	margin: 0;
-    	font-size: 14px;
-    	height: 36px;
-    	border-bottom: 1px solid #ddd;
-    	box-shadow: none;
-    }
-    
-    #searchSpotsOrHotelsButton {
-	    width: 100%;
+	.searchRadioCss {
+    	display: flex;
+    	justify-content: space-around;
+	}
+	[type="radio"]:not(:checked), [type="radio"]:checked {
+	    position: absolute;
+	    opacity: 0;
+	    pointer-events: none;
+	}
+	[type="checkbox"], [type="radio"] {
+	    -webkit-box-sizing: border-box;
+	    box-sizing: border-box;
+	    padding: 0;
+	}
+	.radio-inline__input {
+	    clip: rect(1px, 1px, 1px, 1px);
+	    position: absolute !important;
+	}
+	.radio-inline__label {
+	    display: inline-block;
+	    padding: 0.5rem 1rem;
+	    transition: all .2s;
+	    cursor: pointer;
+	}
+	
+	.radio-inline__input:checked + .radio-inline__label {
+	    background: #2979ff;
+	    color: #fff;
+	}
+	
+	.black {
+	    background-color: #000 !important;
+	}
+	
+	#find {
+		height: 2.5rem !important;
+		color: #ffffff;
+		width: 100%;
 	    height: 36px;
 	    border-radius: unset;
 	    box-shadow: none;
 	}
 	
-	.searchinputdivcss {
-    	display: flex;
-    	height: 36px;
-    	width: 100%;
-	}
-	.waves-effect {
-	    position: relative;
-	    cursor: pointer;
-	    display: inline-block;
-	    overflow: hidden;
-	    -webkit-user-select: none;
-	    -moz-user-select: none;
-	    -ms-user-select: none;
-	    user-select: none;
-	    -webkit-tap-highlight-color: transparent;
-	    vertical-align: middle;
-	    z-index: 1;
-	    -webkit-transition: .3s ease-out;
-	    transition: .3s ease-out;
+	.selectCardCss {
+	    margin: 0 5px 0 5px !important;
+	    padding-bottom: 1px !important;
 	}
 	
+	.place-delete-button {
+		width: 100%;
+	    line-height: 0;
+	    height: 25px;
+	    box-shadow: none;
+	    color: #ffffff;
+	    background-color: #ff1744 !important;
+	}
+	
+	.select-box {
+		border: none;
+		position: relative;
+	  	display: block;
+		width: 100%;
+		margin: 0 auto;
+		margin-bottom: 10px;
+		font-family: 'Open Sans', 'Helvetica Neue', 'Segoe UI', 'Calibri', 'Arial', sans-serif;
+		font-size: 18px;
+		color: #60666d;
+	}
 </style>
 <script type="text/javascript"
 	src="//dapi.kakao.com/v2/maps/sdk.js?appkey=60b30d68f4da16b4a316665d189e702f&libraries=services"></script>
@@ -233,9 +242,9 @@
 		/* 체크박스 중복 불가 */
 		function check(){
 			// 검색창
-			$(".type").click(function(){
+			$(".radio-inline__input").click(function(){
 				if($(this).prop('checked')){
-					$('.type').prop('checked', false);
+					$('.radio-inline__input').prop('checked', false);
 					$(this).prop('checked', true);
 				}
 			});
@@ -569,6 +578,9 @@
 				// #.지역 CB함수 - 매개변수 : 지명 + 유형
 				setMapBounds(placeName, placeType);
 				
+				// 지역 입력
+				$(".list-daily").eq(divIndex).find("#daily-input-name").html(placeName);
+				
 				// #. 지역 선택해야 검색창 나오게끔 표시
 				$("#search").show();
 			});
@@ -580,7 +592,7 @@
 		function find(){
 			$("#find").click(function(){
 				// #. 체크박스 설정으로 유형 값 변경
-				placeType = $('input[class=type]:checked').val();  
+				placeType = $('input[class=radio-inline__input]:checked').val();  
 				
 				// #. 선택한 장소 유형을 출력에 대입
 				$('input[name=placeType]').attr('value', placeType); 
@@ -613,7 +625,7 @@
 			var keyword = "";
 			
 			// #. 관광지에 체크박스 먼저 선택 후 지역 선택하면 알맞게 변경
-			if($('.type').val() == "관광지"){
+			if($('.radio-inline__input').val() == "관광지"){
 				placeType = "관광지";
 			}
 			
@@ -693,17 +705,17 @@
 					
 					$(".list-daily").eq(dailyIndex-1).append(userTemplate);
 					
-					
 					/* 경로(선) */
-					// 지역변수
+					// 변수
 					var linepath = [];
 					var polyline = new kakao.maps.Polyline({});
 					
 					polyPath();
 					
 					function polyPath(){
+						
 						// 선 생성하기 위한 경로 계산
-						$('.list-daily').each(function(){
+						$('.list-daily').eq(dailyIndex-1).each(function(){
 							$(this).find('.list-dailyplan').each(function(){
 								var latitude = $(this).find('.list-dailyplan-latitude').val();
 								var longitude = $(this).find('.list-dailyplan-longitude').val();
@@ -735,6 +747,13 @@
 						// 경로 집어넣기
 						polyline.setMap(map);
 					}
+					
+					
+					/* 삭제 (완료) */ 
+					$(".list-daily").eq(dailyIndex-1).find(".list-dailyplan").find(".place-delete-button").click(function(){
+						// 데이터 삭제
+						$(this).parents('.list-dailyplan').remove();
+					});
 					
 					/* 삭제 (완료) */ 
 					$('.list-dailyplan').find('.place-delete-button').click(function(){
@@ -822,8 +841,12 @@
 				url:"${pageContext.request.contextPath}/plan/data/planInsertService",
 				type: "post",
 				data: $("form").serialize(),
-				success: function(){
+				success: function(resp){
 					console.log("성공");
+					console.log("계획표 번호 : " + resp); // 성공
+					
+					// 조회 결과 페이지 이동
+					location.href = "${pageContext.request.contextPath}/plan/resultPlan?plannerNo=" + resp;
 				},
 				error: function(){
 					console.log("실패");
@@ -868,7 +891,7 @@
 		<h6 class="list-daily-order center"><b><span>{dailyOrder} 일차 하루계획표</span></b></h6>
 		<li class="center active">
 			<div class="list-daily-placeName">
-				<span>지역</span>
+				<span id="daily-input-name">지역 :</span>
 			</div>
 			<div class="list-open-place-select-button collapsible-body daycollapsible-main2 center s-border">
 				<button class="daily-select-button btn center collapsibleDailyClosebtn">지역 선택</button>
@@ -879,24 +902,25 @@
 </script>
 <script type="text/template" id="user-place-dailyplan-template">
 	<!-- 사용자용 : 장소 & 장소계획 리스트 -->
-	<div class="list-dailyplan" style="border-top: 1px solid" data-index="{index}"> 
-		<div class="list-dailyplan-placeName">
-			<label>{place-name}</label>
+	<div class="list-dailyplan card z-depth-3 selectCardCss" data-index="{index}"> 
+		<div class="list-dailyplan-placeName center">
+			<h6>
+				<b><span>{place-name}</span></b>
+			</h6>
 		</div>
 		<div class="list-dailyplan-transfer">
-			<label>교통수단</label>
-			<select clsss="transfer">
-				<option value="선택" selected>선택</option>
+			<select class="transfer select-box center">
+				<option value="선택" selected>교통수단을 선택해주세요.</option>
 				<option value="항공">항공</option>
 				<option value="기차">기차</option>
 				<option value="자동차">자동차</option>
 			</select>
 		</div>
-		<input type="text" class="list-dailyplan-latitude" value={data-latitude}>
+		<input type="hidden" class="list-dailyplan-latitude" value={data-latitude}>
 		<input type="hidden" class="list-dailyplan-longitude" value={data-longitude}>
 		<input type="hidden" class="list-dailyplan-name" value={data-name}>
 		<input type="hidden" class="list-dailyplan-type" value={data-type}>
-		<input type="button" class="place-delete-button" value="삭제">
+		<input type="button" class="place-delete-button btn center border-radius-none" value="삭제">
 	</div>
 	<!-- 사용자용 : 장소 & 장소계획 리스트 -->
 </script>
@@ -927,20 +951,20 @@
 					</div>
 					<!-- 통합계획표 입력창 -->	
 				<!-- 검색창 : CSS -->
-				<div id="search">
+				<div id="search" class="card hoverable z-depth-3 collapsible">
 					<div class="searchinputdivcss" id="searchSpotOrHotelKeywordWrapper" >
+						<div class="center searchRadioCss">
+							<input type="radio" class="radio-inline__input" id="hotel" value="호텔">
+							<label class="radio-inline__label" for="hotel" style="width: 100%">호텔</label>
+							<input type="radio" class="radio-inline__input" id="tour" value="관광지">
+							<label class="radio-inline__label" for="tour" style="width: 100%">관광지</label>
+						</div>
 						<div class="searchinputdivcss_c">
 							<input class="center"  type="text" id="keyword"  required="required" placeholder="검색어를 입력하세요.">
 						</div>
-						<div class="btn black waves-effect waves-light" id="searchSpotsOrHotelsButton">
-							<i class="material-icons">search</i>
-						</div>
-						<!-- <div>
-							<input type="radio" class="type" id="hotel" value="호텔">
-							<label>호텔</label>
-							<input type="radio" class="type" id="tour" value="관광지">
-							<label>관광지</label>
-						</div> -->
+						<button class="btn black waves-effect waves-light" id="find">
+							검색
+						</button>
 					</div>
 				</div> 
 				<!-- 검색창 : CSS -->
