@@ -14,6 +14,7 @@
 			var ResultPlanVO = [];
 			ResultPlanVO = ${list};
 			
+			// 데이터 정렬
 			ResultPlanVO.sort(function(a, b)  {
 				  return a.dailyOrder - b.dailyOrder;
 				});
@@ -23,6 +24,7 @@
 			
 			var dailyStayDate = ResultPlanVO[0].dailyStayDate
 			
+			// 변수 설정
 			$("#planName").text(plannerName);
 			$("#date").text(dailyStayDate + "일간의 여행");
 			
@@ -31,15 +33,15 @@
 			console.log(ResultPlanVO[2+1].dailyOrder);
 			
 			
-			// 템플릿 불러오기 
+			// 하루 계획표 템플릿 출력 준비
+ 				var template = $("#result-template").html();
+				template = template.replace("{dr}", ResultPlanVO[0].dailyOrder)
+				$("#result-container").append(template);
 			
 			 for(var i = 0; i < ResultPlanVO.length; i++) {
- 				var template = $("#result-template").html();
-				template = template.replace("{dr}", ResultPlanVO[i].dailyOrder)
-				$("#result-container").append(template);
 				if(ResultPlanVO[i].dailyOrder != ResultPlanVO[i+1].dailyOrder) {
 					var template = $("#result-template").html();
-					template = template.replace("{dr}", ResultPlanVO[i].dailyOrder)
+					template = template.replace("{dr}", ResultPlanVO[i+1].dailyOrder)
 					$("#result-container").append(template);
 				}
 			 }
@@ -47,7 +49,7 @@
 			
 			// 반복문 으로 배열길이 만큼 데이터 집어넣기 실행
 			 for(var i = 0; i < ResultPlanVO.length; i++) {
- 				var template = $("#result-template2").html();
+				 var template = $("#plan-template").html();
 				console.log(ResultPlanVO[i].dailyOrder)
 				template = template.replace("{plannerNo}", ResultPlanVO[i].plannerNo)
 				template = template.replace("{plannerOpen}", ResultPlanVO[i].plannerOpen)
@@ -56,7 +58,6 @@
 				template = template.replace("{dailyNo}", ResultPlanVO[i].dailyNo)
 				template = template.replace("{dailyStayDate}", ResultPlanVO[i].dailyStayDate)
 				template = template.replace("{dailyOrder}", ResultPlanVO[i].dailyOrder)
-				template = template.replace("{dr}", ResultPlanVO[i].dailyOrder)
 				template = template.replace("{placeNo}", ResultPlanVO[i].placeNo)
 				template = template.replace("{placeLatitude}", ResultPlanVO[i].placeLatitude)
 				template = template.replace("{placeLongitude}", ResultPlanVO[i].placeLongitude)
@@ -64,7 +65,7 @@
 				template = template.replace("{placeType}", ResultPlanVO[i].placeType)
 				template = template.replace("{dailyplanPlaceOrder}", ResultPlanVO[i].dailyplanPlaceOrder)
 				template = template.replace("{dailyplanTransfer}", ResultPlanVO[i].dailyplanTransfer)
-				$("#result-container").append(template);
+				$("#plan-container").append(template);
 			 }
 		}
 	});
@@ -74,16 +75,12 @@
 	<!-- 하루 계획표 출력 템플릿 -->
 	<div style="border: 1px solid gray">
 	<label>{dr} 일차 하루계획표</label>
-
     </div>
 	<br>
 </script>
 
-<script type="text/template" id="result-template1">
+<script type="text/template" id="plan-template">
 	<!-- 여행 계획 출력 템플릿 -->
-	<div style="border: 1px solid gray">
-	<label>{dr} 일차 하루계획표</label>
-	<br>
 	<div>
 	<input type="hidden" name="plannerNo" value={plannerNo} readonly>
 	<input type="hidden" name="plannerOpen" value={plannerOpen} readonly>
@@ -100,32 +97,8 @@
     <input style="border: none;" type="text" name="placeType" value={placeType} readonly>
     <input style="border: none;" type="text" name="dailyplanTransfer" value={dailyplanTransfer} readonly>
 	<br>
-	</div>
     </div>
 	<br>
-</script>
-
-<script type="text/template" id="result-image-template">
-	<!-- 포토스토리 이미지 출력 템플릿 -->
-	<div style="border: 1px;">
-	<label>{dr} 일차 하루계획표</label>
-	<br>
-	<input type="hidden" name="plannerNo" value={plannerNo} readonly>
-	<input type="hidden" name="plannerOpen" value={plannerOpen} readonly>
-    <input type="hidden" name="plannerName" value={plannerName} readonly>
-    <input type="hidden" name="memberNo" value={memberNo} readonly>
-    <input type="hidden" name="dailyNo" value={dailyNo} readonly>
-    <input type="hidden" name="dailyStayDate" value={dailyStayDate} readonly> 
-    <input type="text" name="dailyOrder" value={dailyOrder} readonly>
-    <input type="hidden" name="placeNo" value={placeNo} readonly>
-    <input type="hidden" name="placeLatitude" value={placeLatitude} readonly>
-    <input type="hidden" name="placeLongitude" value={placeLongitude} readonly>
-    <input style="border: none;" type="text" name="placeName" value={placeName} readonly>
-    <input type="text" name="placeType" value={placeType} readonly>
-    <input type="hidden" name="dailyplanPlaceOrder" value={dailyplanPlaceOrder} readonly>
-    <input type="text" name="dailyplanTransfer" value={dailyplanTransfer} readonly>
-	<br><br>
-	</div>
 </script>
 
 <main>
@@ -160,7 +133,10 @@
 					<b><span id = "date" style="font-size: 25px; color: rgb(3,199,90);" ></span></b>
 					</div>
 					<br>
+				<div>
+				</div>
 				<div id="result-container"></div>
+				<div id="plan-container"></div>
 			</div>
 		</div>
 	</div>
