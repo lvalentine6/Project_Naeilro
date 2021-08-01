@@ -49,7 +49,7 @@ public class PlanViewController {
 	@GetMapping("/resultPlan")
 	public String resultPlan(@ModelAttribute ResultPlanVO resultPlanVO, Model model) throws JsonProcessingException {
 		System.out.println("계획 번호 : " + resultPlanVO.getPlannerNo());
-		resultPlanVO.setMemberNo(1); // 테스트 용도 : 세션 적용 예정
+		resultPlanVO.setMemberNo((int) httpSession.getAttribute("memberNo"));
 		System.out.println("회원번호 : " + resultPlanVO.getMemberNo());
 		
 		List<ResultPlanVO> sendData = planService.selectPlan(resultPlanVO);
