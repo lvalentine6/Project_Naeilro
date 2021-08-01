@@ -160,7 +160,9 @@
 					<img class="img-responsive left-block" alt="더미"
 						src="${pageContext.request.contextPath}/image/default_user_profile.jpg">
 					<div id ="result-image-template" class="col-4 align-items-center" style="font-size: 1.5rem">
-						포토 스토리 연동</div>
+						포토 스토리 연동
+					<img src="${pageContext.request.contextPath}/plan/resultPlan/image?">
+					</div>
 				</div>
 			</div>
 			<div class="col-12">
