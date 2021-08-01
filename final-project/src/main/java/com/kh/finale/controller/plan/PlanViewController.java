@@ -63,4 +63,8 @@ public class PlanViewController {
 		
 		return "plan/resultPlan";
 	}
+	
+	@GetMapping("resultPlan")
+	
+	
 }
