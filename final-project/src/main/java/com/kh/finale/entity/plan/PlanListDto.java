@@ -30,4 +30,5 @@ public class PlanListDto {
 	private String placeLongitude;
 	private String placeName;
 	private String placeType;
+	private String placeRegion;
 }
