@@ -174,7 +174,7 @@ public class MemberController {
 				model.addAttribute("reason", memberBlockDto.getBlockReason());
 				model.addAttribute("blockEndDate", memberBlockDto.getBlockEndDate());
 				model.addAttribute("url", request.getContextPath()); 
-				return "/admin/block";
+				return "member/block";
 				}
 			return "redirect:/";
 		}
