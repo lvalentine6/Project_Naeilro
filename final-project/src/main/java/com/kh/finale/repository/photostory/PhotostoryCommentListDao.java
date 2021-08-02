@@ -10,4 +10,6 @@ public interface PhotostoryCommentListDao {
 	
 	// 최신 댓글 리스트 조회 기능
 	List<PhotostoryCommentListDto> recentList(int photostoryNo);
+
+	PhotostoryCommentListDto getReportComment(int reportNo);
 }

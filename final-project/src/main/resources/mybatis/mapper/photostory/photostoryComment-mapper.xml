@@ -34,4 +34,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		where photostory_comment_no = #{photostoryCommentNo} and member_no = #{memberNo} 
 	</delete>
 	
+	<select id="getReportComment" parameterType="int" resultType="PhotostoryCommentListDto">
+		select c.* from comment_report r
+		    inner join photostory_comment_list c 
+		    on r.photostory_comment_no= c.photostory_comment_no
+		    where r.report_no = #{reportNo}
+	</select>
 </mapper>

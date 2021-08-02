@@ -122,6 +122,13 @@
 			
 		})
 	})
+	
+	
+ <c:if test="${block!=null}">
+ 	$(function(){
+ 		$(".block_modal").click()
+ 	})
+ </c:if>
 </script>
 </head>
 <body>
@@ -181,6 +188,10 @@
 		<div class="container-lg">
 			<div class="row">
 				<h1>다른 여행자들 플래너</h1>
+				      	${block.BlockContent}
+      	${block.BlockEndDate}
+      	${block.BlockStartDate}
+      	${block.BlockReason}
 				<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
 			</div>
 			<div class="row">
@@ -193,5 +204,33 @@
 			</div>
 		</div>
 	</main>
+	
+	
+<button type="button" class="btn btn-primary d-none block_modal" data-toggle="modal"  data-target="#block_modal">
+
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="block_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">회원정지로 이용이 제한됩니다.</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body row">
+      	${block.BlockContent}
+      	${block.BlockEndDate}
+      	${block.BlockStartDate}
+      	${block.BlockReason}
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
 	<jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>
 	

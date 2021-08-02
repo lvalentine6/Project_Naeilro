@@ -1,10 +1,17 @@
 package com.kh.finale.controller.photostory;
 
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
+import javax.imageio.ImageIO;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.io.FileUtils;
@@ -22,6 +29,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.kh.finale.entity.block.MemberBlockDto;
+import com.kh.finale.entity.hashtag.HashtagDto;
 import com.kh.finale.entity.member.FollowDto;
 import com.kh.finale.entity.member.MemberDto;
 import com.kh.finale.entity.photostory.PhotostoryCommentListDto;
@@ -29,6 +37,7 @@ import com.kh.finale.entity.photostory.PhotostoryLikeDto;
 import com.kh.finale.entity.photostory.PhotostoryListDto;
 import com.kh.finale.entity.photostory.PhotostoryPhotoDto;
 import com.kh.finale.repository.block.MemberBlockDao;
+import com.kh.finale.repository.hashtag.HashtagDao;
 import com.kh.finale.repository.member.FollowDao;
 import com.kh.finale.repository.member.MemberDao;
 import com.kh.finale.repository.photostory.PhotostoryCommentListDao;
@@ -71,13 +80,16 @@ public class PhotostoryViewController {
 
 	@Autowired
 	private FollowDao followDao;
+	
+	@Autowired
+	private HashtagDao hashtagDao;
 
 	// 포토스토리 리스트 페이지
 	@GetMapping("")
 	public String home(@ModelAttribute PhotostoryListVO photostoryListVO, Model model, HttpSession session) {
 		photostoryListVO = photostoryDao.getPageVariable(photostoryListVO);
 		List<PhotostoryListDto> photostoryList = photostoryListDao.list(photostoryListVO);
-		
+		model.addAttribute("searchKeyword",photostoryListVO.getSearchKeyword());
 		// 회원 정보 및 회원 정지 정보 전송
 		int memberNo = 0;
 		if (session.getAttribute("memberNo") != null) {
@@ -225,13 +237,27 @@ public class PhotostoryViewController {
 	// 포토스토리 작성 처리
 	@PostMapping("/write")
 	public String write(@ModelAttribute PhotostoryVO photostoryVO,
-			HttpSession session) throws IllegalStateException, IOException {
+			HttpSession session,
+			String[] hashtag) throws IllegalStateException, IOException {
 		int memberNo = (int) session.getAttribute("memberNo");
 		int plannerNo = 6; // 임시
 		photostoryVO.setMemberNo(memberNo);
 		photostoryVO.setPlannerNo(plannerNo); // 임시
+		int storyNo = photostoryService.insertPhotostory(photostoryVO);
 		
-		photostoryService.insertPhotostory(photostoryVO);
+		Set<String> set = new HashSet<>();
+		for(String h : hashtag) {
+			set.add(h);
+		}
+		for(String s : set) {
+			HashtagDto hash = HashtagDto.builder()
+					.hashtagTag(s)
+					.photostoryNo(storyNo)
+					.build();
+			hashtagDao.insert(hash);
+		}
+		
+		
 		
 		return "redirect:/photostory";
 	}
@@ -246,6 +272,8 @@ public class PhotostoryViewController {
 		List<PhotostoryPhotoDto> photostoryPhotoList = photostoryPhotoDao.get(photostoryNo);
 		
 		model.addAttribute("photostoryListDto", photostoryListDto);
+		String val = photostoryListDto.getPhotostoryContent().replaceAll("&nbsp;", "");
+		photostoryListDto.setPhotostoryContent(val);
 		model.addAttribute("photostoryPhotoList", photostoryPhotoList);
 		
 		// 회원 정보 전송
@@ -258,12 +286,27 @@ public class PhotostoryViewController {
 	// 포토스토리 수정 처리
 	@PostMapping("/edit")
 	public String edit(@ModelAttribute PhotostoryVO photostoryVO,
-			HttpSession session) throws IllegalStateException, IOException {
+			HttpSession session,
+			String[] hashtag) throws IllegalStateException, IOException {
 		int memberNo = (int) session.getAttribute("memberNo");
 		photostoryVO.setMemberNo(memberNo);
-		int plannerNo = 2; // 임시
+		int plannerNo = 6; // 임시
 		photostoryVO.setPlannerNo(plannerNo); // 임시
 		photostoryService.updatePhotostory(photostoryVO);
+		
+		hashtagDao.delete(photostoryVO.getPhotostoryNo());
+		
+		Set<String> set = new HashSet<>();
+		for(String h : hashtag) {
+			set.add(h);
+		}
+		for(String s : set) {
+			HashtagDto hash = HashtagDto.builder()
+					.hashtagTag(s)
+					.photostoryNo(photostoryVO.getPhotostoryNo())
+					.build();
+			hashtagDao.insert(hash);
+		}
 		
 		return "redirect:/photostory/detail?photostoryNo=" + photostoryVO.getPhotostoryNo();
 	}
@@ -278,18 +321,38 @@ public class PhotostoryViewController {
 	
 	// 이미지 다운로드 처리
 	@GetMapping("/photo/{photostoryPhotoNo}")
-	public ResponseEntity<ByteArrayResource> download(@PathVariable int photostoryPhotoNo) throws IOException {
+	public ResponseEntity<ByteArrayResource> download(@PathVariable int photostoryPhotoNo,HttpServletRequest req) throws IOException {
 		PhotostoryPhotoDto photostoryPhotoDto = photostoryPhotoDao.getSingle(photostoryPhotoNo);
 		
 		if (photostoryPhotoDto == null) {
 			System.out.println("NOT FOUND");
 			return ResponseEntity.notFound().build();
 		}
+		if(photostoryPhotoDto.getPhotostoryPhotoFilePath().equals("delete")) {
+			URL url = new URL("http://"+req.getServerName()+":"+req.getServerPort()+req.getContextPath()+"/image/delete_img.jpg");
+            System.out.println(url);
+            BufferedImage img = ImageIO.read(url);
+            System.out.println(img);
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            ImageIO.write(img,"jpg",baos);
+            baos.flush();
+            byte[] data1 = baos.toByteArray();
+            baos.close();
+			
+			ByteArrayResource resource = new ByteArrayResource(data1);
+			return ResponseEntity.ok()
+									.header(HttpHeaders.CONTENT_ENCODING, "UTF-8")
+									.body(resource);
+		}
 		System.out.println("FOUND");
 		
 		File target = new File("D:/upload/kh5/photostory/", photostoryPhotoDto.getPhotostoryPhotoFilePath());
+		
 		byte[] data = FileUtils.readFileToByteArray(target);
+		
 		ByteArrayResource resource = new ByteArrayResource(data);
+		
+		
 		
 		return ResponseEntity.ok()
 						 	 .contentLength(photostoryPhotoDto.getPhotostoryPhotoFileSize())

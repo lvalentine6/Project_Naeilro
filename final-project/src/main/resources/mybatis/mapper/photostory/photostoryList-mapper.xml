@@ -40,4 +40,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select * from photostory_list where photostory_no = #{photostoryNo}
 	</select>
 	
+	<!-- 포토스토리 상세 조회 -->
+	<select id="getReportStort" parameterType="int" resultType="PhotostoryListDto">
+		select p.* from photostory_report r
+		    inner join photostory_list p 
+		    on r.photostory_no= p.photostory_no
+		    where r.report_no = #{reportNo}
+	</select>
+	
 </mapper>

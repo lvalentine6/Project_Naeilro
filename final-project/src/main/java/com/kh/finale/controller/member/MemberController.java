@@ -30,18 +30,21 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 
+import com.kh.finale.entity.block.MemberBlockDto;
 import com.kh.finale.entity.member.FollowDto;
 import com.kh.finale.entity.member.MemberAuthDto;
 import com.kh.finale.entity.member.MemberDto;
 import com.kh.finale.entity.member.MemberProfileDto;
 import com.kh.finale.entity.photostory.PhotostoryListDto;
 import com.kh.finale.entity.photostory.PhotostoryPhotoDto;
+import com.kh.finale.repository.block.MemberBlockDao;
 import com.kh.finale.repository.member.FollowDao;
 import com.kh.finale.repository.member.MemberDao;
 import com.kh.finale.repository.member.MemberProfileDao;
 import com.kh.finale.repository.photostory.PhotostoryDao;
 import com.kh.finale.repository.photostory.PhotostoryListDao;
 import com.kh.finale.repository.photostory.PhotostoryPhotoDao;
+import com.kh.finale.service.block.MemberBlockService;
 import com.kh.finale.service.member.MemberAuthService;
 import com.kh.finale.service.member.MemberEditService;
 import com.kh.finale.service.member.MemberFindService;
@@ -67,6 +70,12 @@ public class MemberController {
 	
 	@Autowired
 	private PhotostoryListDao photostoryListDao;
+	
+	@Autowired
+	private MemberBlockDao memberBlockDao;
+	
+	@Autowired
+	private MemberBlockService memberBlockService;
 
 	// 회원 가입 페이지
 	@GetMapping("/join")
@@ -139,8 +148,29 @@ public class MemberController {
 
 	// 로그인 처리
 	@PostMapping("/login")
-	public String login(@ModelAttribute MemberDto memberDto, HttpSession httpSession) {
+	public String login(@ModelAttribute MemberDto memberDto, HttpSession httpSession,Model model) throws Exception {
+		
 		MemberDto check = memberDao.login(memberDto);
+		
+		// 정지 상태일 경우 처리
+		if (check!=null && check.getMemberState().equals("정지")) {
+			// 정지 해제 체크
+			boolean blockCheck = memberBlockDao.checkBlock(check.getMemberNo());
+			// 정지 기간이 지났을 경우
+			if (blockCheck) {
+				memberBlockService.unblock(check.getMemberNo());
+			}
+			// 정지 기간이 지나지 않았을 경우
+			else {
+				// 어느 페이지로 보낼지, 보낸 후 어떤 알림창을 띄울 것인지 미정 
+				MemberBlockDto memberBlockDto = memberBlockDao.getBlockInfo(check.getMemberNo());
+				System.out.println(memberBlockDto);
+				model.addAttribute("block", memberBlockDto);
+				return "redirect:/";
+			}
+		}
+		
+
 		if (check != null) {
 			httpSession.setAttribute("memberNo", check.getMemberNo());
 			httpSession.setAttribute("memberId", check.getMemberId());

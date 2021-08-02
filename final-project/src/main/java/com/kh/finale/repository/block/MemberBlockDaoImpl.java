@@ -17,6 +17,7 @@ public class MemberBlockDaoImpl implements MemberBlockDao {
 	@Autowired
 	private SqlSession sqlSession;
 	
+	
 	// 회원 정지 정보 등록 기능
 	@Override
 	public void insertBlockInfo(MemberBlockDto memberBlockDto) throws ParseException {

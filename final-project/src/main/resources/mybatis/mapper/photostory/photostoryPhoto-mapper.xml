@@ -42,4 +42,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select * from photostory_photo where photostory_photo_no = #{photostoryPhotoNo}
 	</select>
 	
+	<update id="adminDelete" parameterType="int">
+		update photostory_photo set photostory_photo_file_path = 'delete' where photostory_no = #{photostoryNo}
+	</update>
+	
 </mapper>

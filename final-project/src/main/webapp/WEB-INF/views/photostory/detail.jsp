@@ -197,6 +197,75 @@ function edit_comment(no){
 	})
 }
 
+
+/* 신고처리 */
+$(function(){
+	$(".report-btn").click(function(e){
+		
+		
+		if($(this).data('storyno')){
+			$("#report_no").val($(this).data('storyno'))
+			$("#report_type").val('story')
+		}else{
+			$("#report_no").val($(this).data('commentno'))
+			$("#report_type").val('comment')
+		}
+		$(".report-confirm").hide()
+		$(".report-val").show()
+	})
+ <c:if test="${memberNo==null}">
+ $(".report_reason_v").click(function(){
+	 if(${memberNo==null}){
+			alert("로그인후 이용해주세요");
+			$(".r-c-btn").click()
+			e.preventDefault;
+			return
+		}
+ })
+</c:if>
+ <c:if test="${memberNo!=null}">
+	$(".report_reason_v").click(function(){
+		let no = $("#report_no").val()
+		let reason = $(this).text()
+		/* 댓글신고 */
+		if($("#report_type").val()=='comment'){
+			$.ajax({
+				url:"${pageContext.request.contextPath}/report_rest/c_report",
+				data : {
+					memberNo : ${memberNo},
+					photostoryCommentNo : no,
+					cReportReason : reason,
+				},
+				method:"POST",
+			})
+			.done(function(){
+				$(".report-confirm").show()
+				$(".report-val").hide()
+			})
+			.fail(function(){
+			})
+			
+		/* 스토리신고 */
+		}else{
+			$.ajax({
+				url:"${pageContext.request.contextPath}/report_rest/p_report",
+				data : {
+					memberNo : ${memberNo},
+					photostoryNo : no,
+					pReportReason : reason
+				},
+				method:"POST",
+			})
+			.done(function(){
+				$(".report-confirm").show()
+				$(".report-val").hide()
+			})
+			.fail(function(){
+			})
+		}
+	})
+	</c:if>
+})
 </script>
 <script type="text/template" id="comment-tpl">
 						<div class="col-11 text-sm text-break" id="comment_1_{{no}}">
@@ -269,7 +338,7 @@ function edit_comment(no){
 								</c:when>
 								<c:otherwise>
 									<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-										<a class="dropdown-item text-danger" href="#">게시글 신고</a> 
+										<a class="dropdown-item text-danger report-btn" data-storyno="${photostoryListDto.photostoryNo}" data-toggle="modal" data-target="#report_modal">게시글 신고</a>
 										<a class="dropdown-item" >취소</a> 
 									</div>
 								</c:otherwise>
@@ -328,7 +397,7 @@ function edit_comment(no){
 							
 							<!-- Modal -->
 						<div class="modal fade" id="like_list_${photostoryListDto.photostoryNo}" tabindex="-1" role="dialog" aria-hidden="true">
-						  <div class="modal-dialog modal-dialog-scrollable" role="document">
+						  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
 						    <div class="modal-content">
 						      <div class="modal-header">
 						        <h5 class="modal-title" id="exampleModalScrollableTitle">좋아요</h5>
@@ -385,7 +454,7 @@ function edit_comment(no){
 				</div>
 				<div class='row align-items-center border-left border-right pb-1'>
 					<div class="col-12 text-sm">
-						<pre>${photostoryListDto.photostoryContent}</pre>
+							${photostoryListDto.photostoryContent}
 					</div>
 				</div>
 				<div class='row align-items-center border-left border-right pb-1'>
@@ -422,7 +491,7 @@ function edit_comment(no){
 									</c:when>
 									<c:otherwise>
 										<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-											<a class="dropdown-item text-danger" href="#">댓글 신고</a> 
+											<a class="dropdown-item text-danger report-btn" data-commentno="${photostoryCommentListDto.photostoryCommentNo}" href="#" data-toggle="modal" data-target="#report_modal">댓글 신고</a>
 											<a class="dropdown-item" >취소</a> 
 										</div>
 									</c:otherwise>
@@ -465,5 +534,75 @@ function edit_comment(no){
 		</div>
 	</div>
 </main>
-
+<!-- 신고 모달 -->
+<div class="modal fade" id="report_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title text-danger" id="exampleModalScrollableTitle">신고</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      
+      
+      
+      
+      <div class="modal-body report-val">
+       <input id="report_no" type="hidden">
+       <input id="report_type" type="hidden">
+       <div class="row">
+    		<div class="col-12 "><strong>이 게시물을 신고하는 이유</strong></div>
+       </div>
+       <hr>
+       <div class="row">
+    		<div class="col-12"><a class="d-block report_reason_v" href="#none">스팸</a></div>
+       </div>
+       <hr>
+       <div class="row">
+    		<div class="col-12"><a class="d-block report_reason_v" href="#none">혐오 발언 또는 상징</a></div>
+       </div>
+       <hr>
+       <div class="row">
+    		<div class="col-12"><a class="d-block report_reason_v" href="#none">폭력 또는 위험한 단체</a></div>
+       </div>
+       <hr>
+       <div class="row">
+    		<div class="col-12"><a class="d-block report_reason_v" href="#none">불법 또는 규제 상품 판매</a></div>
+       </div>
+       <hr>
+       <div class="row">
+    		<div class="col-12"><a class="d-block report_reason_v" href="#none">따돌림 또는 괴롭힘</a></div>
+       </div>
+       <hr>
+       <div class="row">
+    		<div class="col-12"><a class="d-block report_reason_v" href="#none">지적 재산권 침해</a></div>
+       </div>
+       <hr>
+       <div class="row">
+    		<div class="col-12"><a class="d-block report_reason_v" href="#none">사기 또는 거짓</a></div>
+       </div>
+       <hr>
+       <div class="row">
+    		<div class="col-12"><a class="d-block report_reason_v" href="#none">마음에 들지 않습니다</a></div>
+       </div>
+      </div>
+      
+      
+		<div class="modal-body report-confirm">
+       <input id="report_no" type="hidden">
+       <input id="report_type" type="hidden">
+       <div class="row">
+    		<div class="col-12 "><strong>신고처리 되었습니다.</strong></div>
+       </div>
+      </div>
+      
+      
+      
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary r-c-btn" data-dismiss="modal">닫기</button>
+      </div>
+    </div>
+  </div>
+</div>
 <jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>
