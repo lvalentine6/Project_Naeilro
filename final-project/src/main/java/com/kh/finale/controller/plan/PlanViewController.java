@@ -1,5 +1,6 @@
 package com.kh.finale.controller.plan;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -15,8 +16,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kh.finale.entity.plan.PlanListDto;
+import com.kh.finale.repository.plan.DailyDao;
+import com.kh.finale.repository.plan.DailyplanDao;
 import com.kh.finale.repository.plan.PlanListDao;
 import com.kh.finale.service.plan.PlanService;
+import com.kh.finale.vo.plan.PlanInsertServiceVO;
 import com.kh.finale.vo.plan.ResultPlanVO;
 
 @Controller
@@ -31,11 +35,27 @@ public class PlanViewController {
 	@Autowired
 	private PlanListDao planListDao;
 	
+	@Autowired
+	private DailyDao dailyDao;
+
+	@Autowired
+	private DailyplanDao dailyplanDao;
+	
 	// 계획표 수정 페이지
 	@GetMapping("/editplan")
 	public String editPlan(@RequestParam int plannerNo, Model model) {
 		List<PlanListDto> planList = planListDao.getPlanList(plannerNo);
 		model.addAttribute("planList", planList);
+		
+		List<PlanInsertServiceVO> dailyList = dailyDao.getDailyList(plannerNo); 
+		List<Integer> dailyplanCountList = new ArrayList<>();
+		for (PlanInsertServiceVO vo : dailyList) {
+			int dailyplanCount = dailyplanDao.getDailyplanCount(vo.getDailyNo());
+			dailyplanCountList.add(dailyplanCount);
+		}
+		System.out.println("???="+dailyplanCountList);
+		
+		model.addAttribute("dailyplanCountList", dailyplanCountList);
 		
 		return "plan/editplan";
 	}
