@@ -5,7 +5,6 @@
 
 
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
-
 <script>
 $(function(){
 	$(".story-photo").height($('.story-photo').width()+'px')

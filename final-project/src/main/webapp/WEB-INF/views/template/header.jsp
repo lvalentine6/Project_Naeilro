@@ -3,6 +3,7 @@
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 	<c:set var="root" value="${pageContext.request.contextPath}"></c:set>
 	<c:set var="isLogin" value="${not empty memberNo}"></c:set>
+	<c:set var="admin" value="${memberGrade == 1}"></c:set>
 <!DOCTYPE html>
 <html>
 <head>
@@ -274,9 +275,9 @@
 	  </button>
 	  <div class="collapse navbar-collapse text-right" id="navbarText">
 	    <ul class="navbar-nav mr-auto text-right">
-	      <li class="nav-item">
-	        <a class="nav-link d-inline-block" href="#">여행지</a>
-	      </li>
+<!-- 	      <li class="nav-item"> -->
+<!-- 	        <a class="nav-link d-inline-block" href="#">여행지</a> -->
+<!-- 	      </li> -->
 	      <li class="nav-item">
 	        <a class="nav-link d-inline-block" href="${root}/photostory">스토리</a>
 	      </li>
@@ -289,10 +290,14 @@
 	    </ul>
 	    <span class="navbar-text text-right">
 	      <c:choose>
-				<c:when test="${isLogin}">
+				<c:when test="${isLogin && memberDto.memberGrade == 1}">
+					<a class="mr-3" href="${root}/member/logout">로그아웃</a>
+					<a class="mr-3" href="${root}/admin/">관리자페이지</a>
+					</c:when>
+					<c:when test="${isLogin}">
 					<a class="mr-3" href="${root}/member/logout">로그아웃</a>
 					<a class="" href="${root}/member/profile/${memberDto.memberNick}">마이페이지</a>
-				</c:when>
+					</c:when>
 				<c:otherwise>
 					<a class="mr-3"  href="${root}/member/login">로그인</a>
 					<a class=""  href="${root}/member/join">회원가입</a>

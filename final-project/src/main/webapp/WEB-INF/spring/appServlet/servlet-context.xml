@@ -114,10 +114,10 @@
 		</interceptor>
 
 		<!-- 관리자 기능 접근 차단 인터셉터 -->
-<!-- 		<interceptor> -->
-<!-- 			<mapping path="/admin/**"/> -->
-<!-- 			<beans:bean class="com.kh.finale.interceptor.AdminInterceptor"></beans:bean> -->
-<!-- 		</interceptor> -->
+		<interceptor>
+			<mapping path="/admin/**"/>
+			<beans:bean class="com.kh.finale.interceptor.AdminInterceptor"></beans:bean>
+		</interceptor>
 		
 	</interceptors>
 </beans:beans>

@@ -2,6 +2,7 @@ package com.kh.finale.controller.member;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
@@ -10,9 +11,12 @@ import java.util.List;
 import java.util.Map;
 
 import javax.mail.MessagingException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.io.FileUtils;
+import org.omg.CORBA.Request;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.HttpHeaders;
@@ -59,8 +63,6 @@ public class MemberController {
 
 	@Autowired
 	MemberDao memberDao;
-	
-	
 	
 	@Autowired
 	private PhotostoryPhotoDao photostoryPhotoDao;
@@ -148,12 +150,13 @@ public class MemberController {
 
 	// 로그인 처리
 	@PostMapping("/login")
-	public String login(@ModelAttribute MemberDto memberDto, HttpSession httpSession,Model model) throws Exception {
+	public String login(@ModelAttribute MemberDto memberDto, HttpSession httpSession,Model model, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
 		MemberDto check = memberDao.login(memberDto);
 		
 		// 정지 상태일 경우 처리
 		if (check!=null && check.getMemberState().equals("정지")) {
+			try {
 			// 정지 해제 체크
 			boolean blockCheck = memberBlockDao.checkBlock(check.getMemberNo());
 			// 정지 기간이 지났을 경우
@@ -166,7 +169,17 @@ public class MemberController {
 				MemberBlockDto memberBlockDto = memberBlockDao.getBlockInfo(check.getMemberNo());
 				System.out.println(memberBlockDto);
 				model.addAttribute("block", memberBlockDto);
-				return "redirect:/";
+				
+				response.setContentType("text/html; charset=UTF-8"); 
+				PrintWriter writer = response.getWriter(); 
+				writer.println("<script>alert('정지된 회원입니다.'); location.href='"+request.getContextPath()+"';</script>"); 
+				writer.close();
+				
+				return "/";
+					}
+				}
+			catch (Exception e) {
+				e.printStackTrace();
 			}
 		}
 		

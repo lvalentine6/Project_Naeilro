@@ -272,7 +272,7 @@ $(function(){
 		    	</div>
 		    	<div class="col-2 d-flex align-items-center text-nowrap justify-content-center">
 					<button class="btn btn-outline-danger  report_delete_btn" data-report="${listItem.reportNo}">
-		          		삭제
+		          		신고 내역 삭제
 		        	</button>
 				</div>
 		    </div>

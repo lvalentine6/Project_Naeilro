@@ -1,6 +1,46 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <jsp:include page="/WEB-INF/views/template/adminHeader.jsp"></jsp:include>
+<script>
+function report_modal(e){
+	$("#report_member").val($(e).data('member'))
+	$("#report_comment").val($(e).data('comment'))
+	$("#report_no").val($(e).data('report'))
+	$("#report_reason").val($('#report_reason_'+$(e).data('report')).text())
+	$("#report_content").val($(e).data('content'))
+}
+function delete_comment(e){
+	let commentNo = $("#report_comment").val()
+	let reportNo = $("#report_no").val()
+	let memberNo = $("#report_member").val()
+	let reportDay = $("#report_day").val()
+	let reportReason = $("#report_reason").val()
+	let reportContent = $("#report_content").val()
+	
+	/* 유저 정지처리 , 리포트 확인 처리 */
+	if(reportDay>0){
+		$.ajax({
+		url:"${pageContext.request.contextPath}/member_block/r_block",
+		data : {
+			blockPeriod : reportDay,
+			memberNo : memberNo,
+			blockContent : reportContent,
+			blockReason : reportReason,
+			type : 'comment',
+			reportNo : commentNo
+		},
+		method:"POST",
+		})
+		.done(function(){
+	
+		})
+		.fail(function(){
+	
+		})
+	}
+}
+</script>
+
 <main>
 <div class="container-lg">
 	<div class="row">

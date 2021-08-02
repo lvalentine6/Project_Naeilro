@@ -7,7 +7,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>NAEILRO</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
     integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
 <link rel="stylesheet" href="../css/layout.css"/>
@@ -146,9 +146,9 @@
 		  </button>
 		  <div class="collapse navbar-collapse text-right" id="navbarText">
 		    <ul class="navbar-nav mr-auto text-right pr-3">
-		      <li class="nav-item">
-		        <a class="nav-link d-inline-block text-white cl-text" href="#">여행지</a>
-		      </li>
+<!-- 		      <li class="nav-item"> -->
+<!-- 		        <a class="nav-link d-inline-block text-white cl-text" href="#">여행지</a> -->
+<!-- 		      </li> -->
 		      <li class="nav-item">
 		        <a class="nav-link d-inline-block text-white cl-text" href="${root}/photostory">스토리</a>
 		      </li>
@@ -161,6 +161,10 @@
 		    </ul>
 		    <span class="navbar-text text-right pr-3">
 		      <c:choose>
+		      <c:when test="${isLogin && memberDto.memberGrade == 1}">
+					<a class="mr-3 text-white cl-text" href="${root}/member/logout">로그아웃</a>
+					<a class="mr-3 text-white cl-text" href="${root}/admin/">관리자페이지</a>
+					</c:when>
 					<c:when test="${isLogin}">
 						<a class="mr-3 text-white cl-text" href="${root}/member/logout">로그아웃</a>
 						<a class="text-white cl-text" href="${root}/member/profile/${memberDto.memberNick}">마이페이지</a>

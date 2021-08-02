@@ -16,7 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 
 /**
  * 정지된 회원의 기능 사용 제한 인터셉터
- * @author swjk78
+ * @author swjk78, 이승로
  *
  */
 @Slf4j
@@ -52,6 +52,7 @@ public class MemberBlockInterceptor implements HandlerInterceptor {
 				System.out.println(memberBlockDto);
 				request.setAttribute("block", memberBlockDto);
 				response.sendRedirect(request.getContextPath());
+
 				log.debug("인터셉터: MemberBlockInterceptor 차단");
 				return false;
 			}
