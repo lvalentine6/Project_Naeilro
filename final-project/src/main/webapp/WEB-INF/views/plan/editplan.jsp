@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
 <style>
 	/* 맵 비활성화 - 등록하면 활성화 용도 */
@@ -25,7 +26,21 @@
 <script>
 	$(function(){
 
+		var placeArr = [];
+		var dailyplanCountList = ${dailyplanCountList};
+		console.log('dailyplanCountList = ' + dailyplanCountList);
+		<c:forEach var="plan" items="${planList}">
+			placeArr.push('${plan.placeName}');
+		</c:forEach>
+		console.log('placeArr = ' + placeArr);
+		var placeList = [];
+		for (var i = 0; i < dailyplanCountList.length; i++) {
+			placeList.push(placeArr[i * dailyplanCountList[i]]);
+		}
+		console.log('placeList = ' + placeList);
+
 		// 통합계획표 테이블
+		var plannerNo = ${param.plannerNo};
 		var plannerName;
 
 		// 하루계획표 테이블
@@ -44,9 +59,7 @@
 
 		/* 비활성화 */
 		$("#search").hide();
-		$("#daily-title").hide();
-		$("#plan-insert-container").hide();
-
+		
 		/* 체크박스 중복 불가 */
 		function check(){
 			// 검색창
@@ -63,25 +76,28 @@
 		/* 통합계획표 */
 
 		// 날짜
-			$('#demo').daterangepicker({
-				"locale": {
-					"format": "YYYY-MM-DD",
-					"separator": " ~ ",
-					"applyLabel": "확인",
-					"cancelLabel": "취소",
-					"fromLabel": "From",
-					"toLabel": "To",
-					"customRangeLabel": "Custom",
-					"weekLabel": "W",
-					"daysOfWeek": ["월", "화", "수", "목", "금", "토", "일"],
-					"monthNames": ["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"],
-					"firstDay": 1
-					},
-					"minDate": new Date(),
-					"startDate": new Date(),
-					"endDate": new Date(),
-					"drops": "auto" }, function (start, end, label) {
-						console.log('New date range selected: ' + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD') + ' (predefined range: ' + label + ')');
+		var existStartDate = '${planList.get(0).plannerStartDate}'.substring(0, 10);
+		var existEndDate = '${planList.get(0).plannerEndDate}'.substring(0, 10);
+		$('#demo').daterangepicker({
+			"locale": {
+				"format": "YYYY-MM-DD",
+				"separator": " ~ ",
+				"applyLabel": "확인",
+				"cancelLabel": "취소",
+				"fromLabel": "From",
+				"toLabel": "To",
+				"customRangeLabel": "Custom",
+				"weekLabel": "W",
+				"daysOfWeek": ["월", "화", "수", "목", "금", "토", "일"],
+				"monthNames": ["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"],
+				"firstDay": 1
+				},
+				"minDate": new Date(),
+				"startDate": existStartDate,
+				"endDate": existEndDate,
+				"drops": "auto"},
+				function (start, end, label) {
+					console.log('New date range selected: ' + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD') + ' (predefined range: ' + label + ')');
 
 					var startDate = start.format('YYYY-MM-DD');
 					var endDate = end.format('YYYY-MM-DD');
@@ -98,8 +114,7 @@
 						$("#plan-insert-container").empty();
 						plannerTemplate(startDate, endDate);
 					}
-
-			});
+				});
 
 		/* 통합계획표 */
 		function plannerTemplate(startDate, endDate){
@@ -113,6 +128,10 @@
 			// 서버 : 템플릿 생성
 			var plannerTemplate = $("#planner-insert-template").html();
 			$("#plan-insert-container").append(plannerTemplate);
+
+			// 번호
+			plannerNo = ${param.plannerNo};
+			$("input[name=plannerNo]").attr("value", plannerNo);
 
 			// 제목
 			plannerName = $("#planner-name").val();
@@ -134,10 +153,6 @@
 			dailyStayDate  = ((new Date($("input[name=plannerEndDate]").val()).getTime() - new Date($("input[name=plannerStartDate]").val()).getTime()) / 1000 / 60 / 60 / 24);
 			$("input[name=dailyStayDate]").attr("value", dailyStayDate);
 			dailyTemplate(dailyStayDate);
-
-			$("#planner-map-find").hide();
-			$("#planner-insert-button").attr("type", "submit");
-
 		}
 		/* 통합계획표 */
 
@@ -145,9 +160,11 @@
 		function dailyTemplate(dailyStayDate){
 
 			for(var i=0; i < dailyStayDate; i++){
+				var placeNo = '${placeList.get(' + i + ').placeNo}';
 				var template = $("#user-daily-template").html();
 				template = template.replace("{dailyOrder}", i+1);
 				template = template.replace("{index}", i+1);
+				template = template.replace("{placeName}", placeList[i]);
 				$("#daily-list-container").append(template);
 
 				// 데이터 전송 FORM
@@ -183,7 +200,7 @@
 		//지도 초기화 (여기다 좌표 입력 1번째)
 		function createMap(dailyIndex){
 			$("#search").hide();
-
+			
 			var mapContainer = document.getElementById('map'), // 지도를 표시할 div
 		    mapOption = {
 		        center: new kakao.maps.LatLng(34.442373196846404, 128.10680344968128), // #. 지도의 중심좌표
@@ -597,10 +614,80 @@
 			});
 		}
 
+		function existUserTemplate() {
+			var placeIndex = 0;
+			var pastDailyNo = ${planList.get(0).dailyNo};
+			var dailyNoArr = [${planList.get(0).dailyNo}];
+			var temp;
+			
+			var place = new Object();
+			
+			// 장소 검색 객체를 생성합니다
+			var ps = new kakao.maps.services.Places(); 
+
+			// 키워드 검색 완료 시 호출되는 콜백함수 입니다
+			function placesSearchCB (place) {
+				var test = new kakao.maps.LatLng(place.y, place.x);
+				console.log(test);
+			}
+			
+			for (var i = 0; i < dailyStayDate; i++) {
+				var userTemplate = $("#user-place-dailyplan-template").html();
+				<c:forEach var="plan" items="${planList}">
+					if (dailyNoArr[i] == ${plan.dailyNo}) {
+						userTemplate = userTemplate.replace("{index}", placeIndex + 1);
+						
+						place.x = '${plan.placeLongitude}';
+						place.y = '${plan.placeLatitude}';
+						
+						placesSearchCB(place);
+						
+						userTemplate = userTemplate.replace("{place-name}", '${plan.placeName}');
+						userTemplate = userTemplate.replace("{data-latitude}", '${plan.placeLatitude}');
+						userTemplate = userTemplate.replace("{data-longitude}", '${plan.placeLongitude}');
+						userTemplate = userTemplate.replace("{data-name}", '${plan.placeName}');
+						userTemplate = userTemplate.replace("{data-type}", '${plan.placeType}');
+						
+						userTemplate = userTemplate.replace('<option value="항공" selected>', '<option value="항공"');
+						userTemplate = userTemplate.replace('<option value="기차" selected>', '<option value="기차"');
+						userTemplate = userTemplate.replace('<option value="자동차" selected>', '<option value="자동차"');
+						if ('${plan.dailyplanTransfer}' == '항공') {
+							userTemplate = userTemplate.replace('<option value="항공">', '<option value="항공" selected>');
+						} else if ('${plan.dailyplanTransfer}' == '기차') {
+							userTemplate = userTemplate.replace('<option value="기차">', '<option value="기차" selected>');
+						} else {
+							userTemplate = userTemplate.replace('<option value="자동차">', '<option value="자동차" selected>');
+						}
+			
+						$(".list-daily").eq(i).append(userTemplate);
+					} 
+					if (!dailyNoArr.includes(${plan.dailyNo})) {
+						dailyNoArr.push(${plan.dailyNo});					
+					}
+				</c:forEach>
+				pastDailyNo = temp;
+				placeIndex++;
+			}
+			
+			$('.list-dailyplan').find('.place-delete-button').click(function(){
+				$(this).parents('.list-dailyplan').remove();
+			});
+		}
+		
+		var callback = function(result, status) {
+		    if (status === kakao.maps.services.Status.OK) {
+		        console.log(result);
+		    }
+		};
+		
+		// 기존 데이터 로드
+		plannerTemplate(existStartDate, existEndDate);
+		existUserTemplate();
 	});
 </script>
 <script type="text/template" id="planner-insert-template">
 	<!-- 비동기 처리 : 계획표 생성(1회) -->
+	<input type="hidden" name="plannerNo" required readonly value={plannerNo}>
 	<input type="hidden" name="plannerName" required readonly value={plannerName}>
 	<input type="hidden" name="plannerStartDate" required readonly value={plannerStartDate}>
 	<input type="hidden" name="plannerEndDate" required readonly value={plannerEndDate}>
@@ -632,11 +719,11 @@
 	<!-- 사용자용 : 하루계획표 리스트 -->
 	<div class="list-daily" data-index="{index}">
 		<div class="list-daily-order">
-			<label>{dailyOrder} 일차 하루계획표</label>
+			<label>{dailyOrder}일차 하루계획표</label>
 		</div>
 		<div class="list-daily-placeName">
 			<label>지역</label>
-			<input type="text" readonly class="daily-placeName">
+			<input type="text" readonly class="daily-placeName" value={placeName}>
 		</div>
 		<div class="list-open-place-select-button">
 			<button>지역 선택</button>
@@ -676,13 +763,14 @@
 					<div id="planner-insert-confirm" style="border: 1px solid">
 						<div style="font-weight:bold;">통합계획표</div>
 							<label>계획표 이름</label>
-							<input type="text" id="planner-name">
+							<input type="hidden" id="planner-no">
+							<input type="text" id="planner-name" value="${planList.get(0).plannerName}">
 							<br>
 							<label>날짜선택</label>
 							<input type="text" id="demo">
 							<br>
-							<input type="button" id="planner-map-find" value="계획표 수정">
-							<input type="hidden" id="planner-insert-button" value="계획표 수정완료">
+							<input type="button" id="planner-map-find" value="계획표 날짜 수정">
+							<input type="submit" id="planner-insert-button" value="계획표 수정 완료">
 							<br>
 					</div>
 					<!-- 통합계획표 입력창 -->
