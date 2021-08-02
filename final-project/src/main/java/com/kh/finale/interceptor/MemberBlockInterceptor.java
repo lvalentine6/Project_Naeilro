@@ -16,7 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 
 /**
  * 정지된 회원의 기능 사용 제한 인터셉터
- * @author swjk78, 이승로
+ * @author swjk78
  *
  */
 @Slf4j

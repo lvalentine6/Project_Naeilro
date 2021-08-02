@@ -12,9 +12,9 @@
 		</div>
 		<div class="row">
 			<div class="col-lg-6 offset-lg-3">
-				<button class="btn btn-primary submit_btn btn-block"  type="button">여행 계획 시작하기</button>
-				<button class="btn btn-secondary cancel-btn btn-block" type="button">이용방법 알아보기</button>
-				<button class="btn btn-secondary cancel-btn btn-block" type="button">메인페이지로 돌아가기</button>
+				<button class="btn btn-primary submit_btn btn-block"  type="button" onclick="location.href='http://localhost:8080/finale/plan/writeplan'">여행 계획 시작하기</button>
+<!-- 				<button class="btn btn-secondary cancel-btn btn-block" type="button">이용방법 알아보기</button> -->
+				<button class="btn btn-secondary cancel-btn btn-block" type="button" onclick="location.href='http://localhost:8080/finale/'">메인페이지로 돌아가기</button>
 			</div>
 		</div>
 	</div>

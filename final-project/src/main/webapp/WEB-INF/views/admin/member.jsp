@@ -2,45 +2,28 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <jsp:include page="/WEB-INF/views/template/adminHeader.jsp"></jsp:include>
 <script>
-function report_modal(e){
-	$("#report_member").val($(e).data('member'))
-	$("#report_comment").val($(e).data('comment'))
-	$("#report_no").val($(e).data('report'))
-	$("#report_reason").val($('#report_reason_'+$(e).data('report')).text())
-	$("#report_content").val($(e).data('content'))
-}
-function delete_comment(e){
-	let commentNo = $("#report_comment").val()
-	let reportNo = $("#report_no").val()
-	let memberNo = $("#report_member").val()
-	let reportDay = $("#report_day").val()
-	let reportReason = $("#report_reason").val()
-	let reportContent = $("#report_content").val()
-	
 	/* 유저 정지처리 , 리포트 확인 처리 */
-	if(reportDay>0){
-		$.ajax({
-		url:"${pageContext.request.contextPath}/member_block/r_block",
-		data : {
-			blockPeriod : reportDay,
-			memberNo : memberNo,
-			blockContent : reportContent,
-			blockReason : reportReason,
-			type : 'comment',
-			reportNo : commentNo
-		},
-		method:"POST",
-		})
-		.done(function(){
+// 	if(reportDay>0){
+// 		$.ajax({
+// 		url:"${pageContext.request.contextPath}/member_block/r_block",
+// 		data : {
+// 			blockPeriod : reportDay,
+// 			memberNo : memberNo,
+// 			blockContent : reportContent,
+// 			blockReason : reportReason,
+// 			type : 'comment',
+// 			reportNo : commentNo
+// 		},
+// 		method:"POST",
+// 		})
+// 		.done(function(){
 	
-		})
-		.fail(function(){
+// 		})
+// 		.fail(function(){
 	
-		})
-	}
-}
+// 		})
+// }
 </script>
-
 <main>
 <div class="container-lg">
 	<div class="row">
@@ -114,10 +97,10 @@ function delete_comment(e){
 			      <td class="text-nowrap">${memberVo.reportCount}</td>
 			      <td class="text-nowrap"><a class="btn btn-outline-primary btn-sm" href="${pageContext.request.contextPath}/admin/report_detail?memberNo=${memberVo.memberNo}" role="button">상세보기</a></td>
    			      <c:if test='${memberVo.memberState=="정지"}'>
-				      <td class="text-nowrap"><button class="btn btn-outline-info btn-sm"  role="button">정지해제</button></td>
+				      <td class="text-nowrap"><button class="btn btn-outline-info btn-sm" role="button">정지해제</button></td>
 			      </c:if>
    			      <c:if test='${memberVo.memberState=="정상"}'>
-				      <td class="text-nowrap"><button class="btn btn-outline-danger btn-sm"  role="button">정지</button></td>
+				      <td class="text-nowrap"><button class="btn btn-outline-danger btn-sm" data-toggle="modal" data-target="#report_modal" onclick="report_modal(this)" role="button">정지</button></td>
 			      </c:if>
 			    </tr>
 				</c:forEach>
@@ -160,7 +143,7 @@ function delete_comment(e){
   <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title text-danger" id="exampleModalScrollableTitle">게시글 삭제</h5>
+        <h5 class="modal-title text-danger" id="exampleModalScrollableTitle">유저 정지</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -185,7 +168,7 @@ function delete_comment(e){
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary r-c-btn" data-dismiss="modal">닫기</button>
-        <button type="button" class="btn btn-danger r-c-btn" data-dismiss="modal" onclick="delete_comment(this)">게시글 삭제</button>
+        <button type="button" class="btn btn-danger r-c-btn" data-dismiss="modal" onclick="delete_comment(this)">정지</button>
       </div>
     </div>
   </div>
