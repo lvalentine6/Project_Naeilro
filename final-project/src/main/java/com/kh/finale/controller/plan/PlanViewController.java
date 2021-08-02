@@ -22,7 +22,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.kh.finale.entity.member.MemberDto;
 import com.kh.finale.entity.plan.PlanListDto;
+import com.kh.finale.repository.member.MemberDao;
 import com.kh.finale.repository.plan.DailyDao;
 import com.kh.finale.repository.plan.DailyplanDao;
 import com.kh.finale.repository.plan.PlanListDao;
@@ -54,9 +56,16 @@ public class PlanViewController {
 	@Autowired
 	private PlannerDao plannerDao;
 	
+	@Autowired
+	MemberDao memberDao;
+	
 	// 계획표 작성 페이지
 	@GetMapping("/writeplan")
-	public String writePlan() {
+	public String writePlan(Model model, HttpSession session) {
+		if (session.getAttribute("memberNo") != null) {
+			MemberDto memberDto = memberDao.findInfo((int) session.getAttribute("memberNo"));
+			model.addAttribute("memberDto", memberDto);
+		}
 		return "plan/writeplan";
 	}
 	

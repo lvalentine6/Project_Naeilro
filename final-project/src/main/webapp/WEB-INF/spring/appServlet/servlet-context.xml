@@ -68,6 +68,7 @@
 		
 		<!-- 비회원의 회원 기능 접근 차단 인터셉터 -->
 		<interceptor>
+			<mapping path="/plan/**"/>
 			<mapping path="/photostory/**"/>
 			<mapping path="/process/**"/>
 			<mapping path="/report/**"/>
@@ -80,6 +81,12 @@
 			<exclude-mapping path="/photostory/detail"/>
 			<exclude-mapping path="/process/search**"/>
 			<beans:bean class="com.kh.finale.interceptor.MemberLoginInterceptor"></beans:bean>
+		</interceptor>
+		
+		<!-- 비회원 플래너 인터셉터 -->
+		<interceptor>
+			<mapping path="/plan/**"/>
+			<beans:bean class="com.kh.finale.interceptor.PlannerLoginInterceptor"></beans:bean>
 		</interceptor>
 		
 		<!-- 회원의 비회원 기능 접근 차단 인터셉터 -->
@@ -114,10 +121,10 @@
 		</interceptor>
 
 		<!-- 관리자 기능 접근 차단 인터셉터 -->
-<!-- 		<interceptor> -->
-<!-- 			<mapping path="/admin/**"/> -->
-<!-- 			<beans:bean class="com.kh.finale.interceptor.AdminInterceptor"></beans:bean> -->
-<!-- 		</interceptor> -->
+		<interceptor>
+			<mapping path="/admin/**"/>
+			<beans:bean class="com.kh.finale.interceptor.AdminInterceptor"></beans:bean>
+		</interceptor>
 		
 	</interceptors>
 </beans:beans>

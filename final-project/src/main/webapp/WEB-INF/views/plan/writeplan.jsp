@@ -207,13 +207,26 @@
 		color: #60666d;
 	}
 </style>
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=60b30d68f4da16b4a316665d189e702f&libraries=services"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 <script>
+
 	$(function(){
+		
+		// 페이지 벗어나는 알림
+		var checkUnload = true;
+	    $(window).on("beforeunload", function(){
+	        if(checkUnload) return "이 페이지를 벗어나면 작성된 내용은 저장되지 않습니다.";
+	    });
+	    
+	    $("#planner-insert-button").on("click", function(){
+	        checkUnload = false;
+	        $("#planner-insert-button").submit();
+	    });
 		
 		// 통합계획표 테이블
 		var plannerName;
