@@ -23,6 +23,12 @@ import com.kh.finale.vo.plan.ResultPlanVO;
 @RequestMapping("/plan")
 public class PlanViewController {
 	
+	@Autowired
+	HttpSession session;
+	
+	@Autowired
+	PlanService planService;
+	
 	@GetMapping("/writeplan")
 	public String writePlan() {
 		return "plan/writeplan";
@@ -40,16 +46,10 @@ public class PlanViewController {
 		return "plan/editplan";
 	}
 	
-	@Autowired
-	HttpSession httpSession;
-	
-	@Autowired
-	PlanService planService;
-	
 	@GetMapping("/resultPlan")
 	public String resultPlan(@ModelAttribute ResultPlanVO resultPlanVO, Model model) throws JsonProcessingException {
 		System.out.println("계획 번호 : " + resultPlanVO.getPlannerNo());
-		resultPlanVO.setMemberNo(1); // 테스트 용도 : 세션 적용 예정
+		resultPlanVO.setMemberNo((int)session.getAttribute("memberNo")); 
 		System.out.println("회원번호 : " + resultPlanVO.getMemberNo());
 		
 		List<ResultPlanVO> sendData = planService.selectPlan(resultPlanVO);
