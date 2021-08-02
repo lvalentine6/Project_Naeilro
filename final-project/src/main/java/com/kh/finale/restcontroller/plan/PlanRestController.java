@@ -33,7 +33,7 @@ public class PlanRestController {
 	@PostMapping("/planUpdateService")
 	public void planUpdateService(@ModelAttribute PlanInsertServiceVO planInsertServiceVO) {
 		planInsertServiceVO.setMemberNo(1); // 임시
-		System.out.println("plannerNo=" + planInsertServiceVO.getPlannerNo());
+		System.out.println("전송 데이터 = " + planInsertServiceVO);
 		
 		planService.planUpdateService(planInsertServiceVO);
 	}

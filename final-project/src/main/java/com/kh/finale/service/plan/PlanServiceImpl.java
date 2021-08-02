@@ -136,7 +136,7 @@ public class PlanServiceImpl implements PlanService {
 	public void planUpdateService(PlanInsertServiceVO planInsertServiceVO) {
 		// 통합 계획표 번호
 		int plannerNo = planInsertServiceVO.getPlannerNo();
-		System.out.println(planInsertServiceVO);
+
 		// 통합 계획표 수정
 		plannerDao.plannerUpdate(planInsertServiceVO);
 
@@ -203,6 +203,7 @@ public class PlanServiceImpl implements PlanService {
 						planInsertServiceVO.setPlaceLongitude(planList.getPlaceLongitude());
 						planInsertServiceVO.setPlaceName(planList.getPlaceName());
 						planInsertServiceVO.setPlaceType(planList.getPlaceType());
+						planInsertServiceVO.setPlaceRegion(planList.getPlaceRegion());
 	
 						placeDao.placeUpdate(planInsertServiceVO);
 						placeNoIndex++;
@@ -245,6 +246,7 @@ public class PlanServiceImpl implements PlanService {
 							planInsertServiceVO.setPlaceLongitude(planList.getPlaceLongitude());
 							planInsertServiceVO.setPlaceName(planList.getPlaceName());
 							planInsertServiceVO.setPlaceType(planList.getPlaceType());
+							planInsertServiceVO.setPlaceRegion(planList.getPlaceRegion());
 
 							if (j < existDailyplanCount) {
 								// 기존 장소 수정
@@ -345,6 +347,7 @@ public class PlanServiceImpl implements PlanService {
 						planInsertServiceVO.setPlaceLongitude(planList.getPlaceLongitude());
 						planInsertServiceVO.setPlaceName(planList.getPlaceName());
 						planInsertServiceVO.setPlaceType(planList.getPlaceType());
+						planInsertServiceVO.setPlaceRegion(planList.getPlaceRegion());
 	
 						placeDao.placeUpdate(planInsertServiceVO);
 						placeNoIndex++;
@@ -386,6 +389,7 @@ public class PlanServiceImpl implements PlanService {
 						planInsertServiceVO.setPlaceLongitude(planList.getPlaceLongitude());
 						planInsertServiceVO.setPlaceName(planList.getPlaceName());
 						planInsertServiceVO.setPlaceType(planList.getPlaceType());
+						planInsertServiceVO.setPlaceRegion(planList.getPlaceRegion());
 
 						if (j < existDailyplanCount) {
 							// 기존 장소 수정
@@ -474,6 +478,7 @@ public class PlanServiceImpl implements PlanService {
 					planInsertServiceVO.setPlaceLongitude(planList.getPlaceLongitude());
 					planInsertServiceVO.setPlaceName(planList.getPlaceName());
 					planInsertServiceVO.setPlaceType(planList.getPlaceType());
+					planInsertServiceVO.setPlaceRegion(planList.getPlaceRegion());
 
 					if (j < existDailyplanCount) {
 						// 기존 장소 수정
