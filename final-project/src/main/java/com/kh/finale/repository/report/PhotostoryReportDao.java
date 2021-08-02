@@ -18,4 +18,12 @@ public interface PhotostoryReportDao {
 	void delete(int reportNo);
 
 	void confirm(int reportNo);
+
+	int getYCount();
+	int getNCount();
+	
+	List<ReportVo> getYList(PageVo pageVo);
+	List<ReportVo> getNList(PageVo pageVo);
+
+	List<ReportVo> getMemberPList(int memberNo);
 }

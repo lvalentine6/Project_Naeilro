@@ -15,4 +15,7 @@ public interface PhotostoryReportService {
 	void delete(int reportNo);
 
 	void confirm(int reportNo);
+	
+	List<ReportVo> getYList(Integer pageNo);
+	List<ReportVo> getNList(Integer pageNo);
 }

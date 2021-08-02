@@ -12,4 +12,5 @@ public class ReportVo {
 	private int reportNo;
 	private int no; // 댓글 or 포토스토리
 	private String reason;
+	private String reportConfirm;
 }

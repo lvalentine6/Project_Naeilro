@@ -454,7 +454,7 @@ $(function(){
 				</div>
 				<div class='row align-items-center border-left border-right pb-1'>
 					<div class="col-12 text-sm">
-						<pre>${photostoryListDto.photostoryContent}</pre>
+							${photostoryListDto.photostoryContent}
 					</div>
 				</div>
 				<div class='row align-items-center border-left border-right pb-1'>

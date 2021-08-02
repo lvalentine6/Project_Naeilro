@@ -28,7 +28,39 @@ public class CommentReportDaoImpl implements CommentReportDao{
 	}
 	
 	@Override
+	public int getNCount() {
+		return sqlSession.selectOne("creport.ncount");
+	}
+	@Override
+	public int getYCount() {
+		return sqlSession.selectOne("creport.ycount");
+	}
+	
+	@Override
 	public List<ReportVo> getList(PageVo pageVo) {
 		return sqlSession.selectList("creport.list",pageVo);
+	}
+	@Override
+	public List<ReportVo> getNList(PageVo pageVo) {
+		return sqlSession.selectList("creport.nlist",pageVo);
+	}
+	@Override
+	public List<ReportVo> getYList(PageVo pageVo) {
+		return sqlSession.selectList("creport.ylist",pageVo);
+	}
+	
+	@Override
+	public void delete(int reportNo) {
+		sqlSession.delete("creport.delete",reportNo);
+	}
+	
+	@Override
+	public void confirm(int reportNo) {
+		sqlSession.update("creport.confirm",reportNo);
+	}
+	
+	@Override
+	public List<ReportVo> getMemberPList(int memberNo) {
+		return sqlSession.selectList("creport.memberReportList",memberNo);
 	}
 }

@@ -88,4 +88,76 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		update member set member_state = '정상' where member_no = #{memberNo}
 	</update>
 	
+	<select id="getCount" resultType="int">
+		select count(*) from member
+	</select>
+	<select id="getBlockCount" resultType="int">
+		select count(*) from member where member_state='정지'
+	</select>
+	<select id="getUnBlockCount" resultType="int">
+		select count(*) from member where member_state='정상'
+	</select>
+	<select id="searchPreview" parameterType="String" resultType="MemberDto">
+		select * from member where instr(member_name,#{keyword}) > 0 or instr(member_nick,#{keyword}) > 0 or instr(member_id,#{keyword}) > 0
+	</select>
+	
+	<select id="list" parameterType="PageVo" resultType="MemberVo">
+		select * from (
+			select rownum rn, tmp.* from (
+				select member.*,NVL(R.report_count, 0) report_count from member
+				left join 
+				(select count(*) report_count, member_no from
+					(select p.member_no member_no from photostory_report pr
+					    inner join photostory p
+					    on pr.photostory_no = p.photostory_no
+					    UNION All
+					select c.member_no member_no from comment_report cr
+					    inner join photostory_comment c
+					    on cr.photostory_comment_no = c.photostory_comment_no) cnt
+					    GROUP by cnt.member_no) R
+				    on r.member_no = member.member_no
+				    order by report_count desc
+			) tmp
+		) where rn between #{startRow} and #{endRow}
+	</select>
+	<select id="blockList" parameterType="PageVo" resultType="MemberVo">
+		select * from (
+			select rownum rn, tmp.* from (
+				select member.*,NVL(R.report_count, 0) report_count from member
+				left join 
+				(select count(*) report_count, member_no from
+					(select p.member_no member_no from photostory_report pr
+					    inner join photostory p
+					    on pr.photostory_no = p.photostory_no
+					    UNION All
+					select c.member_no member_no from comment_report cr
+					    inner join photostory_comment c
+					    on cr.photostory_comment_no = c.photostory_comment_no) cnt
+					    GROUP by cnt.member_no) R
+				    on r.member_no = member.member_no 
+				        where member.member_state='정지'
+				        				    order by report_count desc
+			) tmp
+		) where rn between #{startRow} and #{endRow}
+	</select>
+	<select id="unBlockList" parameterType="PageVo" resultType="MemberVo">
+		select * from (
+			select rownum rn, tmp.* from (
+				select member.*,NVL(R.report_count, 0) report_count from member
+				left join 
+				(select count(*) report_count, member_no from
+					(select p.member_no member_no from photostory_report pr
+					    inner join photostory p
+					    on pr.photostory_no = p.photostory_no
+					    UNION All
+					select c.member_no member_no from comment_report cr
+					    inner join photostory_comment c
+					    on cr.photostory_comment_no = c.photostory_comment_no) cnt
+					    GROUP by cnt.member_no) R
+				    on r.member_no = member.member_no 
+				    where member.member_state='정상'
+				    				    order by report_count desc
+			) tmp
+		) where rn between #{startRow} and #{endRow}
+	</select>
 </mapper>

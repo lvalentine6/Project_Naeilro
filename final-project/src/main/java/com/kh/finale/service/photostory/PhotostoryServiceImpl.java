@@ -27,7 +27,7 @@ public class PhotostoryServiceImpl implements PhotostoryService {
 	// 포토스토리 등록
 	@Override
 	@Transactional
-	public void insertPhotostory(PhotostoryVO photostoryVO) throws IllegalStateException, IOException {
+	public int insertPhotostory(PhotostoryVO photostoryVO) throws IllegalStateException, IOException {
 		// 포토스토리 정보 등록
 		photostoryVO.setPhotostoryNo(photostoryDao.getSequence());
 		
@@ -43,6 +43,7 @@ public class PhotostoryServiceImpl implements PhotostoryService {
 			// 포토스토리 이미지 등록
 			insertPhotostoryPhoto(photostoryVO);
 		}
+		return photostoryDto.getPhotostoryNo();
 	}
 
 	// 포토스토리 수정

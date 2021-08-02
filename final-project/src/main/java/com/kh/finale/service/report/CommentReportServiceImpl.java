@@ -28,4 +28,28 @@ public class CommentReportServiceImpl implements CommentReportService{
 		pageVo=pageVo.getPageVariable(pageNo, 10,commentReportDao.getCount());
 		return commentReportDao.getList(pageVo);
 	}
+	
+	@Override
+	public List<ReportVo> getYList(Integer pageNo) {
+		PageVo pageVo = new PageVo();
+		pageVo=pageVo.getPageVariable(pageNo, 10,commentReportDao.getYCount());
+		return commentReportDao.getYList(pageVo);
+	}
+	
+	@Override
+	public List<ReportVo> getNList(Integer pageNo) {
+		PageVo pageVo = new PageVo();
+		pageVo=pageVo.getPageVariable(pageNo, 10,commentReportDao.getNCount());
+		return commentReportDao.getNList(pageVo);
+	}
+	
+	@Override
+	public void delete(int reportNo) {
+		commentReportDao.delete(reportNo);
+	}
+
+	@Override
+	public void confirm(int reportNo) {
+		commentReportDao.confirm(reportNo);
+	}
 }

@@ -67,6 +67,11 @@ public class ReportRestController {
 	public void deletePhotoReport(int reportNo) {
 		photostoryReportService.delete(reportNo);
 	}
+	
+	@RequestMapping("/delete_c_report")
+	public void deleteCommentReport(int reportNo) {
+		commentReportService.delete(reportNo);
+	}
 }
 
 

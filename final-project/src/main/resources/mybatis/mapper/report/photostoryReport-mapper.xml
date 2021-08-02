@@ -18,13 +18,51 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select count(*) from photostory_report
 	</select>
 	
+	<select id="ncount" resultType="int">
+		select count(*) from comment_report where report_confirm = 'N'
+	</select>
+	<select id="ycount" resultType="int">
+		select count(*) from comment_report where report_confirm = 'Y'
+	</select>
+	
+	<select id="memberReportList" parameterType="int" resultType="ReportVo">
+		select ps.member_no,m.member_nick,p.report_no,ps.photostory_no no,p.p_report_reason reason , p.report_confirm report_confirm
+		        from photostory_report p
+		        inner join Photostory ps 
+		        on ps.Photostory_no= p.photostory_no
+		        inner join member m
+		        on ps.member_no = m.member_no
+		        where m.member_no = #{memberNo}
+	</select>
 	<select id="list" parameterType="PageVo" resultType="ReportVo">
 		select * from (
 			select rownum rn, tmp.* from (
-				select p.member_no,m.member_nick,p.report_no,p.photostory_no no,p.p_report_reason reason 
+				select p.member_no,m.member_nick,p.report_no,p.photostory_no no,p.p_report_reason reason , p.report_confirm report_confirm
 				from photostory_report p
 				    inner join member m 
 				    on m.member_no= p.member_no
+			) tmp
+		) where rn between #{startRow} and #{endRow}
+	</select>
+	<select id="ylist" parameterType="PageVo" resultType="ReportVo">
+		select * from (
+			select rownum rn, tmp.* from (
+				select p.member_no,m.member_nick,p.report_no,p.photostory_no no,p.p_report_reason reason , p.report_confirm report_confirm
+				from photostory_report p
+				    inner join member m 
+				    on m.member_no= p.member_no
+				    where report_confirm = 'Y'
+			) tmp
+		) where rn between #{startRow} and #{endRow}
+	</select>
+	<select id="nlist" parameterType="PageVo" resultType="ReportVo">
+		select * from (
+			select rownum rn, tmp.* from (
+				select p.member_no,m.member_nick,p.report_no,p.photostory_no no,p.p_report_reason reason , p.report_confirm report_confirm
+				from photostory_report p
+				    inner join member m 
+				    on m.member_no= p.member_no
+				    where report_confirm = 'N'
 			) tmp
 		) where rn between #{startRow} and #{endRow}
 	</select>

@@ -44,10 +44,9 @@ public class MemberBlockRestController {
 	@PostMapping("/r_block")
 	public void rBlock(@ModelAttribute MemberBlockDto memberBlockDto,int reportNo,String type) throws ParseException {
 		if(type.equals("story")) {
-			System.out.println(memberBlockDto);
 			photostoryReportService.confirm(reportNo);
 		}else if(type.equals("comment")) {
-			
+			commentReportService.confirm(reportNo);
 		}
 		memberBlockService.block(memberBlockDto);
 	}

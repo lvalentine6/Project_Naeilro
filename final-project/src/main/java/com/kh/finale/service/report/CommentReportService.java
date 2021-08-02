@@ -11,4 +11,11 @@ public interface CommentReportService {
 	void cReportInsert(CommentReportDto commentReportDto);
 
 	List<ReportVo> getList(int pageNo);
+
+	void delete(int reportNo);
+
+	void confirm(int reportNo);
+
+	List<ReportVo> getYList(Integer pageNo);
+	List<ReportVo> getNList(Integer pageNo);
 }

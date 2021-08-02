@@ -1,10 +1,12 @@
 package com.kh.finale.repository.member;
 
+import java.util.List;
 import java.util.Map;
 
 import com.kh.finale.entity.member.MemberAuthDto;
 import com.kh.finale.entity.member.MemberDto;
 import com.kh.finale.vo.member.MemberVo;
+import com.kh.finale.vo.report.PageVo;
 
 public interface MemberDao {
 	void join(MemberDto memberDto);
@@ -29,4 +31,11 @@ public interface MemberDao {
 	void block(int memberNo);
 	// 회원 정지 해제
 	void unblock(int memberNo);
+	int getCount();
+	int getBlockCount();
+	int getUnBlockCount();
+	List<MemberVo> list(PageVo pageVo);
+	List<MemberVo> blockList(PageVo pageVo);
+	List<MemberVo> unblockList(PageVo pageVo);
+	List<MemberDto> searchPreview(String keyword);
 }

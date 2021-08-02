@@ -11,6 +11,7 @@ import com.kh.finale.entity.member.FollowDto;
 import com.kh.finale.entity.member.MemberAuthDto;
 import com.kh.finale.entity.member.MemberDto;
 import com.kh.finale.vo.member.MemberVo;
+import com.kh.finale.vo.report.PageVo;
 
 @Repository
 public class MemberDaoImpl implements MemberDao{
@@ -115,5 +116,37 @@ public class MemberDaoImpl implements MemberDao{
 	public void unblock(int memberNo) {
 		sqlSession.update("member.unblock", memberNo);
 	}
-
+	
+	@Override
+	public int getBlockCount() {
+		return sqlSession.selectOne("member.getBlockCount");
+	}
+	@Override
+	public int getCount() {
+		return sqlSession.selectOne("member.getCount");
+	}
+	@Override
+	public int getUnBlockCount() {
+		return sqlSession.selectOne("member.getUnBlockCount");
+	}
+	
+	@Override
+	public List<MemberVo> blockList(PageVo pageVo) {
+		return sqlSession.selectList("member.blockList",pageVo);
+	}
+	
+	@Override
+	public List<MemberVo> list(PageVo pageVo) {
+		return sqlSession.selectList("member.list",pageVo);
+	}
+	
+	@Override
+	public List<MemberVo> unblockList(PageVo pageVo) {
+		return sqlSession.selectList("member.unBlockList",pageVo);
+	}
+	
+	@Override
+	public List<MemberDto> searchPreview(String keyword) {
+		return sqlSession.selectList("member.searchPreview",keyword);
+	}
 }

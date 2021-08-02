@@ -362,10 +362,114 @@ function report_btn_click(e){
 		}
  	}
 	</c:if>
+	
+	
+	$(function(){
+		$(".dropdown-toggle").focus(function(){
+				$(".dropdown_f_menu").show()
+				$(".dropdown_f_menu").addClass('show')
+				$(".dropdown_f_menu").removeClass('hide')
+		})
+		$(".dropdown-toggle").click(function(){
+			if($(".dropdown_f_menu").hasClass("show")){
+				$(".dropdown_f_menu").hide()
+				$(".dropdown_f_menu").addClass('hide')
+				$(".dropdown_f_menu").removeClass('show')
+			}else{
 
+			}
+		})
+
+	})
+	
+	$(function(){
+		$(".search_bar").on('input',function(){
+			$(".dropdown_f_menu").empty()
+			$(".dropdown_f_menu").show()
+			$(".dropdown_f_menu").addClass('show')
+			$(".dropdown_f_menu").removeClass('hide')
+			let keyword = $(this).val()
+			$.ajax({
+				url:"${pageContext.request.contextPath}/process/search",
+				data : {
+					keyword : keyword
+				},
+				method:"GET",
+				dataType: 'json',
+			})
+			.done(function(json){
+				if(keyword[0]=="#"){
+					
+					for(let i=0;i<json.tagPreview.length;i++){
+						let temp = $("#preview-tag").html()
+						temp=temp.replaceAll("{{keyword}}",json.tagPreview[i].hashtagTag)
+						temp=temp.replaceAll("{{count}}",json.tagPreview[i].count)
+						$(".dropdown_f_menu").append(temp);
+					}
+					for(let i=0;i<json.memberPreview.length;i++){
+						let temp = $("#preview-user").html()
+						temp=temp.replaceAll("{{name}}",json.memberPreview[i].memberName)
+						temp=temp.replaceAll("{{nick}}",json.memberPreview[i].memberNick)
+						temp=temp.replaceAll("{{memberNo}}",json.memberPreview[i].memberNo)
+						$(".dropdown_f_menu").append(temp);
+					}
+				}else{
+					for(let i=0;i<json.memberPreview.length;i++){
+						let temp = $("#preview-user").html()
+						temp=temp.replaceAll("{{name}}",json.memberPreview[i].memberName)
+						temp=temp.replaceAll("{{nick}}",json.memberPreview[i].memberNick)
+						temp=temp.replaceAll("{{memberNo}}",json.memberPreview[i].memberNo)
+						$(".dropdown_f_menu").append(temp);
+					}
+					for(let i=0;i<json.tagPreview.length;i++){
+						let temp = $("#preview-tag").html()
+						temp=temp.replaceAll("{{keyword}}",json.tagPreview[i].hashtagTag)
+						temp=temp.replaceAll("{{count}}",json.tagPreview[i].count)
+						$(".dropdown_f_menu").append(temp);
+					}
+				}
+				console.log(json)
+			})
+			.fail(function(){
+				console.log('실패')
+			})
+		})
+		
+		
+		$(".hashtag").click(function(){
+			console.log()
+			text=$(this).text().replaceAll(/\s/g,'');
+			$('.search_bar').val(text)
+			$('.search_form').submit();
+		})
+	})
+	function go_user_page(nick){
+		location.href="${pageContext.request.contextPath}/member/profile/"+nick
+	}
+	function go_page(k){
+		text=k.replaceAll(/\s/g,'');
+		$('.search_bar').val(text)
+		$('.search_form').submit();
+	}
+</script>
+<script type="text/template" id="preview-user">
+	<div class="dropdown-item row d-flex align-items-center" onclick="go_user_page('{{nick}}')">
+		<div class="col-2 "><img class="my-2 user_profile_sm user_profile"
+		src="${pageContext.request.contextPath}/member/profile/profileImage?memberNo={{memberNo}}"
+		onerror="this.src='${pageContext.request.contextPath}/image/default_user_profile.jpg'"></div>
+		<div class="col-4">{{nick}}</div>
+		<div class="col-1 offset-3">{{name}}</div>
+	</div>	
+</script>
+<script type="text/template" id="preview-tag">
+	<div class="dropdown-item py-2 row d-flex align-items-center" onclick="go_page('{{keyword}}')">
+		<div class="col-2 "><i class="fas fa-hashtag fa-2x"></i></div>
+		<div class="col-4">{{keyword}}</div>
+		<div class="col-1 offset-3">게시물 {{count}}</div>
+	</div>
 </script>
 <script type="text/template" id="comment-tpl">
-						<div class="col-11 text-sm text-break" id="comment_1_{{no}}">
+						<div class="col-11 text-sm text-break" id="comment_1_{{no}}" >
 							<img class="my-2 user_profile_sm user_profile"
 								src="${pageContext.request.contextPath}/member/profile/profileImage?memberNo={{memberNo}}"
 					onerror="this.src='${pageContext.request.contextPath}/image/default_user_profile.jpg'">
@@ -404,15 +508,24 @@ function report_btn_click(e){
 							</form>
 						</div>
 </script>
+<style>
+.dropdown_f_menu{
+	max-height: 300px;
+	overflow-y: scroll;
+}
+</style>
 <main>
 	<div class="container-lg">
 		<div class="row">
 			<div class="input-group mb-3 col-lg-8 offset-lg-2">
-				<form class="w-100">
-					  <div class="form-group input-group mb-3">
-						  <input type="text" class="form-control" placeholder="검색어를 입력해주세요 . . ." >
+				<form class="w-100 search_form" action="" method="GET">
+					  <div class="form-group input-group mb-3 dropdown">
+						  <input type="text" value="${searchKeyword}" class="form-control dropdown-toggle search_bar" name="searchKeyword" placeholder="검색어를 입력해주세요 . . ." >
+						    <div class="dropdown-menu dropdown_f_menu w-100" aria-labelledby="dropdownMenuButton">
+
+							  </div>
 						  <div class="input-group-append">
-						    <button class="btn btn-outline-secondary" type="button" >검색</button>
+						    <button class="btn btn-outline-secondary" type="submit">검색</button>
 						  </div>
 					  </div>
 				</form>
@@ -554,7 +667,7 @@ function report_btn_click(e){
 					</div>
 					<div class='row align-items-center border-left border-right pb-1'>
 						<div class="col-12 text-sm">
-							<pre>${photostoryListDto.photostoryContent}</pre>
+							${photostoryListDto.photostoryContent}
 						</div>
 					</div>
 					<div class='row align-items-center border-left border-right pb-1'>

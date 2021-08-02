@@ -29,6 +29,20 @@ public class PhotostoryReportServiceImpl implements PhotostoryReportService{
 	}
 	
 	@Override
+	public List<ReportVo> getYList(Integer pageNo) {
+		PageVo pageVo = new PageVo();
+		pageVo=pageVo.getPageVariable(pageNo, 10,photostoryReportDao.getYCount());
+		return photostoryReportDao.getYList(pageVo);
+	}
+	
+	@Override
+	public List<ReportVo> getNList(Integer pageNo) {
+		PageVo pageVo = new PageVo();
+		pageVo=pageVo.getPageVariable(pageNo, 10,photostoryReportDao.getNCount());
+		return photostoryReportDao.getNList(pageVo);
+	}
+	
+	@Override
 	public void delete(int reportNo) {
 		photostoryReportDao.delete(reportNo);
 	}
