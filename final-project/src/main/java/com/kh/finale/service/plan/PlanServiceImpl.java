@@ -135,7 +135,7 @@ public class PlanServiceImpl implements PlanService {
 	public void planUpdateService(PlanInsertServiceVO planInsertServiceVO) {
 		// 통합 계획표 번호
 		int plannerNo = planInsertServiceVO.getPlannerNo();
-		
+		System.out.println(planInsertServiceVO);
 		// 통합 계획표 수정
 		plannerDao.plannerUpdate(planInsertServiceVO);
 

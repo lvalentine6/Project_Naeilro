@@ -198,7 +198,7 @@ $(function(){
 					    <div class="col-4 offset-2 text-center"><a class="nav-link" data-toggle="modal" data-target="#follower_list" href="#">팔로워 <strong>${countFollower }</strong></a></div>
 						<!-- Modal -->
 						<div class="modal fade" id="follower_list" tabindex="-1" role="dialog" aria-hidden="true">
-						  <div class="modal-dialog modal-dialog-scrollable" role="document">
+						  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
 						    <div class="modal-content">
 						      <div class="modal-header">
 						        <h5 class="modal-title" id="exampleModalScrollableTitle">팔로워</h5>
@@ -250,7 +250,7 @@ $(function(){
 					    
 					    <!-- Modal -->
 						<div class="modal fade" id="following_list" tabindex="-1" role="dialog" aria-hidden="true">
-						  <div class="modal-dialog modal-dialog-scrollable" role="document">
+						  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
 						    <div class="modal-content">
 						      <div class="modal-header">
 						        <h5 class="modal-title" id="exampleModalScrollableTitle">팔로잉</h5>

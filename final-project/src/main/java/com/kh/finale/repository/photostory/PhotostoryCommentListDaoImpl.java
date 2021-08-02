@@ -24,4 +24,9 @@ public class PhotostoryCommentListDaoImpl implements PhotostoryCommentListDao {
 	public List<PhotostoryCommentListDto> recentList(int photostoryNo) {
 		return sqlSession.selectList("photostoryCommentList.recentList", photostoryNo);
 	}
+	
+	@Override
+	public PhotostoryCommentListDto getReportComment(int reportNo) {
+		return sqlSession.selectOne("photostoryComment.getReportComment", reportNo);
+	}
 }

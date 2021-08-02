@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="hashtag">
+	<insert id="insert" parameterType="hashtagDto">
+		insert into hashtag values(
+			#{hashtagTag},#{photostoryNo}
+		)
+	</insert>
+	
+	<delete id="delete" parameterType="int">
+		delete hashtag where photostory_no = #{photostoryNo}
+	</delete>
+	
+	<select id="searchPreview" parameterType="String" resultType="hashtagVo">
+		select count(*) count,hashtag_tag from hashtag
+		    where instr(hashtag_tag,#{keyword})>0
+		    group by hashtag_tag
+	</select>
+</mapper>

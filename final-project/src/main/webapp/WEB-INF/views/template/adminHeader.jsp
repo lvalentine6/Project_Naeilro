@@ -84,7 +84,7 @@
 <body>
 	
 	<nav class="navbar navbar-expand-lg px-lg-5 navbar-light bg-white shadow-sm fixed-top">
-	  <a class="navbar-brand" href="${root}">NAEILRO</a>
+	  <a class="navbar-brand" href="${pageContext.request.contextPath}">NAEILRO</a>
 	  <button class="navbar-toggler border-0" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
 	    <span>
 	    	<i class="fas fa-bars"></i>
@@ -93,24 +93,24 @@
 	  <div class="collapse navbar-collapse text-right" id="navbarText">
 	    <ul class="navbar-nav mr-auto text-right">
 	      <li class="nav-item">
-	        <a class="nav-link d-inline-block" href="#">회원관리</a>
+	        <a class="nav-link d-inline-block" href="${pageContext.request.contextPath}/admin/member">회원관리</a>
 	      </li>
 	      <li class="nav-item">
-	        <a class="nav-link d-inline-block" href="#">댓글관리</a>
+	        <a class="nav-link d-inline-block" href="${pageContext.request.contextPath}/admin/comment">댓글 신고 내역</a>
 	      </li>
 	      <li class="nav-item">
-	        <a class="nav-link d-inline-block" href="#">스토리관리</a>
+	        <a class="nav-link d-inline-block" href="${pageContext.request.contextPath}/admin/photostory">스토리 신고 내역</a>
 	      </li>
 	    </ul>
 	    <span class="navbar-text text-right">
 	      <c:choose>
 				<c:when test="${isLogin}">
-					<a class="mr-3" href="${root}/member/logout">로그아웃</a>
-					<a class="" href="${root}/member/profile/${memberDto.memberNick}">마이페이지</a>
+					<a class="mr-3" href="${pageContext.request.contextPath}/member/logout">로그아웃</a>
+					<a class="" href="${pageContext.request.contextPath}/member/profile/${memberDto.memberNick}">마이페이지</a>
 				</c:when>
 				<c:otherwise>
-					<a class="mr-3"  href="${root}/member/login">로그인</a>
-					<a class=""  href="${root}/member/join">회원가입</a>
+					<a class="mr-3"  href="${pageContext.request.contextPath}/member/login">로그인</a>
+					<a class=""  href="${pageContext.request.contextPath}/member/join">회원가입</a>
 				</c:otherwise>
 			</c:choose>
 	    </span>

@@ -29,11 +29,10 @@ public class PhotostoryReportTest {
 	// 포토스토리 신고 DB저장
 	@Test
 	public void pReportInsert() {
-		PhotostoryReportDto photostoryReportDto = PhotostoryReportDto.builder()
-									.memberNo(112)
-									.ReportNo(16)
-									.pReportReason("부적절한 게시글")
-									.build();
-		photostoryReportService.pReportInsert(photostoryReportDto);
+		/*
+		 * PhotostoryReportDto photostoryReportDto = PhotostoryReportDto.builder()
+		 * .memberNo(112) .ReportNo(16) .pReportReason("부적절한 게시글") .build();
+		 * photostoryReportService.pReportInsert(photostoryReportDto);
+		 */
 	}
 }

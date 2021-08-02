@@ -56,6 +56,12 @@
 	.like{
 		color : #ed4956;
 	}
+	span.hashtag{
+	    color:#007bff;
+    }
+	span.hashtag:hover{
+	    cursor: pointer;
+    }
 </style>
 <!-- icon -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css"/>
