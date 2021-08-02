@@ -12,10 +12,8 @@ import com.kh.finale.repository.member.MemberDao;
 
 import lombok.extern.slf4j.Slf4j;
 
-/**
- * 관리자 기능 접근 차단 인터셉터
- * @author swjk78
- */
+// 관리자 기능 접근 차단 인터셉터
+
 @Slf4j
 public class AdminInterceptor implements HandlerInterceptor {
 

@@ -1,11 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:set var="isLogin" value="${not empty memberNo}"></c:set>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>NAEILRO</title>
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
     integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
@@ -106,11 +107,9 @@
 	      <c:choose>
 				<c:when test="${isLogin}">
 					<a class="mr-3" href="${pageContext.request.contextPath}/member/logout">로그아웃</a>
-					<a class="" href="${pageContext.request.contextPath}/member/profile/${memberDto.memberNick}">마이페이지</a>
 				</c:when>
 				<c:otherwise>
 					<a class="mr-3"  href="${pageContext.request.contextPath}/member/login">로그인</a>
-					<a class=""  href="${pageContext.request.contextPath}/member/join">회원가입</a>
 				</c:otherwise>
 			</c:choose>
 	    </span>

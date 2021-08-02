@@ -52,6 +52,7 @@ public class MemberBlockInterceptor implements HandlerInterceptor {
 				System.out.println(memberBlockDto);
 				request.setAttribute("block", memberBlockDto);
 				response.sendRedirect(request.getContextPath());
+
 				log.debug("인터셉터: MemberBlockInterceptor 차단");
 				return false;
 			}
