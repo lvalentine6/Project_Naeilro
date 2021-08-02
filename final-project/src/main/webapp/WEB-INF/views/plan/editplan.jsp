@@ -620,29 +620,13 @@
 			var dailyNoArr = [${planList.get(0).dailyNo}];
 			var temp;
 			
-			var place = new Object();
-			
-			// 장소 검색 객체를 생성합니다
-			var ps = new kakao.maps.services.Places(); 
-
-			// 키워드 검색 완료 시 호출되는 콜백함수 입니다
-			function placesSearchCB (place) {
-				var test = new kakao.maps.LatLng(place.y, place.x);
-				console.log(test);
-			}
-			
 			for (var i = 0; i < dailyStayDate; i++) {
 				var userTemplate = $("#user-place-dailyplan-template").html();
+				
 				<c:forEach var="plan" items="${planList}">
 					if (dailyNoArr[i] == ${plan.dailyNo}) {
 						userTemplate = userTemplate.replace("{index}", placeIndex + 1);
 						
-						place.x = '${plan.placeLongitude}';
-						place.y = '${plan.placeLatitude}';
-						
-						placesSearchCB(place);
-						
-						userTemplate = userTemplate.replace("{place-name}", '${plan.placeName}');
 						userTemplate = userTemplate.replace("{data-latitude}", '${plan.placeLatitude}');
 						userTemplate = userTemplate.replace("{data-longitude}", '${plan.placeLongitude}');
 						userTemplate = userTemplate.replace("{data-name}", '${plan.placeName}');
@@ -658,8 +642,64 @@
 						} else {
 							userTemplate = userTemplate.replace('<option value="자동차">', '<option value="자동차" selected>');
 						}
-			
-						$(".list-daily").eq(i).append(userTemplate);
+						
+			        	$(".list-daily").eq(i).append(userTemplate);
+			        	
+						function existDataTemplate() {
+							// FORM 데이터 초기화
+							$(".planList-place").remove();
+
+							// 반복문 : 하루계획
+							$('.list-daily').each(function(){
+								// 반복문 : 장소계획
+								$(this).find('.list-dailyplan').each(function(){
+									// 조건 : 선택 안한 값들은 데이터 등록에서 제외
+									if($(this).find("select").val() != "선택") {
+
+										var dataTemplate = $("#place-dailyplan-insert-template").html();
+	
+										var dailyIndex = $(this).parents('.list-daily').data("index");
+										var placeIndex = $(this).data("index");
+	
+										// 데이터 전송 : 체크용 (완료)
+										dataTemplate = dataTemplate.replace("{label-daily-index}", dailyIndex-1);
+										dataTemplate = dataTemplate.replace("{label-place-index}", placeIndex-1);
+	
+										// 데이터 전송 : 다차원 배열 인덱스 (완료)
+	
+										// 하루 인덱스
+										dataTemplate = dataTemplate.replace("{dailyList-index-lat}", dailyIndex-1);
+										dataTemplate = dataTemplate.replace("{dailyList-index-lng}", dailyIndex-1);
+										dataTemplate = dataTemplate.replace("{dailyList-index-name}", dailyIndex-1);
+										dataTemplate = dataTemplate.replace("{dailyList-index-type}", dailyIndex-1);
+										dataTemplate = dataTemplate.replace("{dailyList-index-place-order}", dailyIndex-1);
+										dataTemplate = dataTemplate.replace("{dailyList-index-transfer}", dailyIndex-1);
+	
+										// 장소 인덱스
+										dataTemplate = dataTemplate.replace("{placeList-index-lat}", placeIndex-1);
+										dataTemplate = dataTemplate.replace("{placeList-index-lng}", placeIndex-1);
+										dataTemplate = dataTemplate.replace("{placeList-index-name}", placeIndex-1);
+										dataTemplate = dataTemplate.replace("{placeList-index-type}", placeIndex-1);
+										dataTemplate = dataTemplate.replace("{dailyplanList-index-place-order}", placeIndex-1);
+										dataTemplate = dataTemplate.replace("{dailyplanList-index-transfer}", placeIndex-1);
+	
+										// 데이터 전송 : 전송 값
+										dataTemplate = dataTemplate.replace("{dailyplanPlaceOrder}", placeIndex);
+										dataTemplate = dataTemplate.replace("{dailyplanTransfer}", $(this).find("select").val());
+	
+										dataTemplate = dataTemplate.replace("{placeLatitude}", $(this).find('.list-dailyplan-latitude').val());
+										dataTemplate = dataTemplate.replace("{placeLongitude}", $(this).find('.list-dailyplan-longitude').val());
+										dataTemplate = dataTemplate.replace("{placeName}",$(this).find('.list-dailyplan-name').val());
+										dataTemplate = dataTemplate.replace("{placeType}", $(this).find('.list-dailyplan-type').val());
+	
+										$("#plan-insert-container").append(dataTemplate);
+									}
+								});
+								// 반복문 : 장소계획
+							});
+							// 반복문 : 하루계획
+						}
+						existDataTemplate();
 					} 
 					if (!dailyNoArr.includes(${plan.dailyNo})) {
 						dailyNoArr.push(${plan.dailyNo});					
@@ -673,12 +713,6 @@
 				$(this).parents('.list-dailyplan').remove();
 			});
 		}
-		
-		var callback = function(result, status) {
-		    if (status === kakao.maps.services.Status.OK) {
-		        console.log(result);
-		    }
-		};
 		
 		// 기존 데이터 로드
 		plannerTemplate(existStartDate, existEndDate);
