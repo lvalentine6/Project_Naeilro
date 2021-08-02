@@ -43,7 +43,7 @@ public class PlanViewController {
 	@GetMapping("/editplan")
 	public String editPlan(@RequestParam int plannerNo, Model model) {
 		List<PlanListDto> planList = planListDao.getPlanList(plannerNo);
-		model.addAttribute("planList", planList);
+		model.addAttribute("planList", planList); 
 		
 		return "plan/editplan";
 	}
