@@ -22,10 +22,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.kh.finale.entity.member.MemberDto;
 import com.kh.finale.entity.plan.PlanListDto;
+import com.kh.finale.repository.member.MemberDao;
 import com.kh.finale.repository.plan.DailyDao;
 import com.kh.finale.repository.plan.DailyplanDao;
 import com.kh.finale.repository.plan.PlanListDao;
+import com.kh.finale.repository.plan.PlannerDao;
 import com.kh.finale.service.plan.PlanService;
 import com.kh.finale.vo.plan.FindPhotoVO;
 import com.kh.finale.vo.plan.PlanInsertServiceVO;
@@ -36,16 +39,11 @@ import com.kh.finale.vo.plan.ResultPlanVO;
 public class PlanViewController {
 	
 	@Autowired
-	HttpSession session;
+	private HttpSession session;
 	
 	@Autowired
-	PlanService planService;
+	private PlanService planService;
 	
-	@GetMapping("/writeplan")
-	public String writePlan() {
-		return "plan/writeplan";
-	}
-
 	@Autowired
 	private PlanListDao planListDao;
 	
@@ -54,6 +52,22 @@ public class PlanViewController {
 
 	@Autowired
 	private DailyplanDao dailyplanDao;
+	
+	@Autowired
+	private PlannerDao plannerDao;
+	
+	@Autowired
+	MemberDao memberDao;
+	
+	// 계획표 작성 페이지
+	@GetMapping("/writeplan")
+	public String writePlan(Model model, HttpSession session) {
+		if (session.getAttribute("memberNo") != null) {
+			MemberDto memberDto = memberDao.findInfo((int) session.getAttribute("memberNo"));
+			model.addAttribute("memberDto", memberDto);
+		}
+		return "plan/writeplan";
+	}
 	
 	// 계획표 수정 페이지
 	@GetMapping("/editplan")
@@ -73,17 +87,12 @@ public class PlanViewController {
 		return "plan/editplan";
 	}
 	
-	@Autowired
-	HttpSession httpSession;
-	
 	@GetMapping("/resultPlan")
 	public String resultPlan(@ModelAttribute ResultPlanVO resultPlanVO, Model model, FindPhotoVO findPhotoVO) throws JsonProcessingException {
-		System.out.println("계획 번호 : " + resultPlanVO.getPlannerNo());
-		resultPlanVO.setMemberNo((int) httpSession.getAttribute("memberNo"));
-		System.out.println("회원번호 : " + resultPlanVO.getMemberNo());
+		resultPlanVO.setMemberNo((int) session.getAttribute("memberNo"));
 		
 		// 포토스토리 이미지 테스트
-		findPhotoVO.setMemberNo((int) httpSession.getAttribute("memberNo"));
+		findPhotoVO.setMemberNo((int) session.getAttribute("memberNo"));
 		FindPhotoVO sendPhoto = planService.selectPhoto(findPhotoVO);
 		System.out.println("이미지 DB값 : " + sendPhoto);
 		
@@ -93,8 +102,8 @@ public class PlanViewController {
 		ObjectMapper mapper = new ObjectMapper();
 		String jsonStr = mapper.writeValueAsString(sendData);
 		
-		System.out.println("전송 데이터 : " + jsonStr);
 		model.addAttribute("list", jsonStr);
+		model.addAttribute("plannerNo", resultPlanVO.getPlannerNo());
 		
 		return "plan/resultPlan";
 	}
@@ -122,5 +131,11 @@ public class PlanViewController {
 							.body(resource);
 	}
 	
-	
+	//계획표 삭제 처리
+	@GetMapping("/deleteplan")
+	public String deletePlan(@RequestParam int plannerNo) {
+		plannerDao.plannerDelete(plannerNo);
+		System.out.println("삭제 성공");
+		return "redirect:/";
+	}
 }
