@@ -3,7 +3,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
-<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=60b30d68f4da16b4a316665d189e702f&libraries=services"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <style>
 	input:focus {
 	outline:none;
@@ -43,6 +44,67 @@
 </style>
 <script>
 	$(function(){
+		
+		/* 지도 : 작성자 (정 계진)*/
+		
+		var mapContainer = document.getElementById('map'), // 지도를 표시할 div  
+	    mapOption = { 
+	        center: new kakao.maps.LatLng(36.812028526492455, 127.87021053246508), // #. 지도의 중심좌표
+	        level: 14, // #. 지도의 확대 레벨
+	        draggable: false
+	    };
+		
+		var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
+		
+		// #. 마커를 표시할 위치와 title 객체 배열입니다 
+		var positions = [];
+		
+		var list = [${list}];
+		// console.log (list);
+		
+		for(var i=0; i < list.length; i++){
+			if(list[i])
+		}
+		// EX. 1일차 1번째 장소 & 2일차 1번째 장소 & 3일차 1번째 장소 ...
+		
+		// 1일차 1번째 좌표
+		
+		// 마커 이미지의 이미지 주소입니다
+		var imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png"; 
+		
+		for (var i = 0; i < positions.length; i ++) {
+		    
+		    // 마커 이미지의 이미지 크기 입니다
+		    var imageSize = new kakao.maps.Size(24, 35); 
+		    
+		    // 마커 이미지를 생성합니다    
+		    var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize); 
+		    
+		    // 마커를 생성합니다
+		    var marker = new kakao.maps.Marker({
+		        map: map, // 마커를 표시할 지도
+		        position: positions[i].latlng, // 마커를 표시할 위치
+		        title : positions[i].title, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
+		        image : markerImage // 마커 이미지 
+		    });
+		    
+		    addMarker(marker);
+		}
+		
+		function addMarker(marker){
+			
+			// 지정할 마커를 생성해준다
+			 var marker = new kakao.maps.Marker({
+		        map: marker.getMap(), // 마커를 표시할 지도
+		        position: marker.getPosition(), // 마커를 표시할 위치
+		        title : marker.getTitle(), // 마커의 타이틀
+		        image : marker.getImage() // 마커 이미지 
+		    });
+			
+		}
+		
+		/* 지도 : 작성자 (정 계진)*/
+		
 		planSelectService();
 		//name();
 		
@@ -108,7 +170,6 @@
 		}
 	});
 </script>
-
 <script type="text/template" id="result-template">
 	<!-- 하루 계획표 출력 템플릿 -->
 	<div data-index={index}>
@@ -119,7 +180,6 @@
 	</div>
 	<br>
 </script>
-
 <script type="text/template" id="plan-template">
 	<!-- 여행 계획 출력 템플릿 -->
 	<input class="result-input" type="hidden" name="plannerNo" value={plannerNo} readonly>
@@ -157,11 +217,10 @@
 					</div>
 				</div>
 				<div class="row">
-					<img class="img-responsive left-block" alt="더미"
-						src="${pageContext.request.contextPath}/image/default_user_profile.jpg">
+					<div id="map" style="width:100%;height:350px;"></div>
 					<div id ="result-image-template" class="col-4 align-items-center" style="font-size: 1.5rem">
 						포토 스토리 연동
-					<img src="${pageContext.request.contextPath}/plan/resultPlan/image?">
+					<%-- <img src="${pageContext.request.contextPath}/plan/resultPlan/image?"> --%>
 					</div>
 				</div>
 			</div>

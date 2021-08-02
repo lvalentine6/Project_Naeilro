@@ -13,12 +13,198 @@
 		pointer-events: none;
 	}
 	.list-daily {
-		border: 1px solid;
 		margin-top: 10px;
 	}
-	#search {
-		border: 1px solid;
-		margin-top: 10px;
+</style>
+<style>
+	ul:not(.browser-default) {
+	    padding-left: 0;
+	    list-style-type: none
+	}
+	.card {
+		position: relative;
+    	margin: .5rem 0 1rem 0;
+    	background-color: #fff;
+    	-webkit-transition: -webkit-box-shadow .25s;
+    	transition: -webkit-box-shadow .25s;
+    	transition: box-shadow .25s;
+    	transition: box-shadow .25s, -webkit-box-shadow .25s;
+    	border-radius: 2px;
+	}
+	.hoverable {
+		-webkit-transition: -webkit-box-shadow .25s;
+    	transition: -webkit-box-shadow .25s;
+    	transition: box-shadow .25s;
+    	transition: box-shadow .25s, -webkit-box-shadow .25s;
+	}
+	.z-depth-3 {
+		-webkit-box-shadow: 0 8px 17px 2px rgb(0 0 0 / 14%), 0 3px 14px 2px rgb(0 0 0 / 12%), 0 5px 5px -3px rgb(0 0 0 / 20%);
+    	box-shadow: 0 8px 17px 2px rgb(0 0 0 / 14%), 0 3px 14px 2px rgb(0 0 0 / 12%), 0 5px 5px -3px rgb(0 0 0 / 20%);
+	}
+	.z-depth-1, nav, .card-panel, .card, .toast, .btn, .btn-large, .btn-small, .btn-floating, .dropdown-content, .collapsible, .sidenav {
+		-webkit-box-shadow: 0 2px 2px 0 rgb(0 0 0 / 14%), 0 3px 1px -2px rgb(0 0 0 / 12%), 0 1px 5px 0 rgb(0 0 0 / 20%);
+    	box-shadow: 0 2px 2px 0 rgb(0 0 0 / 14%), 0 3px 1px -2px rgb(0 0 0 / 12%), 0 1px 5px 0 rgb(0 0 0 / 20%);
+	}
+	ol, ul {
+		list-style: none;
+		
+		display: block;
+    	list-style-type: disc;
+    	margin-block-start: 1em;
+    	margin-block-end: 1em;
+    	margin-inline-start: 0px;
+    	margin-inline-end: 0px;
+    	padding-inline-start: 40px;
+	}
+	div, span, h6 {
+		margin: 0;
+    	padding: 0;
+    	border: 0;
+    	font-size: 100%;
+    	font: inherit;
+    	vertical-align: baseline;
+	}
+	h6 {
+    	line-height: 110%;
+    	margin: .7666666667rem 0 .46rem 0;
+    	
+    	font-weight: 400;
+	}
+	.center, .center-align {
+    	text-align: center
+	}
+	input[type=text]:not(.browser-default){
+		background-color: transparent;
+	    border: none;
+	    border-radius: 0;
+	    outline: none;
+	    height: 3rem;
+	    width: 100%;
+	    font-size: 16px;
+	    margin: 0 0 8px 0;
+	    padding: 0;
+	    -webkit-box-shadow: none;
+	    box-shadow: none;
+	    -webkit-box-sizing: content-box;
+	    box-sizing: content-box;
+	    -webkit-transition: border .3s, -webkit-box-shadow .3s;
+	    transition: border .3s, -webkit-box-shadow .3s;
+	    transition: box-shadow .3s, border .3s;
+	    transition: box-shadow .3s, border .3s, -webkit-box-shadow .3s;
+	}
+	.daycount-main1 input {
+		color: #ff1744;
+	    font-weight: 600 !important;
+	    cursor: pointer !important;	
+	    border-bottom: none;
+	}
+	.daycount-main2 {
+	    display: flex;
+	    justify-content: space-around;
+	    padding: 5px;
+	}
+	.daycount-main2 input {
+        height: 2rem !important;
+    }
+	.daycount-main2 input {
+	    color: #696969 !important;
+	    border: 1px solid #ddd !important;
+	    font-weight: 600 !important;
+	    cursor: pointer !important;
+	}
+	
+	.collapsibleClosebtn {
+		color: #ffd600;
+	    font-size: 12px !important;
+	    height: auto !important;
+	    line-height: 1 !important;
+	    padding: 5px !important;
+	    width: 100%;
+	    display: inline-block !important;
+	    border: none !important;
+	    margin-bottom: 5px !important;
+	    background-color: #000000 !important;
+	}
+	.collapsibleDailyClosebtn {
+		color: #ffffff;
+	    font-size: 12px !important;
+	    height: auto !important;
+	    line-height: 1 !important;
+	    padding: 5px !important;
+	    width: 100%;
+	    display: inline-block !important;
+	    border: none !important;
+	    margin-bottom: 5px !important;
+		background-color: #00bcd4;
+	}
+	
+	.searchRadioCss {
+    	display: flex;
+    	justify-content: space-around;
+	}
+	[type="radio"]:not(:checked), [type="radio"]:checked {
+	    position: absolute;
+	    opacity: 0;
+	    pointer-events: none;
+	}
+	[type="checkbox"], [type="radio"] {
+	    -webkit-box-sizing: border-box;
+	    box-sizing: border-box;
+	    padding: 0;
+	}
+	.radio-inline__input {
+	    clip: rect(1px, 1px, 1px, 1px);
+	    position: absolute !important;
+	}
+	.radio-inline__label {
+	    display: inline-block;
+	    padding: 0.5rem 1rem;
+	    transition: all .2s;
+	    cursor: pointer;
+	}
+	
+	.radio-inline__input:checked + .radio-inline__label {
+	    background: #2979ff;
+	    color: #fff;
+	}
+	
+	.black {
+	    background-color: #000 !important;
+	}
+	
+	#find {
+		height: 2.5rem !important;
+		color: #ffffff;
+		width: 100%;
+	    height: 36px;
+	    border-radius: unset;
+	    box-shadow: none;
+	}
+	
+	.selectCardCss {
+	    margin: 0 5px 0 5px !important;
+	    padding-bottom: 1px !important;
+	}
+	
+	.place-delete-button {
+		width: 100%;
+	    line-height: 0;
+	    height: 25px;
+	    box-shadow: none;
+	    color: #ffffff;
+	    background-color: #ff1744 !important;
+	}
+	
+	.select-box {
+		border: none;
+		position: relative;
+	  	display: block;
+		width: 100%;
+		margin: 0 auto;
+		margin-bottom: 10px;
+		font-family: 'Open Sans', 'Helvetica Neue', 'Segoe UI', 'Calibri', 'Arial', sans-serif;
+		font-size: 18px;
+		color: #60666d;
 	}
 </style>
 <script type="text/javascript"
@@ -56,9 +242,9 @@
 		/* 체크박스 중복 불가 */
 		function check(){
 			// 검색창
-			$(".type").click(function(){
+			$(".radio-inline__input").click(function(){
 				if($(this).prop('checked')){
-					$('.type').prop('checked', false);
+					$('.radio-inline__input').prop('checked', false);
 					$(this).prop('checked', true);
 				}
 			});
@@ -141,7 +327,9 @@
 			$("input[name=dailyStayDate]").attr("value", dailyStayDate);
 			dailyTemplate(dailyStayDate);
 			
-			$("#planner-map-find").hide();
+			console.log("확인");
+			
+			$("#planner-map-find").remove();
 			$("#planner-insert-button").attr("type", "submit");
 			
 		}
@@ -390,6 +578,9 @@
 				// #.지역 CB함수 - 매개변수 : 지명 + 유형
 				setMapBounds(placeName, placeType);
 				
+				// 지역 입력
+				$(".list-daily").eq(divIndex).find("#daily-input-name").html(placeName);
+				
 				// #. 지역 선택해야 검색창 나오게끔 표시
 				$("#search").show();
 			});
@@ -401,7 +592,7 @@
 		function find(){
 			$("#find").click(function(){
 				// #. 체크박스 설정으로 유형 값 변경
-				placeType = $('input[class=type]:checked').val();  
+				placeType = $('input[class=radio-inline__input]:checked').val();  
 				
 				// #. 선택한 장소 유형을 출력에 대입
 				$('input[name=placeType]').attr('value', placeType); 
@@ -434,7 +625,7 @@
 			var keyword = "";
 			
 			// #. 관광지에 체크박스 먼저 선택 후 지역 선택하면 알맞게 변경
-			if($('.type').val() == "관광지"){
+			if($('.radio-inline__input').val() == "관광지"){
 				placeType = "관광지";
 			}
 			
@@ -471,31 +662,41 @@
 			        position: new kakao.maps.LatLng(place.y, place.x)
 			    });
 			    
-			    // 마커에 이벤트를 등록합니다 
-			    kakao.maps.event.addListener(marker, 'mouseover', function(){
+			    // 마커에 클릭이벤트를 등록합니다 
+			    kakao.maps.event.addListener(marker, 'click', function(){
 			        // 마커를 클릭하면 장소명이 인포윈도우에 표출됩니다
 			        infowindow.setContent(
 			        		'<div style="padding:5px;font-size:12px;">' + 
 			        			place.place_name + 
 			        		'</div>');
 			        infowindow.open(map, marker);
-			    });
-			    
-			    kakao.maps.event.addListener(marker, 'click', function(){
-			    	 /* 뷰 */
+			        
+			        /* 선택한 장소 마커 생성 */
+					function placeMarker(){
+						var markerPosition  = new kakao.maps.LatLng(place.x, place.y); 
+						
+						// 마커를 생성합니다
+						var marker = new kakao.maps.Marker({
+						    position: markerPosition
+						});
+						
+						marker.setMap(map);
+					}
+			        
+			        /* 뷰 */
 			        var dailyIndex = $('#daily-index').val(); // 하루계획표 인덱스 선택자
 					var placeIndex = $(".list-daily").eq(dailyIndex-1).find(".list-dailyplan").last().data("index"); // 장소 선택자
 					
-					var userTemplate = $("#user-place-dailyplan-template").html();
-					
 					if(placeIndex == null) {
 						placeIndex = 0;
+					}
+					
+					var userTemplate = $("#user-place-dailyplan-template").html();
+					if(placeIndex == null) {
 						userTemplate = userTemplate.replace("{index}", 1);
 					} else {
 						userTemplate = userTemplate.replace("{index}", placeIndex+1);
 					}
-
-					
 					userTemplate = userTemplate.replace("{place-name}", place.place_name);
 					userTemplate = userTemplate.replace("{data-latitude}", place.y);
 					userTemplate = userTemplate.replace("{data-longitude}", place.x);
@@ -503,12 +704,6 @@
 					userTemplate = userTemplate.replace("{data-type}", placeType);
 					
 					$(".list-daily").eq(dailyIndex-1).append(userTemplate);
-					
-					/* 선택 마커 */
-					var markerImage = new kakao.maps.MarkerImage(
-						    'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_red.png',
-						    new kakao.maps.Size(31, 35), new kakao.maps.Point(13, 34));
-					marker.setImage(markerImage);
 					
 					/* 경로(선) */
 					// 변수
@@ -556,6 +751,12 @@
 					
 					/* 삭제 (완료) */ 
 					$(".list-daily").eq(dailyIndex-1).find(".list-dailyplan").find(".place-delete-button").click(function(){
+						// 데이터 삭제
+						$(this).parents('.list-dailyplan').remove();
+					});
+					
+					/* 삭제 (완료) */ 
+					$('.list-dailyplan').find('.place-delete-button').click(function(){
 						// 데이터 삭제
 						$(this).parents('.list-dailyplan').remove();
 					});
@@ -622,9 +823,12 @@
 						}
 						
 					}); 
+					
 			    });
 			}
+		
 		} 
+		
 		
 		/* 이벤트 : 계획표 생성 */
 		$("#planner-insert-button").click(function(){
@@ -649,6 +853,7 @@
 				}
 			});
 		}
+		
 	}); 
 </script>
 <script type="text/template" id="planner-insert-template"> 
@@ -681,41 +886,41 @@
 		</div>
 </script>
 <script type="text/template" id="user-daily-template">
-	<!-- 사용자용 : 하루계획표 리스트 -->
-	<div class="list-daily" data-index="{index}">
-		<div class="list-daily-order">
-			<label>{dailyOrder} 일차 하루계획표</label>
-		</div>
-		<div class="list-daily-placeName">
-			<label>지역</label>
-			<input type="text" readonly class="daily-placeName">
-		</div>
-		<div class="list-open-place-select-button">
-			<button>지역 선택</button>
-		</div>
-	</div>
-	<!-- 사용자용 : 하루계획표 리스트 -->
+	<!-- CSS 스타일링 -->
+	<ul class="list-daily card hoverable z-depth-3 collapsible" data-index="{index}">
+		<h6 class="list-daily-order center"><b><span>{dailyOrder} 일차 하루계획표</span></b></h6>
+		<li class="center active">
+			<div class="list-daily-placeName">
+				<span id="daily-input-name">지역 :</span>
+			</div>
+			<div class="list-open-place-select-button collapsible-body daycollapsible-main2 center s-border">
+				<button class="daily-select-button btn center collapsibleDailyClosebtn">지역 선택</button>
+			</div>	
+		</li>
+	</ul>
+	<!-- CSS 스타일링 -->
 </script>
 <script type="text/template" id="user-place-dailyplan-template">
 	<!-- 사용자용 : 장소 & 장소계획 리스트 -->
-	<div class="list-dailyplan" style="border-top: 1px solid" data-index="{index}"> 
-		<div class="list-dailyplan-placeName">
-			<label>{place-name}</label>
+	<div class="list-dailyplan card z-depth-3 selectCardCss" data-index="{index}"> 
+		<div class="list-dailyplan-placeName center">
+			<h6>
+				<b><span>{place-name}</span></b>
+			</h6>
 		</div>
 		<div class="list-dailyplan-transfer">
-			<label>교통수단</label>
-			<select clsss="transfer">
-				<option value="선택" selected>선택</option>
+			<select class="transfer select-box center">
+				<option value="선택" selected>교통수단을 선택해주세요.</option>
 				<option value="항공">항공</option>
 				<option value="기차">기차</option>
 				<option value="자동차">자동차</option>
 			</select>
 		</div>
-		<input type="text" class="list-dailyplan-latitude" value={data-latitude}>
+		<input type="hidden" class="list-dailyplan-latitude" value={data-latitude}>
 		<input type="hidden" class="list-dailyplan-longitude" value={data-longitude}>
 		<input type="hidden" class="list-dailyplan-name" value={data-name}>
 		<input type="hidden" class="list-dailyplan-type" value={data-type}>
-		<input type="button" class="place-delete-button" value="삭제">
+		<input type="button" class="place-delete-button btn center border-radius-none" value="삭제">
 	</div>
 	<!-- 사용자용 : 장소 & 장소계획 리스트 -->
 </script>
@@ -725,65 +930,50 @@
 			<div class="row">
 				<div class="col-xs-6 col-md-3">
 					<!-- 통합계획표 입력창 -->
-					<div id="planner-insert-confirm" style="border: 1px solid">
-						<div>
-							<span data-langum="17">통합계획표</span>
-						</div>
-							<label>계획표 이름</label>
-							<input type="text" id="planner-name"> 
-							<br>
-							<label>날짜선택</label>
-						<input type="text" id="demo">
-						<br>
-						<input type="button" id="planner-map-find" value="계획표 생성">
-						<input type="hidden" id="planner-insert-button" value="계획표 생성완료">
-						<br>
-						<!-- <ul class="card hoverable z-depth-3 collapsible">
+					<div id="planner-insert-confirm" >
+						<ul class="card hoverable z-depth-3 collapsible">
 							<h6 class="center">
-								<b>
-									<span>통합계획표</span>
-								</b>
+								<b><span>계획표 작성</span></b>
 							</h6>
-							<li class="center">
-								<div id="traveltextdiv">
-									<h6>
-										<span style="letter-spacing: 1px !important;">
-											<span id="">계획표 이름</span>
-											<input type="text" id="planner-name"> 
-										</span>
-									</h6>
+							<li class="center active">
+								<div class="daycount-main1">
+									<input class="center" type="text" id="planner-name" placeholder="계획표 이름">
 								</div>
 								<div class="daycount-main2">
-									
+									<input class="center" type="text" id="demo">
+								</div>
+								<div class="collapsible-body daycollapsible-main2 center s-border">
+									<input class="btn center collapsibleClosebtn" type="button" id="planner-map-find" value="계획표 생성">
+									<input class="btn center collapsibleClosebtn" type="hidden" id="planner-insert-button" value="계획표 생성완료">
 								</div>
 							</li>
-						</ul> -->
+						</ul>
 					</div>
 					<!-- 통합계획표 입력창 -->	
-					<!-- 검색창 -->
-					<div id="search"> 
-						<div style="font-weight:bold;">장소 검색창</div>
-							<label>검색 유형 : </label>
-							<input type="checkbox" class="type" id="hotel" value="호텔">
-							<label>호텔</label>
-							<input type="checkbox" class="type" id="tour" value="관광지">
-							<label>관광지</label>
-							<br>
-							<label>검색어</label>
-							<input type="text" id="keyword" required="required">
-							<button id="find">검색</button>
+				<!-- 검색창 : CSS -->
+				<div id="search" class="card hoverable z-depth-3 collapsible">
+					<div class="searchinputdivcss" id="searchSpotOrHotelKeywordWrapper" >
+						<div class="center searchRadioCss">
+							<input type="radio" class="radio-inline__input" id="hotel" value="호텔">
+							<label class="radio-inline__label" for="hotel" style="width: 100%">호텔</label>
+							<input type="radio" class="radio-inline__input" id="tour" value="관광지">
+							<label class="radio-inline__label" for="tour" style="width: 100%">관광지</label>
+						</div>
+						<div class="searchinputdivcss_c">
+							<input class="center"  type="text" id="keyword"  required="required" placeholder="검색어를 입력하세요.">
+						</div>
+						<button class="btn black waves-effect waves-light" id="find">
+							검색
+						</button>
 					</div>
-				<!-- 검색창 -->
+				</div> 
+				<!-- 검색창 : CSS -->
 				<!-- 하루계획표 -->
 				<div id="daily-list-container"></div>
 				<!-- 하루계획표 -->
-				<!-- 데이터 전송 FORM -->
 				<form id="plan-insert-container"></form>
-				<!-- 데이터 전송 FORM -->
-				<!-- 인덱스 -->
 				<input type="hidden" id="daily-index">
-				<!-- 인덱스 -->
-				<div id="polyline-container"></div>
+				<input type="hidden" id="place-index">
 				</div>
 				<div class="col-xs-12 col-md-9">
 					<div id="map"></div>
