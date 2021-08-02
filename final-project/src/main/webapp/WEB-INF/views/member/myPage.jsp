@@ -306,7 +306,7 @@ $(function(){
 			<div class="row w-100">
 				<ul class="nav nav-tabs w-100">
 					  <li class="nav-item w-50 text-center">
-					    <a class="nav-link active" href="#">게시글 <strong>${countPhotostory}</strong></a>
+					    <a class="nav-link active" href="#">스토리 <strong>${countPhotostory}</strong></a>
 					  </li>
 					  <li class="nav-item w-50 text-center">
 					    <a class="nav-link" href="#">플래너 <strong>0</strong></a>

@@ -59,11 +59,8 @@ function delete_comment(e){
 		$("#report_confimr_"+reportNo).text("Y")
 	})
 	.fail(function(){
-
 	})
 }
-
-
 $(function(){
 	
 	
@@ -129,7 +126,6 @@ $(function(){
 			$(".report_container_"+reportNo).remove();
 		})
 		.fail(function(){
-
 		})
 	})
 })
