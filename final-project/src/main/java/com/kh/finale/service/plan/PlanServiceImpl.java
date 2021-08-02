@@ -13,6 +13,7 @@ import com.kh.finale.repository.plan.PlaceDao;
 import com.kh.finale.repository.plan.PlanListDao;
 import com.kh.finale.repository.plan.PlannerDao;
 import com.kh.finale.repository.plan.ResultPlanDao;
+import com.kh.finale.vo.plan.FindPhotoVO;
 import com.kh.finale.vo.plan.PlanInsertServiceSubVO;
 import com.kh.finale.vo.plan.PlanInsertServiceVO;
 import com.kh.finale.vo.plan.ResultPlanVO;
@@ -89,8 +90,9 @@ public class PlanServiceImpl implements PlanService {
 				planInsertServiceVO.setPlaceNo(placeNo);
 				planInsertServiceVO.setPlaceLatitude(plan.getPlaceLatitude());
 				planInsertServiceVO.setPlaceLongitude(plan.getPlaceLongitude());
-				planInsertServiceVO.setPlaceName(plan.getPlaceName());
+				planInsertServiceVO.setPlaceName(plan.getPlaceName()); // 변경 : 데이터 - 장소 이름
 				planInsertServiceVO.setPlaceType(plan.getPlaceType());
+				planInsertServiceVO.setPlaceRegion(plan.getPlaceRegion()); // 추가 : 데이터 -  지명
 				
 				if(planInsertServiceVO.getPlaceLatitude() != null || planInsertServiceVO.getPlaceLongitude() != null) {
 					placeDao.placeInsert(planInsertServiceVO);
@@ -506,5 +508,11 @@ public class PlanServiceImpl implements PlanService {
 				}	
 			}
 		}
+	}
+	
+	// 포토스토리 이미지 조회
+	@Override
+	public FindPhotoVO selectPhoto(FindPhotoVO findPhotoVO) {
+		return resultPlanDao.selectPhoto(findPhotoVO);
 	}
 }

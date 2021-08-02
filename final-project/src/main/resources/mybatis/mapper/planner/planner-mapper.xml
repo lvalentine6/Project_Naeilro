@@ -31,9 +31,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		delete planner where planner_no = #{plannerNo}
 	</delete>
 	
+	<!-- 상세 페이지 데이터 조회 -->
 	<select id="selectPlan" parameterType="ResultPlanVO" resultType="ResultPlanVO">
 		select * from result_plan 
 		where member_no = #{memberNo} and planner_no = #{plannerNo}
 	</select>
-
+	
+	<!-- 포토스토리 이미지 조회 -->
+	<select id="selectPhoto" parameterType="FindPhotoVO" resultType="FindPhotoVO">
+		select * from result_plan_photo where planner_no = #{plannerNo} and member_no = #{memberNo}
+	</select>
 </mapper>
