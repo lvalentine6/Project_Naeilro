@@ -7,8 +7,6 @@
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
 
 <script>
-
-
 $(function(){
 	$(".story-photo").height($('.story-photo').width()+'px')
 	
@@ -49,13 +47,11 @@ $(function(){
 				pageNo+=1;
 			})
 			.fail(function(){
-
 			})
 			
 		}
 	})
 })
-
 $(function(){
 	$(".follow-btn").click(function(){
 		if(${memberNo==null }){
@@ -94,7 +90,6 @@ $(function(){
 		})
 	});
 })
-
 $(function(){
 	$(".f-follow-btn").click(function(){
 		if(${memberNo==null }){
@@ -136,7 +131,6 @@ $(function(){
 		})
 	});
 })
-
 </script>
 <main>
 	<div class="container-lg">

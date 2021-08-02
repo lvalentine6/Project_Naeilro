@@ -323,7 +323,7 @@ public class PhotostoryViewController {
 	@GetMapping("/photo/{photostoryPhotoNo}")
 	public ResponseEntity<ByteArrayResource> download(@PathVariable int photostoryPhotoNo,HttpServletRequest req) throws IOException {
 		PhotostoryPhotoDto photostoryPhotoDto = photostoryPhotoDao.getSingle(photostoryPhotoNo);
-		
+		System.out.println("이미지 반환값 : " + photostoryPhotoDto);
 		if (photostoryPhotoDto == null) {
 			System.out.println("NOT FOUND");
 			return ResponseEntity.notFound().build();

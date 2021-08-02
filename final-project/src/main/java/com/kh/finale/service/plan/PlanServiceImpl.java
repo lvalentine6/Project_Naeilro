@@ -13,6 +13,7 @@ import com.kh.finale.repository.plan.PlaceDao;
 import com.kh.finale.repository.plan.PlanListDao;
 import com.kh.finale.repository.plan.PlannerDao;
 import com.kh.finale.repository.plan.ResultPlanDao;
+import com.kh.finale.vo.plan.FindPhotoVO;
 import com.kh.finale.vo.plan.PlanInsertServiceSubVO;
 import com.kh.finale.vo.plan.PlanInsertServiceVO;
 import com.kh.finale.vo.plan.ResultPlanVO;
@@ -506,5 +507,11 @@ public class PlanServiceImpl implements PlanService {
 				}	
 			}
 		}
+	}
+	
+	// 포토스토리 이미지 조회
+	@Override
+	public FindPhotoVO selectPhoto(FindPhotoVO findPhotoVO) {
+		return resultPlanDao.selectPhoto(findPhotoVO);
 	}
 }
