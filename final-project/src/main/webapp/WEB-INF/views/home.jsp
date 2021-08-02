@@ -121,7 +121,7 @@
 			
 			
 		})
-	})
+		
 	
 	
  <c:if test="${block!=null}">
@@ -129,6 +129,7 @@
  		$(".block_modal").click()
  	})
  </c:if>
+ 	
 </script>
 </head>
 <body>
