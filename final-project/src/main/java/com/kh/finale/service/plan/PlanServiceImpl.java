@@ -90,8 +90,9 @@ public class PlanServiceImpl implements PlanService {
 				planInsertServiceVO.setPlaceNo(placeNo);
 				planInsertServiceVO.setPlaceLatitude(plan.getPlaceLatitude());
 				planInsertServiceVO.setPlaceLongitude(plan.getPlaceLongitude());
-				planInsertServiceVO.setPlaceName(plan.getPlaceName());
+				planInsertServiceVO.setPlaceName(plan.getPlaceName()); // 변경 : 데이터 - 장소 이름
 				planInsertServiceVO.setPlaceType(plan.getPlaceType());
+				planInsertServiceVO.setPlaceRegion(plan.getPlaceRegion()); // 추가 : 데이터 -  지명
 				
 				if(planInsertServiceVO.getPlaceLatitude() != null || planInsertServiceVO.getPlaceLongitude() != null) {
 					placeDao.placeInsert(planInsertServiceVO);

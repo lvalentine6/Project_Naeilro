@@ -15,7 +15,6 @@ public class PlanInsertServiceVO {
 	private String plannerStartDate;
 	private String plannerEndDate;
 	private String plannerOpen;
-
 	private int memberNo;
 	
 	// 하루계획표
@@ -29,6 +28,7 @@ public class PlanInsertServiceVO {
 	private String placeLongitude;
 	private String placeName;
 	private String placeType;
+	private String placeRegion;
 	
 	// 장소계획
 	private int dailyplanPlaceOrder;

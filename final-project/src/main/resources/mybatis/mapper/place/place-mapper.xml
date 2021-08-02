@@ -12,7 +12,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<insert id="placeInsert" parameterType="PlanInsertServiceVO">
 		insert into place values(
-			#{placeNo}, #{placeLatitude}, #{placeLongitude}, #{placeName}, #{placeType}
+			#{placeNo}, #{placeLatitude}, #{placeLongitude}, #{placeName}, #{placeType}, #{placeRegion}
 		)	
 	</insert>
 	
