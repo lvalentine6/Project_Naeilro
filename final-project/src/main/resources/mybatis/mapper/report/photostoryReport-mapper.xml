@@ -4,14 +4,74 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="report">
+<mapper namespace="preport">
 
 	<!-- 포토스트리 신고 등록 -->
 	<insert id="pReportInsert" parameterType="PhotostoryReportDto">
 		insert into photostory_report values(
 			report_seq.nextval, 
-			#{memberNo}, #{pReportNo}, #{pReportReason}
+			#{memberNo}, #{photostoryNo}, #{pReportReason} ,'N'
 		)
 	</insert>
 	
+	<select id="count" parameterType="PageVo" resultType="int">
+		select count(*) from photostory_report
+	</select>
+	
+	<select id="ncount" resultType="int">
+		select count(*) from comment_report where report_confirm = 'N'
+	</select>
+	<select id="ycount" resultType="int">
+		select count(*) from comment_report where report_confirm = 'Y'
+	</select>
+	
+	<select id="memberReportList" parameterType="int" resultType="ReportVo">
+		select ps.member_no,m.member_nick,p.report_no,ps.photostory_no no,p.p_report_reason reason , p.report_confirm report_confirm
+		        from photostory_report p
+		        inner join Photostory ps 
+		        on ps.Photostory_no= p.photostory_no
+		        inner join member m
+		        on ps.member_no = m.member_no
+		        where m.member_no = #{memberNo}
+	</select>
+	<select id="list" parameterType="PageVo" resultType="ReportVo">
+		select * from (
+			select rownum rn, tmp.* from (
+				select p.member_no,m.member_nick,p.report_no,p.photostory_no no,p.p_report_reason reason , p.report_confirm report_confirm
+				from photostory_report p
+				    inner join member m 
+				    on m.member_no= p.member_no
+			) tmp
+		) where rn between #{startRow} and #{endRow}
+	</select>
+	<select id="ylist" parameterType="PageVo" resultType="ReportVo">
+		select * from (
+			select rownum rn, tmp.* from (
+				select p.member_no,m.member_nick,p.report_no,p.photostory_no no,p.p_report_reason reason , p.report_confirm report_confirm
+				from photostory_report p
+				    inner join member m 
+				    on m.member_no= p.member_no
+				    where report_confirm = 'Y'
+			) tmp
+		) where rn between #{startRow} and #{endRow}
+	</select>
+	<select id="nlist" parameterType="PageVo" resultType="ReportVo">
+		select * from (
+			select rownum rn, tmp.* from (
+				select p.member_no,m.member_nick,p.report_no,p.photostory_no no,p.p_report_reason reason , p.report_confirm report_confirm
+				from photostory_report p
+				    inner join member m 
+				    on m.member_no= p.member_no
+				    where report_confirm = 'N'
+			) tmp
+		) where rn between #{startRow} and #{endRow}
+	</select>
+	
+	<delete id="delete" parameterType="int">
+		delete photostory_report where report_no=#{reportNo}
+	</delete>
+	
+	<update id="confirm" parameterType="int">
+		update photostory_report set report_confirm='Y' where photostory_no=#{reportNo}
+	</update>
 </mapper>

@@ -78,12 +78,14 @@
 			<exclude-mapping path="/photostory"/>
 			<exclude-mapping path="/photostory/photo/**"/>
 			<exclude-mapping path="/photostory/detail"/>
+			<exclude-mapping path="/process/search**"/>
 			<beans:bean class="com.kh.finale.interceptor.MemberLoginInterceptor"></beans:bean>
 		</interceptor>
 		
 		<!-- 회원의 비회원 기능 접근 차단 인터셉터 -->
 		<interceptor>
 			<mapping path="/member/**"/>
+			<exclude-mapping path="/process/search**"/>
 			<exclude-mapping path="/member/profile/**"/>
 			<exclude-mapping path="/member/findPw"/>
 			<exclude-mapping path="/member/changePw"/>

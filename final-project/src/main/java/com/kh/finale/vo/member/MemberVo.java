@@ -22,4 +22,5 @@ public class MemberVo {
 	private String memberIntro;
 	private String memberState;
 	private MultipartFile memberProfile;
+	private int reportCount;
 }

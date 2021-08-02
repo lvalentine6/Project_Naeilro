@@ -6,7 +6,7 @@ import com.kh.finale.vo.photostory.PhotostoryVO;
 
 public interface PhotostoryService {
 	// 포토스토리 등록
-	void insertPhotostory(PhotostoryVO photostoryVO) throws IllegalStateException, IOException;
+	int insertPhotostory(PhotostoryVO photostoryVO) throws IllegalStateException, IOException;
 
 	// 포토스토리 수정
 	void updatePhotostory(PhotostoryVO photostoryVO) throws IllegalStateException, IOException;
