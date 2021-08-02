@@ -67,7 +67,6 @@ public class PlanViewController {
 			int dailyplanCount = dailyplanDao.getDailyplanCount(vo.getDailyNo());
 			dailyplanCountList.add(dailyplanCount);
 		}
-		System.out.println("???="+dailyplanCountList);
 		
 		model.addAttribute("dailyplanCountList", dailyplanCountList);
 		
