@@ -22,4 +22,15 @@ public class PlaceDaoImpl implements PlaceDao {
 		sqlSession.insert("place.placeInsert", planInsertServiceVO);
 	}
 
+	// 장소 수정 기능
+	@Override
+	public int placeUpdate(PlanInsertServiceVO planInsertServiceVO) {
+		return sqlSession.update("place.placeUpdate", planInsertServiceVO);
+	}
+	
+	// 장소 삭제 기능
+	@Override
+	public void placeDelete(int placeNo) {
+		sqlSession.delete("place.placeDelete", placeNo);
+	}
 }

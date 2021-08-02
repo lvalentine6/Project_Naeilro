@@ -1,5 +1,6 @@
 package com.kh.finale.restcontroller.plan;
 
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -15,14 +16,25 @@ import com.kh.finale.vo.plan.PlanInsertServiceVO;
 public class PlanRestController {
 	
 	@Autowired
+	private HttpSession session;
+	
+	@Autowired
 	private PlanService planService;
 	
 	@PostMapping("/planInsertService")
-	public void planInsertService(@ModelAttribute PlanInsertServiceVO planInsertServiceVO) {
+	public int planInsertService(@ModelAttribute PlanInsertServiceVO planInsertServiceVO) {
 		// 회원번호 세팅
-		planInsertServiceVO.setMemberNo(1);
+		planInsertServiceVO.setMemberNo((int) session.getAttribute("memberNo"));
 		
-		planService.planInsertService(planInsertServiceVO);
+		return planService.planInsertService(planInsertServiceVO);
 	}
 	
+	// 계획표 수정 처리
+	@PostMapping("/planUpdateService")
+	public void planUpdateService(@ModelAttribute PlanInsertServiceVO planInsertServiceVO) {
+		planInsertServiceVO.setMemberNo(1); // 임시
+		planInsertServiceVO.setPlannerNo(367); // 임시
+		
+		planService.planUpdateService(planInsertServiceVO);
+	}
 }
