@@ -62,7 +62,7 @@ import com.kh.finale.vo.photostory.PhotostoryListVO;
 public class MemberController {
 
 	@Autowired
-	MemberDao memberDao;
+	MemberDao memberDao; 
 	
 	@Autowired
 	private PhotostoryPhotoDao photostoryPhotoDao; 
