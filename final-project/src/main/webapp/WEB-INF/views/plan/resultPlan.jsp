@@ -200,12 +200,13 @@
 			
 			var placeRegion = $('.box').eq(i).find('input[name=placeRegion]').val();
 			
-			console.log("지명 : " + placeRegion);
+			// console.log("지명 : " + placeRegion);
 			
 			for(var j=0; j < positions.length; j++){
+				console.log(positions[j].title );
 				if(positions[j].title == placeRegion){
-					
-					linePath.push(positions[i].latlng);
+					console.log(positions[j].latlng);
+					linePath.push(positions[j].latlng);
 					
 					var imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png"; 
 					
@@ -215,7 +216,7 @@
 					
 					var marker = new kakao.maps.Marker({
 						map: map,
-				    	position: positions[i].latlng,
+				    	position: positions[j].latlng,
 				    	image : markerImage
 					});
 					// 지도에 표시할 선을 생성합니다
@@ -230,7 +231,8 @@
 					// 지도에 선을 표시합니다 
 					polyline.setMap(map);
 				}
-			}
+			} 
+			
 		}
 		/* 지도 : 작성자 (정 계진)*/
 		

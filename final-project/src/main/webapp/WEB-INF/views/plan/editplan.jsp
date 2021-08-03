@@ -894,7 +894,6 @@
 		}
 		// 기존 하루 계획표 틀
 		function existDailyTemplate() {
-			console.log('${planList}');
 			var pastDailyNo = ${planList.get(0).dailyNo};
 			var dailyNoArr = [${planList.get(0).dailyNo}];
 			var temp;
@@ -910,6 +909,7 @@
 					console.log(dailyNoArr);
 					// 이전 dailyNo와 현재 dailyNo 비교
 					if (dailyNoArr[i] == ${plan.dailyNo}) {
+						console.log('${plan}');
 						userTemplate = userTemplate.replace("{index}", dailyIndex + 1);
 						userTemplate = userTemplate.replace("{data-latitude}", '${plan.placeLatitude}');
 						userTemplate = userTemplate.replace("{data-longitude}", '${plan.placeLongitude}');
