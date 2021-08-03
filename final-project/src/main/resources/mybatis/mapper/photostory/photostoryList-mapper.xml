@@ -38,7 +38,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<!-- 포토스토리 리스트 -->
 	<select id="planList" parameterType="int" resultType="PhotostoryListDto">
 		select * from photostory_list
-			where plannerNo=#{plannerNo}
+			where planner_No=#{plannerNo}
 			order by photostory_date desc
 	</select>
 	

@@ -7,7 +7,7 @@
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
 <script>
 $(function(){
-	$(".story-photo").height($('.story-photo').width()+'px')
+
 	
 	$(".follow-btn").click(function(){
 		if(${memberNo==null }){
@@ -19,6 +19,8 @@ $(function(){
 		})
 	})
 	
+	$(".story-photo").height($('.story-photo').width()+'px')
+		
 	$( window ).resize(function() {
 		$(".story-photo").height($('.story-photo').width()+'px')
 	});
@@ -183,7 +185,6 @@ $(function(){
 	
 								<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
 									<a class="dropdown-item" href="${pageContext.request.contextPath}/member/findPw">비밀번호 변경</a>
-									<a class="dropdown-item" href="#">문제 신고</a> 
 									<a class="dropdown-item" href="${pageContext.request.contextPath}/member/logout">로그아웃</a> 
 									<a class="dropdown-item text-danger confirm-link" data-message="정말 탈퇴하시겠습니까?" href="${pageContext.request.contextPath}/member/exit">회원 탈퇴</a> 
 								</div>
@@ -193,8 +194,9 @@ $(function(){
 					</div>
 					
 				</div>
+				
 				<div class="row mb-3">
-					    <div class="col-4 offset-2 text-center"><a class="nav-link" data-toggle="modal" data-target="#follower_list" href="#">팔로워 <strong>${countFollower }</strong></a></div>
+					    <div class="col-4 offset-2 "><a class="nav-link" data-toggle="modal" data-target="#follower_list" href="#">팔로워 <strong>${countFollower }</strong></a></div>
 						<!-- Modal -->
 						<div class="modal fade" id="follower_list" tabindex="-1" role="dialog" aria-hidden="true">
 						  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
@@ -245,7 +247,7 @@ $(function(){
 						</div>
 						
 						
-					    <div class="col-4 text-center"><a class="nav-link" data-toggle="modal" data-target="#following_list"  href="#">팔로잉 <strong>${countFollowing }</strong></a></div>
+					    <div class="col-4 "><a class="nav-link" data-toggle="modal" data-target="#following_list"  href="#">팔로잉 <strong>${countFollowing }</strong></a></div>
 					    
 					    <!-- Modal -->
 						<div class="modal fade" id="following_list" tabindex="-1" role="dialog" aria-hidden="true">
@@ -303,6 +305,16 @@ $(function(){
 			</div>
 		</div>
 		<div class="container-lg mb-2 pr-0">
+		<c:if test="${profileMemberDto.memberNo==memberNo}">
+					<div class="row my-3 align-items-center">
+						<div class="col-4 offset-2">
+							<a class="btn btn-outline-secondary" href="${pageContext.request.contextPath}/photostory/write" role="button">스토리 작성</a>
+						</div>
+						<div class="col-4 offset-2">
+							<a class="btn btn-outline-secondary" href="${pageContext.request.contextPath}/plan/writeplan" role="button">플래너 작성</a>
+						</div>
+					</div>
+				</c:if>	
 			<div class="row w-100">
 				<ul class="nav nav-tabs w-100">
 					  <li class="nav-item w-50 text-center">
