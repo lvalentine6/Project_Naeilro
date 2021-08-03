@@ -28,6 +28,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
@@ -46,6 +47,7 @@ import com.kh.finale.repository.member.MemberProfileDao;
 import com.kh.finale.repository.photostory.PhotostoryDao;
 import com.kh.finale.repository.photostory.PhotostoryListDao;
 import com.kh.finale.repository.photostory.PhotostoryPhotoDao;
+import com.kh.finale.repository.plan.PlannerDao;
 import com.kh.finale.service.block.MemberBlockService;
 import com.kh.finale.service.member.MemberAuthService;
 import com.kh.finale.service.member.MemberEditService;
@@ -319,23 +321,19 @@ public class MemberController {
 	// 마이페이지 조회 TODO
 	@Autowired
 	private FollowDao followDao;
+	@Autowired
+	private PlannerDao plannerDao;
+	
 	@RequestMapping("/profile/{memberNick}")
 	public String myPage(@PathVariable String memberNick
-			,Model model,HttpSession session,@ModelAttribute PhotostoryListVO photostoryListVO) {
+			,Model model,HttpSession session,@ModelAttribute PhotostoryListVO photostoryListVO
+			,@RequestParam(required = false) String planner) {
 		MemberDto target = memberDao.findWithNick(memberNick);
 		model.addAttribute("countPhotostory",photostoryDao.getPhotostoryCountWithMemberNo(target.getMemberNo()));
 		photostoryListVO.setMemberNo(target.getMemberNo());
 		photostoryListVO.setPageSize(30);
 		photostoryListVO = photostoryDao.getPageVariable(photostoryListVO);
-		List<PhotostoryListDto> photostoryList = photostoryListDao.listWhitMemberNo(photostoryListVO);
-		for (int i = 0; i < photostoryList.size(); i++) {
-			PhotostoryListDto photostoryListDto = photostoryList.get(i);
-			// 이미지 처리
-			List<PhotostoryPhotoDto> photostoryPhotoList = photostoryPhotoDao.get(photostoryListDto.getPhotostoryNo());
-			if (!photostoryPhotoList.isEmpty()) {
-				photostoryListDto.setPhotostoryPhotoNo(photostoryPhotoList.get(0).getPhotostoryPhotoNo());
-			}
-		}
+
 		// 마이페이지 회원 정보 전송
 		model.addAttribute("profileMemberDto", target);
 		
@@ -404,11 +402,27 @@ public class MemberController {
 		model.addAttribute("followerList",followerList);
 		model.addAttribute("followingList",followingList);
 		
-		model.addAttribute("photostoryList",photostoryList);
+
 		model.addAttribute("isFollow",isFollow);
 		
 		model.addAttribute("countFollower",followDao.getCountFollower(target.getMemberNo()));
 		model.addAttribute("countFollowing",followDao.getCountFollowing(target.getMemberNo()));
+		
+		if(planner!=null&&planner.equals("t")) {
+			model.addAttribute("planList", plannerDao.getMemberPlanList(target.getMemberNo()));
+			return "member/myPage_plan";
+		}
+		
+		List<PhotostoryListDto> photostoryList = photostoryListDao.listWhitMemberNo(photostoryListVO);
+		for (int i = 0; i < photostoryList.size(); i++) {
+			PhotostoryListDto photostoryListDto = photostoryList.get(i);
+			// 이미지 처리
+			List<PhotostoryPhotoDto> photostoryPhotoList = photostoryPhotoDao.get(photostoryListDto.getPhotostoryNo());
+			if (!photostoryPhotoList.isEmpty()) {
+				photostoryListDto.setPhotostoryPhotoNo(photostoryPhotoList.get(0).getPhotostoryPhotoNo());
+			}
+		}
+		model.addAttribute("photostoryList",photostoryList);
 		return "member/myPage";
 	}
 

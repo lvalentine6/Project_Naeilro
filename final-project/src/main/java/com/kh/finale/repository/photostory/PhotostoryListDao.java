@@ -17,4 +17,6 @@ public interface PhotostoryListDao {
 	PhotostoryListDto get(int photostoryNo);
 
 	PhotostoryListDto getReportStory(int reportNo);
+
+	List<PhotostoryListDto> planList(int plannerNo);
 }

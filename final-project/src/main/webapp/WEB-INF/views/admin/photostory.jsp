@@ -70,7 +70,7 @@ $(function(){
 			return;
 		}
 		$.ajax({
-			url:"${pageContext.request.contextPath}/process/get_story",
+			url:"${pageContext.request.contextPath}/report_rest/get_story",
 			data : {
 				reportNo : reportNo
 			},

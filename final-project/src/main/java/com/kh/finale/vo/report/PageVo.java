@@ -24,7 +24,7 @@ public class PageVo {
 		int pageSize;
 		try {
 			pageSize = pageSize2;
-			if (pageSize < 10) {
+			if (pageSize < 3) {
 				throw new Exception();
 			}
 		}

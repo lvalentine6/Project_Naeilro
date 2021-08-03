@@ -115,6 +115,7 @@
 						<button class="btn btn-primary submit_btn btn-block" type="submit">작성</button>
 						<button class="btn btn-secondary cancel-btn btn-block"
 							type="button">취소</button>
+						<input type="hidden" name="plannerNo" value="${plannerNo}"/> 
 					</div>
 				</form>
 			</div>
