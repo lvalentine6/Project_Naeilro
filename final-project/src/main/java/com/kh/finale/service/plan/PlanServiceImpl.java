@@ -76,7 +76,7 @@ public class PlanServiceImpl implements PlanService {
 
 				if (plan.getDailyStayDate() != 0 || plan.getDailyOrder() != 0) { // 데이터가 0 0 이 같이 들어오고 있음
 					dailyNo = dailyDao.getSequence();
-
+					
 					planInsertServiceVO.setDailyNo(dailyNo);
 					planInsertServiceVO.setPlannerNo(plannerNo);
 					planInsertServiceVO.setDailyStayDate(plan.getDailyStayDate());
@@ -163,12 +163,11 @@ public class PlanServiceImpl implements PlanService {
 					System.out.println("dailyNo=" + dailyNo);
 					
 					planInsertServiceVO.setDailyNo(dailyNo);
-					planInsertServiceVO.setPlannerNo(plannerNo);
+					planInsertServiceVO.setPlannerNo(returnValue);
 					planInsertServiceVO.setDailyStayDate(plan.getDailyStayDate());
 					planInsertServiceVO.setDailyOrder(plan.getDailyOrder());
-					log.debug("등록 dailyNo = {}", dailyNo);
+					System.out.println("등록 데이터 확인 (장소) : " + planInsertServiceVO);
 					dailyDao.dailyInsert(planInsertServiceVO);
-					System.out.println("장소계획 등록 완료");
 				}
 
 				// 장소
