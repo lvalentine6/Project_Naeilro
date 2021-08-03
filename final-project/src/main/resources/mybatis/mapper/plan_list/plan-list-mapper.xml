@@ -8,7 +8,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<!-- 계획표 리스트 조회 -->
 	<select id="selectPlanList" parameterType="int" resultType="PlanListDto">
-		select * from plan_list where planner_no = #{plannerNo}
+		select p.*,dp.*,d.daily_order from planner p
+		    inner join daily d on d.planner_no = p.planner_no
+		    inner join dailyplan dp on d.daily_no = dp.daily_no
+				where planner_no = #{plannerNo}	
 	</select>
 	
 	<!-- 일정 번호로 장소번호 조회 -->
@@ -16,4 +19,34 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select place_no from plan_list where daily_no = #{dailyNo}
 	</select>
 	
+	<select id="memberPlanList" parameterType="int" resultType="PlanVo">
+		select * from planner p
+		    inner join daily d on d.planner_no = p.planner_no
+		    inner join dailyplan dp on d.daily_no = dp.daily_no
+            inner join place pl on dp.place_no = pl.place_no
+				where member_no=#{memberNo} and DAILYPLAN_PLACE_ORDER=1 and DAILY_ORDER=1
+                order by p.planner_no desc
+	</select>
+	
+	<select id="planList" parameterType="PageVo" resultType="PlanVo">
+		select * from (
+			select rownum rn, tmp.* from (
+			select * from planner p
+		    inner join daily d on d.planner_no = p.planner_no
+		    inner join dailyplan dp on d.daily_no = dp.daily_no
+            inner join place pl on dp.place_no = pl.place_no
+				where DAILYPLAN_PLACE_ORDER=1 and DAILY_ORDER=1
+                order by p.planner_no desc
+			) tmp
+		) where rn between #{startRow} and #{endRow}
+	</select>
+	
+	<select id="count" resultType="int">
+			select count(*) from planner p
+		    inner join daily d on d.planner_no = p.planner_no
+		    inner join dailyplan dp on d.daily_no = dp.daily_no
+            inner join place pl on dp.place_no = pl.place_no
+				where DAILYPLAN_PLACE_ORDER=1 and DAILY_ORDER=1
+                order by p.planner_no desc
+	</select>
 </mapper>

@@ -142,63 +142,58 @@
     integrity="sha384-+YQ4JLhjyBLPDQt//I+STsc9iw4uQqACwlvpslubQzn4u2UU2UFM80nGisd026JF" crossorigin="anonymous">
 </script>
 <script>
-	$(function(){
-		
-		let open = false;
-		
-		$(window).resize(function(){
-			console.log()
-			if($( window ).width()>=992&&open){
-				$(".menu-btn").click()
-			}
-		})
-		$(window).scroll(function(){
-			if($(document).scrollTop()==0 && !open){
+$(function(){
+	
+	let open = false;
+	
+	$(window).resize(function(){
+		console.log()
+		if($( window ).width()>=992&&open){
+			$(".menu-btn").click()
+		}
+	})
+	$(window).scroll(function(){
+		if($(document).scrollTop()==0 && !open){
+			$('nav').addClass("bg-transparent")
+			$('nav').removeClass("bg-white")
+			$('.cl-text').removeClass("text-black")
+			$('.cl-text').addClass("text-white")
+		}else{
+			$('nav').addClass("bg-white")
+			$('nav').removeClass("bg-transparent")
+			$('.cl-text').removeClass("text-white")
+			$('.cl-text').addClass("text-black")
+		}
+	})
+	$(".menu-btn").click(function(){
+		if($(document).scrollTop()==0){
+			if(open){
 				$('nav').addClass("bg-transparent")
 				$('nav').removeClass("bg-white")
 				$('.cl-text').removeClass("text-black")
 				$('.cl-text').addClass("text-white")
+				open=false;
 			}else{
 				$('nav').addClass("bg-white")
 				$('nav').removeClass("bg-transparent")
 				$('.cl-text').removeClass("text-white")
 				$('.cl-text').addClass("text-black")
+				open=true;
 			}
-		})
-		$(".menu-btn").click(function(){
-			if($(document).scrollTop()==0){
-				if(open){
-					$('nav').addClass("bg-transparent")
-					$('nav').removeClass("bg-white")
-					$('.cl-text').removeClass("text-black")
-					$('.cl-text').addClass("text-white")
-					open=false;
-				}else{
-					$('nav').addClass("bg-white")
-					$('nav').removeClass("bg-transparent")
-					$('.cl-text').removeClass("text-white")
-					$('.cl-text').addClass("text-black")
-					open=true;
-				}
+		}else{
+			if(open){
+				open=false;
 			}else{
-				if(open){
-					open=false;
-				}else{
-					open=true;
-				}
+				open=true;
 			}
-			console.log(open)
-			
-			
-		})
+		}
+		
+		
 	})
+})
 	
 	
- <c:if test="${block!=null}">
- 	$(function(){
- 		$(".block_modal").click()
- 	})
- </c:if>
+
 </script>
 </head>
 <body>

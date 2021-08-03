@@ -21,4 +21,5 @@ public class PhotostoryDto {
 	private Date photostoryDate;
 	private int photostoryCommentCount, photostoryLikeCount;
 	private Integer plannerNo;
+	
 }

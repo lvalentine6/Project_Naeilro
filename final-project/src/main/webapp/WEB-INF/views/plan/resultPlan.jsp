@@ -13,6 +13,7 @@
 	border: none;
 	width: 80px;
 	text-align: center;
+	
 	}
 	.rt-do{
 	font-size: 17px;
@@ -24,6 +25,7 @@
     border: 2px solid;
     border-color: lightgray;
     border-radius: 20px;
+    margin-bottom: 1rem;
 	}
 	.result-input-t{
 	width: 65px;
@@ -35,22 +37,35 @@
 	border-color:rgb(66,133,244);
 	margin-left: 20px;
 	margin-right: 20px;
+	margin-bottom: 1rem;
 	}
 	.hrr {
 	margin-top: 1px;
 	margin-bottom: 20px;
 	}
+	.story-photo{
+	margin-rignt: 0.5rem;
+	margin-top: 0.5rem;
+	}
 
 </style>
 <script>
 	$(function(){
+		
+		$(".story-photo").height($('.story-photo').width()+'px')
+		
+		$( window ).resize(function() {
+			$(".story-photo").height($('.story-photo').width()+'px')
+		});
+		
+		
 		planSelectService();
 		
 		function planSelectService(){
 			
 			var ResultPlanVO = [];
-			ResultPlanVO = ${list};
-			
+			ResultPlanVO = ${jlist};
+
 			// 데이터 정렬
 			ResultPlanVO.sort(function(a, b)  {
 				  return a.dailyOrder - b.dailyOrder;
@@ -177,7 +192,7 @@
 		    }
 		];
 		
-		var list = ${list};
+		var list = ${jlist};
 		
 		var linePath = [];
 		// EX. 1일차 1번째 장소 & 2일차 1번째 장소 & 3일차 1번째 장소 ...
@@ -250,10 +265,10 @@
 <main>
 	<div class="container-lg">
 		<div class="row">
-			<div class="jumbotron col-lg-12 offset-lg-0.5">
+			<div class="jumbotron col-lg-12 offset-lg-0.5 pt-4">
 				<div class="row my-3 align-items-center">
 					<div class="col-3" style="font-size: 1.5rem">
-					<span id ="planName"></span>
+					<h1 id ="planName"></h1>
 					<input type="hidden" id="plannerNo">
 					</div>
 					<div class="col-4">
@@ -269,22 +284,39 @@
 				</div>
 				<div class="row">
 					<div id="map" style="width:100%;height:350px;"></div>
-					<div id ="result-image-template" class="col-4 align-items-center" style="font-size: 1.5rem">
-						포토 스토리 연동
-					<%-- <img src="${pageContext.request.contextPath}/plan/resultPlan/image?"> --%>
-					</div>
+
 				</div>
 			</div>
+		</div>
+
+		<div class="row">
 			<div class="col-12">
 					<div>
 					<b><span id = "date" style="font-size: 22px; color: rgb(66,133,244);" ></span></b>
 					</div>
 					<br>
-				<div>
+					<div>
+					</div>
+					<div id="result-container">
+					</div>
 				</div>
-				<div id="result-container"></div>
+			</div>
+		<div class="row">			
+			<div class="col-12 d-flex align-items-center">
+				<b><span style="font-size: 22px; color: rgb(66,133,244); margin-right: 1rem; margin-bottom: 2rem" >포토스토리</span></b>
+				<a class="btn btn-outline-primary btn-sm" id="p_w_btn" href="${pageContext.request.contextPath}/photostory/write?plannerNo=${plannerNo}" role="button">글쓰기</a>
 			</div>
 		</div>
-	</div>
+		<div class="row">
+				<c:forEach items="${photoStroyList}" var="photoStory">
+					<div class="col-4 align-items-center" style="font-size: 1.5rem">
+							<c:if test="${not empty photoStory.photostoryPhotoNo}">
+							   <a href="${pageContext.request.contextPath}/photostory/detail?photostoryNo=${photoStory.photostoryNo}"><img class="w-100 story-photo" src="${pageContext.request.contextPath}/photostory/photo/${photoStory.photostoryPhotoNo}" /></a>
+							</c:if>
+					</div>
+				</c:forEach>
+			</div>
+		</div>
+
 </main>
 <jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>
