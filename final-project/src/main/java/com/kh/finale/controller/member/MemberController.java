@@ -65,7 +65,7 @@ public class MemberController {
 	MemberDao memberDao;
 	
 	@Autowired
-	private PhotostoryPhotoDao photostoryPhotoDao;
+	private PhotostoryPhotoDao photostoryPhotoDao; 
 	
 	@Autowired
 	private PhotostoryDao photostoryDao;
