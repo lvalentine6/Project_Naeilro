@@ -65,9 +65,15 @@ public class PlanViewController {
 	MemberDao memberDao;
 
 	@RequestMapping("")
-	public String home(Model model,@RequestParam(required = false) Integer pageNo) {
+	public String home(Model model,@RequestParam(required = false) Integer pageNo, HttpSession session) {
 		if(pageNo == null) {
 			pageNo=1;
+		}
+		
+		// 회원 정보 전송
+		if (session.getAttribute("memberNo") != null) {
+			MemberDto memberDto = memberDao.findInfo((int) session.getAttribute("memberNo"));
+			model.addAttribute("memberDto", memberDto);
 		}
 		
 		PageVo pageVo = new PageVo();

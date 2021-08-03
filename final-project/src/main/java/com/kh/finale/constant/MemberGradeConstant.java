@@ -6,5 +6,5 @@ package com.kh.finale.constant;
  */
 public interface MemberGradeConstant {
 	int ADMIN = 1; // 관리자
-	int NORMAL = 2; // 일반회원 
+	int NORMAL = 2; // 일반회원
 }

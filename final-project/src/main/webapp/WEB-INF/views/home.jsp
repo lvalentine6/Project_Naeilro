@@ -11,6 +11,11 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
     integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
 <link rel="stylesheet" href="../css/layout.css"/>
+<link rel="icon" type="image/png" sizes="16x16" href="image/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<meta name="msapplication-TileColor" content="#ffffff">
+<meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
+<meta name="theme-color" content="#ffffff">
 <style>
 	*{
 		box-sizing: border-box;
@@ -126,9 +131,10 @@
 	    padding-top: 55px !important;
 	}
 	.introimage img {
-	    width: 100% !important;
+	    width: 600px; !important;
+	    height: 300px;
 	   	border-style: none;
-	   	margin-top: 50px;
+	   	margin-top: 10px;
 	}
 	
 		.user_profile{
@@ -222,6 +228,13 @@
 			
 			
 		})
+		
+		//포토스토리 삭제 링크 클릭 이벤트
+		$('.photostory-delete-btn').click(function (e) {
+			if (!confirm('정말 삭제하시겠습니까?')) {
+				e.preventDefault();
+			}
+		});
 	})
 		
 	
@@ -847,8 +860,8 @@ function go_page(k){
 								<c:choose>
 									<c:when test="${photostoryListDto.memberNo==memberNo}">
 										<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-											<a class="dropdown-item text-danger" 
-											href="${pageContext.request.contextPath}/photostory/delete?photostoryNo=${photostoryListDto.photostoryNo}">삭제</a> 
+											<a class="dropdown-item text-danger photostory-delete-btn" 
+											href="${pageContext.request.contextPath}/photostory/delete?photostoryNo=${photostoryListDto.photostoryNo}&home">삭제</a> 
 											<a class="dropdown-item " 
 											href="${pageContext.request.contextPath}/photostory/edit?photostoryNo=${photostoryListDto.photostoryNo}">수정</a> 
 											<a class="dropdown-item" >취소</a> 
@@ -1045,9 +1058,9 @@ function go_page(k){
 			<div id="aboutDiv" class="row aboutDivCon"  style="background-color: #fdfdfd">
 					<div id="introDiv2">
 						<div class="center introDivCss" style="text-align: center">
-							<h5>쉽고 간편한 일정 플래너 <b>내일로(NAEILRO)</b></h5>
+							<h5>쉽고 간편한 여행 플래너 <b>내일로(NAEILRO)</b></h5>
 							<br>
-							<h5 style="line-height: 200%;color:#757575">여행 일정 짜는 평균시간은 10시간, 이제 5분만에 해결하세요</h5>
+							<h5 style="line-height: 200%;color:#757575">나만의 여행을 계획하고 공유해 보세요</h5>
 						</div>
 						<section id="about2">
 							<article id="about">
@@ -1057,9 +1070,9 @@ function go_page(k){
 											<div class="scrollspy"></div>
 											<div class="aboutTextDivLeft">
 												<h4>누구나 할 수 있는</h4>
-												<h4><b>간편한 일정 작성</b></h4>
+												<h4><b>간편한 여행 계획 작성</b></h4>
 												<br>
-												<h5 class="w3-text-grey">여행 일자, 숙소,<br><br>가고 싶은 장소만<br><br>선택해서 담으면 되는<br><br>간편하고 편리한 일정 작성</h5>
+												<h5 class="w3-text-grey">여행 일자, 숙소,<br><br>가고 싶은 장소만<br><br>선택해서 담으면 되는<br><br>간편하고 편리한 여행 계획 작성</h5>
 											</div>
 										</div>
 									</div>
@@ -1069,6 +1082,7 @@ function go_page(k){
 								</div>
 							</article>
 						</section>
+						
 					</div>
 			</div>
 		</div>

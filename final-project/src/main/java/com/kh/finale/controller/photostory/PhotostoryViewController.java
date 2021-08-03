@@ -243,17 +243,18 @@ public class PhotostoryViewController {
 		photostoryVO.setMemberNo(memberNo);
 		int storyNo = photostoryService.insertPhotostory(photostoryVO);
 		Set<String> set = new HashSet<>();
-		for(String h : hashtag) {
-			set.add(h);
+		if (hashtag != null) {
+			for(String h : hashtag) {
+				set.add(h);
+			}
+			for(String s : set) {
+				HashtagDto hash = HashtagDto.builder()
+						.hashtagTag(s)
+						.photostoryNo(storyNo)
+						.build();
+				hashtagDao.insert(hash);
+			}
 		}
-		for(String s : set) {
-			HashtagDto hash = HashtagDto.builder()
-					.hashtagTag(s)
-					.photostoryNo(storyNo)
-					.build();
-			hashtagDao.insert(hash);
-		}
-		
 		
 		
 		return "redirect:/photostory";
@@ -308,10 +309,14 @@ public class PhotostoryViewController {
 	
 	// 포토스토리 삭제 처리
 	@GetMapping("/delete")
-	public String delete(@RequestParam int photostoryNo) {
+	public String delete(@RequestParam int photostoryNo, @RequestParam(required = false) String home) {
+		System.out.println("삭제 처리 호출");
 		photostoryService.deletePhotostory(photostoryNo);
 		
-		return "redirect:/photostory";
+		if (home == null) {
+			return "redirect:/photostory";
+		}
+		return "redirect:/";
 	}
 	
 	// 이미지 다운로드 처리
