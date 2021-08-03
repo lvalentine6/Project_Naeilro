@@ -13,6 +13,7 @@ public class PlanInsertServiceSubVO {
 	private String placeLongitude;
 	private String placeName;
 	private String placeType;
+	private String placeRegion;
 			
 	// 장소계획
 	private int dailyplanPlaceOrder;

@@ -90,8 +90,9 @@ public class PlanServiceImpl implements PlanService {
 				planInsertServiceVO.setPlaceNo(placeNo);
 				planInsertServiceVO.setPlaceLatitude(plan.getPlaceLatitude());
 				planInsertServiceVO.setPlaceLongitude(plan.getPlaceLongitude());
-				planInsertServiceVO.setPlaceName(plan.getPlaceName());
+				planInsertServiceVO.setPlaceName(plan.getPlaceName()); // 변경 : 데이터 - 장소 이름
 				planInsertServiceVO.setPlaceType(plan.getPlaceType());
+				planInsertServiceVO.setPlaceRegion(plan.getPlaceRegion()); // 추가 : 데이터 -  지명
 				
 				if(planInsertServiceVO.getPlaceLatitude() != null || planInsertServiceVO.getPlaceLongitude() != null) {
 					placeDao.placeInsert(planInsertServiceVO);
@@ -135,7 +136,7 @@ public class PlanServiceImpl implements PlanService {
 	public void planUpdateService(PlanInsertServiceVO planInsertServiceVO) {
 		// 통합 계획표 번호
 		int plannerNo = planInsertServiceVO.getPlannerNo();
-		System.out.println(planInsertServiceVO);
+
 		// 통합 계획표 수정
 		plannerDao.plannerUpdate(planInsertServiceVO);
 
@@ -202,6 +203,7 @@ public class PlanServiceImpl implements PlanService {
 						planInsertServiceVO.setPlaceLongitude(planList.getPlaceLongitude());
 						planInsertServiceVO.setPlaceName(planList.getPlaceName());
 						planInsertServiceVO.setPlaceType(planList.getPlaceType());
+						planInsertServiceVO.setPlaceRegion(planList.getPlaceRegion());
 	
 						placeDao.placeUpdate(planInsertServiceVO);
 						placeNoIndex++;
@@ -244,6 +246,7 @@ public class PlanServiceImpl implements PlanService {
 							planInsertServiceVO.setPlaceLongitude(planList.getPlaceLongitude());
 							planInsertServiceVO.setPlaceName(planList.getPlaceName());
 							planInsertServiceVO.setPlaceType(planList.getPlaceType());
+							planInsertServiceVO.setPlaceRegion(planList.getPlaceRegion());
 
 							if (j < existDailyplanCount) {
 								// 기존 장소 수정
@@ -344,6 +347,7 @@ public class PlanServiceImpl implements PlanService {
 						planInsertServiceVO.setPlaceLongitude(planList.getPlaceLongitude());
 						planInsertServiceVO.setPlaceName(planList.getPlaceName());
 						planInsertServiceVO.setPlaceType(planList.getPlaceType());
+						planInsertServiceVO.setPlaceRegion(planList.getPlaceRegion());
 	
 						placeDao.placeUpdate(planInsertServiceVO);
 						placeNoIndex++;
@@ -385,6 +389,7 @@ public class PlanServiceImpl implements PlanService {
 						planInsertServiceVO.setPlaceLongitude(planList.getPlaceLongitude());
 						planInsertServiceVO.setPlaceName(planList.getPlaceName());
 						planInsertServiceVO.setPlaceType(planList.getPlaceType());
+						planInsertServiceVO.setPlaceRegion(planList.getPlaceRegion());
 
 						if (j < existDailyplanCount) {
 							// 기존 장소 수정
@@ -473,6 +478,7 @@ public class PlanServiceImpl implements PlanService {
 					planInsertServiceVO.setPlaceLongitude(planList.getPlaceLongitude());
 					planInsertServiceVO.setPlaceName(planList.getPlaceName());
 					planInsertServiceVO.setPlaceType(planList.getPlaceType());
+					planInsertServiceVO.setPlaceRegion(planList.getPlaceRegion());
 
 					if (j < existDailyplanCount) {
 						// 기존 장소 수정

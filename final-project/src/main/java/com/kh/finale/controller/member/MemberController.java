@@ -2,6 +2,7 @@ package com.kh.finale.controller.member;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
@@ -10,9 +11,12 @@ import java.util.List;
 import java.util.Map;
 
 import javax.mail.MessagingException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.io.FileUtils;
+import org.omg.CORBA.Request;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.HttpHeaders;
@@ -59,8 +63,6 @@ public class MemberController {
 
 	@Autowired
 	MemberDao memberDao;
-	
-	
 	
 	@Autowired
 	private PhotostoryPhotoDao photostoryPhotoDao;
@@ -148,7 +150,7 @@ public class MemberController {
 
 	// 로그인 처리
 	@PostMapping("/login")
-	public String login(@ModelAttribute MemberDto memberDto, HttpSession httpSession,Model model) throws Exception {
+	public String login(@ModelAttribute MemberDto memberDto, HttpSession httpSession,Model model, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
 		MemberDto check = memberDao.login(memberDto);
 		
@@ -165,9 +167,16 @@ public class MemberController {
 				// 어느 페이지로 보낼지, 보낸 후 어떤 알림창을 띄울 것인지 미정 
 				MemberBlockDto memberBlockDto = memberBlockDao.getBlockInfo(check.getMemberNo());
 				System.out.println(memberBlockDto);
-				model.addAttribute("block", memberBlockDto);
-				return "redirect:/";
-			}
+				
+				// 정지회원 블럭페이지로 이동
+//				model.addAttribute("block", memberBlockDto);
+				model.addAttribute("msg", "관리자에 의해 계정이 정지 되었습니다.");
+				model.addAttribute("reason", memberBlockDto.getBlockReason());
+				model.addAttribute("blockEndDate", memberBlockDto.getBlockEndDate());
+				model.addAttribute("url", request.getContextPath()); 
+				return "member/block";
+				}
+			return "redirect:/";
 		}
 		
 
@@ -180,7 +189,13 @@ public class MemberController {
 			return "redirect:login?error";
 		}
 	}
-
+	
+	// 정지회원 로그인 블럭 페이지
+	@GetMapping("block")
+	public String block() {
+		return "redirect:block";
+	}
+	
 	// 로그아웃 처리
 	@GetMapping("/logout")
 	public String logout(HttpSession httpSession) {

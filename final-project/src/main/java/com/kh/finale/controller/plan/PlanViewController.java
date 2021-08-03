@@ -23,14 +23,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.kh.finale.entity.member.MemberDto;
 import com.kh.finale.entity.photostory.PhotostoryListDto;
-import com.kh.finale.entity.photostory.PhotostoryPhotoDto;
 import com.kh.finale.entity.plan.PlanListDto;
+import com.kh.finale.repository.member.MemberDao;
 import com.kh.finale.repository.photostory.PhotostoryListDao;
 import com.kh.finale.repository.photostory.PhotostoryPhotoDao;
 import com.kh.finale.repository.plan.DailyDao;
 import com.kh.finale.repository.plan.DailyplanDao;
 import com.kh.finale.repository.plan.PlanListDao;
+import com.kh.finale.repository.plan.PlannerDao;
 import com.kh.finale.service.plan.PlanService;
 import com.kh.finale.vo.plan.FindPhotoVO;
 import com.kh.finale.vo.plan.PlanInsertServiceVO;
@@ -41,16 +43,11 @@ import com.kh.finale.vo.plan.ResultPlanVO;
 public class PlanViewController {
 	
 	@Autowired
-	HttpSession session;
+	private HttpSession session;
 	
 	@Autowired
-	PlanService planService;
+	private PlanService planService;
 	
-	@GetMapping("/writeplan")
-	public String writePlan() {
-		return "plan/writeplan";
-	}
-
 	@Autowired
 	private PlanListDao planListDao;
 	
@@ -59,6 +56,22 @@ public class PlanViewController {
 
 	@Autowired
 	private DailyplanDao dailyplanDao;
+	
+	@Autowired
+	private PlannerDao plannerDao;
+	
+	@Autowired
+	MemberDao memberDao;
+	
+	// 계획표 작성 페이지
+	@GetMapping("/writeplan")
+	public String writePlan(Model model, HttpSession session) {
+		if (session.getAttribute("memberNo") != null) {
+			MemberDto memberDto = memberDao.findInfo((int) session.getAttribute("memberNo"));
+			model.addAttribute("memberDto", memberDto);
+		}
+		return "plan/writeplan";
+	}
 	
 	// 계획표 수정 페이지
 	@GetMapping("/editplan")
@@ -72,7 +85,6 @@ public class PlanViewController {
 			int dailyplanCount = dailyplanDao.getDailyplanCount(vo.getDailyNo());
 			dailyplanCountList.add(dailyplanCount);
 		}
-		System.out.println("???="+dailyplanCountList);
 		
 		model.addAttribute("dailyplanCountList", dailyplanCountList);
 		
@@ -92,7 +104,6 @@ public class PlanViewController {
 		resultPlanVO.setMemberNo((int) httpSession.getAttribute("memberNo"));
 		System.out.println("회원번호 : " + resultPlanVO.getMemberNo());
 		List<PhotostoryListDto> photostoryListDto = photostoryListDao.planList(resultPlanVO.getPlannerNo());
-		
 		
 		
 		/*
@@ -142,5 +153,11 @@ public class PlanViewController {
 							.body(resource);
 	}
 	
-	
+	//계획표 삭제 처리
+	@GetMapping("/deleteplan")
+	public String deletePlan(@RequestParam int plannerNo) {
+		plannerDao.plannerDelete(plannerNo);
+		System.out.println("삭제 성공");
+		return "redirect:/";
+	}
 }

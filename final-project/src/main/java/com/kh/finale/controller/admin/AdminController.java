@@ -51,7 +51,7 @@ public class AdminController {
 		model.addAttribute("page",pageVo);
 		return "admin/member";
 	} 
-	// 관리자 페이지
+	// 댓글 관리자 페이지
 	@RequestMapping("/comment")
 	public String comment(Model model,
 			@RequestParam(required = false) Integer pageNo,
@@ -77,7 +77,7 @@ public class AdminController {
 		model.addAttribute("type",type);
 		return "admin/comment";
 	} 
-	// 관리자 페이지
+	// 포토스토리 관리자 페이지
 	@RequestMapping("/photostory")
 	public String photostory(Model model,
 			@RequestParam(required = false) Integer pageNo,
@@ -127,7 +127,7 @@ public class AdminController {
 		return "admin/member";
 	} 
 	
-	// 관리자 페이지
+	// 상세 관리자 페이지
 	@RequestMapping("/report_detail")
 	public String detail(Model model,
 			@RequestParam(required = false) int memberNo) {

@@ -207,14 +207,26 @@
 		color: #60666d;
 	}
 </style>
-<script type="text/javascript"
-	src="//dapi.kakao.com/v2/maps/sdk.js?appkey=60b30d68f4da16b4a316665d189e702f&libraries=services"></script>
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=60b30d68f4da16b4a316665d189e702f&libraries=services"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 <script>
+
 	$(function(){
+		
+		// 페이지 벗어나는 알림
+		var checkUnload = true;
+	    $(window).on("beforeunload", function(){
+	        if(checkUnload) return "이 페이지를 벗어나면 작성된 내용은 저장되지 않습니다.";
+	    });
+	    
+	    $("#planner-insert-button").on("click", function(){
+	        checkUnload = false;
+	        $("#planner-insert-button").submit();
+	    });
 		
 		// 통합계획표 테이블
 		var plannerName;
@@ -700,8 +712,9 @@
 					userTemplate = userTemplate.replace("{place-name}", place.place_name);
 					userTemplate = userTemplate.replace("{data-latitude}", place.y);
 					userTemplate = userTemplate.replace("{data-longitude}", place.x);
-					userTemplate = userTemplate.replace("{data-name}", placeName);
+					userTemplate = userTemplate.replace("{data-name}", place.place_name); // 지명 -> 장소 이름 
 					userTemplate = userTemplate.replace("{data-type}", placeType);
+					userTemplate = userTemplate.replace("{data-region}", placeName) // 지명
 					
 					$(".list-daily").eq(dailyIndex-1).append(userTemplate);
 					
@@ -792,7 +805,8 @@
 									// 하루 인덱스
 									dataTemplate = dataTemplate.replace("{dailyList-index-lat}", dailyIndex-1);
 									dataTemplate = dataTemplate.replace("{dailyList-index-lng}", dailyIndex-1);
-									dataTemplate = dataTemplate.replace("{dailyList-index-name}", dailyIndex-1);
+									dataTemplate = dataTemplate.replace("{dailyList-index-name}", dailyIndex-1); // 장소 이름
+									dataTemplate = dataTemplate.replace("{dailyList-index-region}", dailyIndex-1); // 장소 지명
 									dataTemplate = dataTemplate.replace("{dailyList-index-type}", dailyIndex-1);
 									dataTemplate = dataTemplate.replace("{dailyList-index-place-order}", dailyIndex-1);
 									dataTemplate = dataTemplate.replace("{dailyList-index-transfer}", dailyIndex-1);
@@ -800,7 +814,8 @@
 									// 장소 인덱스
 									dataTemplate = dataTemplate.replace("{placeList-index-lat}", placeIndex-1);
 									dataTemplate = dataTemplate.replace("{placeList-index-lng}", placeIndex-1);
-									dataTemplate = dataTemplate.replace("{placeList-index-name}", placeIndex-1);
+									dataTemplate = dataTemplate.replace("{placeList-index-name}", placeIndex-1); // 장소 이름
+									dataTemplate = dataTemplate.replace("{placeList-index-region}", placeIndex-1); // 장소 지명
 									dataTemplate = dataTemplate.replace("{placeList-index-type}", placeIndex-1);
 									dataTemplate = dataTemplate.replace("{dailyplanList-index-place-order}", placeIndex-1);
 									dataTemplate = dataTemplate.replace("{dailyplanList-index-transfer}", placeIndex-1);
@@ -813,7 +828,7 @@
 									dataTemplate = dataTemplate.replace("{placeLongitude}", $(this).find('.list-dailyplan-longitude').val());
 									dataTemplate = dataTemplate.replace("{placeName}",$(this).find('.list-dailyplan-name').val());
 									dataTemplate = dataTemplate.replace("{placeType}", $(this).find('.list-dailyplan-type').val());
-									
+									dataTemplate = dataTemplate.replace("{placeRegion}", $(this).find('.list-dailyplan-region').val());
 									$("#plan-insert-container").append(dataTemplate);
 									}
 								});
@@ -879,7 +894,8 @@
 			<label>{label-daily-index}일차 {label-place-index}번째</label>
 			<input type="hidden" name="planList[{dailyList-index-lat}][{placeList-index-lat}].placeLatitude" required readonly value={placeLatitude}>
 			<input type="hidden" name="planList[{dailyList-index-lng}][{placeList-index-lng}].placeLongitude" required readonly value={placeLongitude}>
-			<input type="hidden" name="planList[{dailyList-index-name}][{placeList-index-name}].placeName" required readonly value={placeName}>
+			<input type="text" name="planList[{dailyList-index-name}][{placeList-index-name}].placeName" required readonly value={placeName}>
+			<input type="text" name="planList[{dailyList-index-region}][{placeList-index-region}].placeRegion" required readonly value={placeRegion}>
 			<input type="hidden" name="planList[{dailyList-index-type}][{placeList-index-type}].placeType" required readonly value={placeType}>
 			<input type="hidden" name="planList[{dailyList-index-place-order}][{dailyplanList-index-place-order}].dailyplanPlaceOrder" required readonly value={dailyplanPlaceOrder}>
  			<input type="hidden" name="planList[{dailyList-index-transfer}][{dailyplanList-index-transfer}].dailyplanTransfer" required readonly value={dailyplanTransfer}>
@@ -918,8 +934,9 @@
 		</div>
 		<input type="hidden" class="list-dailyplan-latitude" value={data-latitude}>
 		<input type="hidden" class="list-dailyplan-longitude" value={data-longitude}>
-		<input type="hidden" class="list-dailyplan-name" value={data-name}>
+		<input type="hidden" class="list-dailyplan-name" value={data-name}> <!-- 장소 이름 -->
 		<input type="hidden" class="list-dailyplan-type" value={data-type}>
+		<input type="hidden" class="list-dailyplan-region" value={data-region}> <!-- 장소 지명 -->
 		<input type="button" class="place-delete-button btn center border-radius-none" value="삭제">
 	</div>
 	<!-- 사용자용 : 장소 & 장소계획 리스트 -->
