@@ -910,6 +910,7 @@
 					console.log(dailyNoArr);
 					// 이전 dailyNo와 현재 dailyNo 비교
 					if (dailyNoArr[i] == ${plan.dailyNo}) {
+						console.log('${plan}');
 						userTemplate = userTemplate.replace("{index}", dailyIndex + 1);
 						userTemplate = userTemplate.replace("{data-latitude}", '${plan.placeLatitude}');
 						userTemplate = userTemplate.replace("{data-longitude}", '${plan.placeLongitude}');
@@ -931,6 +932,7 @@
 						userTemplate = userTemplate.replace("{place-name}", '${plan.placeName}');
 
 			        	$(".list-daily").eq(i).append(userTemplate);
+						userTemplate = userTemplate.replace('${plan.placeName}', '{place-name}');
 
 						placeIndex++;
 					}
