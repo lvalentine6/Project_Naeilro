@@ -243,18 +243,19 @@ public class PhotostoryViewController {
 		photostoryVO.setMemberNo(memberNo);
 		int storyNo = photostoryService.insertPhotostory(photostoryVO);
 		Set<String> set = new HashSet<>();
-		if(hashtag.length>0) {
+		if (hashtag != null) {
 			for(String h : hashtag) {
 				set.add(h);
 			}
-		   for(String s : set) {
-		      HashtagDto hash = HashtagDto.builder()
-		            .hashtagTag(s)
-		            .photostoryNo(storyNo)
-		            .build();
-		      hashtagDao.insert(hash);
-		   }
+			for(String s : set) {
+				HashtagDto hash = HashtagDto.builder()
+						.hashtagTag(s)
+						.photostoryNo(storyNo)
+						.build();
+				hashtagDao.insert(hash);
+			}
 		}
+		
 		
 		return "redirect:/photostory";
 	}
