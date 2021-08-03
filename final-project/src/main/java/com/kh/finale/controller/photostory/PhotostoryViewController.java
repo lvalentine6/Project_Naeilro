@@ -224,13 +224,13 @@ public class PhotostoryViewController {
 	
 	// 포토스토리 작성 페이지
 	@GetMapping("/write")
-	public String write(HttpSession session, Model model) {
+	public String write(HttpSession session, Model model,Integer plannerNo) {
 		// 회원 정보 전송
 		if (session.getAttribute("memberNo") != null) {
 			MemberDto memberDto = memberDao.findInfo((int) session.getAttribute("memberNo"));
 			model.addAttribute("memberDto", memberDto);
 		}
-		
+		model.addAttribute("plannerNo",plannerNo);
 		return "photostory/write";
 	}
 	
@@ -240,11 +240,8 @@ public class PhotostoryViewController {
 			HttpSession session,
 			String[] hashtag) throws IllegalStateException, IOException {
 		int memberNo = (int) session.getAttribute("memberNo");
-		int plannerNo = 6; // 임시
 		photostoryVO.setMemberNo(memberNo);
-		photostoryVO.setPlannerNo(plannerNo); // 임시
 		int storyNo = photostoryService.insertPhotostory(photostoryVO);
-		
 		Set<String> set = new HashSet<>();
 		for(String h : hashtag) {
 			set.add(h);
@@ -290,8 +287,6 @@ public class PhotostoryViewController {
 			String[] hashtag) throws IllegalStateException, IOException {
 		int memberNo = (int) session.getAttribute("memberNo");
 		photostoryVO.setMemberNo(memberNo);
-		int plannerNo = 6; // 임시
-		photostoryVO.setPlannerNo(plannerNo); // 임시
 		photostoryService.updatePhotostory(photostoryVO);
 		
 		hashtagDao.delete(photostoryVO.getPhotostoryNo());

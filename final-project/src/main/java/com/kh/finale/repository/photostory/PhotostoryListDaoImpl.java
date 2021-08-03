@@ -21,6 +21,12 @@ public class PhotostoryListDaoImpl implements PhotostoryListDao {
 		return sqlSession.selectList("photostoryList.list", photostoryListVO);
 	}
 	
+	// 포토스토리 리스트 조회 기능
+	@Override
+	public List<PhotostoryListDto> planList(int plannerNo) {
+		return sqlSession.selectList("photostoryList.planList", plannerNo);
+	}
+	
 	// 포토스토리 단일 조회 기능
 	@Override
 	public PhotostoryListDto get(int photostoryNo) {

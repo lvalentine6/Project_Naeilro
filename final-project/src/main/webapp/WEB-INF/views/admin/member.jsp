@@ -23,6 +23,60 @@
 	
 // 		})
 // }
+	function report_modal(e){
+	$("#report_member").val($(e).data('member'))
+	}
+	$(function(){
+
+		$(".unblock_btn").click(function(){
+			if (!window.confirm("유저를 정지 해제합니다") ){ 
+				e.preventDefault()
+			}
+			let memberNo = $(this).data("member")
+	 		$.ajax({
+	 		url:"${pageContext.request.contextPath}/member_block/unblock",
+	 		data : {
+	 			memberNo : memberNo,
+	 		},
+	 		method:"POST",
+	 		})
+	 		.done(function(){
+	 			location.reload();
+	 		})
+	 		.fail(function(){
+	
+	 		})
+		})
+		
+		$(".block_btn").click(function(){
+			if (!window.confirm("유저를 정지합니다") ){ 
+				e.preventDefault()
+			}
+			let memberNo = $("#report_member").val()
+			let reportDay = $("#report_day").val()
+			let reportReason = $("#report_reason").val()
+			let reportContent = $("#report_content").val()
+			/* 유저 정지처리 , 리포트 확인 처리 */
+			if(reportDay>0){
+				$.ajax({
+				url:"${pageContext.request.contextPath}/member_block/block",
+				data : {
+					blockPeriod : reportDay,
+					memberNo : memberNo,
+					blockContent : reportContent,
+					blockReason : reportReason,
+				},
+				method:"POST",
+				})
+				.done(function(){
+					location.reload();
+				})
+				.fail(function(){
+			
+				})
+			}
+		})
+	})
 </script>
 <main>
 <div class="container-lg">
@@ -97,10 +151,10 @@
 			      <td class="text-nowrap">${memberVo.reportCount}</td>
 			      <td class="text-nowrap"><a class="btn btn-outline-primary btn-sm" href="${pageContext.request.contextPath}/admin/report_detail?memberNo=${memberVo.memberNo}" role="button">상세보기</a></td>
    			      <c:if test='${memberVo.memberState=="정지"}'>
-				      <td class="text-nowrap"><button class="btn btn-outline-info btn-sm" role="button">정지해제</button></td>
+				      <td class="text-nowrap"><button class="btn btn-outline-info btn-sm unblock_btn" role="button" data-member="${memberVo.memberNo}">정지해제</button></td>
 			      </c:if>
    			      <c:if test='${memberVo.memberState=="정상"}'>
-				      <td class="text-nowrap"><button class="btn btn-outline-danger btn-sm" data-toggle="modal" data-target="#report_modal" onclick="report_modal(this)" role="button">정지</button></td>
+				      <td class="text-nowrap"><button class="btn btn-outline-danger btn-sm" data-toggle="modal" data-target="#report_modal" data-member="${memberVo.memberNo}" onclick="report_modal(this)" role="button">정지</button></td>
 			      </c:if>
 			    </tr>
 				</c:forEach>
@@ -150,14 +204,8 @@
       </div>
       
       <div class="modal-body report-val">
-       <input id="report_comment" type="hidden">
-       <input id="report_member" type="hidden">
-       <input id="report_no" type="hidden">
-       <input id="report_content" type="hidden">
-       <input id="report_reason" type="hidden">
-
        <div class="row">
-    		<div class="col-6"><a href="#none">유저 정지</a></div>
+    		<div class="col-6"><a href="#none" >유저 정지</a></div>
     		<div class="input-group mb-3 col-6">
 			  <input type="number" min="0" class="form-control" value="0" id="report_day">
 			  <div class="input-group-append">
@@ -165,10 +213,24 @@
 			  </div>
 			</div>
        </div>
+       <div class="row">
+    		<div class="col-6"><a href="#none" >정지 사유</a></div>
+    		<div class="input-group mb-3 col-6">
+			  <input type="text"  class="form-control"  id="report_reason" value="정지사유를 입력해주세요">
+			</div>
+       </div>
+       
+       <div class="input-group mb-3 col-6">
+			  <input type="hidden" min="0" class="form-control" value="0" id="report_member">
+			</div>
+    		<div class="input-group mb-3 col-6">
+			  <input type="hidden" min="0" class="form-control"  id="report_content" value="콘텐츠 없음">
+			</div>
+
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary r-c-btn" data-dismiss="modal">닫기</button>
-        <button type="button" class="btn btn-danger r-c-btn" data-dismiss="modal" onclick="delete_comment(this)">정지</button>
+        <button type="button" class="btn btn-danger r-c-btn block_btn" data-dismiss="modal">정지</button>
       </div>
     </div>
   </div>
