@@ -782,7 +782,7 @@ function go_page(k){
 		        <a class="nav-link d-inline-block text-white cl-text" href="${root}/plan">일정</a>
 		      </li>
 		      <li class="nav-item">
-		        <a class="nav-link d-inline-block text-white cl-text" href="#">이용방법</a>
+		        <a class="nav-link d-inline-block text-white cl-text" href="#aboutDiv">이용방법</a>
 		      </li>
 		    </ul>
 		    <span class="navbar-text text-right pr-3">
