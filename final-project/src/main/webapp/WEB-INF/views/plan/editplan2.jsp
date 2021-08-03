@@ -214,8 +214,7 @@
 <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 <script>
 	$(function(){
-		$(".planList-place").remove();
-		
+
 		// 통합계획표 테이블
 		var plannerName;
 
@@ -712,10 +711,7 @@
 					userTemplate = userTemplate.replace("{data-region}", placeName) // 지명
 
 					$(".list-daily").eq(dailyIndex-1).append(userTemplate);
-					
-					$(".planList-place").remove();
-					console.log("수정행위로 데이터 삭제");
-					
+
 					/* 경로(선) */
 					// 변수
 					var linepath = [];
@@ -764,26 +760,84 @@
 					$(".list-daily").eq(dailyIndex-1).find(".list-dailyplan").find(".place-delete-button").click(function(){
 						// 데이터 삭제
 						$(this).parents('.list-dailyplan').remove();
-						
-						$(".planList-place").remove();
-						console.log("수정행위로 데이터 삭제");
 					});
 
 					/* 삭제 (완료) */
 					$('.list-dailyplan').find('.place-delete-button').click(function(){
 						// 데이터 삭제
 						$(this).parents('.list-dailyplan').remove();
-						
-						$(".planList-place").remove();
-						console.log("수정행위로 데이터 삭제");
 					});
 
 					/* 제어 (완료)*/
 					$(".list-dailyplan").find("select").change(function(){
-						console.log("이동");
-						
-						$(".planList-place").remove();
-						console.log("수정행위로 데이터 삭제");
+
+						dataTemplate();
+
+						function dataTemplate(){
+
+							// FORM 데이터 초기화
+							$(".planList-place").remove();
+
+							// 반복문 : 하루계획
+							$('.list-daily').each(function(){
+								// 반복문 : 장소계획
+								$(this).find('.list-dailyplan').each(function(){
+									// 조건 : 선택 안한 값들은 데이터 등록에서 제외
+									if($(this).find("select").val() != "선택") {
+
+										var dataTemplate = $("#place-dailyplan-insert-template").html();
+										
+										if (dataTemplate.includes('data-exist="true"')) {
+											console.log('기존');
+											dailyIndex = 1;
+											placeIndex = 1;
+										} else {
+											console.log('신규');
+											dailyIndex = $(this).parents('.list-daily').data("index");
+											placeIndex = $(this).data("index");
+										}
+	
+										// 데이터 전송 : 체크용 (완료)
+										dataTemplate = dataTemplate.replace("{label-daily-index}", dailyIndex-1);
+										dataTemplate = dataTemplate.replace("{label-place-index}", placeIndex-1);
+	
+										// 데이터 전송 : 다차원 배열 인덱스 (완료)
+	
+										// 하루 인덱스
+										dataTemplate = dataTemplate.replace("{dailyList-index-lat}", dailyIndex-1);
+										dataTemplate = dataTemplate.replace("{dailyList-index-lng}", dailyIndex-1);
+										dataTemplate = dataTemplate.replace("{dailyList-index-name}", dailyIndex-1); // 장소 이름
+										dataTemplate = dataTemplate.replace("{dailyList-index-region}", dailyIndex-1); // 장소 지명
+										dataTemplate = dataTemplate.replace("{dailyList-index-type}", dailyIndex-1);
+										dataTemplate = dataTemplate.replace("{dailyList-index-place-order}", dailyIndex-1);
+										dataTemplate = dataTemplate.replace("{dailyList-index-transfer}", dailyIndex-1);
+	
+										// 장소 인덱스
+										dataTemplate = dataTemplate.replace("{placeList-index-lat}", placeIndex-1);
+										dataTemplate = dataTemplate.replace("{placeList-index-lng}", placeIndex-1);
+										dataTemplate = dataTemplate.replace("{placeList-index-name}", placeIndex-1); // 장소 이름
+										dataTemplate = dataTemplate.replace("{placeList-index-region}", placeIndex-1); // 장소 지명
+										dataTemplate = dataTemplate.replace("{placeList-index-type}", placeIndex-1);
+										dataTemplate = dataTemplate.replace("{dailyplanList-index-place-order}", placeIndex-1);
+										dataTemplate = dataTemplate.replace("{dailyplanList-index-transfer}", placeIndex-1);
+	
+										// 데이터 전송 : 전송 값
+										dataTemplate = dataTemplate.replace("{dailyplanPlaceOrder}", placeIndex);
+										dataTemplate = dataTemplate.replace("{dailyplanTransfer}", $(this).find("select").val());
+	
+										dataTemplate = dataTemplate.replace("{placeLatitude}", $(this).find('.list-dailyplan-latitude').val());
+										dataTemplate = dataTemplate.replace("{placeLongitude}", $(this).find('.list-dailyplan-longitude').val());
+										dataTemplate = dataTemplate.replace("{placeName}",$(this).find('.list-dailyplan-name').val());
+										dataTemplate = dataTemplate.replace("{placeType}", $(this).find('.list-dailyplan-type').val());
+										dataTemplate = dataTemplate.replace("{placeRegion}", $(this).find('.list-dailyplan-region').val());
+										$("#plan-insert-container").append(dataTemplate);
+									}
+								});
+								// 반복문 : 장소계획
+							});
+							// 반복문 : 하루계획
+						}
+
 					});
 
 			    });
@@ -805,77 +859,13 @@
 
 		/* 이벤트 : 계획표 수정 */
 		$("#planner-insert-button").click(function(){
-			dataTemplate();
-
-			function dataTemplate(){
-
-				// FORM 데이터 초기화
-				$(".planList-place").remove();
-
-				// 반복문 : 하루계획
-				$('.list-daily').each(function(){
-					// 반복문 : 장소계획
-					$(this).find('.list-dailyplan').each(function(){
-						// 조건 : 선택 안한 값들은 데이터 등록에서 제외
-						if($(this).find("select").val() != "선택") {
-
-							var dataTemplate = $("#place-dailyplan-insert-template").html();
-							
-							if (dataTemplate.includes('data-exist="true"')) {
-								console.log('기존');
-								dailyIndex = 1;
-								placeIndex = 1;
-							} else {
-								console.log('신규');
-								dailyIndex = $(this).parents('.list-daily').data("index");
-								placeIndex = $(this).data("index");
-							}
-
-							// 데이터 전송 : 체크용 (완료)
-							dataTemplate = dataTemplate.replace("{label-daily-index}", dailyIndex-1);
-							dataTemplate = dataTemplate.replace("{label-place-index}", placeIndex-1);
-
-							// 하루 인덱스
-							dataTemplate = dataTemplate.replace("{dailyList-index-lat}", dailyIndex-1);
-							dataTemplate = dataTemplate.replace("{dailyList-index-lng}", dailyIndex-1);
-							dataTemplate = dataTemplate.replace("{dailyList-index-name}", dailyIndex-1); // 장소 이름
-							dataTemplate = dataTemplate.replace("{dailyList-index-region}", dailyIndex-1); // 장소 지명
-							dataTemplate = dataTemplate.replace("{dailyList-index-type}", dailyIndex-1);
-							dataTemplate = dataTemplate.replace("{dailyList-index-place-order}", dailyIndex-1);
-							dataTemplate = dataTemplate.replace("{dailyList-index-transfer}", dailyIndex-1);
-
-							// 장소 인덱스
-							dataTemplate = dataTemplate.replace("{placeList-index-lat}", placeIndex-1);
-							dataTemplate = dataTemplate.replace("{placeList-index-lng}", placeIndex-1);
-							dataTemplate = dataTemplate.replace("{placeList-index-name}", placeIndex-1); // 장소 이름
-							dataTemplate = dataTemplate.replace("{placeList-index-region}", placeIndex-1); // 장소 지명
-							dataTemplate = dataTemplate.replace("{placeList-index-type}", placeIndex-1);
-							dataTemplate = dataTemplate.replace("{dailyplanList-index-place-order}", placeIndex-1);
-							dataTemplate = dataTemplate.replace("{dailyplanList-index-transfer}", placeIndex-1);
-
-							// 데이터 전송 : 전송 값
-							dataTemplate = dataTemplate.replace("{dailyplanPlaceOrder}", placeIndex);
-							dataTemplate = dataTemplate.replace("{dailyplanTransfer}", $(this).find("select").val());
-
-							dataTemplate = dataTemplate.replace("{placeLatitude}", $(this).find('.list-dailyplan-latitude').val());
-							dataTemplate = dataTemplate.replace("{placeLongitude}", $(this).find('.list-dailyplan-longitude').val());
-							dataTemplate = dataTemplate.replace("{placeName}",$(this).find('.list-dailyplan-name').val());
-							dataTemplate = dataTemplate.replace("{placeType}", $(this).find('.list-dailyplan-type').val());
-							dataTemplate = dataTemplate.replace("{placeRegion}", $(this).find('.list-dailyplan-region').val());
-							$("#plan-insert-container").append(dataTemplate);
-						}
-					});
-					// 반복문 : 장소계획
-				});
-				// 반복문 : 하루계획
-			}
 			planUpdateService();
 		});
 
 		/* 비동기 전송 처리 영역 */
 		function planUpdateService(){
 			$.ajax({
-				url:"${pageContext.request.contextPath}/plan/data/planInsertService",
+				url:"${pageContext.request.contextPath}/plan/data/planUpdateService",
 				type: "post",
 				data: $("form").serialize(),
 				success: function(resp){
@@ -929,24 +919,65 @@
 
 			        	$(".list-daily").eq(i).append(userTemplate);
 
+			        	// 기존 데이터 세팅
+						var dataTemplate = $("#place-dailyplan-insert-template").html();
+
+			        	dataTemplate = dataTemplate.replace("{exist-result}", "true");
+
+						// 데이터 전송 : 체크용 (완료)
+						dataTemplate = dataTemplate.replace("{label-daily-index}", dailyIndex-1);
+						dataTemplate = dataTemplate.replace("{label-place-index}", placeIndex-1);
+
+						// 데이터 전송 : 다차원 배열 인덱스 (완료)
+
+						// 하루 인덱스
+						dataTemplate = dataTemplate.replace("{dailyList-index-lat}", dailyIndex-1);
+						dataTemplate = dataTemplate.replace("{dailyList-index-lng}", dailyIndex-1);
+						dataTemplate = dataTemplate.replace("{dailyList-index-name}", dailyIndex-1); // 장소 이름
+						dataTemplate = dataTemplate.replace("{dailyList-index-region}", dailyIndex-1); // 장소 지명
+						dataTemplate = dataTemplate.replace("{dailyList-index-type}", dailyIndex-1);
+						dataTemplate = dataTemplate.replace("{dailyList-index-place-order}", dailyIndex-1);
+						dataTemplate = dataTemplate.replace("{dailyList-index-transfer}", dailyIndex-1);
+
+						// 장소 인덱스
+						dataTemplate = dataTemplate.replace("{placeList-index-lat}", placeIndex-1);
+						dataTemplate = dataTemplate.replace("{placeList-index-lng}", placeIndex-1);
+						dataTemplate = dataTemplate.replace("{placeList-index-name}", placeIndex-1); // 장소 이름
+						dataTemplate = dataTemplate.replace("{placeList-index-region}", placeIndex-1); // 장소 지명
+						dataTemplate = dataTemplate.replace("{placeList-index-type}", placeIndex-1);
+						dataTemplate = dataTemplate.replace("{dailyplanList-index-place-order}", placeIndex-1);
+						dataTemplate = dataTemplate.replace("{dailyplanList-index-transfer}", placeIndex-1);
+
+						// 데이터 전송 : 전송 값
+						dataTemplate = dataTemplate.replace("{dailyplanPlaceOrder}", placeIndex);
+						dataTemplate = dataTemplate.replace("{dailyplanTransfer}", '${plan.dailyplanTransfer}');
+
+						dataTemplate = dataTemplate.replace("{placeLatitude}", '${plan.placeLatitude}');
+						dataTemplate = dataTemplate.replace("{placeLongitude}", '${plan.placeLongitude}');
+						dataTemplate = dataTemplate.replace("{placeName}", '${plan.placeName}');
+						dataTemplate = dataTemplate.replace("{placeType}", '${plan.placeType}');
+						dataTemplate = dataTemplate.replace("{placeRegion}", '${plan.placeRegion}');
+						$("#plan-insert-container").append(dataTemplate);
 						placeIndex++;
+					}
+					if (!dailyNoArr.includes(${plan.dailyNo})) {
+						dailyNoArr.push(${plan.dailyNo});
 					}
 				</c:forEach>
 				pastDailyNo = temp;
 				dailyIndex++;
 			}
-			
-			// UI : 삭제 기능
+
 			$('.list-dailyplan').find('.place-delete-button').click(function(){
 				$(this).parents('.list-dailyplan').remove();
 			});
+			
+			
 		}
-
+			
 		// 기존 데이터 로드
 		plannerTemplate(existStartDate, existEndDate);
 		existDailyTemplate();
-		
-		
 	});
 </script>
 <script type="text/template" id="planner-insert-template">

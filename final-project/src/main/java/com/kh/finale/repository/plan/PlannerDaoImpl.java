@@ -1,13 +1,10 @@
 package com.kh.finale.repository.plan;
 
-import java.util.List;
-
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.kh.finale.vo.plan.PlanInsertServiceVO;
-import com.kh.finale.vo.plan.ResultPlanVO;
 
 @Repository
 public class PlannerDaoImpl implements PlannerDao {
@@ -25,12 +22,6 @@ public class PlannerDaoImpl implements PlannerDao {
 		sqlSession.insert("planner.plannerInsert", planInsertServiceVO);
 	}
 
-	// 통합 계획표 수정 기능
-	@Override
-	public int plannerUpdate(PlanInsertServiceVO planInsertServiceVO) {
-		return sqlSession.update("planner.plannerUpdate", planInsertServiceVO);
-	}
-	
 	// 통합 계획표 삭제 기능
 	@Override
 	public void plannerDelete(int plannerNo) {

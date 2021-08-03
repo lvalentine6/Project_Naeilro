@@ -29,12 +29,11 @@ public class PlanRestController {
 		return planService.planInsertService(planInsertServiceVO);
 	}
 	
-	// 계획표 수정 처리
-	@PostMapping("/planUpdateService")
-	public void planUpdateService(@ModelAttribute PlanInsertServiceVO planInsertServiceVO) {
-		planInsertServiceVO.setMemberNo(1); // 임시
-		System.out.println("전송 데이터 = " + planInsertServiceVO);
-		
-		planService.planUpdateService(planInsertServiceVO);
-	}
+	// 수정
+	
+	// 1. 가져온 통합계획표 번호로 삭제를 먼저 진행한 후
+	
+	// 2. 새로운 데이터 삽입한 뒤
+	
+	// 3. 새로운 통합계획표 번호 리턴
 }

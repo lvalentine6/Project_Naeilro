@@ -7,7 +7,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>NAEILRO</title>
+<title>Insert title here</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
     integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
 <link rel="stylesheet" href="../css/layout.css"/>
@@ -60,6 +60,76 @@
 	.intro h4{
 		font-weight: 600;
 	}
+	
+	/* 작성자 : 정계진 */
+	.aboutDivCon {
+		width: 80%;
+		margin: 0 auto;
+		display: flex;
+		flex-direction: column;
+	}
+	#introDiv2 {
+		margin-left: auto;
+    	margin-right: auto;
+    	margin-bottom: 20px;
+	}
+	.center .center-align {
+		text-align: center;
+	}
+	.introDivCss {
+		padding-top: 50px;
+	}
+	#introDiv2 h5 {
+		font-size: 20px !important;
+	}
+	h5 {
+		line-height: 110%;
+		font-weight: 400;
+	}
+	.introducemyro {
+		margin-left: auto;
+    	margin-right: auto;
+	    margin-top: 40px !important;
+	    margin-bottom: 40px !important;
+	}
+	.col.s6 {
+	    width: 50%;
+	    margin-left: auto;
+	    left: auto;
+	    right: auto;
+	    float: left;
+	    box-sizing: border-box;
+	    padding: 0 .75rem;
+	    min-height: 1px;
+	}
+	.headercont {
+		padding-bottom: 5px;
+    	text-align: center;
+    	margin-top: 30px;
+	}
+	.aboutTextDivLeft {
+		width: 100%;
+	    padding: 5% 0% 5%;
+	    text-align: left;
+	}
+	.introduce h4 {
+		font-size: 24px !important;
+	    line-height: 110%;
+	    margin: 1.52rem 0 .912rem 0;
+	    font-weight: 400;
+	}
+	.w3-text-grey, .w3-hover-text-grey:hover, .w3-text-gray, .w3-hover-text-gray:hover {
+	    color: #757575 !important;
+	}
+	.introimage {
+	    padding-top: 55px !important;
+	}
+	.introimage img {
+	    width: 100% !important;
+	   	border-style: none;
+	   	margin-top: 50px;
+	}
+	/* 작성자 : 정계진 */
 </style>
 <!-- icon -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css"/>
@@ -121,7 +191,7 @@
 			
 			
 		})
-		
+	})
 	
 	
  <c:if test="${block!=null}">
@@ -129,7 +199,6 @@
  		$(".block_modal").click()
  	})
  </c:if>
- 	
 </script>
 </head>
 <body>
@@ -147,9 +216,9 @@
 		  </button>
 		  <div class="collapse navbar-collapse text-right" id="navbarText">
 		    <ul class="navbar-nav mr-auto text-right pr-3">
-<!-- 		      <li class="nav-item"> -->
-<!-- 		        <a class="nav-link d-inline-block text-white cl-text" href="#">여행지</a> -->
-<!-- 		      </li> -->
+		      <li class="nav-item">
+		        <a class="nav-link d-inline-block text-white cl-text" href="#">여행지</a>
+		      </li>
 		      <li class="nav-item">
 		        <a class="nav-link d-inline-block text-white cl-text" href="${root}/photostory">스토리</a>
 		      </li>
@@ -162,10 +231,6 @@
 		    </ul>
 		    <span class="navbar-text text-right pr-3">
 		      <c:choose>
-		      <c:when test="${isLogin && memberDto.memberGrade == 1}">
-					<a class="mr-3 text-white cl-text" href="${root}/member/logout">로그아웃</a>
-					<a class="mr-3 text-white cl-text" href="${root}/admin/">관리자페이지</a>
-					</c:when>
 					<c:when test="${isLogin}">
 						<a class="mr-3 text-white cl-text" href="${root}/member/logout">로그아웃</a>
 						<a class="text-white cl-text" href="${root}/member/profile/${memberDto.memberNick}">마이페이지</a>
@@ -203,10 +268,39 @@
 				<h1>스토리</h1>
 				<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
 			</div>
-			<div class="row">
-				<h1>이용방법</h1>
-				<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+			<!-- 작성자 : 정계진 -->
+			<div id="aboutDiv"  style="background-color: #fdfdfd">
+				<div class="row aboutDivCon">
+					<div id="introDiv2">
+						<div class="center introDivCss" style="text-align: center">
+							<h5>쉽고 간편한 일정 플래너 <b>내일로(NAEILRO)</b></h5>
+							<br>
+							<h5 style="line-height: 200%;color:#757575">여행 일정 짜는 평균시간은 10시간, 이제 5분만에 해결하세요</h5>
+						</div>
+						<section id="about2">
+							<article id="about">
+								<div class="introduce">
+									<div class="col s6">
+										<div class="headercont">
+											<div class="scrollspy"></div>
+											<div class="aboutTextDivLeft">
+												<h4>누구나 할 수 있는</h4>
+												<h4><b>간편한 일정 작성</b></h4>
+												<br>
+												<h5 class="w3-text-grey">여행 일자, 숙소,<br><br>가고 싶은 장소만<br><br>선택해서 담으면 되는<br><br>간편하고 편리한 일정 작성</h5>
+											</div>
+										</div>
+									</div>
+									<div class="col s6 introimage" style="text-align: left;">
+                            			<img style="" src="image/intro1.jpg" alt="introimage">
+                        			</div>
+								</div>
+							</article>
+						</section>
+					</div>
+				</div>
 			</div>
+			<!-- 작성자 : 정계진 -->
 		</div>
 	</main>
 	
