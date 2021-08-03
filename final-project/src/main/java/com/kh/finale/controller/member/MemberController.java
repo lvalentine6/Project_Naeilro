@@ -458,6 +458,8 @@ public class MemberController {
 	@GetMapping("/profile/editProfile")
 	public String editProfile(Model model) {
 		MemberDto memberDto = memberDao.findInfo((int) httpSession.getAttribute("memberNo"));
+		memberDto.setMemberNo((int) httpSession.getAttribute("memberNo"));
+		System.out.println("AJAX값 : " + memberDto);
 		model.addAttribute("memberDto", memberDto);
 		return "member/editProfile"; 
 	}
