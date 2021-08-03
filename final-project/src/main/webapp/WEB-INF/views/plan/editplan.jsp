@@ -894,7 +894,7 @@
 		}
 		// 기존 하루 계획표 틀
 		function existDailyTemplate() {
-			console.log(${planList});
+			console.log('${planList}');
 			var pastDailyNo = ${planList.get(0).dailyNo};
 			var dailyNoArr = [${planList.get(0).dailyNo}];
 			var temp;
