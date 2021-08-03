@@ -7,7 +7,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>NAEILRO</title>
+<title>Insert title here</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
     integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
 <link rel="stylesheet" href="../css/layout.css"/>
@@ -15,7 +15,6 @@
 	*{
 		box-sizing: border-box;
 	}
-	
 /*  header 관련   */
 	header{
 		position: relative;
@@ -159,6 +158,7 @@
 	span.hashtag:hover{
 	    cursor: pointer;
     }
+>>>>>>> refs/remotes/origin/main
 </style>
 
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=60b30d68f4da16b4a316665d189e702f&libraries=services"></script>
@@ -223,7 +223,6 @@
 			
 		})
 	})
-		
 	
 	
  <c:if test="${block!=null}">
@@ -759,9 +758,9 @@ function go_page(k){
 		  </button>
 		  <div class="collapse navbar-collapse text-right" id="navbarText">
 		    <ul class="navbar-nav mr-auto text-right pr-3">
-<!-- 		      <li class="nav-item"> -->
-<!-- 		        <a class="nav-link d-inline-block text-white cl-text" href="#">여행지</a> -->
-<!-- 		      </li> -->
+		      <li class="nav-item">
+		        <a class="nav-link d-inline-block text-white cl-text" href="#">여행지</a>
+		      </li>
 		      <li class="nav-item">
 		        <a class="nav-link d-inline-block text-white cl-text" href="${root}/photostory">스토리</a>
 		      </li>
@@ -774,10 +773,6 @@ function go_page(k){
 		    </ul>
 		    <span class="navbar-text text-right pr-3">
 		      <c:choose>
-		      <c:when test="${isLogin && memberDto.memberGrade == 1}">
-					<a class="mr-3 text-white cl-text" href="${root}/member/logout">로그아웃</a>
-					<a class="mr-3 text-white cl-text" href="${root}/admin/">관리자페이지</a>
-					</c:when>
 					<c:when test="${isLogin}">
 						<a class="mr-3 text-white cl-text" href="${root}/member/logout">로그아웃</a>
 						<a class="text-white cl-text" href="${root}/member/profile/${memberDto.memberNick}">마이페이지</a>
@@ -807,6 +802,40 @@ function go_page(k){
 				<h1 class="my-5">다른 여행자들 플래너</h1>
 			</div>
 			<div class="row">
+				<h1>스토리</h1>
+				<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+			</div>
+			<!-- 작성자 : 정계진 -->
+			<div id="aboutDiv"  style="background-color: #fdfdfd">
+				<div class="row aboutDivCon">
+					<div id="introDiv2">
+						<div class="center introDivCss" style="text-align: center">
+							<h5>쉽고 간편한 일정 플래너 <b>내일로(NAEILRO)</b></h5>
+							<br>
+							<h5 style="line-height: 200%;color:#757575">여행 일정 짜는 평균시간은 10시간, 이제 5분만에 해결하세요</h5>
+						</div>
+						<section id="about2">
+							<article id="about">
+								<div class="introduce">
+									<div class="col s6">
+										<div class="headercont">
+											<div class="scrollspy"></div>
+											<div class="aboutTextDivLeft">
+												<h4>누구나 할 수 있는</h4>
+												<h4><b>간편한 일정 작성</b></h4>
+												<br>
+												<h5 class="w3-text-grey">여행 일자, 숙소,<br><br>가고 싶은 장소만<br><br>선택해서 담으면 되는<br><br>간편하고 편리한 일정 작성</h5>
+											</div>
+										</div>
+									</div>
+									<div class="col s6 introimage" style="text-align: left;">
+                            			<img style="" src="image/intro1.jpg" alt="introimage">
+                        			</div>
+								</div>
+							</article>
+						</section>
+					</div>
+				</div>
 			<c:forEach items="${planList}" var="plan">
 				<div class="col-4 px-0 pr-1 mb-2">
 				<div class="card w-100 story-photo">
@@ -1071,6 +1100,7 @@ function go_page(k){
 						</section>
 					</div>
 			</div>
+			<!-- 작성자 : 정계진 -->
 		</div>
 	</main>
 	
