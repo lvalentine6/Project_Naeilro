@@ -776,10 +776,10 @@ function go_page(k){
 <!-- 		        <a class="nav-link d-inline-block text-white cl-text" href="#">여행지</a> -->
 <!-- 		      </li> -->
 		      <li class="nav-item">
-		        <a class="nav-link d-inline-block text-white cl-text" href="${root}/photostory">스토리</a>
+		        <a class="nav-link d-inline-block text-white cl-text" href="${root}/photostory">포토스토리</a>
 		      </li>
 		      <li class="nav-item">
-		        <a class="nav-link d-inline-block text-white cl-text" href="${root}/plan">일정</a>
+		        <a class="nav-link d-inline-block text-white cl-text" href="${root}/plan/writeplan">플래너</a>
 		      </li>
 		      <li class="nav-item">
 		        <a class="nav-link d-inline-block text-white cl-text" href="#aboutDiv">이용방법</a>
