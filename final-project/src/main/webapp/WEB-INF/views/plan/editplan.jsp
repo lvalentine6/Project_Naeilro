@@ -894,6 +894,7 @@
 		}
 		// 기존 하루 계획표 틀
 		function existDailyTemplate() {
+			console.log(${planList});
 			var pastDailyNo = ${planList.get(0).dailyNo};
 			var dailyNoArr = [${planList.get(0).dailyNo}];
 			var temp;
@@ -903,9 +904,10 @@
 				var userTemplate = $("#user-place-dailyplan-template").html();
 
 				placeIndex = 1;
-
+				
 				// 장소 계획 개수만큼 반복
 				<c:forEach var="plan" items="${planList}">
+					console.log(dailyNoArr);
 					// 이전 dailyNo와 현재 dailyNo 비교
 					if (dailyNoArr[i] == ${plan.dailyNo}) {
 						userTemplate = userTemplate.replace("{index}", dailyIndex + 1);
@@ -953,6 +955,7 @@
 		
 		var oldPlannerNo = $("input[name=plannerNo]").val();
 		console.log(oldPlannerNo);
+		
 	});
 </script>
 <script type="text/template" id="planner-insert-template">
@@ -1046,7 +1049,6 @@
 									<input class="center" type="text" id="demo">
 								</div>
 								<div class="collapsible-body daycollapsible-main2 center s-border">
-									<input class="btn center collapsibleClosebtn" type="button" id="planner-map-find" value="계획표 날짜 수정">
 									<input class="btn center collapsibleClosebtn" type="button" id="planner-insert-button" value="계획표 수정 완료">
 								</div>
 							</li>
