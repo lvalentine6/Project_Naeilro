@@ -221,6 +221,13 @@
 			
 			
 		})
+		
+		//포토스토리 삭제 링크 클릭 이벤트
+		$('.photostory-delete-btn').click(function (e) {
+			if (!confirm('정말 삭제하시겠습니까?')) {
+				e.preventDefault();
+			}
+		});
 	})
 		
 	
@@ -846,8 +853,8 @@ function go_page(k){
 								<c:choose>
 									<c:when test="${photostoryListDto.memberNo==memberNo}">
 										<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-											<a class="dropdown-item text-danger" 
-											href="${pageContext.request.contextPath}/photostory/delete?photostoryNo=${photostoryListDto.photostoryNo}">삭제</a> 
+											<a class="dropdown-item text-danger photostory-delete-btn" 
+											href="${pageContext.request.contextPath}/photostory/delete?photostoryNo=${photostoryListDto.photostoryNo}&home">삭제</a> 
 											<a class="dropdown-item " 
 											href="${pageContext.request.contextPath}/photostory/edit?photostoryNo=${photostoryListDto.photostoryNo}">수정</a> 
 											<a class="dropdown-item" >취소</a> 
