@@ -35,6 +35,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		) where rn between #{startRow} and #{endRow}
 	</select>
 	
+	<!-- 포토스토리 리스트 -->
+	<select id="planList" parameterType="int" resultType="PhotostoryListDto">
+		select * from photostory_list
+			where plannerNo=#{plannerNo}
+			order by photostory_date desc
+	</select>
+	
 	<!-- 포토스토리 상세 조회 -->
 	<select id="get" parameterType="int" resultType="PhotostoryListDto">
 		select * from photostory_list where photostory_no = #{photostoryNo}

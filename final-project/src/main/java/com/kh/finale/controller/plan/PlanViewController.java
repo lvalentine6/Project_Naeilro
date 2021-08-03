@@ -3,6 +3,8 @@ package com.kh.finale.controller.plan;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -21,8 +23,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.kh.finale.entity.photostory.PhotostoryListDto;
+import com.kh.finale.entity.photostory.PhotostoryPhotoDto;
 import com.kh.finale.entity.plan.PlanListDto;
+import com.kh.finale.repository.photostory.PhotostoryListDao;
+import com.kh.finale.repository.photostory.PhotostoryPhotoDao;
 import com.kh.finale.repository.plan.DailyDao;
 import com.kh.finale.repository.plan.DailyplanDao;
 import com.kh.finale.repository.plan.PlanListDao;
@@ -75,27 +80,41 @@ public class PlanViewController {
 	}
 	
 	@Autowired
-	HttpSession httpSession;
+	private HttpSession httpSession;
+	@Autowired
+	private PhotostoryPhotoDao photostoryPhotoDao;
+	@Autowired
+	private PhotostoryListDao photostoryListDao;
 	
 	@GetMapping("/resultPlan")
 	public String resultPlan(@ModelAttribute ResultPlanVO resultPlanVO, Model model, FindPhotoVO findPhotoVO) throws JsonProcessingException {
 		System.out.println("계획 번호 : " + resultPlanVO.getPlannerNo());
 		resultPlanVO.setMemberNo((int) httpSession.getAttribute("memberNo"));
 		System.out.println("회원번호 : " + resultPlanVO.getMemberNo());
+		List<PhotostoryListDto> photostoryListDto = photostoryListDao.planList(resultPlanVO.getPlannerNo());
 		
-		// 포토스토리 이미지 테스트
-		findPhotoVO.setMemberNo((int) httpSession.getAttribute("memberNo"));
-		FindPhotoVO sendPhoto = planService.selectPhoto(findPhotoVO);
-		System.out.println("이미지 DB값 : " + sendPhoto);
+		
+		
+		/*
+		 * // 포토스토리 이미지 처리 List<PhotostoryPhotoDto> photostoryPhotoList =
+		 * photostoryPhotoDao.get(photostoryListDto.getPhotostoryNo()); if
+		 * (!photostoryPhotoList.isEmpty()) {
+		 * photostoryListDto.setPhotostoryphotoNo(photostoryPhotoList.get(0).
+		 * getPhotostoryPhotoNo()); }
+		 */
 		
 		List<ResultPlanVO> sendData = planService.selectPlan(resultPlanVO);
-		System.out.println(sendData);
-		// 자바 객체 JSON 변환 (작성자 : 정 계진)
-		ObjectMapper mapper = new ObjectMapper();
-		String jsonStr = mapper.writeValueAsString(sendData);
 		
-		System.out.println("전송 데이터 : " + jsonStr);
-		model.addAttribute("list", jsonStr);
+		Collections.sort(sendData,new Comparator<ResultPlanVO>() {
+			@Override
+			public int compare(ResultPlanVO o1, ResultPlanVO o2) {
+				if(o1.getDailyOrder()>o2.getDailyOrder()) return 1;
+				if(o1.getDailyOrder()<o2.getDailyOrder()) return -1;
+				return 0;
+			}
+		});
+		
+		model.addAttribute("list", sendData);
 		
 		return "plan/resultPlan";
 	}
