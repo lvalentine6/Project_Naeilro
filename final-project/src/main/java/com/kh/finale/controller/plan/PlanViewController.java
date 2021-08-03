@@ -39,13 +39,12 @@ import com.kh.finale.service.plan.PlanService;
 import com.kh.finale.vo.plan.FindPhotoVO;
 import com.kh.finale.vo.plan.PlanInsertServiceVO;
 import com.kh.finale.vo.plan.ResultPlanVO;
+import com.kh.finale.vo.report.PageVo;
 
 @Controller
 @RequestMapping("/plan")
 public class PlanViewController {
 
-	@Autowired
-	private HttpSession session;
 
 	@Autowired
 	private PlanService planService;
@@ -65,6 +64,19 @@ public class PlanViewController {
 	@Autowired
 	MemberDao memberDao;
 
+	@RequestMapping("")
+	public String home(Model model,@RequestParam(required = false) Integer pageNo) {
+		if(pageNo == null) {
+			pageNo=1;
+		}
+		
+		PageVo pageVo = new PageVo();
+		pageVo=pageVo.getPageVariable(pageNo, 12, plannerDao.getCount());
+		model.addAttribute("planList", plannerDao.getPlanList(pageVo));
+		model.addAttribute("page",pageVo);
+		return "plan/planList";
+	}
+	
 	// 계획표 작성 페이지
 	@GetMapping("/writeplan")
 	public String writePlan(Model model, HttpSession session) {
@@ -134,8 +146,9 @@ public class PlanViewController {
 		System.out.println(sendData+" 	;;  sendate");
 		model.addAttribute("list", sendData);
 		model.addAttribute("photoStroyList", photostoryList);
-		model.addAttribute("plannerNo", photostoryList.get(0).getPlannerNo());
-		System.out.println(photostoryList.get(0).getPlannerNo());
+		if(photostoryList.size()!=0) {
+			model.addAttribute("plannerNo", photostoryList.get(0).getPlannerNo());
+		}
 		ObjectMapper mapper = new ObjectMapper();
 		String jsonStr = mapper.writeValueAsString(sendData);
 		model.addAttribute("jlist", jsonStr);

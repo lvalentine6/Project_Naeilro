@@ -37,7 +37,7 @@ public class PhotostoryDaoImpl implements PhotostoryDao {
 			}
 		}
 		catch (Exception e) {
-			pageSize = 10;
+			pageSize = 8;
 		}
 		
 		// 포토스토리 리스트 범위
