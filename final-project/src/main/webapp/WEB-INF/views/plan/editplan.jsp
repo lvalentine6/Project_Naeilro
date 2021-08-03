@@ -956,6 +956,7 @@
 		
 		var oldPlannerNo = $("input[name=plannerNo]").val();
 		console.log(oldPlannerNo);
+		
 	});
 </script>
 <script type="text/template" id="planner-insert-template">
