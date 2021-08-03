@@ -189,7 +189,7 @@ $(function(){
 	
 								<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
 									<a class="dropdown-item" href="${pageContext.request.contextPath}/member/findPw">비밀번호 변경</a>
-									<a class="dropdown-item" href="${pageContext.request.contextPath}/member/logout">로그아웃</a> 
+<%-- 									<a class="dropdown-item" href="${pageContext.request.contextPath}/member/logout">로그아웃</a>  --%>
 									<a class="dropdown-item text-danger confirm-link" data-message="정말 탈퇴하시겠습니까?" href="${pageContext.request.contextPath}/member/exit">회원 탈퇴</a> 
 								</div>
 							</div>
