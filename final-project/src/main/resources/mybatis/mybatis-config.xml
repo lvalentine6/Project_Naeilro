@@ -9,6 +9,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 	<!-- mybatis 운영방침과 관련된 설정 작성 -->
 	<settings>
 		<setting name="cacheEnabled" value="true"/>
+		<setting name="jdbcTypeForNull" value="NULL" />
 		<setting name="lazyLoadingEnabled" value="true"/>
 		<!-- 필수설정 : 자바 변수명과 데이터베이스 컬럼명을 자동 매핑 변환 처리 설정 -->
 		<setting name="mapUnderscoreToCamelCase" value="true"/>

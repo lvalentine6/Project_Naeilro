@@ -8,8 +8,6 @@
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
 <script>
 $(function(){
-	$(".mypage_planner").hide()
-	
 	$(".follow-btn").click(function(){
 		if(${memberNo==null }){
 			alert("로그인후 이용해주세요");
@@ -20,7 +18,7 @@ $(function(){
 		})
 	})
 	
-	$(".story-photo").height($('.story-photo').width()+'px')
+		
 	$( window ).resize(function() {
 		$(".story-photo").height($('.story-photo').width()+'px')
 	});
@@ -136,6 +134,32 @@ $(function(){
 
 
 
+$(function(){
+	$(".story-photo").height($('.story-photo').width()+'px')
+	
+	<c:forEach items="${planList}" var="plan">
+	var container = document.getElementById('map_${plan.plannerNo}'); //지도를 담을 영역의 DOM 레퍼런스
+	var options = { //지도를 생성할 때 필요한 기본 옵션
+		center: new kakao.maps.LatLng(${plan.placeLatitude}, ${plan.placeLongitude}), //지도의 중심좌표.
+		draggable: false,
+		level: 10 //지도의 레벨(확대, 축소 정도)
+	};
+	
+	
+
+	var map = new kakao.maps.Map(container, options);
+	var markerPosition  = new kakao.maps.LatLng(${plan.placeLatitude}, ${plan.placeLongitude}); 
+
+	// 마커를 생성합니다
+	var marker = new kakao.maps.Marker({
+	    position: markerPosition
+	});
+
+	// 마커가 지도 위에 표시되도록 설정합니다
+	marker.setMap(map);
+	</c:forEach>
+
+})
 </script>
 <main>
 	<div class="container-lg">
@@ -322,29 +346,29 @@ $(function(){
 			<div class="row w-100">
 				<ul class="nav nav-tabs w-100">
 					  <li class="nav-item w-50 text-center">
-					    <a class="nav-link active story_btn" href="#">스토리 <strong>${countPhotostory}</strong></a>
+					    <a class="nav-link  story_btn" href="${pageContext.request.contextPath}/member/${member.memberNick}">스토리 <strong>${countPhotostory}</strong></a>
 					  </li>
 					  <li class="nav-item w-50 text-center">
-					    <a class="nav-link planner_btn" href="?planner=t">플래너 </a>
+					    <a class="nav-link active planner_btn" href="#">플래너 </a>
 					  </li>
 					</ul>
 			</div>
 		</div>
-		
-		<div class="container-lg mypage_photostory">
+
+		<div class="container-lg mypage_planner">
 			<div class="row">
-				<c:forEach items="${photostoryList}" var="photostoryListDto">
-					<c:if test="${not empty photostoryListDto.photostoryPhotoNo}">
-					<div class="col-4 col-lg-3 px-0 pr-1 mb-1">
-						   <a href="${pageContext.request.contextPath}/photostory/detail?photostoryNo=${photostoryListDto.photostoryNo}"><img class="w-100 story-photo"
-						      src="${pageContext.request.contextPath}/photostory/photo/${photostoryListDto.photostoryPhotoNo}" />
-						   </a>
-			    	</div>
-					</c:if>
-				</c:forEach>
+			<c:forEach items="${planList}" var="plan">
+				<div class="col-4 px-0 pr-1 mb-1">
+				<div class="card w-100 story-photo">
+				<div id="map_${plan.plannerNo }"class="w-100 h-75 card-img-top " ></div>
+				  <div class="card-body">
+				    <p class="card-text"><a href="${pageContext.request.contextPath}/plan/resultPlan?plannerNo=${plan.plannerNo}">${plan.plannerName }</a></p>
+				  </div>
+				</div>
+		    	</div>
+		    </c:forEach>
 			</div>		
 		</div>
-
 
 	</div>
 </main>
