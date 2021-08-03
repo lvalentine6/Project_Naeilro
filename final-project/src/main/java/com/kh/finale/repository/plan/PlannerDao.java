@@ -11,9 +11,6 @@ public interface PlannerDao {
 	
 	void plannerInsert(PlanInsertServiceVO planInsertServiceVO);
 	
-	// 통합 계획표 수정 기능
-	int plannerUpdate(PlanInsertServiceVO planInsertServiceVO);
-	
 	// 통합 계획표 삭제 기능
 	void plannerDelete(int plannerNo);
 	

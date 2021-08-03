@@ -20,6 +20,7 @@
 	*{
 		box-sizing: border-box;
 	}
+	
 /*  header 관련   */
 	header{
 		position: relative;
