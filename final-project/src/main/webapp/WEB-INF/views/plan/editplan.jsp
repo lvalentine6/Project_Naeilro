@@ -240,7 +240,7 @@
 
 		/* 비활성화 */
 		$("#search").hide();
-
+		
 		/* 체크박스 중복 불가 */
 		function check(){
 			// 검색창
@@ -804,7 +804,7 @@
 		}
 
 		/* 이벤트 : 계획표 수정 */
-		$("#planner-insert-button").click(function(){
+		$("#planner-insert-button").click(function(){ // 수정 완료 버튼 누르면 실행
 			dataTemplate();
 
 			function dataTemplate(){
@@ -863,6 +863,7 @@
 							dataTemplate = dataTemplate.replace("{placeType}", $(this).find('.list-dailyplan-type').val());
 							dataTemplate = dataTemplate.replace("{placeRegion}", $(this).find('.list-dailyplan-region').val());
 							$("#plan-insert-container").append(dataTemplate);
+							console.log("첨부");
 						}
 					});
 					// 반복문 : 장소계획
@@ -875,12 +876,13 @@
 		/* 비동기 전송 처리 영역 */
 		function planUpdateService(){
 			$.ajax({
-				url:"${pageContext.request.contextPath}/plan/data/planInsertService",
+				url:"${pageContext.request.contextPath}/plan/data/planUpdateService",
 				type: "post",
 				data: $("form").serialize(),
 				success: function(resp){
 					console.log("성공 : " + resp);
-					var plannerNo = resp;
+					
+					var plannerNo = resp; // 신규 등록번호
 					
 					// 조회 결과 페이지 이동
 					location.href = "${pageContext.request.contextPath}/plan/resultPlan?plannerNo=" + plannerNo;
@@ -890,13 +892,12 @@
 				}
 			});
 		}
-
 		// 기존 하루 계획표 틀
 		function existDailyTemplate() {
 			var pastDailyNo = ${planList.get(0).dailyNo};
 			var dailyNoArr = [${planList.get(0).dailyNo}];
 			var temp;
-
+			
 			// 일수만큼 반복
 			for (var i = 0; i < dailyStayDate; i++) {
 				var userTemplate = $("#user-place-dailyplan-template").html();
@@ -931,6 +932,9 @@
 
 						placeIndex++;
 					}
+					if (!dailyNoArr.includes(${plan.dailyNo})) {
+						dailyNoArr.push(${plan.dailyNo});
+					}
 				</c:forEach>
 				pastDailyNo = temp;
 				dailyIndex++;
@@ -946,7 +950,8 @@
 		plannerTemplate(existStartDate, existEndDate);
 		existDailyTemplate();
 		
-		
+		var oldPlannerNo = $("input[name=plannerNo]").val();
+		console.log(oldPlannerNo);
 	});
 </script>
 <script type="text/template" id="planner-insert-template">
@@ -1071,6 +1076,7 @@
 				<form id="plan-insert-container"></form>
 				<input type="hidden" id="daily-index">
 				<input type="hidden" id="place-index">
+				<input type="hidden" id="planner-no"> <!-- 삭제 처리할 용도 -->
 				</div>
 				<div class="col-xs-12 col-md-9">
 					<div id="map"></div>
