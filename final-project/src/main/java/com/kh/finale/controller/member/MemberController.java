@@ -443,6 +443,7 @@ public class MemberController {
 		}
 
 		File target = new File("D:/upload/kh5/member", memberProfileDto.getProfileSaveName());
+		System.out.println("이미지 탐색 결과 : " + memberProfileDto.getProfileSaveName());
 		byte[] data = FileUtils.readFileToByteArray(target);
 		ByteArrayResource resource = new ByteArrayResource(data);
 
