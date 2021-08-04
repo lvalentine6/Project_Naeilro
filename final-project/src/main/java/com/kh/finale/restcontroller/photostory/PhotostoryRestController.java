@@ -123,8 +123,6 @@ public class PhotostoryRestController {
 	@PostMapping("/edit_story")
 	public void edit(@ModelAttribute PhotostoryVO photostoryVO,
 			HttpSession session) throws IllegalStateException, IOException {
-		int plannerNo = 6; // 임시
-		photostoryVO.setPlannerNo(plannerNo); // 임시
 		photostoryService.updatePhotostory(photostoryVO);
 		photostoryPhotoDao.adminDeletePhoto(photostoryVO.getPhotostoryNo());
 	}
