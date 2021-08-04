@@ -255,7 +255,7 @@
 		check();
 
 		/* 통합계획표 */
-
+		var now = new Date();
 		// 날짜
 		var existStartDate = '${planList.get(0).plannerStartDate}'.substring(0, 10);
 		var existEndDate = '${planList.get(0).plannerEndDate}'.substring(0, 10);
@@ -274,6 +274,7 @@
 				"firstDay": 1
 				},
 				"minDate": new Date(),
+				"maxDate" : new Date(now.setDate(now.getDate()+14)),
 				"startDate": existStartDate,
 				"endDate": existEndDate,
 				"drops": "auto" }, function (start, end, label) {
@@ -829,8 +830,9 @@
 								console.log('신규');
 								dailyIndex = $(this).parents('.list-daily').data("index");
 								placeIndex = $(this).data("index");
-							}
-
+							} 
+							
+							
 							// 데이터 전송 : 체크용 (완료)
 							dataTemplate = dataTemplate.replace("{label-daily-index}", dailyIndex-1);
 							dataTemplate = dataTemplate.replace("{label-place-index}", placeIndex-1);
