@@ -290,7 +290,7 @@
 	        <a class="nav-link d-inline-block" href="${root}/plan">플래너</a>
 	      </li>
 	      <li class="nav-item">
-	        <a class="nav-link d-inline-block" href="#">이용방법</a>
+	        <a class="nav-link d-inline-block" href="${root}/#aboutDiv">이용방법</a>
 	      </li>
 	    </ul>
 	    <span class="navbar-text text-right">

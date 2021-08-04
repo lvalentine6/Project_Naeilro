@@ -62,7 +62,7 @@ import com.kh.finale.vo.photostory.PhotostoryListVO;
 public class MemberController {
 
 	@Autowired
-	MemberDao memberDao;
+	MemberDao memberDao; 
 	
 	@Autowired
 	private PhotostoryPhotoDao photostoryPhotoDao; 
@@ -82,7 +82,7 @@ public class MemberController {
 	// 회원 가입 페이지
 	@GetMapping("/join")
 	public String join() {
-		return "member/join";
+		return "member/join"; 
 	}
 
 	@Autowired

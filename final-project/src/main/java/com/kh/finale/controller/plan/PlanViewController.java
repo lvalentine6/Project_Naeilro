@@ -95,7 +95,11 @@ public class PlanViewController {
 
 	// 계획표 수정 페이지
 	@GetMapping("/editplan")
-	public String editPlan(@RequestParam int plannerNo, Model model) {
+	public String editPlan(@RequestParam int plannerNo, Model model, HttpSession session) {
+		if (session.getAttribute("memberNo") != null) {
+			MemberDto memberDto = memberDao.findInfo((int) session.getAttribute("memberNo"));
+			model.addAttribute("memberDto", memberDto);
+		}
 		List<PlanListDto> planList = planListDao.getPlanList(plannerNo);
 		model.addAttribute("planList", planList);
 
@@ -110,7 +114,9 @@ public class PlanViewController {
 
 		return "plan/editplan";
 	}
-
+	
+	
+	// 상세 페이지
 	@Autowired
 	private HttpSession httpSession;
 	@Autowired
@@ -119,8 +125,12 @@ public class PlanViewController {
 	private PhotostoryListDao photostoryListDao;
 
 	@GetMapping("/resultPlan")
-	public String resultPlan(@ModelAttribute ResultPlanVO resultPlanVO, Model model, FindPhotoVO findPhotoVO)
+	public String resultPlan(@ModelAttribute ResultPlanVO resultPlanVO, Model model, FindPhotoVO findPhotoVO, HttpSession session)
 			throws JsonProcessingException {
+		if (session.getAttribute("memberNo") != null) {
+			MemberDto memberDto = memberDao.findInfo((int) session.getAttribute("memberNo"));
+			model.addAttribute("memberDto", memberDto);
+		}
 		System.out.println("계획 번호 : " + resultPlanVO.getPlannerNo());
 		resultPlanVO.setMemberNo((int) httpSession.getAttribute("memberNo"));
 		System.out.println("회원번호 : " + resultPlanVO.getMemberNo());
