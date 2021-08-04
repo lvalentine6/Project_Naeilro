@@ -169,13 +169,13 @@ public class MemberController {
 				System.out.println(memberBlockDto);
 				
 				// 정지회원 블럭페이지로 이동
-//				model.addAttribute("block", memberBlockDto);
+				model.addAttribute("block", memberBlockDto);
 				model.addAttribute("msg", "관리자에 의해 계정이 정지 되었습니다.");
 				model.addAttribute("reason", memberBlockDto.getBlockReason());
 				model.addAttribute("blockEndDate", memberBlockDto.getBlockEndDate());
 				model.addAttribute("url", request.getContextPath()); 
 				return "member/block";
-				}
+			}
 			return "redirect:/";
 		}
 		
