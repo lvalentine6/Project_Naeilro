@@ -121,6 +121,12 @@ function comment_click(e){
 			}
 		})
 		
+		// 포토스토리 삭제 링크 클릭 이벤트
+		$('.photostory-delete-btn').click(function (e) {
+			if (!confirm('정말 삭제하시겠습니까?')) {
+				e.preventDefault();
+			}
+		});
 		
 	})
 	
@@ -185,42 +191,6 @@ function comment_click(e){
 		$(".comment_content_form").hide();
 	})
 	
-	$(function(){
-		/* 댓글 삭제 */
-		$('.comment_delete_btn').click(delete_comment)
-	})
-	
-	
-function delete_comment(no,pno){
-	let commentNo = $(this).data('no')
-	let photostoryNo2 = $(this).data('pno')
-	if(!commentNo){
-		commentNo=no
-	}
-	if(!photostoryNo2){
-		photostoryNo2=pno
-	}
-	console.log(photostoryNo2)
-	if (!window.confirm("정말 삭제하시겠습니까?")){ 
-		e.preventDefault()
-	}
-	$.ajax({
-		url:"${pageContext.request.contextPath}/process/delete_comment",
-		data : {
-			photostoryCommentNo : commentNo,
-			photostoryNo : photostoryNo2,
-		},
-		method:"POST",
-	})
-	.done(function(){
-		$("#comment_3_"+commentNo).remove()
-		$("#comment_2_"+commentNo).remove()
-		$("#comment_1_"+commentNo).remove()
-	})
-	.fail(function(){
-
-	})
-}
 function show_form(no){
 	$("#comment_3_"+no).hide()
 	$('.comment_content_form_'+no).show()
@@ -553,7 +523,7 @@ function report_btn_click(e){
 								<c:choose>
 									<c:when test="${photostoryListDto.memberNo==memberNo}">
 										<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-											<a class="dropdown-item text-danger" 
+											<a class="dropdown-item text-danger photostory-delete-btn" 
 											href="${pageContext.request.contextPath}/photostory/delete?photostoryNo=${photostoryListDto.photostoryNo}">삭제</a> 
 											<a class="dropdown-item " 
 											href="${pageContext.request.contextPath}/photostory/edit?photostoryNo=${photostoryListDto.photostoryNo}">수정</a> 

@@ -7,7 +7,6 @@
 		
 		/* 인증번호 발송 버튼 클릭 이벤트 */
 		$(".cert-btn").click(function(){
-			alert("인증번호를 이메일로 발송 하였습니다.")
 			let memberId = $('#memberId').val();
 			let memberEmail=$('#memberEmail').val();
 			if(!memberId){
@@ -42,6 +41,7 @@
 						clearInterval(timer)
 					}
 				},1000)
+			alert("인증번호를 이메일로 발송 하였습니다.")
 			})
 			.fail(function(){
 				alert("입력한 정보와 일치하는 회원정보가 없습니다.")

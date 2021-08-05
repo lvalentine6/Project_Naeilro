@@ -62,10 +62,10 @@ import com.kh.finale.vo.photostory.PhotostoryListVO;
 public class MemberController {
 
 	@Autowired
-	MemberDao memberDao;
+	MemberDao memberDao; 
 	
 	@Autowired
-	private PhotostoryPhotoDao photostoryPhotoDao;
+	private PhotostoryPhotoDao photostoryPhotoDao; 
 	
 	@Autowired
 	private PhotostoryDao photostoryDao;
@@ -82,7 +82,7 @@ public class MemberController {
 	// 회원 가입 페이지
 	@GetMapping("/join")
 	public String join() {
-		return "member/join";
+		return "member/join"; 
 	}
 
 	@Autowired
@@ -169,13 +169,13 @@ public class MemberController {
 				System.out.println(memberBlockDto);
 				
 				// 정지회원 블럭페이지로 이동
-//				model.addAttribute("block", memberBlockDto);
+				model.addAttribute("block", memberBlockDto);
 				model.addAttribute("msg", "관리자에 의해 계정이 정지 되었습니다.");
 				model.addAttribute("reason", memberBlockDto.getBlockReason());
 				model.addAttribute("blockEndDate", memberBlockDto.getBlockEndDate());
 				model.addAttribute("url", request.getContextPath()); 
 				return "member/block";
-				}
+			}
 			return "redirect:/";
 		}
 		
@@ -443,6 +443,7 @@ public class MemberController {
 		}
 
 		File target = new File("D:/upload/kh5/member", memberProfileDto.getProfileSaveName());
+		System.out.println("이미지 탐색 결과 : " + memberProfileDto.getProfileSaveName());
 		byte[] data = FileUtils.readFileToByteArray(target);
 		ByteArrayResource resource = new ByteArrayResource(data);
 
@@ -458,6 +459,8 @@ public class MemberController {
 	@GetMapping("/profile/editProfile")
 	public String editProfile(Model model) {
 		MemberDto memberDto = memberDao.findInfo((int) httpSession.getAttribute("memberNo"));
+		memberDto.setMemberNo((int) httpSession.getAttribute("memberNo"));
+		System.out.println("AJAX값 : " + memberDto);
 		model.addAttribute("memberDto", memberDto);
 		return "member/editProfile"; 
 	}

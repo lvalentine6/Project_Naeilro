@@ -45,6 +45,7 @@ import com.kh.finale.repository.photostory.PhotostoryDao;
 import com.kh.finale.repository.photostory.PhotostoryLikeDao;
 import com.kh.finale.repository.photostory.PhotostoryListDao;
 import com.kh.finale.repository.photostory.PhotostoryPhotoDao;
+import com.kh.finale.service.block.MemberBlockService;
 import com.kh.finale.service.photostory.PhotostoryService;
 import com.kh.finale.vo.member.LikeFollowVo;
 import com.kh.finale.vo.photostory.PhotostoryListVO;
@@ -84,9 +85,12 @@ public class PhotostoryViewController {
 	@Autowired
 	private HashtagDao hashtagDao;
 
+	@Autowired
+	private MemberBlockService memberBlockService;
+	
 	// 포토스토리 리스트 페이지
 	@GetMapping("")
-	public String home(@ModelAttribute PhotostoryListVO photostoryListVO, Model model, HttpSession session) {
+	public String home(@ModelAttribute PhotostoryListVO photostoryListVO, Model model, HttpSession session, HttpServletRequest request) throws Exception {
 		photostoryListVO = photostoryDao.getPageVariable(photostoryListVO);
 		List<PhotostoryListDto> photostoryList = photostoryListDao.list(photostoryListVO);
 		model.addAttribute("searchKeyword",photostoryListVO.getSearchKeyword());
@@ -99,6 +103,31 @@ public class PhotostoryViewController {
 			
 			model.addAttribute("memberDto", memberDto);
 			model.addAttribute("memberBlockDto", memberBlockDto);
+			
+			// 정지 상태일 경우 처리
+			if (memberDto.getMemberState().equals("정지")) {
+				System.out.println("??? = " + memberNo);
+				// 정지 해제 체크
+				boolean blockCheck = memberBlockDao.checkBlock(memberNo);
+				// 정지 기간이 지났을 경우
+				if (blockCheck) {
+					memberBlockService.unblock(memberDto.getMemberNo());
+				}
+				// 정지 기간이 지나지 않았을 경우
+				else {
+					System.out.println("??? = " + memberNo);
+					// 어느 페이지로 보낼지, 보낸 후 어떤 알림창을 띄울 것인지 미정 
+					// 정지회원 블럭페이지로 이동
+					model.addAttribute("block", memberBlockDto);
+					model.addAttribute("msg", "관리자에 의해 계정이 정지 되었습니다.");
+					model.addAttribute("reason", memberBlockDto.getBlockReason());
+					model.addAttribute("blockEndDate", memberBlockDto.getBlockEndDate());
+					model.addAttribute("url", request.getContextPath());
+					session.removeAttribute("memberNo");
+					return "member/block";
+				}
+				return "redirect:/";
+			}
 		}
 		
 		for (int i = 0; i < photostoryList.size(); i++) {
@@ -243,7 +272,7 @@ public class PhotostoryViewController {
 		photostoryVO.setMemberNo(memberNo);
 		int storyNo = photostoryService.insertPhotostory(photostoryVO);
 		Set<String> set = new HashSet<>();
-		if(hashtag!=null) {
+		if (hashtag != null) {
 			for(String h : hashtag) {
 				set.add(h);
 			}
@@ -255,7 +284,6 @@ public class PhotostoryViewController {
 				hashtagDao.insert(hash);
 			}
 		}
-		
 		
 		
 		return "redirect:/photostory";
@@ -293,16 +321,18 @@ public class PhotostoryViewController {
 		
 		hashtagDao.delete(photostoryVO.getPhotostoryNo());
 		
-		Set<String> set = new HashSet<>();
-		for(String h : hashtag) {
-			set.add(h);
-		}
-		for(String s : set) {
-			HashtagDto hash = HashtagDto.builder()
-					.hashtagTag(s)
-					.photostoryNo(photostoryVO.getPhotostoryNo())
-					.build();
-			hashtagDao.insert(hash);
+		if (hashtag != null) {
+			Set<String> set = new HashSet<>();
+			for(String h : hashtag) {
+				set.add(h);
+			}
+			for(String s : set) {
+				HashtagDto hash = HashtagDto.builder()
+						.hashtagTag(s)
+						.photostoryNo(photostoryVO.getPhotostoryNo())
+						.build();
+				hashtagDao.insert(hash);
+			}
 		}
 		
 		return "redirect:/photostory/detail?photostoryNo=" + photostoryVO.getPhotostoryNo();
@@ -310,10 +340,14 @@ public class PhotostoryViewController {
 	
 	// 포토스토리 삭제 처리
 	@GetMapping("/delete")
-	public String delete(@RequestParam int photostoryNo) {
+	public String delete(@RequestParam int photostoryNo, @RequestParam(required = false) String home) {
+		System.out.println("삭제 처리 호출");
 		photostoryService.deletePhotostory(photostoryNo);
 		
-		return "redirect:/photostory";
+		if (home == null) {
+			return "redirect:/photostory";
+		}
+		return "redirect:/";
 	}
 	
 	// 이미지 다운로드 처리

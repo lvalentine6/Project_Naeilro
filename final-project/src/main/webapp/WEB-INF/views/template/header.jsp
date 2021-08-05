@@ -12,6 +12,11 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
     integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
 <link rel="stylesheet" href="../css/layout.css"/>
+<link rel="icon" type="image/png" sizes="32x32" href="image/favicon-32x32.png">
+<link rel="manifest" href="/manifest.json">
+<meta name="msapplication-TileColor" content="#ffffff">
+<meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
+<meta name="theme-color" content="#ffffff">
 <style>
 	
 	main{
@@ -279,13 +284,13 @@
 <!-- 	        <a class="nav-link d-inline-block" href="#">여행지</a> -->
 <!-- 	      </li> -->
 	      <li class="nav-item">
-	        <a class="nav-link d-inline-block" href="${root}/photostory">스토리</a>
+	        <a class="nav-link d-inline-block" href="${root}/photostory">포토스토리</a>
 	      </li>
 	      <li class="nav-item">
-	        <a class="nav-link d-inline-block" href="${root}/plan">일정</a>
+	        <a class="nav-link d-inline-block" href="${root}/plan">플래너</a>
 	      </li>
 	      <li class="nav-item">
-	        <a class="nav-link d-inline-block" href="#">이용방법</a>
+	        <a class="nav-link d-inline-block" href="${root}/#aboutDiv">이용방법</a>
 	      </li>
 	    </ul>
 	    <span class="navbar-text text-right">

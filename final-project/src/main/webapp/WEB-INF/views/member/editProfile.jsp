@@ -41,7 +41,7 @@
 				$("#nickck").addClass("text-success")
 				let memberNick = $(this).val();
 				$.ajax({
-					url:"jNickCheck",
+					url:"pNickCheck",
 					data : {
 						memberNick : memberNick,
 					},

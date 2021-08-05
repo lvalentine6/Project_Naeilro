@@ -346,7 +346,7 @@ $(function(){
 			<div class="row w-100">
 				<ul class="nav nav-tabs w-100">
 					  <li class="nav-item w-50 text-center">
-					    <a class="nav-link  story_btn" href="${pageContext.request.contextPath}/member/profile/${profileMemberDto.memberNick}">스토리 <strong>${countPhotostory}</strong></a>
+					  	<a class="nav-link  story_btn" href="${pageContext.request.contextPath}/member/profile/${profileMemberDto.memberNick}">스토리 <strong>${countPhotostory}</strong></a>
 					  </li>
 					  <li class="nav-item w-50 text-center">
 					    <a class="nav-link active planner_btn" href="#">플래너 </a>

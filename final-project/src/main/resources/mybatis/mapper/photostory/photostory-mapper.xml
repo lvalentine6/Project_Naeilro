@@ -38,7 +38,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<!-- 포토스토리 수정 -->
 	<update id="update" parameterType="PhotostoryDto">
 		update photostory
-		set planner_no = #{plannerNo}, photostory_content = #{photostoryContent}
+		set photostory_content = #{photostoryContent}
 		where photostory_no = #{photostoryNo}
 	</update>
 	

@@ -473,11 +473,11 @@ $(function(){
       </div>
       
       <div class="modal-body report-val">
-       <input id="report_ccomment" type="text">
-       <input id="report_cmember" type="text">
-       <input id="report_cno" type="text">
-       <input id="report_ccontent" type="text">
-       <input id="report_creason" type="text">
+       <input id="report_ccomment" type="hidden">
+       <input id="report_cmember" type="hidden">
+       <input id="report_cno" type="hidden">
+       <input id="report_ccontent" type="hidden">
+       <input id="report_creason" type="hidden">
 
        <div class="row">
     		<div class="col-6"><a href="#none">유저 정지</a></div>

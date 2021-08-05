@@ -200,12 +200,13 @@
 			
 			var placeRegion = $('.box').eq(i).find('input[name=placeRegion]').val();
 			
-			console.log("지명 : " + placeRegion);
+			// console.log("지명 : " + placeRegion);
 			
 			for(var j=0; j < positions.length; j++){
+				console.log(positions[j].title );
 				if(positions[j].title == placeRegion){
-					
-					linePath.push(positions[i].latlng);
+					console.log(positions[j].latlng);
+					linePath.push(positions[j].latlng);
 					
 					var imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png"; 
 					
@@ -215,7 +216,7 @@
 					
 					var marker = new kakao.maps.Marker({
 						map: map,
-				    	position: positions[i].latlng,
+				    	position: positions[j].latlng,
 				    	image : markerImage
 					});
 					// 지도에 표시할 선을 생성합니다
@@ -230,9 +231,17 @@
 					// 지도에 선을 표시합니다 
 					polyline.setMap(map);
 				}
-			}
+			} 
+			
 		}
 		/* 지도 : 작성자 (정 계진)*/
+		
+		// 플래너 삭제 링크 클릭 이벤트
+		$('.planner-delete-btn').click(function (e) {
+			if (!confirm('정말 삭제하시겠습니까?')) {
+				e.preventDefault();
+			}
+		});
 	});
 </script>
 <script type="text/template" id="result-template">
@@ -276,8 +285,8 @@
 							<a href="#" role="button" id="dropdownMenuLink"
 								data-toggle="dropdown"><i class="fas fa-cog fa-1g"></i></a>
 							<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-								<a class="dropdown-item" href="${pageContext.request.contextPath}/plan/editplan?plannerNo=${plannerNo}" >플래너 수정</a> 
-								<a class="dropdown-item" href="${pageContext.request.contextPath}/plan/deleteplan?plannerNo=${plannerNo}" >플래너 삭제</a>
+								<a class="dropdown-item" href="${pageContext.request.contextPath}/plan/editplan?plannerNo=${param.plannerNo}" >플래너 수정</a> 
+								<a class="dropdown-item planner-delete-btn" href="${pageContext.request.contextPath}/plan/deleteplan?plannerNo=${param.plannerNo}" >플래너 삭제</a>
 							</div>
 						</div>
 					</div>
@@ -304,7 +313,7 @@
 		<div class="row">			
 			<div class="col-12 d-flex align-items-center">
 				<b><span style="font-size: 22px; color: rgb(66,133,244); margin-right: 1rem; margin-bottom: 2rem" >포토스토리</span></b>
-				<a class="btn btn-outline-primary btn-sm" id="p_w_btn" href="${pageContext.request.contextPath}/photostory/write?plannerNo=${plannerNo}" role="button">글쓰기</a>
+				<a class="btn btn-outline-primary btn-sm" id="p_w_btn" href="${pageContext.request.contextPath}/photostory/write?plannerNo=${param.plannerNo}" role="button">글쓰기</a>
 			</div>
 		</div>
 		<div class="row">
