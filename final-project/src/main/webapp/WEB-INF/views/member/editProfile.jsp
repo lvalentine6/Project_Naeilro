@@ -156,7 +156,7 @@
 					</div>
 					<div class="form-row mb-3">
 						<label for="memberIntro">소개</label> 
-						<textarea class="form-control" aria-label="With textarea" name="memberIntro" maxlength="33">${memberDto.memberIntro}</textarea>
+						<textarea class="form-control" aria-label="With textarea" name="memberIntro" maxlength="1000">${memberDto.memberIntro}</textarea>
 						<small id="emailHelp" class="form-text text-muted">소개를 작성해 주세요</small>
 					</div>
 					<div class="form-row mb-3">

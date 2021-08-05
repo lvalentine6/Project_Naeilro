@@ -795,7 +795,7 @@ function go_page(k){
 				<h4 class="text-center">나만의 여행 플래너 NAEILRO!<br> 쉽고 빠르게 여행을 계획하세요.</h4>	
 			</div>
 			<div class="d-flex justify-content-center">
-				<button type="button" class="btn btn-primary btn-lg mt-2">시작하기</button> 
+				<a type="button" class="btn btn-primary btn-lg mt-2">시작하기</a> 
 			</div>
 		</div>
 	</header>

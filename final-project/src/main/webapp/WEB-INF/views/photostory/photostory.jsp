@@ -100,7 +100,6 @@ function comment_click(e){
 		$(window).scroll(function(){
 			if($(document).scrollTop()>=$("main").height()*0.8&&oneTime){
 				oneTime = false;
-				pageNo+=1;				
 				$.ajax({
 					url:"${pageContext.request.contextPath}/photostory",
 					data : {
