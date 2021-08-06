@@ -103,9 +103,10 @@
 			ResultPlanVO.sort(function(a, b)  {
 				 return a.dailyplanPlaceOrder - b.dailyplanPlaceOrder;
 			});
-			  
+			 
 			// 여행 계획 템플릿 데이터 삽입
 			 for(var i = 0; i < ResultPlanVO.length; i++) {
+				console.log(ResultPlanVO[i]);
 				var template2 = $("#plan-template").html();
 				template2 = template2.replace("{placeNo}", ResultPlanVO[i].placeNo)
 				template2 = template2.replace("{placeName}", ResultPlanVO[i].placeName)
