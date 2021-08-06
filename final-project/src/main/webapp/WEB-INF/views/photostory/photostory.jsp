@@ -111,9 +111,8 @@ function comment_click(e){
 				})
 				.done(function(html){
 					oneTime=true;
-					$(".story-container").append($(html)[39].children[1].children)
+					$(".story-container").append($(html)[49].children[1].children)
 					$('.comment_content_form').hide();
-					pageNo+=1;
 				})
 				.fail(function(){
 
