@@ -255,7 +255,7 @@
 		check();
 
 		/* 통합계획표 */
-
+		var now = new Date();
 		// 날짜
 		var existStartDate = '${planList.get(0).plannerStartDate}'.substring(0, 10);
 		var existEndDate = '${planList.get(0).plannerEndDate}'.substring(0, 10);
@@ -274,6 +274,7 @@
 				"firstDay": 1
 				},
 				"minDate": new Date(),
+				"maxDate" : new Date(now.setDate(now.getDate()+14)),
 				"startDate": existStartDate,
 				"endDate": existEndDate,
 				"drops": "auto" }, function (start, end, label) {
@@ -829,8 +830,13 @@
 								console.log('신규');
 								dailyIndex = $(this).parents('.list-daily').data("index");
 								placeIndex = $(this).data("index");
-							}
-
+							} 
+							
+							// 08/06, 플래너 이름 변경
+							$("input[name=plannerName]").attr("value", $("#planner-name").val());
+							
+							// 08/06, 장소 이름 변경
+							
 							// 데이터 전송 : 체크용 (완료)
 							dataTemplate = dataTemplate.replace("{label-daily-index}", dailyIndex-1);
 							dataTemplate = dataTemplate.replace("{label-place-index}", placeIndex-1);
@@ -913,7 +919,6 @@
 						userTemplate = userTemplate.replace("{index}", dailyIndex + 1);
 						userTemplate = userTemplate.replace("{data-latitude}", '${plan.placeLatitude}');
 						userTemplate = userTemplate.replace("{data-longitude}", '${plan.placeLongitude}');
-						userTemplate = userTemplate.replace("{data-name}", '${plan.placeName}');
 						userTemplate = userTemplate.replace("{data-type}", '${plan.placeType}');
 						userTemplate = userTemplate.replace("{data-region}", '${plan.placeRegion}');
 			        	userTemplate = userTemplate.replace('${plan.placeName}', "{place-name}");
@@ -929,6 +934,7 @@
 							userTemplate = userTemplate.replace('<option value="자동차">', '<option value="자동차" selected>');
 						}
 						userTemplate = userTemplate.replace("{place-name}", '${plan.placeName}');
+						userTemplate = userTemplate.replace("{data-name}", '${plan.placeName}');
 
 			        	$(".list-daily").eq(i).append(userTemplate);
 						userTemplate = userTemplate.replace('${plan.placeName}', '{place-name}');
@@ -945,8 +951,21 @@
 			
 			// UI : 삭제 기능
 			$('.list-dailyplan').find('.place-delete-button').click(function(){
+				// 데이터 삭제
 				$(this).parents('.list-dailyplan').remove();
+				
+				$(".planList-place").remove();
+				console.log("수정행위로 데이터 삭제");
 			});
+			
+			/* 제어 (완료)*/
+			$(".list-dailyplan").find("select").change(function(){
+				console.log("이동");
+				
+				$(".planList-place").remove();
+				console.log("수정행위로 데이터 삭제");
+			});
+			
 		}
 
 		// 기존 데이터 로드

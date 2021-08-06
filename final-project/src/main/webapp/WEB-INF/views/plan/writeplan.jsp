@@ -265,7 +265,8 @@
 		check(); 
 		
 		/* 통합계획표 */
-		
+		var now = new Date();
+
 		// 날짜 
 			$('#demo').daterangepicker({ 
 				"locale": { 
@@ -282,9 +283,11 @@
 					"firstDay": 1 
 					}, 
 					"minDate": new Date(),
+					"maxDate" : new Date(now.setDate(now.getDate()+14)),
 					"startDate": new Date(), 
 					"endDate": new Date(), 
-					"drops": "auto" }, function (start, end, label) { 
+					"drops": "auto" 
+					}, function (start, end, label) { 
 						console.log('New date range selected: ' + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD') + ' (predefined range: ' + label + ')'); 
 					
 					var startDate = start.format('YYYY-MM-DD');
@@ -302,7 +305,6 @@
 						$("#plan-insert-container").empty();
 						plannerTemplate(startDate, endDate);
 					}
-					
 			});
 			
 		/* 통합계획표 */
@@ -596,6 +598,7 @@
 				// #. 지역 선택해야 검색창 나오게끔 표시
 				$("#search").show();
 			});
+			
 		} 
 		
 		/* 장소 검색  */
@@ -739,6 +742,7 @@
 						
 						// 계산한 경로 바탕으로 선 재구성 
 						polyline.setOptions({
+							endArrow: true,
 							path: linepath,
 							strokeWeight: 2,
 							strokeColor: '#000000',
@@ -798,6 +802,13 @@
 				
 				// 반복문 : 하루계획 
 				$('.list-daily').each(function(){ 
+					
+					$(".list-dailyplan").find("select").each(function(e){
+						if($(this).val() == "선택"){
+							alert("교통수단을 선택해 주세요!");
+							e.preventDefault();
+						}
+					})
 					// 반복문 : 장소계획
 					$(this).find('.list-dailyplan').each(function(){
 						// 조건 : 선택 안한 값들은 데이터 등록에서 제외
