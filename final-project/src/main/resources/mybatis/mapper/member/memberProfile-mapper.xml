@@ -15,13 +15,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</insert>
 	
 	<!-- 프로필 정보 조회 -->
-	<select id="find" parameterType="String" resultType="MemberProfileDto">
+	<select id="find" parameterType="int" resultType="MemberProfileDto">
 		SELECT * FROM(
     SELECT 
         * 
     FROM member_profile
     	ORDER BY ROWNUM DESC)
-		WHERE ROWNUM = 1 and member_id = #{memberId}
+		WHERE ROWNUM = 1 and member_id = #{memberNo}
 	</select>
 	
 	<!-- 프로필 정보 업데이트 -->
