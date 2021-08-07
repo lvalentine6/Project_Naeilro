@@ -139,7 +139,6 @@ public class PlanViewController {
 		
 		for (int i = 0; i < photostoryList.size(); i++) {
 			PhotostoryListDto photostoryListDto = photostoryList.get(i);
-			System.out.println(photostoryListDto.getPhotostoryNo()+" ;; photostoryNo");
 		// 포토스토리 이미지 처리 
 			List<PhotostoryPhotoDto> photostoryPhotoList = photostoryPhotoDao.get(photostoryListDto.getPhotostoryNo());
 			if(!photostoryPhotoList.isEmpty()) {
@@ -159,7 +158,6 @@ public class PlanViewController {
 				return 0;
 			}
 		});
-		System.out.println(sendData+" 	;;  sendate");
 		model.addAttribute("list", sendData);
 		model.addAttribute("photoStroyList", photostoryList);
 		if(photostoryList.size()!=0) {
@@ -179,7 +177,6 @@ public class PlanViewController {
 		if (findPhotoVO == null) {
 			return ResponseEntity.notFound().build();
 		}
-		System.out.println("FOUND");
 
 		File target = new File("D:/upload/kh5/photostory/", sendPhoto.getPhotostoryPhotoFilePath());
 		byte[] data = FileUtils.readFileToByteArray(target);

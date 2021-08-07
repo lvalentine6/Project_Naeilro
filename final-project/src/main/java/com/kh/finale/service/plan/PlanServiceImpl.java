@@ -63,7 +63,7 @@ public class PlanServiceImpl implements PlanService {
 					planInsertServiceVO.setPlannerNo(plannerNo);
 					planInsertServiceVO.setDailyStayDate(plan.getDailyStayDate());
 					planInsertServiceVO.setDailyOrder(plan.getDailyOrder());
-					log.info("등록 dailyNo = {}", dailyNo);
+					log.debug("등록 dailyNo = {}", dailyNo);
 					dailyDao.dailyInsert(planInsertServiceVO);
 				}
 
@@ -87,11 +87,11 @@ public class PlanServiceImpl implements PlanService {
 				planInsertServiceVO.setDailyplanTransfer(plan.getDailyplanTransfer());
 
 				// 확인
-				log.info("하루계획 번호 : " + planInsertServiceVO.getDailyNo());
-				log.info("장소 번호 : " + planInsertServiceVO.getPlaceNo());
-				log.info("장소순서 : " + planInsertServiceVO.getDailyplanPlaceOrder());
-				log.info("교통수단 : " + planInsertServiceVO.getDailyplanTransfer());
-				log.info("문제 데이터 : " + plan.getDailyStayDate()); // 확인 : 2번째 인덱스부터 인식을 못하는 것 같다(..) -> 근데 해결은 됐는데 왜 됐는지
+				log.debug("하루계획 번호 : " + planInsertServiceVO.getDailyNo());
+				log.debug("장소 번호 : " + planInsertServiceVO.getPlaceNo());
+				log.debug("장소순서 : " + planInsertServiceVO.getDailyplanPlaceOrder());
+				log.debug("교통수단 : " + planInsertServiceVO.getDailyplanTransfer());
+				log.debug("문제 데이터 : " + plan.getDailyStayDate()); // 확인 : 2번째 인덱스부터 인식을 못하는 것 같다(..) -> 근데 해결은 됐는데 왜 됐는지
 																	// 모르겠다 (...)
 
 				if (planInsertServiceVO.getDailyplanTransfer() != null) {
@@ -168,11 +168,11 @@ public class PlanServiceImpl implements PlanService {
 				planInsertServiceVO.setDailyplanTransfer(plan.getDailyplanTransfer());
 
 				// 확인
-				log.info("하루계획 번호 : " + planInsertServiceVO.getDailyNo());
-				log.info("장소 번호 : " + planInsertServiceVO.getPlaceNo());
-				log.info("장소순서 : " + planInsertServiceVO.getDailyplanPlaceOrder());
-				log.info("교통수단 : " + planInsertServiceVO.getDailyplanTransfer());
-				log.info("문제 데이터 : " + plan.getDailyStayDate()); // 확인 : 2번째 인덱스부터 인식을 못하는 것 같다(..) -> 근데 해결은 됐는데 왜 됐는지
+				log.debug("하루계획 번호 : " + planInsertServiceVO.getDailyNo());
+				log.debug("장소 번호 : " + planInsertServiceVO.getPlaceNo());
+				log.debug("장소순서 : " + planInsertServiceVO.getDailyplanPlaceOrder());
+				log.debug("교통수단 : " + planInsertServiceVO.getDailyplanTransfer());
+				log.debug("문제 데이터 : " + plan.getDailyStayDate()); // 확인 : 2번째 인덱스부터 인식을 못하는 것 같다(..) -> 근데 해결은 됐는데 왜 됐는지
 																	// 모르겠다 (...)
 
 				if (planInsertServiceVO.getDailyplanTransfer() != null) {

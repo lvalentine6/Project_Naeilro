@@ -20,7 +20,7 @@
 	*{
 		box-sizing: border-box;
 	}
-	
+
 /*  header 관련   */
 	header{
 		position: relative;
@@ -54,7 +54,7 @@
 	}
 	nav ul>li{
 		margin-left: 2rem;
-		
+
 	}
 	.scroll{
 		background-color: white;
@@ -66,7 +66,7 @@
 	.intro h4{
 		font-weight: 600;
 	}
-	
+
 	/* 작성자 : 정계진 */
 	.aboutDivCon {
 		width: 80%;
@@ -136,7 +136,7 @@
 	   	border-style: none;
 	   	margin-top: 10px;
 	}
-	
+
 		.user_profile{
 		border-radius: 100%;
 		object-fit:cover;
@@ -180,11 +180,11 @@
 </script>
 <script>
 	$(function(){
-		
+
 		let open = false;
-		
+
 		$(window).resize(function(){
-			console.log()
+
 			if($( window ).width()>=992&&open){
 				$(".menu-btn").click()
 			}
@@ -224,11 +224,11 @@
 					open=true;
 				}
 			}
-			console.log(open)
-			
-			
+
+
+
 		})
-		
+
 		//포토스토리 삭제 링크 클릭 이벤트
 		$('.photostory-delete-btn').click(function (e) {
 			if (!confirm('정말 삭제하시겠습니까?')) {
@@ -236,18 +236,18 @@
 			}
 		});
 	})
-		
-	
-	
+
+
+
  <c:if test="${block!=null}">
  	$(function(){
  		$(".block_modal").click()
  	})
  </c:if>
- 	
- 	
+
+
  	$(function(){
-		
+
  		$( window ).resize(function() {
  			$(".story-photo").height($('.story-photo').width()+'px')
  		});
@@ -256,7 +256,7 @@
 
  	$(function(){
  		$(".story-photo").height($('.story-photo').width()+'px')
- 		
+
  		<c:forEach items="${planList}" var="plan">
  		var container = document.getElementById('map_${plan.plannerNo}'); //지도를 담을 영역의 DOM 레퍼런스
  		var options = { //지도를 생성할 때 필요한 기본 옵션
@@ -264,11 +264,11 @@
  			draggable: false,
  			level: 10 //지도의 레벨(확대, 축소 정도)
  		};
- 		
- 		
+
+
 
  		var map = new kakao.maps.Map(container, options);
- 		var markerPosition  = new kakao.maps.LatLng(${plan.placeLatitude}, ${plan.placeLongitude}); 
+ 		var markerPosition  = new kakao.maps.LatLng(${plan.placeLatitude}, ${plan.placeLongitude});
 
  		// 마커를 생성합니다
  		var marker = new kakao.maps.Marker({
@@ -286,7 +286,7 @@
 
 function like_click(e){
 	let like_btn = $(e);
-	console.log(like_btn)
+
 	if(${memberNo==null }){
 		alert("로그인후 이용해주세요");
 		return
@@ -308,9 +308,9 @@ function like_click(e){
 			$(like_btn).parent().parent().next().children().children().find('.count_val').text(curval-1)
 		})
 		.fail(function(){
-			
+
 		})
-		
+
 	} else {
 		/* 좋아요 추가 */
 		$.ajax({
@@ -329,7 +329,7 @@ function like_click(e){
 		})
 		.fail(function(){
 		})
-		
+
 	}
 }
 
@@ -359,8 +359,8 @@ $.ajax({
 	template = template.replaceAll("{{comment}}",comment)
 	template = template.replaceAll("{{no}}",result)
 	template = template.replaceAll("{{memberNo}}","${memberNo}")
-	template = template.replaceAll("{{pno}}",photostoryNo)					
-	
+	template = template.replaceAll("{{pno}}",photostoryNo)
+
 	$(curEl).parent().parent().prev().prev().prepend(template)
 	$('.comment_content_form_'+result).hide()
 	comment_count =$(".comment-count").html()*1 + 1
@@ -368,7 +368,7 @@ $.ajax({
 	comment_div.val("")
 })
 .fail(function(){
-	console.log('fail');
+	
 })
 }
 
@@ -384,8 +384,8 @@ function comment_cancel_btn_click(e){
 function comment_edit_btn_click(e){
 	let commentNo = $(e).data('no')
 	let comment = $(e).parent().prev().val();
-	console.log(comment)
-	console.log(commentNo)
+
+
 	$.ajax({
 		url:"${pageContext.request.contextPath}/process/update_comment",
 		data : {
@@ -407,8 +407,8 @@ function comment_edit_btn_click(e){
 function comment_delete_btn_click(e){
 	let commentNo = $(e).data('no')
 	let photostoryNo2 = $(e).data('pno')
-	console.log(photostoryNo2)
-	if (!window.confirm("정말 삭제하시겠습니까?")){ 
+
+	if (!window.confirm("정말 삭제하시겠습니까?")){
 		e.preventDefault()
 	}
 	$.ajax({
@@ -448,8 +448,8 @@ if(!commentNo){
 if(!photostoryNo2){
 	photostoryNo2=pno
 }
-console.log(photostoryNo2)
-if (!window.confirm("정말 삭제하시겠습니까?")){ 
+
+if (!window.confirm("정말 삭제하시겠습니까?")){
 	e.preventDefault()
 }
 $.ajax({
@@ -480,8 +480,8 @@ $('.comment_content_form_'+no).hide()
 function edit_comment(no){
 let commentNo = no
 let comment = $('#comment_edit_id_'+no).parent().prev().val();
-console.log(comment)
-console.log(commentNo)
+
+
 $.ajax({
 	url:"${pageContext.request.contextPath}/process/update_comment",
 	data : {
@@ -524,7 +524,7 @@ $.ajax({
 
 function f_unfollow_btn_click(e){
 let memberNo = $(e).data('memberno');
-console.log(memberNo)
+
 $.ajax({
 	url:"${pageContext.request.contextPath}/memberprocess/delete_follow",
 	data : {
@@ -535,7 +535,7 @@ $.ajax({
 .done(function(){
 	$('.f-unfollow-btn-'+memberNo).addClass('d-none')
 	$('.f-follow-btn-'+memberNo).removeClass('d-none')
-	
+
 })
 .fail(function(){
 })
@@ -645,7 +645,7 @@ $(function(){
 		})
 		.done(function(json){
 			if(keyword[0]=="#"){
-				
+
 				for(let i=0;i<json.tagPreview.length;i++){
 					let temp = $("#preview-tag").html()
 					temp=temp.replaceAll("{{keyword}}",json.tagPreview[i].hashtagTag)
@@ -674,16 +674,16 @@ $(function(){
 					$(".dropdown_f_menu").append(temp);
 				}
 			}
-			console.log(json)
+
 		})
 		.fail(function(){
-			console.log('실패')
+			
 		})
 	})
-	
-	
+
+
 	$(".hashtag").click(function(){
-		console.log()
+
 		text=$(this).text().replaceAll(/\s/g,'');
 		$('.search_bar').val(text)
 		$('.search_form').submit();
@@ -707,7 +707,7 @@ function go_page(k){
 		onerror="this.src='${pageContext.request.contextPath}/image/default_user_profile.jpg'"></div>
 		<div class="col-4">{{nick}}</div>
 		<div class="col-1 offset-3">{{name}}</div>
-	</div>	
+	</div>
 </script>
 <script type="text/template" id="preview-tag">
 	<div class="dropdown-item py-2 row d-flex align-items-center" onclick="go_page('{{keyword}}')">
@@ -733,12 +733,12 @@ function go_page(k){
 									data-toggle="dropdown"><i class="fas fa-ellipsis-h"></i></a>
 										<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
 											<a class="dropdown-item text-danger comment_delete_btn"
-											data-no="{{no}}" data-pno="{{pno}}" onclick="comment_delete_btn_click(this)" 
-											>삭제</a> 
-											<a class="dropdown-item comment_edit_btn_1" data-no="{{no}}" 
+											data-no="{{no}}" data-pno="{{pno}}" onclick="comment_delete_btn_click(this)"
+											>삭제</a>
+											<a class="dropdown-item comment_edit_btn_1" data-no="{{no}}"
 											onclick="show_form({{no}})"
-											>수정</a> 
-											<a class="dropdown-item" >취소</a> 
+											>수정</a>
+											<a class="dropdown-item" >취소</a>
 										</div>
 						</div>
 						<div class="col-12  text-sm text-break" id="comment_3_{{no}}">
@@ -762,7 +762,7 @@ function go_page(k){
 		<div class="header-img-area">
 			<img class="header-img" src="image/bgimg.webp">
 		</div>
-		
+
 		<nav class="navbar navbar-expand-lg px-lg-5 navbar-light bg-transparent  shadow-sm fixed-top">
 		  <a class="navbar-brand text-white cl-text" href="${root}">NAEILRO</a>
 		  <button class="navbar-toggler border-0 menu-btn" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
@@ -803,17 +803,17 @@ function go_page(k){
 		    </span>
 		  </div>
 		</nav>
-		
+
 		<div class="container-lg">
 			<div class="intro">
-				<h4 class="text-center">나만의 여행 플래너 NAEILRO!<br> 쉽고 빠르게 여행을 계획하세요.</h4>	
+				<h4 class="text-center">나만의 여행 플래너 NAEILRO!<br> 쉽고 빠르게 여행을 계획하세요.</h4>
 			</div>
 			<div class="d-flex justify-content-center">
-				<a type="button" class="btn btn-primary btn-lg mt-2" href="${pageContext.request.contextPath}/plan/writeplan">시작하기</a> 
+				<a type="button" class="btn btn-primary btn-lg mt-2" href="${pageContext.request.contextPath}/plan/writeplan">시작하기</a>
 			</div>
 		</div>
 	</header>
-	
+
 	<main>
 		<div class="container-lg">
 			<div class="row">
@@ -830,14 +830,14 @@ function go_page(k){
 				</div>
 		    	</div>
 		    </c:forEach>
-			</div>	
-			
-			
+			</div>
+
+
 			<div class="row">
 				<h1 class="my-5">스토리</h1>
 			</div>
-			
-			
+
+
 	<c:forEach var="photostoryListDto" items="${photostoryList}">
 		<div class="container-lg ">
 			<div class="row justify-content-center ">
@@ -856,35 +856,35 @@ function go_page(k){
 						<div class="col-1 offset-7 text-right">
 							<a href="#" role="button" id="dropdownMenuLink"
 									data-toggle="dropdown"><i class="fas fa-ellipsis-h"></i></a>
-									
+
 								<c:choose>
 									<c:when test="${photostoryListDto.memberNo==memberNo}">
 										<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-											<a class="dropdown-item text-danger photostory-delete-btn" 
-											href="${pageContext.request.contextPath}/photostory/delete?photostoryNo=${photostoryListDto.photostoryNo}&home">삭제</a> 
-											<a class="dropdown-item " 
-											href="${pageContext.request.contextPath}/photostory/edit?photostoryNo=${photostoryListDto.photostoryNo}">수정</a> 
-											<a class="dropdown-item" >취소</a> 
+											<a class="dropdown-item text-danger photostory-delete-btn"
+											href="${pageContext.request.contextPath}/photostory/delete?photostoryNo=${photostoryListDto.photostoryNo}&home">삭제</a>
+											<a class="dropdown-item "
+											href="${pageContext.request.contextPath}/photostory/edit?photostoryNo=${photostoryListDto.photostoryNo}">수정</a>
+											<a class="dropdown-item" >취소</a>
 										</div>
 									</c:when>
 									<c:otherwise>
 										<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-											<a class="dropdown-item text-danger report-btn" onclick="report_btn_click(this)" data-storyno="${photostoryListDto.photostoryNo}" data-toggle="modal" data-target="#report_modal">게시글 신고</a> 
-											<a class="dropdown-item" >취소</a> 
+											<a class="dropdown-item text-danger report-btn" onclick="report_btn_click(this)" data-storyno="${photostoryListDto.photostoryNo}" data-toggle="modal" data-target="#report_modal">게시글 신고</a>
+											<a class="dropdown-item" >취소</a>
 										</div>
 									</c:otherwise>
 								</c:choose>
-								
+
 						</div>
 					</div>
 					<div class=' row align-items-center'>
-					
+
 						<c:if test="${not empty photostoryListDto.photostoryPhotoNo}">
 						   <img class="w-100 border"
 						      src="${pageContext.request.contextPath}/photostory/photo/${photostoryListDto.photostoryPhotoNo}" />
 						</c:if>
 
-							
+
 					</div>
 					<div class='row align-items-center border-left border-right'>
 						<div class="col-1 py-2">
@@ -893,9 +893,9 @@ function go_page(k){
 									<i class="fa-heart fa-lg like-btn fas like" onclick="like_click(this)" data-photostoryNo="${photostoryListDto.photostoryNo}"></i>
 								</c:when>
 								<c:otherwise>
-									<i class="fa-heart fa-lg like-btn far" onclick="like_click(this)" data-photostoryNo="${photostoryListDto.photostoryNo}"></i> 
+									<i class="fa-heart fa-lg like-btn far" onclick="like_click(this)" data-photostoryNo="${photostoryListDto.photostoryNo}"></i>
 								</c:otherwise>
-							</c:choose> 
+							</c:choose>
 						</div>
 						<div class="col-1">
 							<a
@@ -910,7 +910,7 @@ function go_page(k){
 							<a class="nav-link d-inline p-0" data-toggle="modal" data-target="#like_list_${photostoryListDto.photostoryNo}"  href="#">
 							좋아요 <span class="count_val"> ${photostoryListDto.photostoryLikeCount}</span>
 							</a>
-							
+
 							<!-- Modal -->
 						<div class="modal fade" id="like_list_${photostoryListDto.photostoryNo}" tabindex="-1" role="dialog" aria-hidden="true">
 						  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
@@ -929,7 +929,7 @@ function go_page(k){
 										onerror="this.src='${pageContext.request.contextPath}/image/default_user_profile.jpg'">
 						      		</div>
 						      		<div class="pl-0 col-4"><a href="${pageContext.request.contextPath}/member/profile/${followingList.member.memberNick }">${followingList.member.memberNick }</a></div>
-						      		
+
 						      		<c:choose>
 						      			<c:when test="${followingList.isFollow()}">
 								      		<div class="offset-2 col-4 text-right f-unfollow-btn-${followingList.member.memberNo}"><button class="btn btn-outline-secondary f-unfollow-btn f-unfollow-btn " onclick="f_unfollow_btn_click(this)" data-memberNo='${followingList.member.memberNo}'>팔로우 <i class="fas fa-check"></i></button></div>
@@ -938,7 +938,7 @@ function go_page(k){
 						      			<c:otherwise >
 						      				<c:choose>
 								      			<c:when test="${followingList.member.memberNo==memberNo}">
-								      				
+
 								      			</c:when>
 								      			<c:otherwise>
 										      		<div class="offset-2 col-4 text-right d-none f-unfollow-btn-${followingList.member.memberNo}"><button class="btn btn-outline-secondary f-unfollow-btn f-unfollow-btn " onclick="f_unfollow_btn_click(this)" data-memberNo='${followingList.member.memberNo}'>팔로우 <i class="fas fa-check"></i></button></div>
@@ -959,8 +959,8 @@ function go_page(k){
 						    </div>
 						  </div>
 						</div>
-						
-						
+
+
 						</div>
 					</div>
 					<div class='row align-items-center border-left border-right pb-1'>
@@ -1004,16 +1004,16 @@ function go_page(k){
 											data-no="${photostoryCommentListDto.photostoryCommentNo}"
 											data-pno="${photostoryListDto.photostoryPhotoNo}"
 											onclick="comment_delete_btn_click(this)"
-											>삭제</a> 
+											>삭제</a>
 											<a class="dropdown-item comment_edit_btn_1" onclick="comment_edit_btn_1_click(this)"
-											>수정</a> 
-											<a class="dropdown-item" >취소</a> 
+											>수정</a>
+											<a class="dropdown-item" >취소</a>
 										</div>
 									</c:when>
 									<c:otherwise>
 										<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-											<a class="dropdown-item text-danger report-btn" onclick="report_btn_click(this)" data-commentno="${photostoryCommentListDto.photostoryCommentNo}" href="#" data-toggle="modal" data-target="#report_modal">댓글 신고</a> 
-											<a class="dropdown-item" >취소</a> 
+											<a class="dropdown-item text-danger report-btn" onclick="report_btn_click(this)" data-commentno="${photostoryCommentListDto.photostoryCommentNo}" href="#" data-toggle="modal" data-target="#report_modal">댓글 신고</a>
+											<a class="dropdown-item" >취소</a>
 										</div>
 									</c:otherwise>
 								</c:choose>
@@ -1082,12 +1082,12 @@ function go_page(k){
 								</div>
 							</article>
 						</section>
-						
+
 					</div>
 			</div>
 		</div>
 	</main>
-	
+
 	<div class="modal fade" id="report_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
     <div class="modal-content">
@@ -1097,10 +1097,10 @@ function go_page(k){
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      
-      
-      
-      
+
+
+
+
       <div class="modal-body report-val">
        <input id="report_no" type="hidden">
        <input id="report_type" type="hidden">
@@ -1140,26 +1140,26 @@ function go_page(k){
     		<div class="col-12"><a class="d-block report_reason_v" onclick="report_reason_v_click(this)" href="#none">마음에 들지 않습니다</a></div>
        </div>
       </div>
-      
+
        <input id="report_no" type="hidden">
        <input id="report_type" type="hidden">
-       
+
 		<div class="modal-body report-confirm">
        <div class="row">
     		<div class="col-12 "><strong>신고처리 되었습니다.</strong></div>
        </div>
       </div>
-      
-      
-      
+
+
+
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary r-c-btn" data-dismiss="modal">닫기</button>
       </div>
     </div>
   </div>
 </div>
-	
-	
+
+
 	<form class="w-100 search_form d-none" action="${pageContext.request.contextPath}/photostory" method="GET">
 		  <div class="form-group input-group mb-3 dropdown">
 			  <input type="text" value="${searchKeyword}" class="form-control dropdown-toggle search_bar" name="searchKeyword" placeholder="검색어를 입력해주세요 . . ." >
@@ -1172,4 +1172,3 @@ function go_page(k){
 		  </div>
 	</form>
 	<jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>
-	

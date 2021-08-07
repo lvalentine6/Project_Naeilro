@@ -52,12 +52,10 @@ public class MemberEditServiceImpl implements MemberEditService{
 			memberProfileDao.insert(memberProfileDto);
 		}
 		
-		System.out.println("수정 DB 값 확인" + memberProfileDto);
 		}
 		
 		// 이미지를 제외한 회원정보 수정
 		memberDao.editProfile(memberVo);
-		System.out.println("이미지 제외 회원정보 변경완료");
 	
 	}
 	

@@ -76,7 +76,6 @@ $(function(){
 	
 	$(".unfollow-btn").click(function(){
 		let memberNo = $(this).data('memberno');
-		console.log(memberNo)
 		$.ajax({
 			url:"${pageContext.request.contextPath}/memberprocess/delete_follow",
 			data : {
@@ -115,7 +114,6 @@ $(function(){
 	
 	$(".f-unfollow-btn").click(function(){
 		let memberNo = $(this).data('memberno');
-		console.log(memberNo)
 		$.ajax({
 			url:"${pageContext.request.contextPath}/memberprocess/delete_follow",
 			data : {
