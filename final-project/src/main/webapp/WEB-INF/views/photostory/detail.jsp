@@ -104,7 +104,7 @@
 					comment_div.val("")
 				})
 				.fail(function(){
-					console.log('fail');
+					
 				})
 			})
 		})
@@ -125,8 +125,6 @@
 		$(".comment_edit_btn").click(function(){
 			let commentNo = $(this).data('no')
 			let comment = $(this).parent().prev().val();
-			console.log(comment)
-			console.log(commentNo)
 			$.ajax({
 				url:"${pageContext.request.contextPath}/process/update_comment",
 				data : {
@@ -186,8 +184,6 @@ function hide_form(no){
 function edit_comment(no){
 	let commentNo = no
 	let comment = $('#comment_edit_id_'+no).parent().prev().val();
-	console.log(comment)
-	console.log(commentNo)
 	$.ajax({
 		url:"${pageContext.request.contextPath}/process/update_comment",
 		data : {

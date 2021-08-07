@@ -114,7 +114,6 @@ public class PhotostoryRestController {
 				.photostoryNo(photostoryCommentDto.getPhotostoryNo())
 				.memberNo((int) session.getAttribute("memberNo"))
 				.build();
-		System.out.println(commentDto.getPhotostoryNo());
 		photostoryCommentDao.deletePhotostoryComment(commentDto);
 		photostoryDao.refreshPhotostoryCommentCount(commentDto.getPhotostoryNo());
 	}

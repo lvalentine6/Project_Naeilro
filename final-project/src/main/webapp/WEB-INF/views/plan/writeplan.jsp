@@ -288,7 +288,6 @@
 					"endDate": new Date(), 
 					"drops": "auto" 
 					}, function (start, end, label) { 
-						console.log('New date range selected: ' + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD') + ' (predefined range: ' + label + ')'); 
 					
 					var startDate = start.format('YYYY-MM-DD');
 					var endDate = end.format('YYYY-MM-DD');
@@ -869,7 +868,7 @@
 					location.href = "${pageContext.request.contextPath}/plan/resultPlan?plannerNo=" + resp;
 				},
 				error: function(){
-					console.log("실패");
+					
 				}
 			});
 		}

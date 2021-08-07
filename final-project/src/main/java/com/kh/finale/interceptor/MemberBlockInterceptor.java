@@ -49,7 +49,6 @@ public class MemberBlockInterceptor implements HandlerInterceptor {
 			else {
 				// 어느 페이지로 보낼지, 보낸 후 어떤 알림창을 띄울 것인지 미정 
 				MemberBlockDto memberBlockDto = memberBlockDao.getBlockInfo(memberNo);
-				System.out.println(memberBlockDto);
 				request.setAttribute("block", memberBlockDto);
 				response.sendRedirect(request.getContextPath());
 

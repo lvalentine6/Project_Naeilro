@@ -86,7 +86,6 @@ public class HomeController {
 			
 			// 정지 상태일 경우 처리
 			if (memberDto.getMemberState().equals("정지")) {
-				System.out.println("??? = " + memberNo);
 				// 정지 해제 체크
 				boolean blockCheck = memberBlockDao.checkBlock(memberNo);
 				// 정지 기간이 지났을 경우
@@ -95,7 +94,6 @@ public class HomeController {
 				}
 				// 정지 기간이 지나지 않았을 경우
 				else {
-					System.out.println("??? = " + memberNo);
 					// 어느 페이지로 보낼지, 보낸 후 어떤 알림창을 띄울 것인지 미정 
 					// 정지회원 블럭페이지로 이동
 					model.addAttribute("block", memberBlockDto);

@@ -59,8 +59,6 @@ function delete_comment(e){
 	})
 	.done(function(){
 		$(".content_"+storyNo).text(comment)
-		console.log($(".img_"+storyNo))
-		console.log(".img_"+storyNo)
 		$(".img_"+storyNo).attr("src", "${pageContext.request.contextPath}/image/delete_img.jpg");
 		
 		$("#report_confimr_"+reportNo).text("Y")

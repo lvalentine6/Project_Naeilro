@@ -31,7 +31,6 @@ public class MemberAuthServiceImpl implements MemberAuthService{
 	// 이메일 전송
 	@Override
 	public MemberAuthDto pwSendEmail(MemberVo memberVo) throws MessagingException, UnsupportedEncodingException {
-		System.out.println("빌드 전 Vo 값 확인 : " + memberVo.getMemberNo() + memberVo.getMemberEmail());
 		
 		// 인증 난수 생성
 		Random r = new Random();
@@ -71,7 +70,6 @@ public class MemberAuthServiceImpl implements MemberAuthService{
 												.authEmail(memberVo.getMemberEmail())
 												.authNo(authNo)
 												.build();
-		System.out.println("빌드 후 DTO값 확인 : " + memberAuthDto);
 		return memberAuthDto;
 	}
 	

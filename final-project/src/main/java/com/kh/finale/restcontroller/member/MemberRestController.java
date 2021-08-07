@@ -27,8 +27,6 @@ public class MemberRestController {
 				.followFrom((int) session.getAttribute("memberNo"))
 				.followTo(followTo)
 				.build();
-		System.out.println(followDto.getFollowFrom());
-		System.out.println(followDto.getFollowTo());
 		followDao.insert(followDto);
 	}
 
