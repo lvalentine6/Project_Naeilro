@@ -341,8 +341,6 @@
 			$("input[name=dailyStayDate]").attr("value", dailyStayDate);
 			dailyTemplate(dailyStayDate);
 			
-			console.log("확인");
-			
 			$("#planner-map-find").remove();
 			$("#planner-insert-button").attr("type", "submit");
 			
@@ -779,11 +777,6 @@
 						$(this).parents('.list-dailyplan').remove();
 					});
 						
-					/* 제어 (완료)*/
-					$(".list-dailyplan").find("select").change(function(){ 
-						console.log("이동");
-					}); 
-					
 			    });
 			}
 		
@@ -873,11 +866,6 @@
 				type: "post",
 				data: $("form").serialize(),
 				success: function(resp){
-					console.log("성공");
-					
-					// 기존 데이터 삭제 진행
-					
-					// 조회 결과 페이지 이동
 					location.href = "${pageContext.request.contextPath}/plan/resultPlan?plannerNo=" + resp;
 				},
 				error: function(){

@@ -715,7 +715,6 @@
 					$(".list-daily").eq(dailyIndex-1).append(userTemplate);
 					
 					$(".planList-place").remove();
-					console.log("수정행위로 데이터 삭제");
 					
 					/* 경로(선) */
 					// 변수
@@ -767,7 +766,6 @@
 						$(this).parents('.list-dailyplan').remove();
 						
 						$(".planList-place").remove();
-						console.log("수정행위로 데이터 삭제");
 					});
 
 					/* 삭제 (완료) */
@@ -823,11 +821,9 @@
 							var dataTemplate = $("#place-dailyplan-insert-template").html();
 							
 							if (dataTemplate.includes('data-exist="true"')) {
-								console.log('기존');
 								dailyIndex = 1;
 								placeIndex = 1;
 							} else {
-								console.log('신규');
 								dailyIndex = $(this).parents('.list-daily').data("index");
 								placeIndex = $(this).data("index");
 							} 
@@ -869,7 +865,6 @@
 							dataTemplate = dataTemplate.replace("{placeType}", $(this).find('.list-dailyplan-type').val());
 							dataTemplate = dataTemplate.replace("{placeRegion}", $(this).find('.list-dailyplan-region').val());
 							$("#plan-insert-container").append(dataTemplate);
-							console.log("첨부");
 						}
 					});
 					// 반복문 : 장소계획
@@ -886,8 +881,6 @@
 				type: "post",
 				data: $("form").serialize(),
 				success: function(resp){
-					console.log("성공 : " + resp);
-					
 					var plannerNo = resp; // 신규 등록번호
 					
 					// 조회 결과 페이지 이동
@@ -912,10 +905,8 @@
 				
 				// 장소 계획 개수만큼 반복
 				<c:forEach var="plan" items="${planList}">
-					console.log(dailyNoArr);
 					// 이전 dailyNo와 현재 dailyNo 비교
 					if (dailyNoArr[i] == ${plan.dailyNo}) {
-						console.log('${plan}');
 						userTemplate = userTemplate.replace("{index}", dailyIndex + 1);
 						userTemplate = userTemplate.replace("{data-latitude}", '${plan.placeLatitude}');
 						userTemplate = userTemplate.replace("{data-longitude}", '${plan.placeLongitude}');
@@ -955,15 +946,11 @@
 				$(this).parents('.list-dailyplan').remove();
 				
 				$(".planList-place").remove();
-				console.log("수정행위로 데이터 삭제");
 			});
 			
 			/* 제어 (완료)*/
 			$(".list-dailyplan").find("select").change(function(){
-				console.log("이동");
-				
 				$(".planList-place").remove();
-				console.log("수정행위로 데이터 삭제");
 			});
 			
 		}
