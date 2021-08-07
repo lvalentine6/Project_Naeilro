@@ -435,9 +435,7 @@ public class MemberController {
 	// 마이페이지 이미지 출력
 	@GetMapping("/profile/profileImage")
 	public ResponseEntity<ByteArrayResource> image(int memberNo) throws IOException {
-		String memberId = String.valueOf(memberNo);
-		System.out.println("아이디 값 :" + memberId);
-		MemberProfileDto memberProfileDto = memberProfileDao.find(memberId);
+		MemberProfileDto memberProfileDto = memberProfileDao.find(memberNo);
 		if (memberProfileDto == null) {
 			return ResponseEntity.notFound().build();
 		}
@@ -477,7 +475,7 @@ public class MemberController {
 		System.out.println("세션값 적용 : " + memberVo);
 		memberEditService.editProfile(memberVo);
 
-		return "redirect:/";
+		return "redirect:/member/profile/" + URLEncoder.encode(memberVo.getMemberNick(), "UTF-8");
 	}
 
 	// 회원 탈퇴

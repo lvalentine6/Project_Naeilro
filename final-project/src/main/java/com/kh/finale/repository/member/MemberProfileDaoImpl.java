@@ -24,8 +24,8 @@ public class MemberProfileDaoImpl implements MemberProfileDao{
 	}
 
 	@Override
-	public MemberProfileDto find(String memberProfileDto) {
-		return sqlSession.selectOne("memberProfile.find", memberProfileDto);
+	public MemberProfileDto find(int memberNo) {
+		return sqlSession.selectOne("memberProfile.find", memberNo);
 	}
 
 	@Override

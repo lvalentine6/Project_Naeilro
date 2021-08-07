@@ -6,6 +6,6 @@ import com.kh.finale.vo.member.MemberVo;
 public interface MemberProfileDao {
 	void insert(MemberProfileDto MemberProfileDto);
 	void update(MemberProfileDto MemberProfileDto);
-	MemberProfileDto find(String memberId);
+	MemberProfileDto find(int memberNo);
 	void exitProfile(MemberVo memberVo);
 }
