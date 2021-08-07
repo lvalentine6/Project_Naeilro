@@ -367,7 +367,7 @@ public class PhotostoryViewController {
 									.body(resource);
 		}
 		
-		File target = new File("D:/upload/kh5/photostory/", photostoryPhotoDto.getPhotostoryPhotoFilePath());
+		File target = new File("D:/upload/kh7e/photostory/", photostoryPhotoDto.getPhotostoryPhotoFilePath());
 		
 		byte[] data = FileUtils.readFileToByteArray(target);
 		

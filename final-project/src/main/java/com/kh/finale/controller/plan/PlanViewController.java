@@ -178,7 +178,7 @@ public class PlanViewController {
 			return ResponseEntity.notFound().build();
 		}
 
-		File target = new File("D:/upload/kh5/photostory/", sendPhoto.getPhotostoryPhotoFilePath());
+		File target = new File("D:/upload/kh7e/photostory/", sendPhoto.getPhotostoryPhotoFilePath());
 		byte[] data = FileUtils.readFileToByteArray(target);
 		ByteArrayResource resource = new ByteArrayResource(data);
 
