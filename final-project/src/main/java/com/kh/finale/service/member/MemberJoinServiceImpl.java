@@ -41,7 +41,7 @@ public class MemberJoinServiceImpl implements MemberJoinService{
 							
 			if(!memberVo.getMemberProfile().isEmpty()) {
 				// 프로필 이미지 경로
-				File dir = new File("D:/upload/kh5/member");
+				File dir = new File("D:/upload/kh7e/member");
 				dir.mkdir();
 				
 				// 저장 파일명 설정

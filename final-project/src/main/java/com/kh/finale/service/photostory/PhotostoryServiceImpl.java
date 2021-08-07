@@ -83,7 +83,7 @@ public class PhotostoryServiceImpl implements PhotostoryService {
 	@Override
 	public void insertPhotostoryPhoto(PhotostoryVO photostoryVO) throws IllegalStateException, IOException {
 		// 경로 설정 및 생성
-		File dir = new File("D:/upload/kh5/photostory/");
+		File dir = new File("D:/upload/kh7e/photostory/");
 		dir.mkdirs();
 
 		for (int i = 0; i < photostoryVO.getPhotostoryPhoto().length; i++) {
@@ -108,7 +108,7 @@ public class PhotostoryServiceImpl implements PhotostoryService {
 	@Override
 	public void deletePhotostoryPhoto(int photostoryNo) {
 		// 서버에서 이미지 파일 삭제
-		File dir = new File("D:/upload/kh5/photostory/" + String.valueOf(photostoryNo));
+		File dir = new File("D:/upload/kh7e/photostory/" + String.valueOf(photostoryNo));
 		File[] fileList = dir.listFiles();
 		if (fileList != null) {
 			for (int i = 0; i < fileList.length; i++) {
@@ -127,7 +127,7 @@ public class PhotostoryServiceImpl implements PhotostoryService {
 		for (int i = 0; i < photostoryVO.getDeleteNo().length; i++) {
 			// 서버에서 이미지 파일 삭제
 			PhotostoryPhotoDto photostoryPhotoDto = photostoryPhotoDao.getSingle(photostoryVO.getDeleteNo()[i]);
-			File dir = new File("D:/upload/kh5/photostory/" + photostoryPhotoDto.getPhotostoryPhotoFilePath());
+			File dir = new File("D:/upload/kh7e/photostory/" + photostoryPhotoDto.getPhotostoryPhotoFilePath());
 			dir.delete();
 				
 			// DB에서 이미지 정보 삭제

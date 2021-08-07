@@ -420,7 +420,7 @@ public class MemberController {
 			return ResponseEntity.notFound().build();
 		}
 
-		File target = new File("D:/upload/kh5/member", memberProfileDto.getProfileSaveName());
+		File target = new File("D:/upload/kh7e/member", memberProfileDto.getProfileSaveName());
 		byte[] data = FileUtils.readFileToByteArray(target);
 		ByteArrayResource resource = new ByteArrayResource(data);
 
