@@ -28,14 +28,6 @@ public class PlanRestController {
 		
 		return planService.planInsertService(planInsertServiceVO);
 	}
-	
-	// 수정
-	
-	// 1. 가져온 통합계획표 번호로 삭제를 먼저 진행한 후
-	
-	// 2. 새로운 데이터 삽입한 뒤
-	
-	// 3. 새로운 통합계획표 번호 리턴
 	@PostMapping("/planUpdateService")
 	public int planUpdateService(@ModelAttribute PlanInsertServiceVO planInsertServiceVO) {
 		// 회원번호 세팅

@@ -106,7 +106,6 @@
 			 
 			// 여행 계획 템플릿 데이터 삽입
 			 for(var i = 0; i < ResultPlanVO.length; i++) {
-				console.log(ResultPlanVO[i]);
 				var template2 = $("#plan-template").html();
 				template2 = template2.replace("{placeNo}", ResultPlanVO[i].placeNo)
 				template2 = template2.replace("{placeName}", ResultPlanVO[i].placeName)
@@ -201,12 +200,8 @@
 			
 			var placeRegion = $('.box').eq(i).find('input[name=placeRegion]').val();
 			
-			// console.log("지명 : " + placeRegion);
-			
 			for(var j=0; j < positions.length; j++){
-				console.log(positions[j].title );
 				if(positions[j].title == placeRegion){
-					console.log(positions[j].latlng);
 					linePath.push(positions[j].latlng);
 					
 					var imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png"; 
