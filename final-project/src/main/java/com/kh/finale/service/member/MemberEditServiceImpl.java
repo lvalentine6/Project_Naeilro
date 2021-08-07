@@ -43,7 +43,7 @@ public class MemberEditServiceImpl implements MemberEditService{
 													.build();
 		
 		// 기존 프로필 이미지의 존재 유무 확인
-		MemberProfileDto find = memberProfileDao.find(memberVo.getMemberId());
+		MemberProfileDto find = memberProfileDao.find(memberVo.getMemberNo());
 		
 		// 기존 프로필 이미지가 존재하면 업데이트, 아니면 등록
 		if (find != null) {
