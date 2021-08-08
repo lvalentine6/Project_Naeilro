@@ -60,12 +60,10 @@
 		$(img_id).remove();
 	}
 	function deleteImageAction(index){
-		console.log('index =' + index)
 		sel_files.splice(sel_files.indexOf(index),1);
 		
 		let img_id = "#img_id_"+index
 		$(img_id).remove();
-		console.log(sel_files);
 	}
 </script>
 <style>
@@ -218,7 +216,6 @@ class MiniEditor extends HTMLElement {
 	    if( this.hasAttribute('placeholder') ){
 	      placeholder.innerHTML;
 	    }else{
-	      console.log(this.hasAttribute('placeholder'));
 	      placeholder.innerHTML = '';
 	    }
 

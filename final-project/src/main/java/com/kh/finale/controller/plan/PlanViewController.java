@@ -63,7 +63,17 @@ public class PlanViewController {
 
 	@Autowired
 	MemberDao memberDao;
-
+	
+	// 상세 페이지
+	@Autowired
+	private HttpSession httpSession;
+	
+	@Autowired
+	private PhotostoryPhotoDao photostoryPhotoDao;
+	
+	@Autowired
+	private PhotostoryListDao photostoryListDao;
+	
 	@RequestMapping("")
 	public String home(Model model,@RequestParam(required = false) Integer pageNo, HttpSession session) {
 		if(pageNo == null) {
@@ -116,13 +126,6 @@ public class PlanViewController {
 	}
 	
 	
-	// 상세 페이지
-	@Autowired
-	private HttpSession httpSession;
-	@Autowired
-	private PhotostoryPhotoDao photostoryPhotoDao;
-	@Autowired
-	private PhotostoryListDao photostoryListDao;
 
 	@GetMapping("/resultPlan")
 	public String resultPlan(@ModelAttribute ResultPlanVO resultPlanVO, Model model, FindPhotoVO findPhotoVO, HttpSession session)
@@ -131,19 +134,15 @@ public class PlanViewController {
 			MemberDto memberDto = memberDao.findInfo((int) session.getAttribute("memberNo"));
 			model.addAttribute("memberDto", memberDto);
 		}
-		System.out.println("계획 번호 : " + resultPlanVO.getPlannerNo());
 		resultPlanVO.setMemberNo((int) httpSession.getAttribute("memberNo"));
-		System.out.println("회원번호 : " + resultPlanVO.getMemberNo());
 		List<PhotostoryListDto> photostoryList = photostoryListDao.planList(resultPlanVO.getPlannerNo());
 		
 		for (int i = 0; i < photostoryList.size(); i++) {
 			PhotostoryListDto photostoryListDto = photostoryList.get(i);
-			System.out.println(photostoryListDto.getPhotostoryNo()+" ;; photostoryNo");
 		// 포토스토리 이미지 처리 
 			List<PhotostoryPhotoDto> photostoryPhotoList = photostoryPhotoDao.get(photostoryListDto.getPhotostoryNo());
 			if(!photostoryPhotoList.isEmpty()) {
 			photostoryListDto.setPhotostoryPhotoNo(photostoryPhotoList.get(0).getPhotostoryPhotoNo());
-			System.out.println(photostoryListDto.getPhotostoryPhotoNo());
 			}
 		}
 		
@@ -159,7 +158,6 @@ public class PlanViewController {
 				return 0;
 			}
 		});
-		System.out.println(sendData+" 	;;  sendate");
 		model.addAttribute("list", sendData);
 		model.addAttribute("photoStroyList", photostoryList);
 		if(photostoryList.size()!=0) {
@@ -176,19 +174,13 @@ public class PlanViewController {
 	public ResponseEntity<ByteArrayResource> download(@PathVariable int plannerNo,
 			@ModelAttribute FindPhotoVO findPhotoVO) throws IOException {
 		FindPhotoVO sendPhoto = planService.selectPhoto(findPhotoVO);
-		System.out.println("이미지 반환값 : " + sendPhoto);
 		if (findPhotoVO == null) {
-			System.out.println("NOT FOUND");
 			return ResponseEntity.notFound().build();
 		}
-		System.out.println("FOUND");
 
-		File target = new File("D:/upload/kh5/photostory/", sendPhoto.getPhotostoryPhotoFilePath());
-		System.out.println("타겟 : " + target);
+		File target = new File("D:/upload/kh7e/photostory/", sendPhoto.getPhotostoryPhotoFilePath());
 		byte[] data = FileUtils.readFileToByteArray(target);
-		System.out.println("데이터 : " + data);
 		ByteArrayResource resource = new ByteArrayResource(data);
-		System.out.println("리소스 : " + resource);
 
 		return ResponseEntity.ok().header(HttpHeaders.CONTENT_ENCODING, "UTF-8").body(resource);
 	}
@@ -197,7 +189,6 @@ public class PlanViewController {
 	@GetMapping("/deleteplan")
 	public String deletePlan(@RequestParam int plannerNo) {
 		plannerDao.plannerDelete(plannerNo);
-		System.out.println("삭제 성공");
 		return "redirect:/";
 	}
 }

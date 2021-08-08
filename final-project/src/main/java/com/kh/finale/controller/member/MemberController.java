@@ -90,7 +90,6 @@ public class MemberController {
 
 	@PostMapping("/join")
 	public String join(@ModelAttribute MemberVo memberVo) throws IllegalStateException, IOException {
-		System.out.println("수신값 확인 : " + memberVo);
 		memberJoinService.memberjoin(memberVo);
 		return "redirect:join_success";
 	}
@@ -104,9 +103,7 @@ public class MemberController {
 	@PostMapping("/idCheck")
 	@ResponseBody
 	public boolean idCheck(@ModelAttribute MemberVo memberVo) {
-		System.out.println("아이디 중복값 체크 : " + memberVo);
 		boolean idResult = memberFindService.idCheck(memberVo) > 0;
-		System.out.println("아이디 체크값 반환 : " + idResult);
 		return idResult;
 	}
 	
@@ -114,9 +111,7 @@ public class MemberController {
 	@PostMapping("/jNickCheck")
 	@ResponseBody
 	public boolean jNickCheck(@ModelAttribute MemberVo memberVo) {
-		System.out.println("닉네임 중복값 체크 : " + memberVo);
 		boolean Nickresult = memberFindService.jNickCheck(memberVo) > 0;
-		System.out.println("닉네임 체크값 반환 : " + Nickresult);
 		return Nickresult;
 	}
 
@@ -124,9 +119,7 @@ public class MemberController {
 	@PostMapping("/profile/pNickCheck")
 	@ResponseBody
 	public boolean pNickCheck(@ModelAttribute MemberVo memberVo, HttpSession httpSession) {
-		System.out.println("닉네임 중복값 체크 : " + memberVo);
 		MemberVo Nickresult = memberFindService.pNickCheck(memberVo);
-		System.out.println("닉네임 체크값 반환 : " + Nickresult);
 		MemberDto memberDto = memberDao.findInfo((int) httpSession.getAttribute("memberNo"));
 		boolean result = false;
 		if (ObjectUtils.isEmpty(Nickresult)) {
@@ -138,7 +131,6 @@ public class MemberController {
 				result = true;
 			}
 		}
-		System.out.println(result);
 		return result;
 	}
 
@@ -166,7 +158,6 @@ public class MemberController {
 			else {
 				// 어느 페이지로 보낼지, 보낸 후 어떤 알림창을 띄울 것인지 미정 
 				MemberBlockDto memberBlockDto = memberBlockDao.getBlockInfo(check.getMemberNo());
-				System.out.println(memberBlockDto);
 				
 				// 정지회원 블럭페이지로 이동
 				model.addAttribute("block", memberBlockDto);
@@ -219,7 +210,6 @@ public class MemberController {
 	public ModelAndView findId(@ModelAttribute MemberDto memberDto) {
 		ModelAndView mav = new ModelAndView();
 		Object modelList = memberFindService.findId(memberDto);
-		System.out.println(modelList);
 		if (modelList == null) {
 			mav.setViewName("member/findId");
 			mav.addObject("memberDto", memberDto);
@@ -257,15 +247,11 @@ public class MemberController {
 	public Map<String, Object> findPw(@ModelAttribute MemberVo memberVo)
 			throws MessagingException, UnsupportedEncodingException {
 		Map<String, Object> sendAuthEmail = new HashMap<>();
-		System.out.println("폼 수신값 확인 : " + memberVo);
 		MemberVo searchResult = memberFindService.findPw(memberVo);
-		System.out.println("FindId 수신값 확인 : " + searchResult);
 
 		MemberAuthDto authResult = memberAuthService.pwSendEmail(searchResult);
-		System.out.println("authResult 수신값 확인 : " + authResult);
 		memberAuthService.authInsert(authResult);
 		Map<String, Object> memberAuthDto = memberAuthService.resultAuth(authResult);
-		System.out.println("마지막 값 확인 : " + memberAuthDto);
 		return memberAuthDto;
 
 	}
@@ -275,9 +261,7 @@ public class MemberController {
 	@ResponseBody
 	public ModelAndView checkAuthEmail(@ModelAttribute MemberAuthDto memberAuthDto) {
 		ModelAndView mav = new ModelAndView("jsonView");
-		System.out.println("폼 수신값 : " + memberAuthDto);
 		MemberAuthDto checkData = memberFindService.checkAuthEmail(memberAuthDto);
-		System.out.println("인증 결과 리턴 : " + checkData);
 		if (checkData == null) {
 			mav.setView(new MappingJackson2JsonView());
 			mav.addObject("memberId", memberAuthDto.getMemberId());
@@ -286,7 +270,6 @@ public class MemberController {
 		} else {
 			mav.setViewName("member/changePw");
 			mav.addObject("checkData", checkData);
-			System.out.println("Mav값 확인 : " + mav);
 			return mav;
 		}
 	}
@@ -303,9 +286,7 @@ public class MemberController {
 			model.addAttribute("memberDto", memberDto);
 		}
 		
-		System.out.println("인증페이지 수신값 : " + memberAuthDto);
 		MemberAuthDto selectMember = memberAuthService.selectId(memberAuthDto);
-		System.out.println("db 수신 값 : " + selectMember);
 		model.addAttribute("memberId", selectMember.getMemberId());
 		return "member/changePw";
 	}
@@ -313,7 +294,6 @@ public class MemberController {
 	// 비밀번호 찾기 (변경 후 메인페이지 리다이렉트)
 	@PostMapping("/edit")
 	public String edit(@ModelAttribute MemberDto memberDto) {
-		System.out.println("리다이렉트 전 검사 : " + memberDto);
 		memberAuthService.updatePw(memberDto);
 		return "redirect:/";
 	}
@@ -435,15 +415,12 @@ public class MemberController {
 	// 마이페이지 이미지 출력
 	@GetMapping("/profile/profileImage")
 	public ResponseEntity<ByteArrayResource> image(int memberNo) throws IOException {
-		String memberId = String.valueOf(memberNo);
-		System.out.println("아이디 값 :" + memberId);
-		MemberProfileDto memberProfileDto = memberProfileDao.find(memberId);
+		MemberProfileDto memberProfileDto = memberProfileDao.find(memberNo);
 		if (memberProfileDto == null) {
 			return ResponseEntity.notFound().build();
 		}
 
-		File target = new File("D:/upload/kh5/member", memberProfileDto.getProfileSaveName());
-		System.out.println("이미지 탐색 결과 : " + memberProfileDto.getProfileSaveName());
+		File target = new File("D:/upload/kh7e/member", memberProfileDto.getProfileSaveName());
 		byte[] data = FileUtils.readFileToByteArray(target);
 		ByteArrayResource resource = new ByteArrayResource(data);
 
@@ -460,7 +437,6 @@ public class MemberController {
 	public String editProfile(Model model) {
 		MemberDto memberDto = memberDao.findInfo((int) httpSession.getAttribute("memberNo"));
 		memberDto.setMemberNo((int) httpSession.getAttribute("memberNo"));
-		System.out.println("AJAX값 : " + memberDto);
 		model.addAttribute("memberDto", memberDto);
 		return "member/editProfile"; 
 	}
@@ -471,13 +447,11 @@ public class MemberController {
 	// 프로필 편집 처리
 	@PostMapping("/profile/editProfile")
 	public String editProfile(@ModelAttribute MemberVo memberVo, HttpSession httpSession) throws IllegalStateException, IOException {
-		System.out.println("수신값 검사 : " + memberVo);
 		memberVo.setMemberNo((int) httpSession.getAttribute("memberNo"));
 		memberVo.setMemberId((String) httpSession.getAttribute("memberId"));
-		System.out.println("세션값 적용 : " + memberVo);
 		memberEditService.editProfile(memberVo);
 
-		return "redirect:/";
+		return "redirect:/member/profile/" + URLEncoder.encode(memberVo.getMemberNick(), "UTF-8");
 	}
 
 	// 회원 탈퇴

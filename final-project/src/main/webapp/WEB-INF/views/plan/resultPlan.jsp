@@ -103,7 +103,7 @@
 			ResultPlanVO.sort(function(a, b)  {
 				 return a.dailyplanPlaceOrder - b.dailyplanPlaceOrder;
 			});
-			  
+			 
 			// 여행 계획 템플릿 데이터 삽입
 			 for(var i = 0; i < ResultPlanVO.length; i++) {
 				var template2 = $("#plan-template").html();
@@ -200,12 +200,8 @@
 			
 			var placeRegion = $('.box').eq(i).find('input[name=placeRegion]').val();
 			
-			// console.log("지명 : " + placeRegion);
-			
 			for(var j=0; j < positions.length; j++){
-				console.log(positions[j].title );
 				if(positions[j].title == placeRegion){
-					console.log(positions[j].latlng);
 					linePath.push(positions[j].latlng);
 					
 					var imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png"; 
@@ -219,20 +215,20 @@
 				    	position: positions[j].latlng,
 				    	image : markerImage
 					});
-					// 지도에 표시할 선을 생성합니다
-					var polyline = new kakao.maps.Polyline({
-					    path: linePath, // 선을 구성하는 좌표배열 입니다
-					    strokeWeight: 5, // 선의 두께 입니다
-					    strokeColor: '#000000', // 선의 색깔입니다
-					    strokeOpacity: 0.7, // 선의 불투명도 입니다 1에서 0 사이의 값이며 0에 가까울수록 투명합니다
-					    strokeStyle: 'solid' // 선의 스타일입니다
-					});
-					
-					// 지도에 선을 표시합니다 
-					polyline.setMap(map);
 				}
 			} 
 			
+			// 지도에 표시할 선을 생성합니다
+			var polyline = new kakao.maps.Polyline({
+			    path: linePath, // 선을 구성하는 좌표배열 입니다
+			    strokeWeight: 5, // 선의 두께 입니다
+			    strokeColor: '#000000', // 선의 색깔입니다
+			    strokeOpacity: 0.7, // 선의 불투명도 입니다 1에서 0 사이의 값이며 0에 가까울수록 투명합니다
+			    strokeStyle: 'solid' // 선의 스타일입니다
+			});
+			
+			// 지도에 선을 표시합니다 
+			polyline.setMap(map);
 		}
 		/* 지도 : 작성자 (정 계진)*/
 		

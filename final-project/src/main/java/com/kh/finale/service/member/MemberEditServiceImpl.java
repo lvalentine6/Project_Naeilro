@@ -26,7 +26,7 @@ public class MemberEditServiceImpl implements MemberEditService{
 		
 		if(!memberVo.getMemberProfile().isEmpty()) {
 		// 프로필 이미지 경로
-		File dir = new File("D:/upload/kh5/member");
+		File dir = new File("D:/upload/kh7e/member");
 		dir.mkdir();
 					
 		// 저장 파일명 설정
@@ -43,7 +43,7 @@ public class MemberEditServiceImpl implements MemberEditService{
 													.build();
 		
 		// 기존 프로필 이미지의 존재 유무 확인
-		MemberProfileDto find = memberProfileDao.find(memberVo.getMemberId());
+		MemberProfileDto find = memberProfileDao.find(memberVo.getMemberNo());
 		
 		// 기존 프로필 이미지가 존재하면 업데이트, 아니면 등록
 		if (find != null) {
@@ -52,12 +52,10 @@ public class MemberEditServiceImpl implements MemberEditService{
 			memberProfileDao.insert(memberProfileDto);
 		}
 		
-		System.out.println("수정 DB 값 확인" + memberProfileDto);
 		}
 		
 		// 이미지를 제외한 회원정보 수정
 		memberDao.editProfile(memberVo);
-		System.out.println("이미지 제외 회원정보 변경완료");
 	
 	}
 	

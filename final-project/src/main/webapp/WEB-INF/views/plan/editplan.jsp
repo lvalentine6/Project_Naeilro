@@ -215,7 +215,7 @@
 <script>
 	$(function(){
 		$(".planList-place").remove();
-		
+
 		// 통합계획표 테이블
 		var plannerName;
 
@@ -240,7 +240,7 @@
 
 		/* 비활성화 */
 		$("#search").hide();
-		
+
 		/* 체크박스 중복 불가 */
 		function check(){
 			// 검색창
@@ -255,7 +255,7 @@
 		check();
 
 		/* 통합계획표 */
-
+		var now = new Date();
 		// 날짜
 		var existStartDate = '${planList.get(0).plannerStartDate}'.substring(0, 10);
 		var existEndDate = '${planList.get(0).plannerEndDate}'.substring(0, 10);
@@ -274,10 +274,10 @@
 				"firstDay": 1
 				},
 				"minDate": new Date(),
+				"maxDate" : new Date(now.setDate(now.getDate()+14)),
 				"startDate": existStartDate,
 				"endDate": existEndDate,
 				"drops": "auto" }, function (start, end, label) {
-					console.log('New date range selected: ' + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD') + ' (predefined range: ' + label + ')');
 
 				var startDate = start.format('YYYY-MM-DD');
 				var endDate = end.format('YYYY-MM-DD');
@@ -712,10 +712,9 @@
 					userTemplate = userTemplate.replace("{data-region}", placeName) // 지명
 
 					$(".list-daily").eq(dailyIndex-1).append(userTemplate);
-					
+
 					$(".planList-place").remove();
-					console.log("수정행위로 데이터 삭제");
-					
+
 					/* 경로(선) */
 					// 변수
 					var linepath = [];
@@ -764,26 +763,22 @@
 					$(".list-daily").eq(dailyIndex-1).find(".list-dailyplan").find(".place-delete-button").click(function(){
 						// 데이터 삭제
 						$(this).parents('.list-dailyplan').remove();
-						
+
 						$(".planList-place").remove();
-						console.log("수정행위로 데이터 삭제");
 					});
 
 					/* 삭제 (완료) */
 					$('.list-dailyplan').find('.place-delete-button').click(function(){
 						// 데이터 삭제
 						$(this).parents('.list-dailyplan').remove();
-						
+
 						$(".planList-place").remove();
-						console.log("수정행위로 데이터 삭제");
 					});
 
 					/* 제어 (완료)*/
 					$(".list-dailyplan").find("select").change(function(){
-						console.log("이동");
-						
+
 						$(".planList-place").remove();
-						console.log("수정행위로 데이터 삭제");
 					});
 
 			    });
@@ -820,16 +815,19 @@
 						if($(this).find("select").val() != "선택") {
 
 							var dataTemplate = $("#place-dailyplan-insert-template").html();
-							
+
 							if (dataTemplate.includes('data-exist="true"')) {
-								console.log('기존');
 								dailyIndex = 1;
 								placeIndex = 1;
 							} else {
-								console.log('신규');
 								dailyIndex = $(this).parents('.list-daily').data("index");
 								placeIndex = $(this).data("index");
 							}
+
+							// 08/06, 플래너 이름 변경
+							$("input[name=plannerName]").attr("value", $("#planner-name").val());
+
+							// 08/06, 장소 이름 변경
 
 							// 데이터 전송 : 체크용 (완료)
 							dataTemplate = dataTemplate.replace("{label-daily-index}", dailyIndex-1);
@@ -863,7 +861,6 @@
 							dataTemplate = dataTemplate.replace("{placeType}", $(this).find('.list-dailyplan-type').val());
 							dataTemplate = dataTemplate.replace("{placeRegion}", $(this).find('.list-dailyplan-region').val());
 							$("#plan-insert-container").append(dataTemplate);
-							console.log("첨부");
 						}
 					});
 					// 반복문 : 장소계획
@@ -880,15 +877,13 @@
 				type: "post",
 				data: $("form").serialize(),
 				success: function(resp){
-					console.log("성공 : " + resp);
-					
 					var plannerNo = resp; // 신규 등록번호
-					
+
 					// 조회 결과 페이지 이동
 					location.href = "${pageContext.request.contextPath}/plan/resultPlan?plannerNo=" + plannerNo;
 				},
 				error: function(){
-					console.log("실패");
+					
 				}
 			});
 		}
@@ -897,23 +892,20 @@
 			var pastDailyNo = ${planList.get(0).dailyNo};
 			var dailyNoArr = [${planList.get(0).dailyNo}];
 			var temp;
-			
+
 			// 일수만큼 반복
 			for (var i = 0; i < dailyStayDate; i++) {
 				var userTemplate = $("#user-place-dailyplan-template").html();
 
 				placeIndex = 1;
-				
+
 				// 장소 계획 개수만큼 반복
 				<c:forEach var="plan" items="${planList}">
-					console.log(dailyNoArr);
 					// 이전 dailyNo와 현재 dailyNo 비교
 					if (dailyNoArr[i] == ${plan.dailyNo}) {
-						console.log('${plan}');
 						userTemplate = userTemplate.replace("{index}", dailyIndex + 1);
 						userTemplate = userTemplate.replace("{data-latitude}", '${plan.placeLatitude}');
 						userTemplate = userTemplate.replace("{data-longitude}", '${plan.placeLongitude}');
-						userTemplate = userTemplate.replace("{data-name}", '${plan.placeName}');
 						userTemplate = userTemplate.replace("{data-type}", '${plan.placeType}');
 						userTemplate = userTemplate.replace("{data-region}", '${plan.placeRegion}');
 			        	userTemplate = userTemplate.replace('${plan.placeName}', "{place-name}");
@@ -929,6 +921,7 @@
 							userTemplate = userTemplate.replace('<option value="자동차">', '<option value="자동차" selected>');
 						}
 						userTemplate = userTemplate.replace("{place-name}", '${plan.placeName}');
+						userTemplate = userTemplate.replace("{data-name}", '${plan.placeName}');
 
 			        	$(".list-daily").eq(i).append(userTemplate);
 						userTemplate = userTemplate.replace('${plan.placeName}', '{place-name}');
@@ -942,20 +935,29 @@
 				pastDailyNo = temp;
 				dailyIndex++;
 			}
-			
+
 			// UI : 삭제 기능
 			$('.list-dailyplan').find('.place-delete-button').click(function(){
+				// 데이터 삭제
 				$(this).parents('.list-dailyplan').remove();
+
+				$(".planList-place").remove();
 			});
+
+			/* 제어 (완료)*/
+			$(".list-dailyplan").find("select").change(function(){
+				$(".planList-place").remove();
+			});
+
 		}
 
 		// 기존 데이터 로드
 		plannerTemplate(existStartDate, existEndDate);
 		existDailyTemplate();
-		
+
 		var oldPlannerNo = $("input[name=plannerNo]").val();
-		console.log(oldPlannerNo);
-		
+
+
 	});
 </script>
 <script type="text/template" id="planner-insert-template">

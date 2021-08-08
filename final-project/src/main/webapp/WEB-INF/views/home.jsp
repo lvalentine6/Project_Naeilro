@@ -977,7 +977,7 @@ function go_page(k){
 					</div>
 					<div class='row align-items-center border-left border-right pb-1'>
 						<div class="col-12 ">
-							<a class="text-black-50 font-weight-bold text-sm"
+							<a class="text-black-50 font-weight-b.old text-sm"
 								href="${pageContext.request.contextPath}/photostory/detail?photostoryNo=${photostoryListDto.photostoryNo}">
 								댓글 <span class="comment-count">${photostoryListDto.photostoryCommentCount}</span>개 모두 보기 </a>
 						</div>

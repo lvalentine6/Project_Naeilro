@@ -106,7 +106,6 @@ public class PhotostoryViewController {
 			
 			// 정지 상태일 경우 처리
 			if (memberDto.getMemberState().equals("정지")) {
-				System.out.println("??? = " + memberNo);
 				// 정지 해제 체크
 				boolean blockCheck = memberBlockDao.checkBlock(memberNo);
 				// 정지 기간이 지났을 경우
@@ -115,7 +114,6 @@ public class PhotostoryViewController {
 				}
 				// 정지 기간이 지나지 않았을 경우
 				else {
-					System.out.println("??? = " + memberNo);
 					// 어느 페이지로 보낼지, 보낸 후 어떤 알림창을 띄울 것인지 미정 
 					// 정지회원 블럭페이지로 이동
 					model.addAttribute("block", memberBlockDto);
@@ -183,9 +181,7 @@ public class PhotostoryViewController {
 		}
 
 		model.addAttribute("photostoryList", photostoryList);
-		for(int i = 0; i < photostoryList.size(); i++) {
-			System.out.println(photostoryList.get(i).getPhotostoryLikeMemberList().size()+"개 수 개 수개 수개 수");
-		}
+
 		return "photostory/photostory";
 	}
 	
@@ -341,7 +337,6 @@ public class PhotostoryViewController {
 	// 포토스토리 삭제 처리
 	@GetMapping("/delete")
 	public String delete(@RequestParam int photostoryNo, @RequestParam(required = false) String home) {
-		System.out.println("삭제 처리 호출");
 		photostoryService.deletePhotostory(photostoryNo);
 		
 		if (home == null) {
@@ -354,16 +349,12 @@ public class PhotostoryViewController {
 	@GetMapping("/photo/{photostoryPhotoNo}")
 	public ResponseEntity<ByteArrayResource> download(@PathVariable int photostoryPhotoNo,HttpServletRequest req) throws IOException {
 		PhotostoryPhotoDto photostoryPhotoDto = photostoryPhotoDao.getSingle(photostoryPhotoNo);
-		System.out.println("이미지 반환값 : " + photostoryPhotoDto);
 		if (photostoryPhotoDto == null) {
-			System.out.println("NOT FOUND");
 			return ResponseEntity.notFound().build();
 		}
 		if(photostoryPhotoDto.getPhotostoryPhotoFilePath().equals("delete")) {
 			URL url = new URL("http://"+req.getServerName()+":"+req.getServerPort()+req.getContextPath()+"/image/delete_img.jpg");
-            System.out.println(url);
             BufferedImage img = ImageIO.read(url);
-            System.out.println(img);
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             ImageIO.write(img,"jpg",baos);
             baos.flush();
@@ -375,9 +366,8 @@ public class PhotostoryViewController {
 									.header(HttpHeaders.CONTENT_ENCODING, "UTF-8")
 									.body(resource);
 		}
-		System.out.println("FOUND");
 		
-		File target = new File("D:/upload/kh5/photostory/", photostoryPhotoDto.getPhotostoryPhotoFilePath());
+		File target = new File("D:/upload/kh7e/photostory/", photostoryPhotoDto.getPhotostoryPhotoFilePath());
 		
 		byte[] data = FileUtils.readFileToByteArray(target);
 		
