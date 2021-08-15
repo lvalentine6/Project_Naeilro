@@ -208,6 +208,147 @@ if (check != null) {
  </div>
 </details>
 	
+ <details>
+<summary>오토와이어드</summary>
+<div markdown="1">
+	
+오토와이어드 하나만 등록하고 두줄 연속으로 씀
+
+이래서 널포인터예외 뜸 
+
+3시간 보냄. ㅎ
+
+```java
+@Autowired
+	HttpSession httpSession;
+	ResultPlanService resultPlanService;
+```
+
+계진님이 알려주셔서 한방에 해결...
+
+```java
+@Autowired
+	HttpSession httpSession;
+	
+	@Autowired
+	ResultPlanService resultPlanService;
+```	
+ </div>
+</details>	
+	
+<details>
+<summary>닉네임 중복 검사</summary>
+<div markdown="1">
+	
+	## 프로필 편집시 현재 사용하고 있는 닉네임을 수정없이 다른 항목만 변경 하여 저장하면 기존의 방식으로는 사용하지 못함
+
+### 기존 코드
+
+memberController
+
+```java
+// 회원 가입 닉네임 중복체크
+	@PostMapping("/nickCheck")
+	@ResponseBody
+	public boolean nickCheck(@ModelAttribute MemberVo memberVo) {
+		System.out.println("닉네임 중복값 체크 : " + memberVo);
+		boolean Nickresult = memberFindService.nickCheck(memberVo) > 0;
+		System.out.println("닉네임 체크값 반환 : " + Nickresult);
+		return Nickresult;
+		}
+```
+
+기존 방식은 회원가입시 닉네임 중복 체크와 프로필 편집시 닉네임 처리를 하나의 메소드에서 처리함
+
+```java
+<!-- 닉네임 중복 체크 -->
+<select id="jNickCheck" parameterType="MemberVo" resultType="int">
+select count(*) from member where member_nick = #{memberNick}
+</select>
+```
+
+원하는 조건
+
+프로필 편집 시 현재 사용하는 닉네임 값을 그대로 입력해도 변경되도록 수정하고 싶음
+
+프론트에서 true나 false값을 반환시키고 있었음 동일한 방식으로 반환하고 싶음
+
+생각한 해결 방법
+
+1. DB에서 검색할 때 if같은 조건을 줘서 결과값이 한번에 true / false 반환되게 하기
+
+    마이바티스 매퍼 파일에서 sql문을 작성하려고 노력함
+
+    ```java
+    <!-- 닉네임 중복 체크 -->
+    <select id="jNickCheck" parameterType="MemberVo" resultType="int">
+    		select count(*) from member where member_nick = #{memberNick}
+    	if (Vo로 넘어온 memberNick 값의 조회 결과가 null 이거나 
+    			memberNick 조회 결과가 폼에서 입력한 값과 일치할 경우 0 반환
+    			그게 아니면 1 반환 
+    	</select>
+    ```
+
+ 작성하다가 폼에서 입력한 값과 조회 결과 값이 같은지 비교 하려는 부분에서 sql 구문이 막힘
+
+1. 매퍼파일을 두번 조회해서 둘의 값을 비교
+    1. 세션에 변동 가능성이 있는 닉네임을 저장하지 않음 (프로필 편집시 변경할 수 있음)
+    2. 회원가입시 닉네임 중복 검사와 프로필 편집시 닉네임 중복 검사를 분리하지 않으면 회원 가입시 회원 번호가 세션에 없어서 에러가 발생함
+    3. 회원가입시 닉네임 중복 검사와 프로필 편집시 중복 검사를 분리하여 진행
+        1.  회원가입 닉네임 중복 검사는 기존과 동일하게 진행
+        2.  프로필 편집 닉네임 중복 검사는 새로운 메소드를 만들어 처리
+
+        ```java
+        // 회원가입 닉네임 중복체크
+        	@PostMapping("/jNickCheck")
+        	@ResponseBody
+        	public boolean jNickCheck(@ModelAttribute MemberVo memberVo) {
+        		System.out.println("닉네임 중복값 체크 : " + memberVo);
+        		boolean Nickresult = memberFindService.jNickCheck(memberVo) > 0;
+        		System.out.println("닉네임 체크값 반환 : " + Nickresult);
+        		return Nickresult;
+        	}
+
+        	// 프로필 편집 닉네임 중복체크
+        	@PostMapping("/pNickCheck")
+        	@ResponseBody
+        	public boolean pNickCheck(@ModelAttribute MemberVo memberVo, HttpSession httpSession) {
+        		System.out.println("닉네임 중복값 체크 : " + memberVo); // 프론트에서 넘겨준 닉네임 값
+        		MemberVo Nickresult = memberFindService.pNickCheck(memberVo); // DB 조회
+        		System.out.println("닉네임 체크값 반환 : " + Nickresult); // 닉네임값이 있다면 반환
+        		MemberDto memberDto = memberDao.findInfo((int) httpSession.getAttribute("memberNo")); // 로그인이 되어 있다는 가정하에 세션에서 회원번호 값을 가져와 닉네임 값을 조회 
+        		boolean result = false;
+        		if (ObjectUtils.isEmpty(Nickresult)) // 반환된 닉네임 값이 없다면 {
+        			result = false;
+        		} else // 반환된 닉네임 값이 있다면 {
+        			if (Nickresult.getMemberNick().equals(memberDto.getMemberNick())) {
+        				result = false; // 프론트로 false 반환
+        			} else {
+        				result = true; // 프론트로 true 반환
+        			}
+        		}
+        		System.out.println(result);
+        		return result;
+        	}
+        ```
+	
+</div>
+</details>
+	
+<details>
+<summary>대체 이미지</summary>
+<div markdown="1">
+	회원가입시 이미지를 선택하지 않고 가입하면 DB에 저장하지 않고 그냥 대체 이미지를 띄움
+
+```html
+<label for="memberProfile"> 
+<img class='upload_img my-3 user_profile_lg user_profile' src="profileImage?memberId=${memberDto.memberId}"
+onerror="this.src='${pageContext.request.contextPath}/image/default_user_profile.jpg'"> 
+<input class="input_img" type="file" accept=".png, .jpg, .gif" id="memberProfile" name="memberProfile" style="display: none" disabled/>
+</label>
+```
+</div>
+</details>	
 	
   느낀점
   ----------
