@@ -106,6 +106,9 @@ ERD 설계
   
   트러블 슈팅
  -----------
+ <details>
+<summary>마이페이지 이미지 관련</summary>
+<div markdown="1">
  
  ### 원인
 
@@ -124,7 +127,8 @@ SELECT * FROM(
     	ORDER BY ROWNUM DESC)
 		WHERE ROWNUM = 1 and member_id = #{memberId}
 ```
- 
+ </div>
+</details>
  
 
   느낀점
