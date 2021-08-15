@@ -103,6 +103,29 @@ ERD 설계
 </div>
 </details>
   </br>
+  
+  트러블 슈팅
+ -----------
+ 
+ ### 원인
+
+- 프로필 이미지 변경시memberProfile 테이블에 ProfileSaveName 데이터가 삭제되지 않고 추가 되기 때문에   
+기존 사용했던 selectone으로 조회하지 못해 이미지 데이터를 찾아오는데 에러 발생
+
+### 해결
+
+- ProfileSaveName 의 마지막 데이터만 불러오게 SQL 구문 수정
+
+```sql
+SELECT * FROM(
+    SELECT 
+        * 
+    FROM member_profile
+    	ORDER BY ROWNUM DESC)
+		WHERE ROWNUM = 1 and member_id = #{memberId}
+```
+ 
+ 
 
   느낀점
   ----------
