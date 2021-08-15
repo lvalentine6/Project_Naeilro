@@ -67,11 +67,50 @@ ERD 설계
  
  나의 역할
  -----------
-  * __공지 메일__ (핵심 기능 설명)
-  * __게시판, 댓글__ (핵심 기능 설명)
-  * __내 작성글__   (핵심 기능 설명)
-  * __UI 디자인__  
+<details>
+<summary>회원 가입</summary>
+<div markdown="1">
 
+회원가입
+
+</div>
+</details>
+
+<details>
+<summary>회원 가입</summary>
+<div markdown="1">
+
+회원가입
+
+</div>
+</details>
+<details>
+ 
+<summary>로그인</summary>
+<div markdown="1">
+
+로그인
+
+</div>
+</details>
+<details>
+ 
+<summary>비밀번호 관련 인증</summary>
+<div markdown="1">
+
+인증
+
+</div>
+</details>
+
+<details>
+<summary>마이페이지</summary>
+<div markdown="1">
+
+마이페이지
+
+</div>
+</details>
   </br>
 
   느낀점
