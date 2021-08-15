@@ -75,16 +75,6 @@ ERD 설계
 
 </div>
 </details>
-
-<details>
-<summary>회원 가입</summary>
-<div markdown="1">
-
-회원가입
-
-</div>
-</details>
-<details>
  
 <summary>로그인</summary>
 <div markdown="1">
