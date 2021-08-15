@@ -130,7 +130,85 @@ SELECT * FROM(
  </div>
 </details>
  
+  <details>
+<summary>정지된 회원 메시지 출력</summary>
+<div markdown="1">
+	
+	정지된 회원 메시지 출력
 
+```java
+// 로그인 처리
+	@PostMapping("/login")
+	public String login(@ModelAttribute MemberDto memberDto, HttpSession httpSession,Model model, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		
+		MemberDto check = memberDao.login(memberDto);
+		
+		// 정지 상태일 경우 처리
+		if (check!=null && check.getMemberState().equals("정지")) {
+			// 정지 해제 체크
+			boolean blockCheck = memberBlockDao.checkBlock(check.getMemberNo());
+			// 정지 기간이 지났을 경우
+			if (blockCheck) {
+				memberBlockService.unblock(check.getMemberNo());
+			}
+			// 정지 기간이 지나지 않았을 경우
+			else {
+				// 어느 페이지로 보낼지, 보낸 후 어떤 알림창을 띄울 것인지 미정 
+				MemberBlockDto memberBlockDto = memberBlockDao.getBlockInfo(check.getMemberNo());
+				System.out.println(memberBlockDto);
+				
+				// 정지회원 블럭페이지로 이동
+//				model.addAttribute("block", memberBlockDto);
+				model.addAttribute("msg", "관리자에 의해 계정이 정지 되었습니다.");
+				model.addAttribute("reason", memberBlockDto.getBlockReason());
+				model.addAttribute("blockEndDate", memberBlockDto.getBlockEndDate());
+				model.addAttribute("url", request.getContextPath()); 
+				return "member/block";
+				}
+			return "redirect:/";
+		}
+if (check != null) {
+			httpSession.setAttribute("memberNo", check.getMemberNo());
+			httpSession.setAttribute("memberId", check.getMemberId());
+			httpSession.setAttribute("memberContextNick", check.getMemberNick());
+			return "redirect:/";
+		} else {
+			return "redirect:login?error";
+		}
+	}
+	
+	// 정지회원 로그인 블럭 페이지
+	@GetMapping("block")
+	public String block() {
+		return "redirect:block";
+	}
+```
+
+```java
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+    
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>정지 페이지</title>
+
+<script>
+	//정지회원 알림 메시지
+	var reason1 = '${reason}';
+	var message = '${msg}';
+	var blockEndDate1 = '${blockEndDate}';
+	var url1 = '${url}';
+	
+	alert(message + "\n정지 종료 일자 : " + blockEndDate1 + "\n정지 사유 : " + reason1);
+	document.location.href = url1;
+</script>
+```
+ </div>
+</details>
+	
+	
   느낀점
   ----------
   >[국비학원 파이널 프로젝트, 그리고 수료](https://bit.ly/2VwlLOs)
