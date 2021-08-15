@@ -65,7 +65,7 @@ ERD 설계
      
  </br>
  
- 나의 역할
+ 핵심 기능
  -----------
 <details>
 <summary>회원 가입</summary>
