@@ -12,12 +12,12 @@ Project Naeilro
 
 사용 기술
 -----------------
->Language : Java(8), JavaScript(ES5), HTML5, CSS3
->Framework : Spring (5), MyBatis
->Library : jQuery, Bootstrap (4) 
->Server : Tomcat (9.0)
->DBMS : Oracle (11g)
->Tool : Git / GIthub, Maven (3.6.1)           
+>Language : Java(8), JavaScript(ES5), HTML5, CSS3      
+>Framework : Spring (5), MyBatis      
+>Library : jQuery, Bootstrap (4)        
+>Server : Tomcat (9.0)        
+>DBMS : Oracle (11g)        
+>Tool : Git / GIthub, Maven (3.6.1)                
 
 </br>
 
