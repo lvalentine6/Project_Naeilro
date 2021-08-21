@@ -29,28 +29,57 @@ Project Naeilro
 </br>
 
 
-ERD 설계
------------------
-[![ERD.png](https://i.postimg.cc/vZgt05C7/ERD.png)](https://postimg.cc/68KZ34WT)
+ERD 설계 / 기능별 Flow
+----------------
 
-</br>
+ <details>
+	<summary>ERD</summary>
+	<div markdown="1">
+	<br>
+
+ [![ERD.png](https://i.postimg.cc/vZgt05C7/ERD.png)](https://postimg.cc/68KZ34WT)
+
+</div>
+</details> 
+
+ <details>
+	<summary>회원 기능 Flow</summary>
+	<div markdown="1">
+	<br>
+
+ [![2021-08-03-161927.png](https://i.postimg.cc/43ydhTWT/2021-08-03-161927.png)](https://postimg.cc/sBFytbFn)
+
+</div>
+</details> 
+
+ <details>
+	<summary>여행 플래너 Flow</summary>
+	<div markdown="1">
+	<br>
+
+ [![image.png](https://i.postimg.cc/CK25gLbQ/image.png)](https://postimg.cc/wthg5zfX)
+
+</div>
+</details> 
+
+ <details>
+	<summary>포토스토리 Flow</summary>
+	<div markdown="1">
+	<br>
+
+ [![photostory-flowchart.png](https://i.postimg.cc/yYKdBGSs/photostory-flowchart.png)](https://postimg.cc/V571WDRV)
+
+</div>
+</details> 
+
+<br>
+
 
 프로젝트 기능
 -----------------
 * __담당한 부분은 굵게 표시__
 	
-* __회원 기능__  
-  
-  	<details>
-	<summary>회원 기능 Flow</summary>
-	<div markdown="1">
-	<br>
-
-	[![2021-08-03-161927.png](https://i.postimg.cc/43ydhTWT/2021-08-03-161927.png)](https://postimg.cc/sBFytbFn)
-
-	</div>
-	</details> 
-		
+* __회원 기능__  		
     * __회원 가입__ 
     * __아이디 찾기 / 비밀번호 찾기__
     * __마이페이지__ 
