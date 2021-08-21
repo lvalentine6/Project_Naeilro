@@ -37,11 +37,14 @@ ERD 설계
 
 프로젝트 기능
 -----------------
+* __담당한 부분은 굵게 표시__
+
   * 회원 기능   
-    * 아이디 찾기 / 비밀번호 찾기     
+    * __회원 가입__ 
+    * __아이디 찾기 / 비밀번호 찾기__     
    
   * 여행 플래너
-    * 플래너 CRUD
+    * __플래너 CRUD__
     * 플래너 상세보기
              
   * 포토스토리
@@ -54,9 +57,9 @@ ERD 설계
  
    * 마이페이지 
       * 플래너 / 포토스토리 연동
-      * 비밀번호 변경
-      * 회원탈퇴
-      * 프로필 편집
+      * __비밀번호 변경__
+      * __회원탈퇴__
+      * __프로필 편집__
 
    * 관리자 기능
      * 회원 관리 (정지)
@@ -68,43 +71,35 @@ ERD 설계
  핵심 기능
  -----------
 <details>
-<summary>회원 가입</summary>
+<summary>회원 기능</summary>
 <div markdown="1">
-
-회원가입
+<br>
+	
+* 회원 기능 Flow
+	
+[![2021-08-03-161927.png](https://i.postimg.cc/43ydhTWT/2021-08-03-161927.png)](https://postimg.cc/sBFytbFn)
 
 </div>
 </details>
  
 <details>
-<summary>로그인</summary>
+<summary>플래너 기능</summary>
 <div markdown="1">
-
 
 
 </div>
 </details>
 
  <details>
-<summary>비밀번호 관련 인증</summary>
+<summary>포토스토리 기능</summary>
 <div markdown="1">
 
 인증
 
 </div>
 </details>
-
-<details>
-<summary>마이페이지</summary>
-<div markdown="1">
-
-마이페이지
-
-</div>
-</details>
-  </br>
   
-  트러블 슈팅
+ 트러블 슈팅
  -----------
  <details>
 <summary>닉네임 중복 검사</summary>
@@ -210,7 +205,7 @@ select count(*) from member where member_nick = #{memberNick}
 </details>
 
  <details>
-<summary>마이페이지 이미지 관련</summary>
+<summary>마이페이지 프로필 이미지</summary>
 <div markdown="1">
  
 ### 원인
@@ -260,7 +255,7 @@ SELECT * FROM(
 #### 수정 코드   
 	
 ```java
-@Autowired
+	@Autowired
 	HttpSession httpSession;
 	
 	@Autowired
@@ -274,7 +269,7 @@ SELECT * FROM(
 <div markdown="1">
 <br>	
 	
-* 회원가입시 이미지를 선택하지 않고 가입하면 이미지를 DB에 저장하지 않고 Onerror를 이용해서 대체 이미지를 출력함
+* 회원가입시 이미지를 선택하지 않고 가입하면 이미지를 DB에 저장하지 않고 onerror를 이용해서 대체 이미지를 출력함
 
 ```html
 <label for="memberProfile"> 
