@@ -39,29 +39,25 @@ ERD 설계
 -----------------
 * __담당한 부분은 굵게 표시__
 	
-  * __회원 기능__   
+  * __회원 기능__  
+  
+  	<details>
+	<summary>회원 기능 Flow</summary>
+	<div markdown="1">
+	<br>
+
+	[![2021-08-03-161927.png](https://i.postimg.cc/43ydhTWT/2021-08-03-161927.png)](https://postimg.cc/sBFytbFn)
+
+	</div>
+	</details> 
+		
     * __회원 가입__ 
     * __아이디 찾기 / 비밀번호 찾기__
     * __마이페이지__ 
 		* __비밀번호 변경__
 		* __회원탈퇴__
-		* __프로필 편집__
-		* 플래너 / 포토스토리 연동     
-	
-	
-	
-			<details>
-			<summary>회원 기능 Flow</summary>
-			<div markdown="1">
-			<br>
+		* __프로필 편집__ 
 
-			[![2021-08-03-161927.png](https://i.postimg.cc/43ydhTWT/2021-08-03-161927.png)](https://postimg.cc/sBFytbFn)
-
-			</div>
-			</details>
-		
-		
-     
   * __여행 플래너__
     * 플래너 CRUD
     * __플래너 상세보기__
