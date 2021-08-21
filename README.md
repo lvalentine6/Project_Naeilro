@@ -32,15 +32,10 @@ Project Naeilro
 ERD 설계 / 기능별 Flow
 ----------------
 
- <details>
-	<summary>ERD</summary>
-	<div markdown="1">
-	<br>
-
  [![ERD.png](https://i.postimg.cc/vZgt05C7/ERD.png)](https://postimg.cc/68KZ34WT)
 
-</div>
-</details> 
+
+<br>
 
  <details>
 	<summary>회원 기능 Flow</summary>
