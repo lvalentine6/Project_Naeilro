@@ -16,7 +16,7 @@ Project Naeilro
 >Framework : Spring (5), MyBatis      
 >Library : jQuery, Bootstrap (4)        
 >Server : Tomcat (9.0)        
->DBMS : Oracle (11g)        
+>Dbms : Oracle (11g)        
 >Tool : Git / GIthub, Maven (3.6.1)                
 
 </br>
