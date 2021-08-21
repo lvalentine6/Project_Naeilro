@@ -218,14 +218,14 @@ select count(*) from member where member_nick = #{memberNick}
 
 - ProfileSaveName 의 마지막 데이터만 불러오게 SQL 구문 수정
 
-### 기존 코드
+#### 기존 코드
 ```sql
 <select id="find" parameterType="String" resultType="MemberProfileDto">
 	select * from member_profile where member_id = #{memberId}
 </select>
 ```
 	
-### 수정 코드
+#### 수정 코드
 ```sql
 SELECT * FROM(
     SELECT 
