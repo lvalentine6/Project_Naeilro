@@ -285,4 +285,4 @@ onerror="this.src='${pageContext.request.contextPath}/image/default_user_profile
 	
   느낀점
   ----------
-  >[국비학원 파이널 프로젝트, 그리고 수료](https://bit.ly/2VwlLOs)
+  >[국비학원 파이널 프로젝트, 그리고 수료](https://bit.ly/3yfqzWa)
