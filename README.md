@@ -253,6 +253,9 @@ SELECT * FROM(
 	HttpSession httpSession;
 	ResultPlanService resultPlanService;
 ```
+
+### 해결
+* 오토와이어드 분리
 	
 #### 수정 코드   
 	
