@@ -147,7 +147,7 @@ select count(*) from member where member_nick = #{memberNick}
 * 폼에서 입력한 값과 조회 결과 값이 같은지 비교 하는 sql 구문 작성에서 막힘
 	
 
-    ```java
+```java
 <!-- 닉네임 중복 체크 -->
 <select id="jNickCheck" parameterType="MemberVo" resultType="int">
 	select count(*) from member where member_nick = #{memberNick}
@@ -155,7 +155,7 @@ if (Vo로 넘어온 memberNick 값의 조회 결과가 null 이거나
 		memberNick 조회 결과가 폼에서 입력한 값과 일치할 경우 0 반환
 		그게 아니면 1 반환 
 </select>
-    ```
+```
 
 #### 4-2. 매퍼파일을 두번 조회해서 둘의 값을 비교 (성공)
 	
