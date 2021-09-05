@@ -117,14 +117,14 @@ __담당한 부분은 굵게 표시__
 ```java
 memberController
 // 회원 가입 닉네임 중복체크
-	@PostMapping("/nickCheck")
-	@ResponseBody
-	public boolean nickCheck(@ModelAttribute MemberVo memberVo) {
-		System.out.println("닉네임 중복값 체크 : " + memberVo);
-		boolean Nickresult = memberFindService.nickCheck(memberVo) > 0;
-		System.out.println("닉네임 체크값 반환 : " + Nickresult);
-		return Nickresult;
-		}
+@PostMapping("/nickCheck")
+@ResponseBody
+public boolean nickCheck(@ModelAttribute MemberVo memberVo) {
+	System.out.println("닉네임 중복값 체크 : " + memberVo);
+	boolean Nickresult = memberFindService.nickCheck(memberVo) > 0;
+	System.out.println("닉네임 체크값 반환 : " + Nickresult);
+	return Nickresult;
+	}
 ```
 
 ```java
@@ -147,14 +147,14 @@ select count(*) from member where member_nick = #{memberNick}
 * 폼에서 입력한 값과 조회 결과 값이 같은지 비교 하는 sql 구문 작성에서 막힘
 	
 
-    ```
-    <!-- 닉네임 중복 체크 -->
-    <select id="jNickCheck" parameterType="MemberVo" resultType="int">
-    		select count(*) from member where member_nick = #{memberNick}
-    	if (Vo로 넘어온 memberNick 값의 조회 결과가 null 이거나 
-    			memberNick 조회 결과가 폼에서 입력한 값과 일치할 경우 0 반환
-    			그게 아니면 1 반환 
-    	</select>
+    ```java
+<!-- 닉네임 중복 체크 -->
+<select id="jNickCheck" parameterType="MemberVo" resultType="int">
+	select count(*) from member where member_nick = #{memberNick}
+if (Vo로 넘어온 memberNick 값의 조회 결과가 null 이거나 
+		memberNick 조회 결과가 폼에서 입력한 값과 일치할 경우 0 반환
+		그게 아니면 1 반환 
+</select>
     ```
 
 #### 4-2. 매퍼파일을 두번 조회해서 둘의 값을 비교 (성공)
@@ -169,38 +169,38 @@ select count(*) from member where member_nick = #{memberNick}
 	*  프로필 편집 닉네임 중복 검사는 새로운 메소드를 만들어 처리
 
 ### 5. 수정 코드
-```
-        // 회원가입 닉네임 중복체크
-        	@PostMapping("/jNickCheck")
-        	@ResponseBody
-        	public boolean jNickCheck(@ModelAttribute MemberVo memberVo) {
-        		System.out.println("닉네임 중복값 체크 : " + memberVo);
-        		boolean Nickresult = memberFindService.jNickCheck(memberVo) > 0;
-        		System.out.println("닉네임 체크값 반환 : " + Nickresult);
-        		return Nickresult;
-        	}
+```java
+// 회원가입 닉네임 중복체크
+@PostMapping("/jNickCheck")
+@ResponseBody
+public boolean jNickCheck(@ModelAttribute MemberVo memberVo) {
+	System.out.println("닉네임 중복값 체크 : " + memberVo);
+	boolean Nickresult = memberFindService.jNickCheck(memberVo) > 0;
+	System.out.println("닉네임 체크값 반환 : " + Nickresult);
+	return Nickresult;
+}
 
-        	// 프로필 편집 닉네임 중복체크
-        	@PostMapping("/pNickCheck")
-        	@ResponseBody
-        	public boolean pNickCheck(@ModelAttribute MemberVo memberVo, HttpSession httpSession) {
-        		System.out.println("닉네임 중복값 체크 : " + memberVo); // 프론트에서 넘겨준 닉네임 값
-        		MemberVo Nickresult = memberFindService.pNickCheck(memberVo); // DB 조회
-        		System.out.println("닉네임 체크값 반환 : " + Nickresult); // 닉네임값이 있다면 반환
-        		MemberDto memberDto = memberDao.findInfo((int) httpSession.getAttribute("memberNo")); // 로그인이 되어 있다는 가정하에 세션에서 회원번호 값을 가져와 닉네임 값을 조회 
-        		boolean result = false;
-        		if (ObjectUtils.isEmpty(Nickresult)) // 반환된 닉네임 값이 없다면 {
-        			result = false;
-        		} else // 반환된 닉네임 값이 있다면 {
-        			if (Nickresult.getMemberNick().equals(memberDto.getMemberNick())) {
-        				result = false; // 프론트로 false 반환
-        			} else {
-        				result = true; // 프론트로 true 반환
-        			}
-        		}
-        		System.out.println(result);
-        		return result;
-        	}
+// 프로필 편집 닉네임 중복체크
+@PostMapping("/pNickCheck")
+@ResponseBody
+public boolean pNickCheck(@ModelAttribute MemberVo memberVo, HttpSession httpSession) {
+	System.out.println("닉네임 중복값 체크 : " + memberVo); // 프론트에서 넘겨준 닉네임 값
+	MemberVo Nickresult = memberFindService.pNickCheck(memberVo); // DB 조회
+	System.out.println("닉네임 체크값 반환 : " + Nickresult); // 닉네임값이 있다면 반환
+	MemberDto memberDto = memberDao.findInfo((int) httpSession.getAttribute("memberNo")); // 로그인이 되어 있다는 가정하에 세션에서 회원번호 값을 가져와 닉네임 값을 조회 
+	boolean result = false;
+	if (ObjectUtils.isEmpty(Nickresult)) // 반환된 닉네임 값이 없다면 {
+		result = false;
+	} else // 반환된 닉네임 값이 있다면 {
+		if (Nickresult.getMemberNick().equals(memberDto.getMemberNick())) {
+			result = false; // 프론트로 false 반환
+		} else {
+			result = true; // 프론트로 true 반환
+		}
+	}
+	System.out.println(result);
+	return result;
+}
 ```
 	
 </div>
@@ -230,11 +230,11 @@ select count(*) from member where member_nick = #{memberNick}
 #### 수정 코드
 ```sql
 SELECT * FROM(
-    SELECT 
-        * 
-    FROM member_profile
-    	ORDER BY ROWNUM DESC)
-		WHERE ROWNUM = 1 and member_id = #{memberId}
+SELECT 
+* 
+FROM member_profile
+ORDER BY ROWNUM DESC)
+	WHERE ROWNUM = 1 and member_id = #{memberId}
 ```
  </div>
 </details>
@@ -250,8 +250,8 @@ SELECT * FROM(
 	
 ```java
 @Autowired
-	HttpSession httpSession;
-	ResultPlanService resultPlanService;
+HttpSession httpSession;
+ResultPlanService resultPlanService;
 ```
 
 ### 해결
@@ -260,11 +260,11 @@ SELECT * FROM(
 #### 수정 코드   
 	
 ```java
-	@Autowired
-	HttpSession httpSession;
-	
-	@Autowired
-	ResultPlanService resultPlanService;
+@Autowired
+HttpSession httpSession;
+
+@Autowired
+ResultPlanService resultPlanService;
 ```	
  </div>
 </details>	
